@@ -1,17 +1,5 @@
 # Taxonomy and Theoretical Foundations of Multispecies Stock Assessment Models {#sec-taxonomy}
 
-## Introduction: From Single-Species to Multispecies Tactical Assessment
-
-Traditional fisheries stock assessment relies on the single-species paradigm [@beverton_holt1957; @cadima2003; @lart2022], in which each exploited population is modeled in isolation from its biological community. In single-species Virtual Population Analysis (VPA), Statistical Catch-at-Age (SCAA), or integrated assessment models such as Stock Synthesis [@methot2013] and SAM [@nielsen2014], all non-fishing mortality is aggregated into a single natural mortality rate $M_{s,a,t}$ that is frequently assumed constant across time and often across ages (or scaled empirically with body size and life-history parameters; @gislason2010). Somatic growth (weight-at-age $w_{s,a,t}$) and maturity ogives ($\text{Mat}_{s,a,t}$) are typically entered as empirical covariates rather than state variables coupled to prey availability.
-
-Decades of empirical and modeling work in the North Sea, Baltic Sea, Barents Sea, Iceland, Bering Sea, and Georges Bank have demonstrated that this single-species simplification breaks down in strongly interacting fish communities:
-1. **Non-Stationary Predation Mortality ($M2$)**: Predation mortality inflicted by piscivorous fish, marine mammals, and seabirds typically exceeds fishing mortality $F$ on juvenile age classes and forage fish, and varies by orders of magnitude as predator biomasses fluctuate [@lewy2004; @trijoulet2019]. Ignoring time-varying $M2$ biases historical stock-recruitment relationships, reference points ($F_{\text{MSY}}$, $B_{\text{lim}}$), and short-term catch forecasts [@ices2023].
-2. **Prey-Driven Somatic Growth and Starvation**: Predators are food-limited across parts of their ontogeny. Depletion of forage fish (e.g., capelin *Mallotus villosus* in the Barents Sea and Icelandic waters, or sprat *Sprattus sprattus* in the Baltic Sea) directly reduces cod (*Gadus morhua*) feeding levels, somatic growth rates, condition factors, and reproductive output [@stefansson1998; @taylor2004shrimp; @hartvig2011].
-3. **Ontogenetic Size-Structured Omnivory and Cannibalism**: In marine ecosystems, "who eats whom" is governed primarily by body size rather than taxonomic identity alone [@ursin1973; @andersen2020]. Large piscivores grow through five to six orders of magnitude in body weight from egg to adult, transitioning from planktivory to benthivory/piscivory and cannibalism, which creates strong internal regulatory feedback loops [@canales2020].
-4. **Incompatibility of Single-Species $F_{\text{MSY}}$ Targets**: Attempting to simultaneously harvest all predator and prey stocks at their single-species $F_{\text{MSY}}$ targets is frequently biologically impossible because rebuilding predator stocks erodes prey yields and vice versa [@pope2006; @pope2019; @andersen2020].
-
----
-
 ## The Complexity Spectrum: Strategic Models, Tactical Assessments, and MICE
 
 Fisheries ecosystem models span a wide continuum of structural complexity, taxonomic resolution, and statistical rigor [@plaganyi2014; @collie2016; @karp2023]:
