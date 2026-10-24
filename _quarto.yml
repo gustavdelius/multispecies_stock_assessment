@@ -34,6 +34,10 @@ bibliography: references.bib
 nocite: |
   @*
 
+from: markdown+lists_without_preceding_blankline
+filters:
+  - mermaid.lua
+
 format:
   html:
     theme: cosmo
