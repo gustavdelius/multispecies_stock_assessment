@@ -1,0 +1,1303 @@
+<!DOCTYPE html>
+<html xmlns="http://www.w3.org/1999/xhtml" lang="en" xml:lang="en"><head>
+
+<meta charset="utf-8">
+<meta name="generator" content="quarto-1.9.37">
+
+<meta name="viewport" content="width=device-width, initial-scale=1.0, user-scalable=yes">
+
+<meta name="description" content="Mathematical and statistical review of multispecies stock assessment methods, stomach content likelihoods, and size-structured assessment software.">
+
+<title>References – Multispecies Stock Assessment: Mathematical Methods, Data, and Software</title>
+<style>
+/* Default styles provided by pandoc.
+** See https://pandoc.org/MANUAL.html#variables-for-html for config info.
+*/
+code{white-space: pre-wrap;}
+span.smallcaps{font-variant: small-caps;}
+div.columns{display: flex; gap: min(4vw, 1.5em);}
+div.column{flex: auto; overflow-x: auto;}
+div.hanging-indent{margin-left: 1.5em; text-indent: -1.5em;}
+ul.task-list{list-style: none;}
+ul.task-list li input[type="checkbox"] {
+  width: 0.8em;
+  margin: 0 0.8em 0.2em -1em; /* quarto-specific, see https://github.com/quarto-dev/quarto-cli/issues/4556 */ 
+  vertical-align: middle;
+}
+/* CSS for citations */
+div.csl-bib-body { }
+div.csl-entry {
+  clear: both;
+}
+.hanging-indent div.csl-entry {
+  margin-left:2em;
+  text-indent:-2em;
+}
+div.csl-left-margin {
+  min-width:2em;
+  float:left;
+}
+div.csl-right-inline {
+  margin-left:2em;
+  padding-left:1em;
+}
+div.csl-indent {
+  margin-left: 2em;
+}</style>
+
+
+<script src="site_libs/quarto-nav/quarto-nav.js"></script>
+<script src="site_libs/quarto-nav/headroom.min.js"></script>
+<script src="site_libs/clipboard/clipboard.min.js"></script>
+<script src="site_libs/quarto-search/autocomplete.umd.js"></script>
+<script src="site_libs/quarto-search/fuse.min.js"></script>
+<script src="site_libs/quarto-search/quarto-search.js"></script>
+<meta name="quarto:offset" content="./">
+<link href="./06_statistical_fitting_uncertainty_and_mizer_synthesis.html" rel="prev">
+<script src="site_libs/quarto-html/quarto.js" type="module"></script>
+<script src="site_libs/quarto-html/tabsets/tabsets.js" type="module"></script>
+<script src="site_libs/quarto-html/popper.min.js"></script>
+<script src="site_libs/quarto-html/tippy.umd.min.js"></script>
+<script src="site_libs/quarto-html/anchor.min.js"></script>
+<link href="site_libs/quarto-html/tippy.css" rel="stylesheet">
+<link href="site_libs/quarto-html/quarto-syntax-highlighting-7f8f88aac4f3542376d5c11b86a4c14d.css" rel="stylesheet" id="quarto-text-highlighting-styles">
+<script src="site_libs/bootstrap/bootstrap.min.js"></script>
+<link href="site_libs/bootstrap/bootstrap-icons.css" rel="stylesheet">
+<link href="site_libs/bootstrap/bootstrap-67e563c3f8baddecfc039ce11a1d00ae.min.css" rel="stylesheet" append-hash="true" id="quarto-bootstrap" data-mode="light">
+<script id="quarto-search-options" type="application/json">{
+  "location": "sidebar",
+  "copy-button": false,
+  "collapse-after": 3,
+  "panel-placement": "start",
+  "type": "textbox",
+  "limit": 50,
+  "keyboard-shortcut": [
+    "f",
+    "/",
+    "s"
+  ],
+  "show-item-context": false,
+  "language": {
+    "search-no-results-text": "No results",
+    "search-matching-documents-text": "matching documents",
+    "search-copy-link-title": "Copy link to search",
+    "search-hide-matches-text": "Hide additional matches",
+    "search-more-match-text": "more match in this document",
+    "search-more-matches-text": "more matches in this document",
+    "search-clear-button-title": "Clear",
+    "search-text-placeholder": "",
+    "search-detached-cancel-button-title": "Cancel",
+    "search-submit-button-title": "Submit",
+    "search-label": "Search"
+  }
+}</script>
+
+  <script src="https://cdnjs.cloudflare.com/polyfill/v3/polyfill.min.js?features=es6"></script>
+  <script defer="" src="https://cdn.jsdelivr.net/npm/mathjax@3/es5/tex-chtml-full.js" type="text/javascript"></script>
+
+<script type="text/javascript">
+const typesetMath = (el) => {
+  if (window.MathJax) {
+    // MathJax Typeset
+    window.MathJax.typeset([el]);
+  } else if (window.katex) {
+    // KaTeX Render
+    var mathElements = el.getElementsByClassName("math");
+    var macros = [];
+    for (var i = 0; i < mathElements.length; i++) {
+      var texText = mathElements[i].firstChild;
+      if (mathElements[i].tagName == "SPAN" && texText && texText.data) {
+        window.katex.render(texText.data, mathElements[i], {
+          displayMode: mathElements[i].classList.contains('display'),
+          throwOnError: false,
+          macros: macros,
+          fleqn: false
+        });
+      }
+    }
+  }
+}
+window.Quarto = {
+  typesetMath
+};
+</script>
+
+</head>
+
+<body class="nav-sidebar floating quarto-light">
+
+<div id="quarto-search-results"></div>
+  <header id="quarto-header" class="headroom fixed-top">
+  <nav class="quarto-secondary-nav">
+    <div class="container-fluid d-flex">
+      <button type="button" class="quarto-btn-toggle btn" data-bs-toggle="collapse" role="button" data-bs-target=".quarto-sidebar-collapse-item" aria-controls="quarto-sidebar" aria-expanded="false" aria-label="Toggle sidebar navigation" onclick="if (window.quartoToggleHeadroom) { window.quartoToggleHeadroom(); }">
+        <i class="bi bi-layout-text-sidebar-reverse"></i>
+      </button>
+        <nav class="quarto-page-breadcrumbs" aria-label="breadcrumb"><ol class="breadcrumb"><li class="breadcrumb-item"><a href="./references.html">References</a></li></ol></nav>
+        <a class="flex-grow-1" role="navigation" data-bs-toggle="collapse" data-bs-target=".quarto-sidebar-collapse-item" aria-controls="quarto-sidebar" aria-expanded="false" aria-label="Toggle sidebar navigation" onclick="if (window.quartoToggleHeadroom) { window.quartoToggleHeadroom(); }">      
+        </a>
+      <button type="button" class="btn quarto-search-button" aria-label="Search" onclick="window.quartoOpenSearch();">
+        <i class="bi bi-search"></i>
+      </button>
+    </div>
+  </nav>
+</header>
+<!-- content -->
+<div id="quarto-content" class="quarto-container page-columns page-rows-contents page-layout-article">
+<!-- sidebar -->
+  <nav id="quarto-sidebar" class="sidebar collapse collapse-horizontal quarto-sidebar-collapse-item sidebar-navigation floating overflow-auto">
+    <div class="pt-lg-2 mt-2 text-left sidebar-header">
+    <div class="sidebar-title mb-0 py-0">
+      <a href="./">Multispecies Stock Assessment: Mathematical Methods, Data, and Software</a> 
+        <div class="sidebar-tools-main">
+    <a href="https://github.com/gustavdelius/multispecies_stock_assessment" title="Source Code" class="quarto-navigation-tool px-1" aria-label="Source Code"><i class="bi bi-github"></i></a>
+</div>
+    </div>
+      </div>
+        <div class="mt-2 flex-shrink-0 align-items-center">
+        <div class="sidebar-search">
+        <div id="quarto-search" class="" title="Search"></div>
+        </div>
+        </div>
+    <div class="sidebar-menu-container"> 
+    <ul class="list-unstyled mt-1">
+        <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="./index.html" class="sidebar-item-text sidebar-link">
+ <span class="menu-text">Mathematical &amp; Statistical Literature Review of Multispecies Stock Assessment Models</span></a>
+  </div>
+</li>
+        <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="./01_taxonomy_and_foundations.html" class="sidebar-item-text sidebar-link"><span class="chapter-title">Chapter 1: Taxonomy and Theoretical Foundations of Multispecies Stock Assessment Models</span></a>
+  </div>
+</li>
+        <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="./02_age_structured_multispecies_models.html" class="sidebar-item-text sidebar-link"><span class="chapter-title">Chapter 2: Age-Structured Multispecies Stock Assessment Models (<code>MSVPA</code>, <code>SMS</code>/<code>smsR</code>, <code>MSCAA</code>/<code>Hydra</code>, <code>CEATTLE</code>)</span></a>
+  </div>
+</li>
+        <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="./03_age_length_and_length_structured_models.html" class="sidebar-item-text sidebar-link"><span class="chapter-title">Chapter 3: Age-Length and Length-Structured Assessment Models (<code>Gadget</code>/<code>gadget3</code>, <code>SS3</code>, <code>MULTIFAN-CL</code>, <code>LeMans</code>/<code>LeMaRns</code>, <code>CSMS</code>/<code>CSM</code>)</span></a>
+  </div>
+</li>
+        <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="./04_size_spectrum_and_food_web_models.html" class="sidebar-item-text sidebar-link"><span class="chapter-title">Chapter 4: Continuous Size-Spectrum (<code>mizer</code>) and State-Space Food-Web Models (<code>EwE</code>, <code>Rpath</code>, <code>EcoState</code>)</span></a>
+  </div>
+</li>
+        <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="./05_stomach_content_data_and_likelihoods.html" class="sidebar-item-text sidebar-link"><span class="chapter-title">Chapter 5: Stomach Content Data, Gastric Evacuation Physics, and Diet Likelihood Formulations</span></a>
+  </div>
+</li>
+        <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="./06_statistical_fitting_uncertainty_and_mizer_synthesis.html" class="sidebar-item-text sidebar-link"><span class="chapter-title">Chapter 6: Statistical Estimation, Data Weighting, Uncertainty Quantification, and an Architectural Roadmap for Dynamic <code>mizer</code> Stock Assessment</span></a>
+  </div>
+</li>
+        <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="./references.html" class="sidebar-item-text sidebar-link active">
+ <span class="menu-text">References</span></a>
+  </div>
+</li>
+    </ul>
+    </div>
+</nav>
+<div id="quarto-sidebar-glass" class="quarto-sidebar-collapse-item" data-bs-toggle="collapse" data-bs-target=".quarto-sidebar-collapse-item"></div>
+<!-- margin-sidebar -->
+    <div id="quarto-margin-sidebar" class="sidebar margin-sidebar zindex-bottom">
+        
+    </div>
+<!-- main -->
+<main class="content" id="quarto-document-content">
+
+<header id="title-block-header" class="quarto-title-block default">
+<div class="quarto-title">
+<h1 class="title">References</h1>
+</div>
+
+
+
+<div class="quarto-title-meta">
+
+    
+  
+    
+  </div>
+  
+
+
+</header>
+
+
+<div id="refs" class="references csl-bib-body hanging-indent" role="list">
+<div id="ref-adams2022" class="csl-entry" role="listitem">
+Adams, Grant D., Kirstin K. Holsman, Steven J. Barbeaux, et al. 2022.
+<span>“An Ensemble Approach to Understand Predation Mortality for
+Groundfish in the <span class="nocase">Gulf of Alaska</span>.”</span>
+<em>Fisheries Research</em> 251: 106303. <a href="https://doi.org/10.1016/j.fishres.2022.106303">https://doi.org/10.1016/j.fishres.2022.106303</a>.
+</div>
+<div id="ref-andersen2019" class="csl-entry" role="listitem">
+Andersen, Ken H. 2019. <em>Fish Ecology, Evolution, and Exploitation: A
+New Theoretical Synthesis</em>. Princeton University Press. <a href="https://doi.org/10.23943/princeton/9780691192956.001.0001">https://doi.org/10.23943/princeton/9780691192956.001.0001</a>.
+</div>
+<div id="ref-andersen2020" class="csl-entry" role="listitem">
+Andersen, Ken H. 2020. <span>“Size-Based Theory for Fisheries
+Advice.”</span> <em>ICES Journal of Marine Science</em> 77 (7–8):
+2445–55. <a href="https://doi.org/10.1093/icesjms/fsaa157">https://doi.org/10.1093/icesjms/fsaa157</a>.
+</div>
+<div id="ref-andersen_beyer2006" class="csl-entry" role="listitem">
+Andersen, Ken H., and Jan E. Beyer. 2006. <span>“Asymptotic Size
+Determines Species Abundance in the Marine Size Spectrum.”</span>
+<em>The American Naturalist</em> 168 (1): 54–61. <a href="https://doi.org/10.1086/504849">https://doi.org/10.1086/504849</a>.
+</div>
+<div id="ref-andersen2016" class="csl-entry" role="listitem">
+Andersen, Ken H., Nis S. Jacobsen, and Keith D. Farnsworth. 2016.
+<span>“The Theoretical Foundations for Size Spectrum Models of Fish
+Communities.”</span> <em>Canadian Journal of Fisheries and Aquatic
+Sciences</em> 73 (4): 575–88. <a href="https://doi.org/10.1139/cjfas-2015-0230">https://doi.org/10.1139/cjfas-2015-0230</a>.
+</div>
+<div id="ref-andersen_ursin1977" class="csl-entry" role="listitem">
+Andersen, Knud P., and Erik Ursin. 1977. <span>“A Multispecies Extension
+to the <span>Beverton</span> and <span>Holt</span> Theory of Fishing,
+with Accounts of Phosphorus Circulation and Primary Production.”</span>
+<em>Meddelelser Fra Danmarks Fiskeri- Og Havunders<span>ø</span>gelser,
+N.S.</em> 7: 319–435.
+</div>
+<div id="ref-andersen_beyer2005" class="csl-entry" role="listitem">
+Andersen, Niels G., and Jan E. Beyer. 2005. <span>“Mechanistic Modelling
+of Gastric Evacuation in Predatory Gadoids Applying the Square Root
+Model to Describe Surface-Dependent Evacuation.”</span> <em>Journal of
+Fish Biology</em> 67 (5): 1392–412. <a href="https://doi.org/10.1111/j.1095-8649.2005.00834.x">https://doi.org/10.1111/j.1095-8649.2005.00834.x</a>.
+</div>
+<div id="ref-anderson2022" class="csl-entry" role="listitem">
+Anderson, Sean C., Eric J. Ward, Philina A. English, Lewis A. K.
+Barnett, and James T. Thorson. 2022. <span>“<span class="nocase">sdmTMB</span>: An <span>R</span> Package for Fast,
+Flexible, and User-Friendly Generalized Linear Mixed Effects Models with
+Spatial and Spatiotemporal Random Fields.”</span> <em>bioRxiv</em>,
+ahead of print. <a href="https://doi.org/10.1101/2022.03.24.485545">https://doi.org/10.1101/2022.03.24.485545</a>.
+</div>
+<div id="ref-aydin2005" class="csl-entry" role="listitem">
+Aydin, Kerim Y., Sarah K. Gaichas, Ivonne Ortiz, Douglas Kinzey, and
+Nancy Friday. 2005. <em>A Comparison of the <span>Bering Sea</span>,
+<span class="nocase">Gulf of Alaska</span>, and <span>Aleutian
+Islands</span> Large Marine Ecosystems Through Food Web Modeling</em>.
+NOAA Technical Memorandum NMFS-AFSC-178. U.S. Department of Commerce.
+</div>
+<div id="ref-barnes2008" class="csl-entry" role="listitem">
+Barnes, Carolyn, Dana M. Bethea, Richard D. Brodeur, et al. 2008.
+<span>“Predator and Prey Body Sizes in Marine Food Webs.”</span>
+<em>Ecology</em> 89 (3): 881. <a href="https://doi.org/10.1890/07-1551.1">https://doi.org/10.1890/07-1551.1</a>.
+</div>
+<div id="ref-barnes2010" class="csl-entry" role="listitem">
+Barnes, Carolyn, David Maxwell, Daniel C. Reuman, and Simon Jennings.
+2010. <span>“Global Patterns in Predator–Prey Size Relationships Reveal
+Size Dependency of Trophic Transfer Efficiency.”</span> <em>Ecology</em>
+91 (1): 222–32. <a href="https://doi.org/10.1890/08-2061.1">https://doi.org/10.1890/08-2061.1</a>.
+</div>
+<div id="ref-bartolino2011" class="csl-entry" role="listitem">
+Bartolino, Valerio, Francesco Colloca, Lorna Taylor, and Gunnar
+Stefánsson. 2011. <span>“First Implementation of a <span>Gadget</span>
+Model for the Analysis of Hake in the
+<span>Mediterranean</span>.”</span> <em>Fisheries Research</em> 107
+(1–3): 75–83. <a href="https://doi.org/10.1016/j.fishres.2010.10.010">https://doi.org/10.1016/j.fishres.2010.10.010</a>.
+</div>
+<div id="ref-begley2004guide" class="csl-entry" role="listitem">
+Begley, James. 2004. <em><span>Gadget</span> User Guide</em>. Report No.
+120. Marine Research Institute.
+</div>
+<div id="ref-begley2004overview" class="csl-entry" role="listitem">
+Begley, James, and Daniel Howell. 2004. <em>An Overview of
+<span>Gadget</span>, the <span class="nocase">Globally applicable
+Area-Disaggregated General Ecosystem Toolbox</span></em>. ICES CM
+2004/FF:13. International Council for the Exploration of the Sea.
+</div>
+<div id="ref-benoit_rochet2004" class="csl-entry" role="listitem">
+Benoît, Elisabeth, and Marie-Joëlle Rochet. 2004. <span>“A Continuous
+Model of Biomass Size Spectra Governed by Predation and the Effects of
+Fishing on Them.”</span> <em>Journal of Theoretical Biology</em> 226
+(1): 9–21. <a href="https://doi.org/10.1016/s0022-5193(03)00290-x">https://doi.org/10.1016/s0022-5193(03)00290-x</a>.
+</div>
+<div id="ref-beverton_holt1956" class="csl-entry" role="listitem">
+Beverton, Raymond J. H., and Sidney J. Holt. 1956. <span>“A Review of
+Methods for Estimating Mortality Rates in Exploited Fish Populations,
+with Special Reference to Sources of Bias in Catch Sampling.”</span>
+<em>Rapports Et Proc<span>è</span>s-Verbaux Des R<span>é</span>unions Du
+Conseil Permanent International Pour l’Exploration de La Mer</em> 140:
+67–83.
+</div>
+<div id="ref-beverton_holt1957" class="csl-entry" role="listitem">
+Beverton, Raymond J. H., and Sidney J. Holt. 1957. <em>On the Dynamics
+of Exploited Fish Populations</em>. Vol. 19. Fishery Investigations
+Series II. Her Majesty’s Stationery Office. <a href="https://doi.org/10.1007/978-94-011-2106-4">https://doi.org/10.1007/978-94-011-2106-4</a>.
+</div>
+<div id="ref-blanchard2014" class="csl-entry" role="listitem">
+Blanchard, Julia L., Ken H. Andersen, Finlay Scott, Niels T. Hintzen,
+Gerjan Piet, and Simon Jennings. 2014. <span>“Evaluating Targets and
+Trade-Offs Among Fisheries and Conservation Objectives Using a
+Multispecies Size Spectrum Model.”</span> <em>Journal of Applied
+Ecology</em> 51 (3): 612–22. <a href="https://doi.org/10.1111/1365-2664.12238">https://doi.org/10.1111/1365-2664.12238</a>.
+</div>
+<div id="ref-bogstad1997" class="csl-entry" role="listitem">
+Bogstad, Bjarte, K. Hiis Hauge, and Øyvind Ulltang. 1997.
+<span>“<span>MULTSPEC</span> – a Multi-Species Model for Fish and Marine
+Mammals in the <span>Barents Sea</span>.”</span> <em>Journal of
+Northwest Atlantic Fishery Science</em> 22: 317–41. <a href="https://doi.org/10.2960/j.v22.a23">https://doi.org/10.2960/j.v22.a23</a>.
+</div>
+<div id="ref-buckland2017" class="csl-entry" role="listitem">
+Buckland, A., R. Baker, N. Loneragan, and M. Sheaves. 2017.
+<span>“Standardising Fish Stomach Content Analysis: The Importance of
+Prey Condition.”</span> <em>Fisheries Research</em> 196: 126–40. <a href="https://doi.org/10.1016/j.fishres.2017.08.003">https://doi.org/10.1016/j.fishres.2017.08.003</a>.
+</div>
+<div id="ref-cadima2003" class="csl-entry" role="listitem">
+Cadima, Emygdio L. 2003. <em>Fish Stock Assessment Manual</em>. FAO
+Fisheries Technical Paper No. 393. Food; Agriculture Organization of the
+United Nations.
+</div>
+<div id="ref-canales2020" class="csl-entry" role="listitem">
+Canales, T. Mariella, Gustav W. Delius, and Richard Law. 2020.
+<span>“Regulation of Fish Stocks Without Stock–Recruitment
+Relationships: The Case of Small Pelagic Fish.”</span> <em>Fish and
+Fisheries</em> 21 (5): 857–71. <a href="https://doi.org/10.1111/faf.12465">https://doi.org/10.1111/faf.12465</a>.
+</div>
+<div id="ref-christensen1992" class="csl-entry" role="listitem">
+Christensen, Villy, and Daniel Pauly. 1992. <span>“<span>ECOPATH
+II</span> — a Software for Balancing Steady-State Ecosystem Models and
+Calculating Network Characteristics.”</span> <em>Ecological
+Modelling</em> 61 (3–4): 169–85. <a href="https://doi.org/10.1016/0304-3800(92)90016-8">https://doi.org/10.1016/0304-3800(92)90016-8</a>.
+</div>
+<div id="ref-christensen2004" class="csl-entry" role="listitem">
+Christensen, Villy, and Carl J. Walters. 2004. <span>“<span class="nocase">Ecopath with Ecosim</span>: Methods, Capabilities and
+Limitations.”</span> <em>Ecological Modelling</em> 172 (2–4): 109–39. <a href="https://doi.org/10.1016/j.ecolmodel.2003.09.003">https://doi.org/10.1016/j.ecolmodel.2003.09.003</a>.
+</div>
+<div id="ref-christensen2024ewe" class="csl-entry" role="listitem">
+Christensen, Villy, Carl J. Walters, Robert N. M. Ahrens, et al. 2024.
+<em>Ecosystem Modelling with <span>Ecosim</span>
+(<span>EwE</span>)</em>. University of British Columbia / Ecopath
+International Initiative.
+</div>
+<div id="ref-christensen2005guide" class="csl-entry" role="listitem">
+Christensen, Villy, Carl J. Walters, and Daniel Pauly. 2005. <em><span class="nocase">Ecopath with Ecosim</span>: A User’s Guide</em>.
+Fisheries Centre, University of British Columbia.
+</div>
+<div id="ref-collie2016" class="csl-entry" role="listitem">
+Collie, Jeremy S., Louis W. Botsford, Alan Hastings, et al. 2016.
+<span>“Ecosystem Models for Fisheries Management: Finding the Sweet
+Spot.”</span> <em>Fish and Fisheries</em> 17 (1): 101–25. <a href="https://doi.org/10.1111/faf.12093">https://doi.org/10.1111/faf.12093</a>.
+</div>
+<div id="ref-cuesta2018" class="csl-entry" role="listitem">
+Cuesta, José A., Gustav W. Delius, and Richard Law. 2018. <span>“Sheldon
+Spectrum and the Plankton Paradox: Two Sides of the Same Coin—a
+Trait-Based Plankton Size-Spectrum Model.”</span> <em>Journal of
+Mathematical Biology</em> 76 (1–2): 67–96. <a href="https://doi.org/10.1007/s00285-017-1132-7">https://doi.org/10.1007/s00285-017-1132-7</a>.
+</div>
+<div id="ref-curti2013" class="csl-entry" role="listitem">
+Curti, Kiersten L., Jeremy S. Collie, Christopher M. Legault, and Jason
+S. Link. 2013. <span>“Evaluating the Performance of a Multispecies
+Statistical Catch-at-Age Model.”</span> <em>Canadian Journal of
+Fisheries and Aquatic Sciences</em> 70 (3): 470–84. <a href="https://doi.org/10.1139/cjfas-2012-0229">https://doi.org/10.1139/cjfas-2012-0229</a>.
+</div>
+<div id="ref-datta2010" class="csl-entry" role="listitem">
+Datta, Samik, Gustav W. Delius, and Richard Law. 2010. <span>“A
+Jump-Growth Model for Predator–Prey Dynamics: Derivation and Application
+to Marine Ecosystems.”</span> <em>Bulletin of Mathematical Biology</em>
+72 (6): 1361–82. <a href="https://doi.org/10.1007/s11538-009-9496-5">https://doi.org/10.1007/s11538-009-9496-5</a>.
+</div>
+<div id="ref-datta2011" class="csl-entry" role="listitem">
+Datta, Samik, Gustav W. Delius, Richard Law, and Michael J. Plank. 2011.
+<span>“A Stability Analysis of the Power-Law Steady State of Marine Size
+Spectra.”</span> <em>Journal of Mathematical Biology</em> 63 (4):
+779–99. <a href="https://doi.org/10.1007/s00285-010-0387-z">https://doi.org/10.1007/s00285-010-0387-z</a>.
+</div>
+<div id="ref-essington2001" class="csl-entry" role="listitem">
+Essington, Timothy E., James F. Kitchell, and Carl J. Walters. 2001.
+<span>“The <span class="nocase">von Bertalanffy</span> Growth Function,
+Bioenergetics, and the Consumption Rates of Fish.”</span> <em>Canadian
+Journal of Fisheries and Aquatic Sciences</em> 58 (11): 2129–38. <a href="https://doi.org/10.1139/f01-151">https://doi.org/10.1139/f01-151</a>.
+</div>
+<div id="ref-fournier1998" class="csl-entry" role="listitem">
+Fournier, David A., John Hampton, and John R. Sibert. 1998.
+<span>“<span>MULTIFAN-CL</span>: A Length-Based, Age-Structured Model
+for Fisheries Stock Assessment, with Application to <span>South
+Pacific</span> Albacore, <em>Thunnus Alalunga</em>.”</span> <em>Canadian
+Journal of Fisheries and Aquatic Sciences</em> 55 (9): 2105–16. <a href="https://doi.org/10.1139/f98-100">https://doi.org/10.1139/f98-100</a>.
+</div>
+<div id="ref-francis2011" class="csl-entry" role="listitem">
+Francis, R. I. C. Chris. 2011. <span>“Data Weighting in Statistical
+Fisheries Stock Assessment Models.”</span> <em>Canadian Journal of
+Fisheries and Aquatic Sciences</em> 68 (6): 1124–38. <a href="https://doi.org/10.1139/f2011-025">https://doi.org/10.1139/f2011-025</a>.
+</div>
+<div id="ref-gedamke_hoenig2006" class="csl-entry" role="listitem">
+Gedamke, Todd, and John M. Hoenig. 2006. <span>“Estimating Mortality
+from Mean Length Data in Nonequilibrium Situations, with Application to
+the Assessment of Goosefish.”</span> <em>Transactions of the American
+Fisheries Society</em> 135 (2): 476–87. <a href="https://doi.org/10.1577/t05-153.1">https://doi.org/10.1577/t05-153.1</a>.
+</div>
+<div id="ref-gislason2010" class="csl-entry" role="listitem">
+Gislason, Henrik, Niels Daan, Jake C. Rice, and John G. Pope. 2010.
+<span>“Size, Growth, Temperature and the Natural Mortality of Marine
+Fish.”</span> <em>Fish and Fisheries</em> 11 (2): 149–58. <a href="https://doi.org/10.1111/j.1467-2979.2009.00350.x">https://doi.org/10.1111/j.1467-2979.2009.00350.x</a>.
+</div>
+<div id="ref-hall2006" class="csl-entry" role="listitem">
+Hall, Stephen J., Jeremy S. Collie, Daniel E. Duplisea, Simon Jennings,
+Mark Bravington, and Jason Link. 2006. <span>“A Length-Based
+Multispecies Model for Evaluating Community Responses to
+Fishing.”</span> <em>Canadian Journal of Fisheries and Aquatic
+Sciences</em> 63 (6): 1344–59. <a href="https://doi.org/10.1139/f06-039">https://doi.org/10.1139/f06-039</a>.
+</div>
+<div id="ref-hartvig2011" class="csl-entry" role="listitem">
+Hartvig, Martin, Ken H. Andersen, and Jan E. Beyer. 2011. <span>“Food
+Web Framework for Size-Structured Populations.”</span> <em>Journal of
+Theoretical Biology</em> 272 (1): 113–22. <a href="https://doi.org/10.1016/j.jtbi.2010.12.006">https://doi.org/10.1016/j.jtbi.2010.12.006</a>.
+</div>
+<div id="ref-helgason_gislason1979" class="csl-entry" role="listitem">
+Helgason, Thorkell, and Henrik Gislason. 1979.
+<em><span>VPA</span>-Analysis with Species Interaction Due to
+Predation</em>. ICES CM 1979/G:52. International Council for the
+Exploration of the Sea.
+</div>
+<div id="ref-holsman_aydin2015" class="csl-entry" role="listitem">
+Holsman, Kirstin K., and Kerim Aydin. 2015. <span>“Comparative Methods
+for Evaluating Climate Change Impacts on the Foraging Ecology of
+<span>Alaskan</span> Groundfish.”</span> <em>Marine Ecology Progress
+Series</em> 521: 217–35. <a href="https://doi.org/10.3354/meps11102">https://doi.org/10.3354/meps11102</a>.
+</div>
+<div id="ref-holsman2016" class="csl-entry" role="listitem">
+Holsman, Kirstin K., James Ianelli, Kerim Aydin, André E. Punt, and
+Elizabeth A. Moffitt. 2016. <span>“A Comparison of Fisheries Biological
+Reference Points Estimated from Temperature-Specific Multi-Species and
+Single-Species Climate-Enhanced Stock Assessment Models.”</span>
+<em>Deep Sea Research Part II: Topical Studies in Oceanography</em> 134:
+360–78. <a href="https://doi.org/10.1016/j.dsr2.2015.08.001">https://doi.org/10.1016/j.dsr2.2015.08.001</a>.
+</div>
+<div id="ref-hordyk2015" class="csl-entry" role="listitem">
+Hordyk, Adrian, Kotaro Ono, Sarah Valencia, Neil Loneragan, and Jeremy
+Prince. 2015. <span>“A Novel Length-Based Empirical Estimation Method of
+Spawning Potential Ratio (<span>SPR</span>), and Tests of Its
+Performance, for Small-Scale, Data-Poor Fisheries.”</span> <em>ICES
+Journal of Marine Science</em> 72 (1): 217–31. <a href="https://doi.org/10.1093/icesjms/fsu004">https://doi.org/10.1093/icesjms/fsu004</a>.
+</div>
+<div id="ref-hyslop1980" class="csl-entry" role="listitem">
+Hyslop, E. J. 1980. <span>“Stomach Contents Analysis—a Review of Methods
+and Their Application.”</span> <em>Journal of Fish Biology</em> 17 (4):
+411–29. <a href="https://doi.org/10.1111/j.1095-8649.1980.tb02775.x">https://doi.org/10.1111/j.1095-8649.1980.tb02775.x</a>.
+</div>
+<div id="ref-ices2010stomach" class="csl-entry" role="listitem">
+ICES. 2010. <em><span>ICES</span> Year of the Stomach Dataset – Securing
+and Making the Data Available</em>. ICES Data Centre Stomach Data Fact
+Sheet. International Council for the Exploration of the Sea.
+</div>
+<div id="ref-ices2021" class="csl-entry" role="listitem">
+ICES. 2021. <em>Working Group on Multispecies Assessment Methods
+(<span>WGSAM</span>; Outputs from 2020 Meeting)</em>. ICES Scientific
+Reports 3:10. International Council for the Exploration of the Sea. <a href="https://doi.org/10.17895/ices.pub.7695">https://doi.org/10.17895/ices.pub.7695</a>.
+</div>
+<div id="ref-ices2023" class="csl-entry" role="listitem">
+ICES. 2023. <em>Working Group on Multispecies Assessment Methods
+(<span>WGSAM</span>; Outputs from 2022 Meeting)</em>. ICES Scientific
+Reports 5:12. International Council for the Exploration of the Sea. <a href="https://doi.org/10.17895/ices.pub.22087292">https://doi.org/10.17895/ices.pub.22087292</a>.
+</div>
+<div id="ref-jacobsen2016" class="csl-entry" role="listitem">
+Jacobsen, Nis S., Timothy E. Essington, and Ken H. Andersen. 2016.
+<span>“Comparing Model Predictions for Ecosystem-Based
+Management.”</span> <em>Canadian Journal of Fisheries and Aquatic
+Sciences</em> 73 (4): 666–76. <a href="https://doi.org/10.1139/cjfas-2014-0561">https://doi.org/10.1139/cjfas-2014-0561</a>.
+</div>
+<div id="ref-jacobsen2023" class="csl-entry" role="listitem">
+<span class="nocase">Jacobsen, Nis S., Katarzyna Nadolna-Ałtyn, Didzis
+Ustups, et al.</span> 2023. <em>Study on Stomach Content of Fish to
+Update Databases and Analyse Possible Changes in Diet or Food Web
+Interactions</em>. European Climate, Infrastructure; Environment
+Executive Agency (CINEA). <a href="https://doi.org/10.2926/683598">https://doi.org/10.2926/683598</a>.
+</div>
+<div id="ref-jones1976" class="csl-entry" role="listitem">
+Jones, Rodney. 1976. <span>“Growth of Fishes.”</span> In <em>The Ecology
+of the Seas</em>, edited by D. H. Cushing and J. J. Walsh. Blackwell
+Scientific Publications.
+</div>
+<div id="ref-jones1978" class="csl-entry" role="listitem">
+Jones, Rodney. 1978. <span>“Estimates of the Food Consumption of Haddock
+(<em>Melanogrammus Aeglefinus</em>) and Cod (<em>Gadus
+Morhua</em>).”</span> <em>Journal Du Conseil International Pour
+l’Exploration de La Mer</em> 38 (1): 18–27. <a href="https://doi.org/10.1093/icesjms/38.1.18">https://doi.org/10.1093/icesjms/38.1.18</a>.
+</div>
+<div id="ref-jurado_molina2005" class="csl-entry" role="listitem">
+Jurado-Molina, Jesús, Patricia A. Livingston, and James N. Ianelli.
+2005. <span>“Incorporating Predation Interactions in a Statistical
+Catch-at-Age Model for a Predator–Prey System in the Eastern
+<span>Bering Sea</span>.”</span> <em>Canadian Journal of Fisheries and
+Aquatic Sciences</em> 62 (8): 1865–73. <a href="https://doi.org/10.1139/f05-110">https://doi.org/10.1139/f05-110</a>.
+</div>
+<div id="ref-karp2023" class="csl-entry" role="listitem">
+<span class="nocase">Karp, Melissa A., Jason S. Link, Max Grezlik, et
+al.</span> 2023. <span>“Increasing the Uptake of Multispecies Models in
+Fisheries Management.”</span> <em>ICES Journal of Marine Science</em> 80
+(2): 243–57. <a href="https://doi.org/10.1093/icesjms/fsad001">https://doi.org/10.1093/icesjms/fsad001</a>.
+</div>
+<div id="ref-kinzey2009" class="csl-entry" role="listitem">
+Kinzey, Douglas, and André E. Punt. 2009. <span>“Multispecies and
+Single-Species Models of Fish Population Dynamics: Comparing Parameter
+Estimates.”</span> <em>Natural Resource Modeling</em> 22 (1): 67–104. <a href="https://doi.org/10.1111/j.1939-7445.2008.00030.x">https://doi.org/10.1111/j.1939-7445.2008.00030.x</a>.
+</div>
+<div id="ref-kitchell1977" class="csl-entry" role="listitem">
+Kitchell, James F., Donald J. Stewart, and David Weininger. 1977.
+<span>“Applications of a Bioenergetics Model to Yellow Perch (<em>Perca
+Flavescens</em>) and Walleye (<em>Stizostedion Vitreum
+Vitreum</em>).”</span> <em>Journal of the Fisheries Research Board of
+Canada</em> 34 (10): 1922–35. <a href="https://doi.org/10.1139/f77-258">https://doi.org/10.1139/f77-258</a>.
+</div>
+<div id="ref-kristensen2016" class="csl-entry" role="listitem">
+Kristensen, Kasper, Anders Nielsen, Casper W. Berg, Hans Skaug, and
+Bradley M. Bell. 2016. <span>“<span>TMB</span>: Automatic
+Differentiation and <span>Laplace</span> Approximation.”</span>
+<em>Journal of Statistical Software</em> 70 (5): 1–21. <a href="https://doi.org/10.18637/jss.v070.i05">https://doi.org/10.18637/jss.v070.i05</a>.
+</div>
+<div id="ref-kulatska2019" class="csl-entry" role="listitem">
+Kulatska, Nataliia, Stefan Neuenfeldt, Ulrika Beier, et al. 2019.
+<span>“Understanding Ontogenetic and Temporal Variability of
+<span>Eastern Baltic</span> Cod Diet Using a Multispecies Model and
+Stomach Data.”</span> <em>Fisheries Research</em> 211: 338–49. <a href="https://doi.org/10.1016/j.fishres.2018.11.023">https://doi.org/10.1016/j.fishres.2018.11.023</a>.
+</div>
+<div id="ref-lart2022" class="csl-entry" role="listitem">
+Lart, William. 2022. <em>Guide to Fish Stock Assessment and
+<span>ICES</span> Reference Points</em>. Seafish.
+</div>
+<div id="ref-lentz_gadget3" class="csl-entry" role="listitem">
+Lentz, Jamie, and Bjarki ór Elvarsson. 2024. <em><span class="nocase">gadget3</span>: Globally-Applicable Area Disaggregated
+General Ecosystem Toolbox V3</em>.
+</div>
+<div id="ref-lewy2004" class="csl-entry" role="listitem">
+Lewy, Peter, and Morten Vinther. 2004. <em>A Stochastic
+Age-Length-Structured Multispecies Model Applied to <span>North
+Sea</span> Stocks</em>. ICES CM 2004/FF:20. International Council for
+the Exploration of the Sea.
+</div>
+<div id="ref-livingston1983" class="csl-entry" role="listitem">
+Livingston, Patricia A. 1983. <em>Potential Use of the
+<span>Andersen–Ursin</span> Multispecies <span>Beverton</span> and
+<span>Holt</span> Model for Modelling <span>North Pacific</span> Fish
+Interactions</em>. NOAA Technical Memorandum NMFS F/NWC-43. U.S.
+Department of Commerce.
+</div>
+<div id="ref-lucey2020" class="csl-entry" role="listitem">
+Lucey, Sean M., Sarah K. Gaichas, and Kerim Y. Aydin. 2020.
+<span>“Conducting Reproducible Ecosystem Modeling Using the Open Source
+Mass Balance Model <span>Rpath</span>.”</span> <em>Ecological
+Modelling</em> 427: 109057. <a href="https://doi.org/10.1016/j.ecolmodel.2020.109057">https://doi.org/10.1016/j.ecolmodel.2020.109057</a>.
+</div>
+<div id="ref-maunder2013" class="csl-entry" role="listitem">
+Maunder, Mark N., and André E. Punt. 2013. <span>“A Review of Integrated
+Analysis in Fisheries Stock Assessment.”</span> <em>Fisheries
+Research</em> 142: 61–74. <a href="https://doi.org/10.1016/j.fishres.2012.07.025">https://doi.org/10.1016/j.fishres.2012.07.025</a>.
+</div>
+<div id="ref-mcallister_ianelli1997" class="csl-entry" role="listitem">
+McAllister, Murdoch K., and James N. Ianelli. 1997. <span>“Bayesian
+Stock Assessment Using Catch-Age Data and the Sampling – Importance
+Resampling Algorithm.”</span> <em>Canadian Journal of Fisheries and
+Aquatic Sciences</em> 54 (2): 284–300. <a href="https://doi.org/10.1139/f96-285">https://doi.org/10.1139/f96-285</a>.
+</div>
+<div id="ref-methot2013" class="csl-entry" role="listitem">
+Methot, Richard D., and Chantell R. Wetzel. 2013. <span>“Stock
+Synthesis: A Biological and Statistical Framework for Fish Stock
+Assessment and Fishery Management.”</span> <em>Fisheries Research</em>
+142: 86–99. <a href="https://doi.org/10.1016/j.fishres.2012.10.012">https://doi.org/10.1016/j.fishres.2012.10.012</a>.
+</div>
+<div id="ref-morgan2022" class="csl-entry" role="listitem">
+Morgan, Owain. 2022. <span>“Fitting Exponential Family Distributions to
+Observed Stomach Contents Data for Certain Species of Fish.”</span>
+Master’s thesis, Department of Mathematics, University of York.
+</div>
+<div id="ref-nielsen2014" class="csl-entry" role="listitem">
+Nielsen, Anders, and Casper W. Berg. 2014. <span>“Estimation of
+Time-Varying Selectivity in Stock Assessments Using State-Space
+Models.”</span> <em>Fisheries Research</em> 158: 96–101. <a href="https://doi.org/10.1016/j.fishres.2014.01.014">https://doi.org/10.1016/j.fishres.2014.01.014</a>.
+</div>
+<div id="ref-pennino2025" class="csl-entry" role="listitem">
+Pennino, M. Grazia, D. J. Nachón, D. Bamio, et al. 2025. <span>“A Decade
+of <span class="nocase">mizer</span>: A Systematic Review of
+Advancements and Applications of Size Spectrum Modeling in Aquatic
+Ecosystems.”</span> <em>Ecological Modelling</em> 508: 111241. <a href="https://doi.org/10.1016/j.ecolmodel.2025.111241">https://doi.org/10.1016/j.ecolmodel.2025.111241</a>.
+</div>
+<div id="ref-pinnegar2014" class="csl-entry" role="listitem">
+Pinnegar, John K. 2015. <span>“A New Compilation of Stomach Content Data
+for Commercially Important Fish Species in the Northeast
+<span>Atlantic</span>.”</span> <em>Earth System Science Data</em> 7 (1):
+19–28. <a href="https://doi.org/10.5194/essd-7-19-2015">https://doi.org/10.5194/essd-7-19-2015</a>.
+</div>
+<div id="ref-plaganyi2004" class="csl-entry" role="listitem">
+Plagányi, Éva E., and Douglas S. Butterworth. 2004. <span>“A Critical
+Look at the Potential of <span class="nocase">Ecopath with Ecosim</span>
+to Assist in Practical Fisheries Management.”</span> <em>African Journal
+of Marine Science</em> 26 (1): 261–87. <a href="https://doi.org/10.2989/18142320409504061">https://doi.org/10.2989/18142320409504061</a>.
+</div>
+<div id="ref-plaganyi2014" class="csl-entry" role="listitem">
+Plagányi, Éva E., André E. Punt, Richard Hillary, et al. 2014.
+<span>“Multispecies Fisheries Management and Conservation: Tactical
+Applications Using Models of Intermediate Complexity.”</span> <em>Fish
+and Fisheries</em> 15 (1): 1–22. <a href="https://doi.org/10.1111/j.1467-2979.2012.00488.x">https://doi.org/10.1111/j.1467-2979.2012.00488.x</a>.
+</div>
+<div id="ref-platt1977" class="csl-entry" role="listitem">
+Platt, Trevor, and Kenneth Denman. 1977. <span>“Organisation in the
+Pelagic Ecosystem.”</span> <em>Helgol<span>ä</span>nder
+Wissenschaftliche Meeresuntersuchungen</em> 30 (1–4): 575–81. <a href="https://doi.org/10.1007/bf02207862">https://doi.org/10.1007/bf02207862</a>.
+</div>
+<div id="ref-polovina1984" class="csl-entry" role="listitem">
+Polovina, Jeffrey J. 1984. <span>“Model of a Coral Reef Ecosystem.
+<span>I</span>. <span>The ECOPATH</span> Model and Its Application to
+<span>French Frigate Shoals</span>.”</span> <em>Coral Reefs</em> 3 (1):
+1–11. <a href="https://doi.org/10.1007/bf00306135">https://doi.org/10.1007/bf00306135</a>.
+</div>
+<div id="ref-pope1979" class="csl-entry" role="listitem">
+Pope, John G. 1979. <em>A Modified Cohort Analysis in Which Constant
+Natural Mortality Is Replaced by Estimates of Predation Levels</em>.
+ICES CM 1979/H:16. International Council for the Exploration of the Sea.
+</div>
+<div id="ref-pope2019" class="csl-entry" role="listitem">
+Pope, John G., Valerio Bartolino, Nataliia Kulatska, et al. 2019.
+<span>“Comparing the Steady State Results of a Range of Multispecies
+Models Between and Across Geographical Areas by the Use of the
+<span>Jacobian</span> Matrix of Yield on Fishing Mortality Rate.”</span>
+<em>Fisheries Research</em> 209: 259–70. <a href="https://doi.org/10.1016/j.fishres.2018.08.011">https://doi.org/10.1016/j.fishres.2018.08.011</a>.
+</div>
+<div id="ref-pope2006" class="csl-entry" role="listitem">
+Pope, John G., Jake C. Rice, Niels Daan, Simon Jennings, and Henrik
+Gislason. 2006. <span>“Modelling an Exploited Marine Fish Community with
+15 Parameters – Results from a Simple Size-Based Model.”</span> <em>ICES
+Journal of Marine Science</em> 63 (6): 1029–44. <a href="https://doi.org/10.1016/j.icesjms.2006.04.015">https://doi.org/10.1016/j.icesjms.2006.04.015</a>.
+</div>
+<div id="ref-punt2016" class="csl-entry" role="listitem">
+Punt, André E., Malcolm Haddon, and Richard McGarvey. 2016.
+<span>“Estimating Growth Within Size-Structured Fishery Stock
+Assessments: What Is the State of the Art and What Does the Future Look
+Like?”</span> <em>Fisheries Research</em> 180: 147–60. <a href="https://doi.org/10.1016/j.fishres.2014.11.007">https://doi.org/10.1016/j.fishres.2014.11.007</a>.
+</div>
+<div id="ref-rindorf2004" class="csl-entry" role="listitem">
+Rindorf, Anna, and Peter Lewy. 2004. <span>“Bias in Estimating Food
+Consumption of Fish by Stomach-Content Analysis.”</span> <em>Canadian
+Journal of Fisheries and Aquatic Sciences</em> 61 (12): 2487–98. <a href="https://doi.org/10.1139/f04-200">https://doi.org/10.1139/f04-200</a>.
+</div>
+<div id="ref-rochet2011" class="csl-entry" role="listitem">
+Rochet, Marie-Joëlle, Jeremy S. Collie, Simon Jennings, and Stephen J.
+Hall. 2011. <span>“Does Selective Fishing Conserve Community
+Biodiversity? <span>Predictions</span> from a Length-Based Multispecies
+Model.”</span> <em>Canadian Journal of Fisheries and Aquatic
+Sciences</em> 68 (3): 469–86. <a href="https://doi.org/10.1139/f10-159">https://doi.org/10.1139/f10-159</a>.
+</div>
+<div id="ref-rudd2018" class="csl-entry" role="listitem">
+Rudd, Merrill B., and James T. Thorson. 2018. <span>“Accounting for
+Variable Recruitment and Fishing Mortality in Length-Based Stock
+Assessments for Data-Limited Fisheries.”</span> <em>Canadian Journal of
+Fisheries and Aquatic Sciences</em> 75 (7): 1019–35. <a href="https://doi.org/10.1139/cjfas-2017-0143">https://doi.org/10.1139/cjfas-2017-0143</a>.
+</div>
+<div id="ref-scott2016" class="csl-entry" role="listitem">
+Scott, Erin, Natalia Serpetti, Jeroen Steenbeek, and Sheila J. J.
+Heymans. 2016. <span>“A Stepwise Fitting Procedure for Automated Fitting
+of <span class="nocase">Ecopath with Ecosim</span> Models.”</span>
+<em>SoftwareX</em> 5: 25–30. <a href="https://doi.org/10.1016/j.softx.2016.02.002">https://doi.org/10.1016/j.softx.2016.02.002</a>.
+</div>
+<div id="ref-scott2014" class="csl-entry" role="listitem">
+Scott, Finlay, Julia L. Blanchard, and Ken H. Andersen. 2014.
+<span>“<span class="nocase">mizer</span>: An <span>R</span> Package for
+Multispecies, Trait-Based and Community Size Spectrum Ecological
+Modelling.”</span> <em>Methods in Ecology and Evolution</em> 5 (10):
+1121–25. <a href="https://doi.org/10.1111/2041-210x.12256">https://doi.org/10.1111/2041-210x.12256</a>.
+</div>
+<div id="ref-sheldon1972" class="csl-entry" role="listitem">
+Sheldon, R. W., A. Prakash, and W. H. Sutcliffe. 1972. <span>“The Size
+Distribution of Particles in the Ocean.”</span> <em>Limnology and
+Oceanography</em> 17 (3): 327–40. <a href="https://doi.org/10.4319/lo.1972.17.3.0327">https://doi.org/10.4319/lo.1972.17.3.0327</a>.
+</div>
+<div id="ref-sheldon1977" class="csl-entry" role="listitem">
+Sheldon, R. W., W. H. Sutcliffe, and M. A. Paranjape. 1977.
+<span>“Structure of Pelagic Food Chain and Relationship Between Plankton
+and Fish Production.”</span> <em>Journal of the Fisheries Research Board
+of Canada</em> 34 (12): 2344–53. <a href="https://doi.org/10.1139/f77-314">https://doi.org/10.1139/f77-314</a>.
+</div>
+<div id="ref-silvert_platt1978" class="csl-entry" role="listitem">
+Silvert, William, and Trevor Platt. 1978. <span>“Energy Flux in the
+Pelagic Ecosystem: A Time-Dependent Equation.”</span> <em>Limnology and
+Oceanography</em> 23 (4): 813–16. <a href="https://doi.org/10.4319/lo.1978.23.4.0813">https://doi.org/10.4319/lo.1978.23.4.0813</a>.
+</div>
+<div id="ref-sparre1980" class="csl-entry" role="listitem">
+Sparre, Per. 1980. <em>A Goal Function of Fisheries (Legion
+Analysis)</em>. ICES CM 1980/G:40. International Council for the
+Exploration of the Sea.
+</div>
+<div id="ref-spence2020" class="csl-entry" role="listitem">
+Spence, Michael A., Hayley J. Bannister, Johnathan E. Ball, Paul J.
+Dolder, Christopher A. Griffiths, and Robert B. Thorpe. 2020.
+<span>“<span>LeMaRns</span>: A Length-Based Multi-Species Analysis by
+Numerical Simulation in <span>R</span>.”</span> <em>PLOS ONE</em> 15
+(2): e0227767. <a href="https://doi.org/10.1371/journal.pone.0227767">https://doi.org/10.1371/journal.pone.0227767</a>.
+</div>
+<div id="ref-spence2016" class="csl-entry" role="listitem">
+Spence, Michael A., Paul G. Blackwell, and Julia L. Blanchard. 2016.
+<span>“Parameter Uncertainty of a Dynamic Multispecies Size Spectrum
+Model.”</span> <em>Canadian Journal of Fisheries and Aquatic
+Sciences</em> 73 (4): 589–97. <a href="https://doi.org/10.1139/cjfas-2015-0022">https://doi.org/10.1139/cjfas-2015-0022</a>.
+</div>
+<div id="ref-spence2018" class="csl-entry" role="listitem">
+Spence, Michael A., Julia L. Blanchard, Axel G. Rossberg, et al. 2018.
+<span>“A General Framework for Combining Ecosystem Models.”</span>
+<em>Fish and Fisheries</em> 19 (6): 1031–42. <a href="https://doi.org/10.1111/faf.12310">https://doi.org/10.1111/faf.12310</a>.
+</div>
+<div id="ref-spence2021advice" class="csl-entry" role="listitem">
+Spence, Michael A., Paul J. Dolder, Richard D. M. Nash, and Robert B.
+Thorpe. 2021. <span>“The Use of a Length-Structured Multispecies Model
+Fitted Directly to Data in Near-Real Time as a Viable Tool for
+Advice.”</span> <em>Frontiers in Marine Science</em> 8: 700534. <a href="https://doi.org/10.3389/fmars.2021.700534">https://doi.org/10.3389/fmars.2021.700534</a>.
+</div>
+<div id="ref-spence2021uncertainty" class="csl-entry" role="listitem">
+Spence, Michael A., Robert B. Thorpe, Paul G. Blackwell, Finlay Scott,
+Richard Southwell, and Julia L. Blanchard. 2021. <span>“Quantifying
+Uncertainty and Dynamical Changes in Multi-Species Fishing Mortality
+Rates, Catches and Biomass by Combining State-Space and Size-Based
+Multi-Species Models.”</span> <em>Fish and Fisheries</em> 22 (4):
+667–81. <a href="https://doi.org/10.1111/faf.12543">https://doi.org/10.1111/faf.12543</a>.
+</div>
+<div id="ref-stefansson2003" class="csl-entry" role="listitem">
+Stefánsson, Gunnar. 2003. <span>“Issues in Multispecies Models.”</span>
+<em>Natural Resource Modeling</em> 16 (4): 415–37. <a href="https://doi.org/10.1111/j.1939-7445.2003.tb00121.x">https://doi.org/10.1111/j.1939-7445.2003.tb00121.x</a>.
+</div>
+<div id="ref-stefansson2004dst2" class="csl-entry" role="listitem">
+Stefánsson, Gunnar. 2004. <em>Development of Structurally Detailed
+Statistically Testable Models of Marine Populations (<span class="nocase">dst<span class="math inline"><sup>2</sup></span></span>):
+Final Report</em>. Marine Research Institute Technical Report No. 98.
+Marine Research Institute.
+</div>
+<div id="ref-stefansson_palsson1997" class="csl-entry" role="listitem">
+Stefánsson, Gunnar, and Ólafur K. Pálsson. 1997.
+<em><span>BORMICON</span>: A Boreal Migration and Consumption
+Model</em>. Report No. 58. Marine Research Institute.
+</div>
+<div id="ref-stefansson1998" class="csl-entry" role="listitem">
+Stefánsson, Gunnar, and Ólafur K. Pálsson. 1998. <span>“A Framework for
+Multispecies Modelling of <span>Arcto</span>-Boreal Systems.”</span>
+<em>Reviews in Fish Biology and Fisheries</em> 8 (1): 101–4. <a href="https://doi.org/10.1023/a:1008820702467">https://doi.org/10.1023/a:1008820702467</a>.
+</div>
+<div id="ref-taylor2004cod" class="csl-entry" role="listitem">
+Taylor, Lorna, James Begley, Vojtech Kupča, and Gunnar Stefánsson. 2004.
+<em>A Simple Implementation of <span>Gadget</span> for Cod in
+<span>Icelandic</span> Waters</em>. ICES CM 2004/FF:23. International
+Council for the Exploration of the Sea.
+</div>
+<div id="ref-taylor2007" class="csl-entry" role="listitem">
+Taylor, Lorna, James Begley, Vojtech Kupča, and Gunnar Stefánsson. 2007.
+<span>“A Simple Implementation of the Statistical Modelling Framework
+<span>Gadget</span> for Cod in <span>Icelandic</span> Waters.”</span>
+<em>African Journal of Marine Science</em> 29 (2): 223–45. <a href="https://doi.org/10.2989/ajms.2007.29.2.7.190">https://doi.org/10.2989/ajms.2007.29.2.7.190</a>.
+</div>
+<div id="ref-taylor2004shrimp" class="csl-entry" role="listitem">
+Taylor, Lorna, and Gunnar Stefánsson. 2004. <em><span>Gadget</span>
+Models of Cod–Capelin–Shrimp Interactions in <span>Icelandic</span>
+Waters</em>. ICES CM 2004/FF:29. International Council for the
+Exploration of the Sea.
+</div>
+<div id="ref-thornton_lessem1978" class="csl-entry" role="listitem">
+Thornton, Kent W., and Allan S. Lessem. 1978. <span>“A Temperature
+Algorithm for Modifying Biological Rates.”</span> <em>Transactions of
+the American Fisheries Society</em> 107 (2): 284–87. <a href="https://doi.org/10.1577/1548-8659(1978)107<284:atafmb>2.0.co;2">https://doi.org/10.1577/1548-8659(1978)107&lt;284:atafmb&gt;2.0.co;2</a>.
+</div>
+<div id="ref-thorpe2015" class="csl-entry" role="listitem">
+Thorpe, Robert B., Will J. F. Le Quesne, Fay Luxford, Jeremy S. Collie,
+and Simon Jennings. 2015. <span>“Evaluation and Management Implications
+of Uncertainty in a Multispecies Size-Structured Model of Population and
+Community Responses to Fishing.”</span> <em>Methods in Ecology and
+Evolution</em> 6 (1): 49–58. <a href="https://doi.org/10.1111/2041-210x.12292">https://doi.org/10.1111/2041-210x.12292</a>.
+</div>
+<div id="ref-thorson2014" class="csl-entry" role="listitem">
+Thorson, James T., Olaf P. Jensen, and Elise F. Zipkin. 2014. <span>“How
+Variable Is Recruitment for Exploited Marine Fishes? <span>A</span>
+Hierarchical Model for Testing Life History Theory.”</span> <em>Canadian
+Journal of Fisheries and Aquatic Sciences</em> 71 (7): 973–83. <a href="https://doi.org/10.1139/cjfas-2013-0645">https://doi.org/10.1139/cjfas-2013-0645</a>.
+</div>
+<div id="ref-thorson2017" class="csl-entry" role="listitem">
+Thorson, James T., Kelli F. Johnson, Richard D. Methot, and Ian G.
+Taylor. 2017. <span>“Model-Based Estimates of Effective Sample Size in
+Stock Assessment Models Using the <span>Dirichlet</span>-Multinomial
+Distribution.”</span> <em>Fisheries Research</em> 192: 84–93. <a href="https://doi.org/10.1016/j.fishres.2016.06.005">https://doi.org/10.1016/j.fishres.2016.06.005</a>.
+</div>
+<div id="ref-thorson2024" class="csl-entry" role="listitem">
+Thorson, James T., Kasper Kristensen, Kerim Y. Aydin, et al. 2024.
+<span>“The Benefits of Hierarchical Ecosystem Models: Demonstration
+Using <span>EcoState</span>, a New State-Space Mass-Balance
+Model.”</span> <em>Fish and Fisheries</em> 26 (2): 203–18. <a href="https://doi.org/10.1111/faf.12874">https://doi.org/10.1111/faf.12874</a>.
+</div>
+<div id="ref-trijoulet2019" class="csl-entry" role="listitem">
+Trijoulet, Vanessa, Gavin Fay, Kiersten L. Curti, Brian Smith, and
+Timothy J. Miller. 2019. <span>“Performance of Multispecies Assessment
+Models: Insights on the Influence of Diet Data.”</span> <em>ICES Journal
+of Marine Science</em> 76 (6): 1464–76. <a href="https://doi.org/10.1093/icesjms/fsz053">https://doi.org/10.1093/icesjms/fsz053</a>.
+</div>
+<div id="ref-tsou_collie2001" class="csl-entry" role="listitem">
+Tsou, Tien-Shui, and Jeremy S. Collie. 2001. <span>“Predation-Mediated
+Recruitment in the <span>Georges Bank</span> Fish Community.”</span>
+<em>ICES Journal of Marine Science</em> 58 (5): 994–1001. <a href="https://doi.org/10.1006/jmsc.2001.1088">https://doi.org/10.1006/jmsc.2001.1088</a>.
+</div>
+<div id="ref-ursin1967" class="csl-entry" role="listitem">
+Ursin, Erik. 1967. <span>“A Mathematical Model of Some Aspects of Fish
+Growth, Respiration, and Mortality.”</span> <em>Journal of the Fisheries
+Research Board of Canada</em> 24 (11): 2355–453. <a href="https://doi.org/10.1139/f67-190">https://doi.org/10.1139/f67-190</a>.
+</div>
+<div id="ref-ursin1973" class="csl-entry" role="listitem">
+Ursin, Erik. 1973. <span>“On the Prey Size Preferences of Cod and
+Dab.”</span> <em>Meddelelser Fra Danmarks Fiskeri- Og
+Havunders<span>ø</span>gelser, N.S.</em> 7: 85–98.
+</div>
+<div id="ref-vankirk2010" class="csl-entry" role="listitem">
+Van Kirk, Kray F., Terrance J. Quinn, and Jeremy S. Collie. 2010.
+<span>“A Multispecies Age-Structured Assessment Model for the <span class="nocase">Gulf of Alaska</span>.”</span> <em>Canadian Journal of
+Fisheries and Aquatic Sciences</em> 67 (7): 1135–48. <a href="https://doi.org/10.1139/f10-053">https://doi.org/10.1139/f10-053</a>.
+</div>
+<div id="ref-walters1997" class="csl-entry" role="listitem">
+Walters, Carl, Villy Christensen, and Daniel Pauly. 1997.
+<span>“Structuring Dynamic Models of Exploited Ecosystems from Trophic
+Mass-Balance Assessments.”</span> <em>Reviews in Fish Biology and
+Fisheries</em> 7 (2): 139–72. <a href="https://doi.org/10.1023/a:1018479526149">https://doi.org/10.1023/a:1018479526149</a>.
+</div>
+<div id="ref-walters1999" class="csl-entry" role="listitem">
+Walters, Carl, Daniel Pauly, and Villy Christensen. 1999.
+<span>“<span>Ecospace</span>: Prediction of Mesoscale Spatial Patterns
+in Trophic Relationships of Exploited Ecosystems, with Emphasis on the
+Impacts of Marine Protected Areas.”</span> <em>Ecosystems</em> 2 (6):
+539–54. <a href="https://doi.org/10.1007/s100219900101">https://doi.org/10.1007/s100219900101</a>.
+</div>
+<div id="ref-zhang2015" class="csl-entry" role="listitem">
+Zhang, Chongliang, Yong Chen, and Yiping Ren. 2015. <span>“Assessing
+Uncertainty of a Multispecies Size-Spectrum Model Resulting from Process
+and Observation Errors.”</span> <em>ICES Journal of Marine Science</em>
+72 (8): 2223–33. <a href="https://doi.org/10.1093/icesjms/fsv086">https://doi.org/10.1093/icesjms/fsv086</a>.
+</div>
+<div id="ref-zhang2016" class="csl-entry" role="listitem">
+Zhang, Chongliang, Yong Chen, Katherine Thompson, and Yiping Ren. 2016.
+<span>“Implementing a Multispecies Size-Spectrum Model in a Data-Poor
+Ecosystem.”</span> <em>Acta Oceanologica Sinica</em> 35 (4): 63–73. <a href="https://doi.org/10.1007/s13131-016-0822-0">https://doi.org/10.1007/s13131-016-0822-0</a>.
+</div>
+</div>
+
+
+
+</main> <!-- /main -->
+<script id="quarto-html-after-body" type="application/javascript">
+  window.document.addEventListener("DOMContentLoaded", function (event) {
+    const icon = "";
+    const anchorJS = new window.AnchorJS();
+    anchorJS.options = {
+      placement: 'right',
+      icon: icon
+    };
+    anchorJS.add('.anchored');
+    const isCodeAnnotation = (el) => {
+      for (const clz of el.classList) {
+        if (clz.startsWith('code-annotation-')) {                     
+          return true;
+        }
+      }
+      return false;
+    }
+    const onCopySuccess = function(e) {
+      // button target
+      const button = e.trigger;
+      // don't keep focus
+      button.blur();
+      // flash "checked"
+      button.classList.add('code-copy-button-checked');
+      var currentTitle = button.getAttribute("title");
+      button.setAttribute("title", "Copied!");
+      let tooltip;
+      if (window.bootstrap) {
+        button.setAttribute("data-bs-toggle", "tooltip");
+        button.setAttribute("data-bs-placement", "left");
+        button.setAttribute("data-bs-title", "Copied!");
+        tooltip = new bootstrap.Tooltip(button, 
+          { trigger: "manual", 
+            customClass: "code-copy-button-tooltip",
+            offset: [0, -8]});
+        tooltip.show();    
+      }
+      setTimeout(function() {
+        if (tooltip) {
+          tooltip.hide();
+          button.removeAttribute("data-bs-title");
+          button.removeAttribute("data-bs-toggle");
+          button.removeAttribute("data-bs-placement");
+        }
+        button.setAttribute("title", currentTitle);
+        button.classList.remove('code-copy-button-checked');
+      }, 1000);
+      // clear code selection
+      e.clearSelection();
+    }
+    const getTextToCopy = function(trigger) {
+      const outerScaffold = trigger.parentElement.cloneNode(true);
+      const codeEl = outerScaffold.querySelector('code');
+      for (const childEl of codeEl.children) {
+        if (isCodeAnnotation(childEl)) {
+          childEl.remove();
+        }
+      }
+      return codeEl.innerText;
+    }
+    const clipboard = new window.ClipboardJS('.code-copy-button:not([data-in-quarto-modal])', {
+      text: getTextToCopy
+    });
+    clipboard.on('success', onCopySuccess);
+    if (window.document.getElementById('quarto-embedded-source-code-modal')) {
+      const clipboardModal = new window.ClipboardJS('.code-copy-button[data-in-quarto-modal]', {
+        text: getTextToCopy,
+        container: window.document.getElementById('quarto-embedded-source-code-modal')
+      });
+      clipboardModal.on('success', onCopySuccess);
+    }
+      var localhostRegex = new RegExp(/^(?:http|https):\/\/localhost\:?[0-9]*\//);
+      var mailtoRegex = new RegExp(/^mailto:/);
+        var filterRegex = new RegExp('/' + window.location.host + '/');
+      var isInternal = (href) => {
+          return filterRegex.test(href) || localhostRegex.test(href) || mailtoRegex.test(href);
+      }
+      // Inspect non-navigation links and adorn them if external
+     var links = window.document.querySelectorAll('a[href]:not(.nav-link):not(.navbar-brand):not(.toc-action):not(.sidebar-link):not(.sidebar-item-toggle):not(.pagination-link):not(.no-external):not([aria-hidden]):not(.dropdown-item):not(.quarto-navigation-tool):not(.about-link)');
+      for (var i=0; i<links.length; i++) {
+        const link = links[i];
+        if (!isInternal(link.href)) {
+          // undo the damage that might have been done by quarto-nav.js in the case of
+          // links that we want to consider external
+          if (link.dataset.originalHref !== undefined) {
+            link.href = link.dataset.originalHref;
+          }
+            // target, if specified
+            link.setAttribute("target", "_blank");
+            if (link.getAttribute("rel") === null) {
+              link.setAttribute("rel", "noopener");
+            }
+        }
+      }
+    function tippyHover(el, contentFn, onTriggerFn, onUntriggerFn) {
+      const config = {
+        allowHTML: true,
+        maxWidth: 500,
+        delay: 100,
+        arrow: false,
+        appendTo: function(el) {
+            return el.parentElement;
+        },
+        interactive: true,
+        interactiveBorder: 10,
+        theme: 'quarto',
+        placement: 'bottom-start',
+      };
+      if (contentFn) {
+        config.content = contentFn;
+      }
+      if (onTriggerFn) {
+        config.onTrigger = onTriggerFn;
+      }
+      if (onUntriggerFn) {
+        config.onUntrigger = onUntriggerFn;
+      }
+      window.tippy(el, config); 
+    }
+    const noterefs = window.document.querySelectorAll('a[role="doc-noteref"]');
+    for (var i=0; i<noterefs.length; i++) {
+      const ref = noterefs[i];
+      tippyHover(ref, function() {
+        // use id or data attribute instead here
+        let href = ref.getAttribute('data-footnote-href') || ref.getAttribute('href');
+        try { href = new URL(href).hash; } catch {}
+        const id = href.replace(/^#\/?/, "");
+        const note = window.document.getElementById(id);
+        if (note) {
+          return note.innerHTML;
+        } else {
+          return "";
+        }
+      });
+    }
+    const xrefs = window.document.querySelectorAll('a.quarto-xref');
+    const processXRef = (id, note) => {
+      // Strip column container classes
+      const stripColumnClz = (el) => {
+        el.classList.remove("page-full", "page-columns");
+        if (el.children) {
+          for (const child of el.children) {
+            stripColumnClz(child);
+          }
+        }
+      }
+      stripColumnClz(note)
+      if (id === null || id.startsWith('sec-')) {
+        // Special case sections, only their first couple elements
+        const container = document.createElement("div");
+        if (note.children && note.children.length > 2) {
+          container.appendChild(note.children[0].cloneNode(true));
+          for (let i = 1; i < note.children.length; i++) {
+            const child = note.children[i];
+            if (child.tagName === "P" && child.innerText === "") {
+              continue;
+            } else {
+              container.appendChild(child.cloneNode(true));
+              break;
+            }
+          }
+          if (window.Quarto?.typesetMath) {
+            window.Quarto.typesetMath(container);
+          }
+          return container.innerHTML
+        } else {
+          if (window.Quarto?.typesetMath) {
+            window.Quarto.typesetMath(note);
+          }
+          return note.innerHTML;
+        }
+      } else {
+        // Remove any anchor links if they are present
+        const anchorLink = note.querySelector('a.anchorjs-link');
+        if (anchorLink) {
+          anchorLink.remove();
+        }
+        if (window.Quarto?.typesetMath) {
+          window.Quarto.typesetMath(note);
+        }
+        if (note.classList.contains("callout")) {
+          return note.outerHTML;
+        } else {
+          return note.innerHTML;
+        }
+      }
+    }
+    for (var i=0; i<xrefs.length; i++) {
+      const xref = xrefs[i];
+      tippyHover(xref, undefined, function(instance) {
+        instance.disable();
+        let url = xref.getAttribute('href');
+        let hash = undefined; 
+        if (url.startsWith('#')) {
+          hash = url;
+        } else {
+          try { hash = new URL(url).hash; } catch {}
+        }
+        if (hash) {
+          const id = hash.replace(/^#\/?/, "");
+          const note = window.document.getElementById(id);
+          if (note !== null) {
+            try {
+              const html = processXRef(id, note.cloneNode(true));
+              instance.setContent(html);
+            } finally {
+              instance.enable();
+              instance.show();
+            }
+          } else {
+            // See if we can fetch this
+            fetch(url.split('#')[0])
+            .then(res => res.text())
+            .then(html => {
+              const parser = new DOMParser();
+              const htmlDoc = parser.parseFromString(html, "text/html");
+              const note = htmlDoc.getElementById(id);
+              if (note !== null) {
+                const html = processXRef(id, note);
+                instance.setContent(html);
+              } 
+            }).finally(() => {
+              instance.enable();
+              instance.show();
+            });
+          }
+        } else {
+          // See if we can fetch a full url (with no hash to target)
+          // This is a special case and we should probably do some content thinning / targeting
+          fetch(url)
+          .then(res => res.text())
+          .then(html => {
+            const parser = new DOMParser();
+            const htmlDoc = parser.parseFromString(html, "text/html");
+            const note = htmlDoc.querySelector('main.content');
+            if (note !== null) {
+              // This should only happen for chapter cross references
+              // (since there is no id in the URL)
+              // remove the first header
+              if (note.children.length > 0 && note.children[0].tagName === "HEADER") {
+                note.children[0].remove();
+              }
+              const html = processXRef(null, note);
+              instance.setContent(html);
+            } 
+          }).finally(() => {
+            instance.enable();
+            instance.show();
+          });
+        }
+      }, function(instance) {
+      });
+    }
+        let selectedAnnoteEl;
+        const selectorForAnnotation = ( cell, annotation) => {
+          let cellAttr = 'data-code-cell="' + cell + '"';
+          let lineAttr = 'data-code-annotation="' +  annotation + '"';
+          const selector = 'span[' + cellAttr + '][' + lineAttr + ']';
+          return selector;
+        }
+        const selectCodeLines = (annoteEl) => {
+          const doc = window.document;
+          const targetCell = annoteEl.getAttribute("data-target-cell");
+          const targetAnnotation = annoteEl.getAttribute("data-target-annotation");
+          const annoteSpan = window.document.querySelector(selectorForAnnotation(targetCell, targetAnnotation));
+          const lines = annoteSpan.getAttribute("data-code-lines").split(",");
+          const lineIds = lines.map((line) => {
+            return targetCell + "-" + line;
+          })
+          let top = null;
+          let height = null;
+          let parent = null;
+          if (lineIds.length > 0) {
+              //compute the position of the single el (top and bottom and make a div)
+              const el = window.document.getElementById(lineIds[0]);
+              top = el.offsetTop;
+              height = el.offsetHeight;
+              parent = el.parentElement.parentElement;
+            if (lineIds.length > 1) {
+              const lastEl = window.document.getElementById(lineIds[lineIds.length - 1]);
+              const bottom = lastEl.offsetTop + lastEl.offsetHeight;
+              height = bottom - top;
+            }
+            if (top !== null && height !== null && parent !== null) {
+              // cook up a div (if necessary) and position it 
+              let div = window.document.getElementById("code-annotation-line-highlight");
+              if (div === null) {
+                div = window.document.createElement("div");
+                div.setAttribute("id", "code-annotation-line-highlight");
+                div.style.position = 'absolute';
+                parent.appendChild(div);
+              }
+              div.style.top = top - 2 + "px";
+              div.style.height = height + 4 + "px";
+              div.style.left = 0;
+              let gutterDiv = window.document.getElementById("code-annotation-line-highlight-gutter");
+              if (gutterDiv === null) {
+                gutterDiv = window.document.createElement("div");
+                gutterDiv.setAttribute("id", "code-annotation-line-highlight-gutter");
+                gutterDiv.style.position = 'absolute';
+                const codeCell = window.document.getElementById(targetCell);
+                const gutter = codeCell.querySelector('.code-annotation-gutter');
+                gutter.appendChild(gutterDiv);
+              }
+              gutterDiv.style.top = top - 2 + "px";
+              gutterDiv.style.height = height + 4 + "px";
+            }
+            selectedAnnoteEl = annoteEl;
+          }
+        };
+        const unselectCodeLines = () => {
+          const elementsIds = ["code-annotation-line-highlight", "code-annotation-line-highlight-gutter"];
+          elementsIds.forEach((elId) => {
+            const div = window.document.getElementById(elId);
+            if (div) {
+              div.remove();
+            }
+          });
+          selectedAnnoteEl = undefined;
+        };
+          // Handle positioning of the toggle
+      window.addEventListener(
+        "resize",
+        throttle(() => {
+          elRect = undefined;
+          if (selectedAnnoteEl) {
+            selectCodeLines(selectedAnnoteEl);
+          }
+        }, 10)
+      );
+      function throttle(fn, ms) {
+      let throttle = false;
+      let timer;
+        return (...args) => {
+          if(!throttle) { // first call gets through
+              fn.apply(this, args);
+              throttle = true;
+          } else { // all the others get throttled
+              if(timer) clearTimeout(timer); // cancel #2
+              timer = setTimeout(() => {
+                fn.apply(this, args);
+                timer = throttle = false;
+              }, ms);
+          }
+        };
+      }
+        // Attach click handler to the DT
+        const annoteDls = window.document.querySelectorAll('dt[data-target-cell]');
+        for (const annoteDlNode of annoteDls) {
+          annoteDlNode.addEventListener('click', (event) => {
+            const clickedEl = event.target;
+            if (clickedEl !== selectedAnnoteEl) {
+              unselectCodeLines();
+              const activeEl = window.document.querySelector('dt[data-target-cell].code-annotation-active');
+              if (activeEl) {
+                activeEl.classList.remove('code-annotation-active');
+              }
+              selectCodeLines(clickedEl);
+              clickedEl.classList.add('code-annotation-active');
+            } else {
+              // Unselect the line
+              unselectCodeLines();
+              clickedEl.classList.remove('code-annotation-active');
+            }
+          });
+        }
+    const findCites = (el) => {
+      const parentEl = el.parentElement;
+      if (parentEl) {
+        const cites = parentEl.dataset.cites;
+        if (cites) {
+          return {
+            el,
+            cites: cites.split(' ')
+          };
+        } else {
+          return findCites(el.parentElement)
+        }
+      } else {
+        return undefined;
+      }
+    };
+    var bibliorefs = window.document.querySelectorAll('a[role="doc-biblioref"]');
+    for (var i=0; i<bibliorefs.length; i++) {
+      const ref = bibliorefs[i];
+      const citeInfo = findCites(ref);
+      if (citeInfo) {
+        tippyHover(citeInfo.el, function() {
+          var popup = window.document.createElement('div');
+          citeInfo.cites.forEach(function(cite) {
+            var citeDiv = window.document.createElement('div');
+            citeDiv.classList.add('hanging-indent');
+            citeDiv.classList.add('csl-entry');
+            var biblioDiv = window.document.getElementById('ref-' + cite);
+            if (biblioDiv) {
+              citeDiv.innerHTML = biblioDiv.innerHTML;
+            }
+            popup.appendChild(citeDiv);
+          });
+          return popup.innerHTML;
+        });
+      }
+    }
+  });
+  </script>
+<nav class="page-navigation">
+  <div class="nav-page nav-page-previous">
+      <a href="./06_statistical_fitting_uncertainty_and_mizer_synthesis.html" class="pagination-link" aria-label="Chapter 6: Statistical Estimation, Data Weighting, Uncertainty Quantification, and an Architectural Roadmap for Dynamic `mizer` Stock Assessment">
+        <i class="bi bi-arrow-left-short"></i> <span class="nav-page-text"><span class="chapter-title">Chapter 6: Statistical Estimation, Data Weighting, Uncertainty Quantification, and an Architectural Roadmap for Dynamic <code>mizer</code> Stock Assessment</span></span>
+      </a>          
+  </div>
+  <div class="nav-page nav-page-next">
+  </div>
+</nav>
+</div> <!-- /content -->
+
+
+
+
+<footer class="footer"><div class="nav-footer"><div class="nav-footer-center"><div class="toc-actions"><ul><li><a href="https://github.com/gustavdelius/multispecies_stock_assessment/edit/main/references.md" class="toc-action"><i class="bi bi-github"></i>Edit this page</a></li></ul></div></div></div></footer></body></html>
