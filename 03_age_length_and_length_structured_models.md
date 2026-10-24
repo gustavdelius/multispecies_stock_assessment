@@ -1,6 +1,6 @@
-# Chapter 3: Age-Length and Length-Structured Assessment Models (`Gadget`/`gadget3`, `SS3`, `MULTIFAN-CL`, `LeMans`/`LeMaRns`, `CSMS`/`CSM`)
+# Age-Length and Length-Structured Assessment Models (`Gadget`/`gadget3`, `SS3`, `MULTIFAN-CL`, `LeMans`/`LeMaRns`, `CSMS`/`CSM`) {#sec-length-structured}
 
-## 3.1 Why Track Length in Addition to (or Instead of) Age?
+## Why Track Length in Addition to (or Instead of) Age?
 
 In marine ecosystems, nearly every ecological and fishery interaction—gape-limited predation, trawl mesh selection, gillnet dome-shaped selectivity, metabolic rate, and fecundity—is a direct physical function of **body size (length $L$ or weight $W$)** rather than chronological age $a$ [@stefansson1998; @punt2016]. Purely age-structured models (`MSVPA`, `SMS`, `CEATTLE`) suffer from three structural limitations when size-dependent processes are strong:
 1. **Rosa Lee's Phenomenon (Size-Selective Mortality Within an Age Class)**: When fishing or predation selectively removes the fastest-growing (or slowest-growing) individuals within an age cohort, the surviving individuals of age $a$ have a distorted length and weight distribution that cannot be represented by a fixed empirical weight-at-age $w_{s,a,t}$ [@methot2013; @begley2004overview].
@@ -9,16 +9,16 @@ In marine ecosystems, nearly every ecological and fishery interaction—gape-lim
 
 ---
 
-## 3.2 `Gadget` (`Gadget2` and `gadget3`): Statistical Age-Length-Structured Multispecies Framework
+## `Gadget` (`Gadget2` and `gadget3`): Statistical Age-Length-Structured Multispecies Framework
 
-### 3.2.1 Lineage and Architecture
+### Lineage and Architecture
 **Gadget** (*Globally Applicable Area Disaggregated General Ecosystem Toolbox*) evolved from two Nordic multispecies research models of the late 1980s and 1990s [@stefansson1998; @begley2004overview], synthesized under the EU `dst2` project [@stefansson2003; @stefansson2004dst2; @begley2004guide; @begley2004overview]:
 - **MULTSPEC** [@bogstad1997, IMR Norway]: An area-, age-, and length-structured model of Barents Sea cod, capelin, herring, harp seals, and minke whales.
 - **BORMICON** (*Boreal Migration and Consumption model*; @stefansson_palsson1997, MRI Iceland): A statistical multi-area age-length assessment model of Icelandic cod, capelin, and northern shrimp (*Pandalus borealis*) [@taylor2004shrimp; @taylor2004cod; @taylor2007].
 
 Originally written in C++ (`Gadget2`, @begley2004guide) and optimized via Hooke & Jeeves pattern search, Simulated Annealing, and BFGS, with applications ranging from Icelandic cod–capelin–shrimp interactions [@taylor2004shrimp; @taylor2004cod; @taylor2007] and Mediterranean hake [@bartolino2011] to Eastern Baltic cod ontogenetic diet shifts [@kulatska2019], the framework has recently been re-engineered as **`gadget3` (`g3`)** [@lentz_gadget3; @ices2021], which compiles modular R model definitions (`g3a_grow_*`, `g3a_predate_*`, `g3l_distribution_*`) directly into **TMB C++ templates with exact automatic differentiation**.
 
-### 3.2.2 State-Space Tensor ($N_{s,a,l,r,t}$ and $W_{s,a,l,r,t}$)
+### State-Space Tensor ($N_{s,a,l,r,t}$ and $W_{s,a,l,r,t}$)
 Gadget tracks sub-stocks $s$ (which may represent species, sex, or immature vs. mature life stages, e.g., immature hake vs. mature hake in @bartolino2011) across discrete time steps $t$ (typically monthly or quarterly, $\Delta t = 1/12$ or $1/4\text{ yr}$), spatial areas $r$, discrete ages $a \in \{a_{\min}, \dots, a_{\max}\}$, and discrete length bins $l \in \{1, \dots, n_L\}$ with bin boundaries $[L_{\min, l}, L_{\max, l})$ and midpoint $L_l$.
 
 Crucially, in every $(s, a, l, r, t)$ cell, Gadget tracks **two coupled state variables** [@begley2004overview, p. 4; @lentz_gadget3]:
@@ -30,7 +30,7 @@ $$\text{1. Migration } (\mathbf{M}) \longrightarrow \text{2. Predation \& Fishin
 
 ---
 
-### 3.2.3 Somatic Growth and the Beta-Binomial Length-Transition Distribution
+### Somatic Growth and the Beta-Binomial Length-Transition Distribution
 In a discrete length-bin model, somatic growth during time step $\Delta t$ must specify:
 1. The **mean length increment** $\Delta L_l$ and **mean weight increment** $\Delta W_l$ of fish currently in length bin $l$, and
 2. The **probability distribution** $p(\Delta j \mid l)$ that a fish in length bin $l$ jumps up by $\Delta j \in \{0, 1, \dots, \Delta j_{\max}\}$ length bins during $\Delta t$.
@@ -43,7 +43,7 @@ Gadget provides two classes of growth equations [@begley2004overview, pp. 8--10;
    $$\Delta W_l = \alpha_s \left(L_l + \Delta L_l\right)^{\beta_s} - \alpha_s L_l^{\beta_s}$$
 
 2. **Consumption-Dependent (Two-Way Bioenergetic) Growth (`g3a_grow_length_multspec` and `g3a_grow_weight_weightjones`)**:
-   Let $\psi_{s,l,r,t} \in [0, 1]$ be the predator's realized **feeding level** in length bin $l$ during time step $t$ (ratio of actual biomass consumed to maximum possible consumption $M_{s,l,t}$; see Section 3.2.4), and let $T_{r,t}$ be ambient temperature.
+   Let $\psi_{s,l,r,t} \in [0, 1]$ be the predator's realized **feeding level** in length bin $l$ during time step $t$ (ratio of actual biomass consumed to maximum possible consumption $M_{s,l,t}$; see @sec-gadget-predation), and let $T_{r,t}$ be ambient temperature.
    - **MULTSPEC Length & Weight Increment (`g3a_grow_length_multspec` / `g3a_grow_weight_multspec`)**:
      $$\Delta L_l = \Delta t \cdot p_{0,s} \, L_l^{p_{1,s}} \, \psi_{s,l,r,t} \left(p_{2,s} T_{r,t} + p_{3,s}\right)$$
      $$\Delta W_l = \Delta t \cdot q_{0,s} \, W_{s,a,l}^{q_{1,s}} \left(\psi_{s,l,r,t} - q_{2,s}\right)\left(q_{3,s} T_{r,t} + q_{4,s}\right)$$
@@ -75,7 +75,7 @@ $$N_{s,a,l',t+\Delta t} = \sum_{\Delta j = 0}^{n_{\max}} G_{l' - \Delta j, l'} \
 
 ---
 
-### 3.2.4 Predation, Functional Response, and Overconsumption Protection (`g3a_predate`)
+### Predation, Functional Response, and Overconsumption Protection (`g3a_predate`) {#sec-gadget-predation}
 In Gadget, both **commercial/survey fishing fleets** and **biological predators** are unified under a single mathematical abstraction (`g3a_predate` in @lentz_gadget3).
 
 For a biological predator $p$ in length group $L$ preying on prey stock $i$ in length group $l$ [@begley2004overview, pp. 13--15; @taylor2004shrimp, Eqs. 7--11; @lentz_gadget3]:
@@ -108,7 +108,7 @@ For a biological predator $p$ in length group $L$ preying on prey stock $i$ in l
 
 ---
 
-### 3.2.5 Composite Likelihoods and Two-Stage Iterative Reweighting in `Gadget`
+### Composite Likelihoods and Two-Stage Iterative Reweighting in `Gadget`
 Gadget fits simultaneously to arbitrary combinations of raw, unaggregated observations [@begley2004overview, pp. 18--23; @lentz_gadget3]:
 1. **Survey Abundance Indices (`g3l_distribution_surveyindices_log` / `linear`)**:
    $$\ell_{\text{index}} = \sum_{t} \left(\ln I_{t} - \left(\alpha + \beta \ln \hat{I}_{t}\right)\right)^2$$
@@ -129,7 +129,7 @@ Because a typical Gadget model combines $10\text{--}30$ disparate likelihood com
 
 ---
 
-### 3.2.6 Case Study: Baltic Sea Multispecies `Gadget` Model and Ontogenetic Diet Shifts (Kulatska et al. 2019)
+### Case Study: Baltic Sea Multispecies `Gadget` Model and Ontogenetic Diet Shifts (Kulatska et al. 2019)
 @kulatska2019 constructed a quarterly (1974–2013) age-length multispecies `Gadget` model (using `Rgadget` and the Marine Fisheries Database `MFDB`) for the Baltic Sea (ICES Subdivisions 25–32), providing a template for how benthic and pelagic prey functional groups are parameterized in a length-structured assessment:
 
 1. **Dynamic Fish Stocks vs. Constant-Biomass Invertebrate Pools**:
@@ -154,11 +154,11 @@ Because a typical Gadget model combines $10\text{--}30$ disparate likelihood com
 
 ---
 
-## 3.3 Single-Species Length-Based & Integrated Assessments as a Methodological Bridge
+## Single-Species Length-Based & Integrated Assessments as a Methodological Bridge
 
 Building on classical cohort and yield theory [@beverton_holt1956; @beverton_holt1957; @cadima2003; @lart2022], single-species integrated assessment models (`MULTIFAN-CL` [@fournier1998], `Stock Synthesis` `SS3` [@methot2013], Reviewed by @maunder2013), size-transition matrix assessments [@punt2016], and non-equilibrium length-based mixed-effects models (`LIME` [@rudd2018]) solved several fundamental statistical problems in fitting length-composition data that are directly applicable to size-spectrum models like `mizer`.
 
-### 3.3.1 `MULTIFAN-CL` and Fournier's Robustified Length-Frequency Likelihood
+### `MULTIFAN-CL` and Fournier's Robustified Length-Frequency Likelihood
 Developed by David Fournier, John Hampton, and John Sibert [@fournier1998] for Western and Central Pacific tuna assessments, **MULTIFAN-CL** was the first large-scale ADMB integrated model to estimate age-structured dynamics directly from length-frequency data.
 
 1. **Length-at-Age Mixture Model**:
@@ -174,7 +174,7 @@ Developed by David Fournier, John Hampton, and John Sibert [@fournier1998] for W
 
    where $\xi_{f,t,l} = (1 - \tilde{p}_{f,t,l})\tilde{p}_{f,t,l}$, $\tau_{f,t} = \min(N_{\text{fish}, f, t}, 1000)$ is the effective sample size, $+ \frac{0.1}{L}$ prevents the variance from vanishing in bins where $\tilde{p}_{f,t,l} \approx 0$ so empty tail bins do not dominate the variance weight, and $+ 0.01$ inside the logarithm **caps the maximum penalty of any single outlier bin at $\ln(0.01) \approx -4.605$** (equivalent to a $3\sigma$ normal residual!).
 
-### 3.3.2 `Stock Synthesis` (`SS3`): Age-Length Kernels and Growth Morphs/Platoons
+### `Stock Synthesis` (`SS3`): Age-Length Kernels and Growth Morphs/Platoons
 In **Stock Synthesis** [@methot2013, pp. 86--90], population numbers $N_{t,g,a}$ are tracked by age $a$ and growth morph/platoon $g$, and mapped at every time step to discrete population length bins $l \in \{1, \dots, n_L\}$ via an **age-length transition matrix** $\varphi_{l, g, a}$:
 
 $$\varphi_{l, g, a} = \Phi\!\left(\frac{L_{\max, l} - \tilde{L}_{g,a}}{\sigma_{g,a}}\right) - \Phi\!\left(\frac{L_{\min, l} - \tilde{L}_{g,a}}{\sigma_{g,a}}\right)$$
@@ -184,7 +184,7 @@ where $\Phi(\cdot)$ is the standard normal CDF, $\tilde{L}_{g,a}$ is the mean le
   $$F_{t,f,g,a} = E_{t,f} \, S^{(A)}_{f,a} \sum_{l=1}^{n_L} \varphi_{l,g,a} \, S^{(L)}_{f,l}$$
 - **Capturing Rosa Lee's Phenomenon via Platoons**: To prevent the assumption that the normal length distribution $\varphi_{l,g,a}$ resets every year regardless of size-selective fishing on the right tail of the cohort, SS3 splits each recruiting cohort into $3$ or $5$ **growth platoons** $g$ (slow, medium-slow, average, medium-fast, fast growers with initial Gaussian weights). Because fast-growing platoons enter the length-selective fishery earlier, they are depleted faster ($F_{t,f,\text{fast},a} > F_{t,f,\text{slow},a}$), naturally shifting the surviving cohort's mean length downward!
 
-### 3.3.3 Pure Size-Structured Assessments and Size-Transition Matrices ($\mathbf{X}_{l,l'}$)
+### Pure Size-Structured Assessments and Size-Transition Matrices ($\mathbf{X}_{l,l'}$)
 In their comprehensive review of size-structured stock assessments (used worldwide for lobsters, crabs, abalone, scallops, prawns, and tropical finfish), @punt2016 formalized the general discrete-time, discrete-size population equation:
 
 $$\mathbf{N}_{t+1} = \mathbf{X}_t \, \mathbf{S}_t \, \mathbf{N}_t + \mathbf{R}_{t+1}$$
@@ -207,7 +207,7 @@ $$X_{l', l} = \int_{L_{\min, l'} - L_l}^{L_{\max, l'} - L_l} \frac{\Delta^{\alph
 
 ---
 
-### 3.3.4 `LIME`: Length-Based Integrated Mixed Effects for Non-Equilibrium Length Data (Rudd & Thorson 2018)
+### `LIME`: Length-Based Integrated Mixed Effects for Non-Equilibrium Length Data (Rudd & Thorson 2018)
 Traditional length-only assessment methods for data-limited stocks—such as Length-Based Spawning Potential Ratio (`LB-SPR`, @hordyk2015) and mean-length mortality estimators [@beverton_holt1956; @gedamke_hoenig2006]—assume **strict steady-state equilibrium** (constant recruitment $R_t = R_0$ and constant fishing mortality $F_t = F$). In reality, recruitment pulses and time-varying $F_t$ distort single-year length compositions, causing severe bias in equilibrium length estimators.
 
 To relax these equilibrium assumptions while requiring as little as **1 year of length-composition data** plus known basic life-history parameters ($L_\infty, k, t_0, M, L_{m}^{50}, \alpha, \beta, \text{CV}_L$), Merrill Rudd and James Thorson [@rudd2018] developed **LIME** (*Length-based Integrated Mixed Effects*), implemented in **R and TMB**:
@@ -227,16 +227,16 @@ To relax these equilibrium assumptions while requiring as little as **1 year of 
    - **Predicted Catch Length Proportions ($\hat{p}_{t,l}$)**: Predicted catch-at-age $\hat{C}_{t,a} = \frac{F_t S_a}{M + F_t S_a} N_{t,a}\left(1 - e^{-M - F_t S_a}\right)$ is projected into length bins via $\hat{C}_{t,l} = \sum_{a} \hat{C}_{t,a} \varphi_{a,l}$, giving predicted length proportions $\hat{p}_{t,l} = \hat{C}_{t,l} / \sum_{l'} \hat{C}_{t,l'}$.
 
 3. **Self-Weighting Dirichlet-Multinomial Length Likelihood and Derived Reference Points**:
-   LIME fits observed catch length counts $\tilde{\pi}_{t,l}$ using the **Dirichlet-Multinomial (DM) likelihood** of @thorson2017 (see Chapter 5, Section 5.6.2), estimating the DM linear overdispersion parameter $\theta$ (`log_theta`) simultaneously with $F_t, L_s^{50}, L_s^{95}, \sigma_R$, and integrating over the latent recruitment vector $\mathbf{r} = \{R_t\}$ via TMB's Laplace approximation [@rudd2018, Table 2, Eqs. 16, 22].
+   LIME fits observed catch length counts $\tilde{\pi}_{t,l}$ using the **Dirichlet-Multinomial (DM) likelihood** of @thorson2017 (see @sec-dm-likelihood), estimating the DM linear overdispersion parameter $\theta$ (`log_theta`) simultaneously with $F_t, L_s^{50}, L_s^{95}, \sigma_R$, and integrating over the latent recruitment vector $\mathbf{r} = \{R_t\}$ via TMB's Laplace approximation [@rudd2018, Table 2, Eqs. 16, 22].
    From the estimated parameters, LIME computes annual Spawning Potential Ratio:
    $$\text{SPR}_t = \frac{\text{SBPR}_t}{\text{SBPR}_0} = \frac{\sum_{a} \text{Mat}_a \, W_a \, N_{F_t, a}}{\sum_{a} \text{Mat}_a \, W_a \, N_{F=0, a}}$$
    Notice that because $\varphi_{a,l}$ allows cohorts of different ages to overlap in length, LIME can separate a recruitment pulse $\epsilon_{R,t}$ (which creates a mode in juvenile length bins that propagates across years at rate $g(L)$) from an increase in fishing mortality $F_t$ (which truncates the right tail of the length distribution across all adult cohorts simultaneously)—a key mechanism for dynamic length-based calibration in `mizer`!
 
 ---
 
-## 3.4 Discrete Length-Structured Multispecies Models (`LeMans`, `LeMaRns`, `CSMS`, `CSM`)
+## Discrete Length-Structured Multispecies Models (`LeMans`, `LeMaRns`, `CSMS`, `CSM`)
 
-### 3.4.1 `LeMans` and `LeMaRns` (Hall et al. 2006; Rochet et al. 2011; Thorpe et al. 2015; Spence et al. 2020, 2021)
+### `LeMans` and `LeMaRns` (Hall et al. 2006; Rochet et al. 2011; Thorpe et al. 2015; Spence et al. 2020, 2021)
 Originally created by Stephen Hall, Collie, Jennings, Bravington, and Pope [@hall2006] for Georges Bank, extended to evaluate selective fishing across size-based models [@rochet2011], and adapted to the North Sea by @thorpe2015 and Michael Spence et al. as the R/C++ package **`LeMaRns`** [@spence2020; @spence2021advice; @spence2021uncertainty], **LeMans** (*Length-based Multispecies analysis by numerical simulation*) is a discrete-time, discrete-length-bin multispecies model with fixed von Bertalanffy growth and one-way predation mortality feedback.
 
 #### Mathematical Equations of `LeMaRns` [@spence2020, pp. 3--7]
@@ -267,7 +267,7 @@ Let $N_{i,j,t}$ be the number of individuals of species $i \in \{1, \dots, n_s\}
 
 ---
 
-### 3.4.2 `CSMS` and `CSM` (Pope et al. 2006, 2019): Moment-Based Reduction of Length Spectra
+### `CSMS` and `CSM` (Pope et al. 2006, 2019): Moment-Based Reduction of Length Spectra
 John Pope and colleagues [@pope2006; @gislason2010; @pope2019] developed two remarkably parsimonious length-based multispecies models to explore multispecies MSY and community structure:
 1. **CSMS (Charmingly Simple Multispecies Size-based model; @pope2006)**:
    Parameterizes an entire 13-species North Sea fish community using only **15 life-history scaling parameters** (linking von Bertalanffy $k_i = c_k L_{\infty,i}^{-0.31}$, maturity $L_{\text{mat},i} = c_m L_{\infty,i}$, Ricker recruitment parameters, and Andersen-Ursin predation solely to each species' asymptotic length $L_{\infty,i}$), reproducing the community size spectrum slope and steeper slopes under fishing.

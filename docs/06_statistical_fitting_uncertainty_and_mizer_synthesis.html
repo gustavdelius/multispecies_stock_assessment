@@ -2,13 +2,13 @@
 <html xmlns="http://www.w3.org/1999/xhtml" lang="en" xml:lang="en"><head>
 
 <meta charset="utf-8">
-<meta name="generator" content="quarto-1.9.37">
+<meta name="generator" content="quarto-1.9.38">
 
 <meta name="viewport" content="width=device-width, initial-scale=1.0, user-scalable=yes">
 
 <meta name="description" content="Mathematical and statistical review of multispecies stock assessment methods, stomach content likelihoods, and size-structured assessment software.">
 
-<title>Chapter 6: Statistical Estimation, Data Weighting, Uncertainty Quantification, and an Architectural Roadmap for Dynamic mizer Stock Assessment – Multispecies Stock Assessment: Mathematical Methods, Data, and Software</title>
+<title>6&nbsp; Statistical Estimation, Data Weighting, Uncertainty Quantification, and an Architectural Roadmap for Dynamic mizer Stock Assessment – Multispecies Stock Assessment: Mathematical Methods, Data, and Software</title>
 <style>
 /* Default styles provided by pandoc.
 ** See https://pandoc.org/MANUAL.html#variables-for-html for config info.
@@ -61,7 +61,7 @@ div.csl-indent {
 <script src="site_libs/quarto-html/tippy.umd.min.js"></script>
 <script src="site_libs/quarto-html/anchor.min.js"></script>
 <link href="site_libs/quarto-html/tippy.css" rel="stylesheet">
-<link href="site_libs/quarto-html/quarto-syntax-highlighting-7f8f88aac4f3542376d5c11b86a4c14d.css" rel="stylesheet" id="quarto-text-highlighting-styles">
+<link href="site_libs/quarto-html/quarto-syntax-highlighting-15634bcf2e68342d4ad2dfa704d543f6.css" rel="stylesheet" id="quarto-text-highlighting-styles">
 <script src="site_libs/bootstrap/bootstrap.min.js"></script>
 <link href="site_libs/bootstrap/bootstrap-icons.css" rel="stylesheet">
 <link href="site_libs/bootstrap/bootstrap-67e563c3f8baddecfc039ce11a1d00ae.min.css" rel="stylesheet" append-hash="true" id="quarto-bootstrap" data-mode="light">
@@ -136,7 +136,7 @@ window.Quarto = {
       <button type="button" class="quarto-btn-toggle btn" data-bs-toggle="collapse" role="button" data-bs-target=".quarto-sidebar-collapse-item" aria-controls="quarto-sidebar" aria-expanded="false" aria-label="Toggle sidebar navigation" onclick="if (window.quartoToggleHeadroom) { window.quartoToggleHeadroom(); }">
         <i class="bi bi-layout-text-sidebar-reverse"></i>
       </button>
-        <nav class="quarto-page-breadcrumbs" aria-label="breadcrumb"><ol class="breadcrumb"><li class="breadcrumb-item"><a href="./06_statistical_fitting_uncertainty_and_mizer_synthesis.html"><span class="chapter-title">Chapter 6: Statistical Estimation, Data Weighting, Uncertainty Quantification, and an Architectural Roadmap for Dynamic <code>mizer</code> Stock Assessment</span></a></li></ol></nav>
+        <nav class="quarto-page-breadcrumbs" aria-label="breadcrumb"><ol class="breadcrumb"><li class="breadcrumb-item"><a href="./06_statistical_fitting_uncertainty_and_mizer_synthesis.html"><span class="chapter-number">6</span>&nbsp; <span class="chapter-title">Statistical Estimation, Data Weighting, Uncertainty Quantification, and an Architectural Roadmap for Dynamic <code>mizer</code> Stock Assessment</span></a></li></ol></nav>
         <a class="flex-grow-1" role="navigation" data-bs-toggle="collapse" data-bs-target=".quarto-sidebar-collapse-item" aria-controls="quarto-sidebar" aria-expanded="false" aria-label="Toggle sidebar navigation" onclick="if (window.quartoToggleHeadroom) { window.quartoToggleHeadroom(); }">      
         </a>
       <button type="button" class="btn quarto-search-button" aria-label="Search" onclick="window.quartoOpenSearch();">
@@ -172,32 +172,38 @@ window.Quarto = {
 </li>
         <li class="sidebar-item">
   <div class="sidebar-item-container"> 
-  <a href="./01_taxonomy_and_foundations.html" class="sidebar-item-text sidebar-link"><span class="chapter-title">Chapter 1: Taxonomy and Theoretical Foundations of Multispecies Stock Assessment Models</span></a>
+  <a href="./01_taxonomy_and_foundations.html" class="sidebar-item-text sidebar-link">
+ <span class="menu-text"><span class="chapter-number">1</span>&nbsp; <span class="chapter-title">Taxonomy and Theoretical Foundations of Multispecies Stock Assessment Models</span></span></a>
   </div>
 </li>
         <li class="sidebar-item">
   <div class="sidebar-item-container"> 
-  <a href="./02_age_structured_multispecies_models.html" class="sidebar-item-text sidebar-link"><span class="chapter-title">Chapter 2: Age-Structured Multispecies Stock Assessment Models (<code>MSVPA</code>, <code>SMS</code>/<code>smsR</code>, <code>MSCAA</code>/<code>Hydra</code>, <code>CEATTLE</code>)</span></a>
+  <a href="./02_age_structured_multispecies_models.html" class="sidebar-item-text sidebar-link">
+ <span class="menu-text"><span class="chapter-number">2</span>&nbsp; <span class="chapter-title">Age-Structured Multispecies Stock Assessment Models (<code>MSVPA</code>, <code>SMS</code>/<code>smsR</code>, <code>MSCAA</code>/<code>Hydra</code>, <code>CEATTLE</code>)</span></span></a>
   </div>
 </li>
         <li class="sidebar-item">
   <div class="sidebar-item-container"> 
-  <a href="./03_age_length_and_length_structured_models.html" class="sidebar-item-text sidebar-link"><span class="chapter-title">Chapter 3: Age-Length and Length-Structured Assessment Models (<code>Gadget</code>/<code>gadget3</code>, <code>SS3</code>, <code>MULTIFAN-CL</code>, <code>LeMans</code>/<code>LeMaRns</code>, <code>CSMS</code>/<code>CSM</code>)</span></a>
+  <a href="./03_age_length_and_length_structured_models.html" class="sidebar-item-text sidebar-link">
+ <span class="menu-text"><span class="chapter-number">3</span>&nbsp; <span class="chapter-title">Age-Length and Length-Structured Assessment Models (<code>Gadget</code>/<code>gadget3</code>, <code>SS3</code>, <code>MULTIFAN-CL</code>, <code>LeMans</code>/<code>LeMaRns</code>, <code>CSMS</code>/<code>CSM</code>)</span></span></a>
   </div>
 </li>
         <li class="sidebar-item">
   <div class="sidebar-item-container"> 
-  <a href="./04_size_spectrum_and_food_web_models.html" class="sidebar-item-text sidebar-link"><span class="chapter-title">Chapter 4: Continuous Size-Spectrum (<code>mizer</code>) and State-Space Food-Web Models (<code>EwE</code>, <code>Rpath</code>, <code>EcoState</code>)</span></a>
+  <a href="./04_size_spectrum_and_food_web_models.html" class="sidebar-item-text sidebar-link">
+ <span class="menu-text"><span class="chapter-number">4</span>&nbsp; <span class="chapter-title">Continuous Size-Spectrum (<code>mizer</code>) and State-Space Food-Web Models (<code>EwE</code>, <code>Rpath</code>, <code>EcoState</code>)</span></span></a>
   </div>
 </li>
         <li class="sidebar-item">
   <div class="sidebar-item-container"> 
-  <a href="./05_stomach_content_data_and_likelihoods.html" class="sidebar-item-text sidebar-link"><span class="chapter-title">Chapter 5: Stomach Content Data, Gastric Evacuation Physics, and Diet Likelihood Formulations</span></a>
+  <a href="./05_stomach_content_data_and_likelihoods.html" class="sidebar-item-text sidebar-link">
+ <span class="menu-text"><span class="chapter-number">5</span>&nbsp; <span class="chapter-title">Stomach Content Data, Gastric Evacuation Physics, and Diet Likelihood Formulations</span></span></a>
   </div>
 </li>
         <li class="sidebar-item">
   <div class="sidebar-item-container"> 
-  <a href="./06_statistical_fitting_uncertainty_and_mizer_synthesis.html" class="sidebar-item-text sidebar-link active"><span class="chapter-title">Chapter 6: Statistical Estimation, Data Weighting, Uncertainty Quantification, and an Architectural Roadmap for Dynamic <code>mizer</code> Stock Assessment</span></a>
+  <a href="./06_statistical_fitting_uncertainty_and_mizer_synthesis.html" class="sidebar-item-text sidebar-link active">
+ <span class="menu-text"><span class="chapter-number">6</span>&nbsp; <span class="chapter-title">Statistical Estimation, Data Weighting, Uncertainty Quantification, and an Architectural Roadmap for Dynamic <code>mizer</code> Stock Assessment</span></span></a>
   </div>
 </li>
         <li class="sidebar-item">
@@ -216,24 +222,24 @@ window.Quarto = {
     <h2 id="toc-title">Table of contents</h2>
    
   <ul>
-  <li><a href="#master-comparative-synthesis-across-multispecies-stock-assessment-model-families" id="toc-master-comparative-synthesis-across-multispecies-stock-assessment-model-families" class="nav-link active" data-scroll-target="#master-comparative-synthesis-across-multispecies-stock-assessment-model-families">6.1 Master Comparative Synthesis Across Multispecies Stock Assessment Model Families</a></li>
-  <li><a href="#data-weighting-and-likelihood-conflict-in-integrated-multispecies-assessments-francis-2011-maunder-punt-2013-thorson-et-al.-2017" id="toc-data-weighting-and-likelihood-conflict-in-integrated-multispecies-assessments-francis-2011-maunder-punt-2013-thorson-et-al.-2017" class="nav-link" data-scroll-target="#data-weighting-and-likelihood-conflict-in-integrated-multispecies-assessments-francis-2011-maunder-punt-2013-thorson-et-al.-2017">6.2 Data Weighting and Likelihood Conflict in Integrated &amp; Multispecies Assessments (Francis 2011; Maunder &amp; Punt 2013; Thorson et al.&nbsp;2017)</a>
+  <li><a href="#master-comparative-synthesis-across-multispecies-stock-assessment-model-families" id="toc-master-comparative-synthesis-across-multispecies-stock-assessment-model-families" class="nav-link active" data-scroll-target="#master-comparative-synthesis-across-multispecies-stock-assessment-model-families"><span class="header-section-number">6.1</span> Master Comparative Synthesis Across Multispecies Stock Assessment Model Families</a></li>
+  <li><a href="#data-weighting-and-likelihood-conflict-in-integrated-multispecies-assessments-francis-2011-maunder-punt-2013-thorson-et-al.-2017" id="toc-data-weighting-and-likelihood-conflict-in-integrated-multispecies-assessments-francis-2011-maunder-punt-2013-thorson-et-al.-2017" class="nav-link" data-scroll-target="#data-weighting-and-likelihood-conflict-in-integrated-multispecies-assessments-francis-2011-maunder-punt-2013-thorson-et-al.-2017"><span class="header-section-number">6.2</span> Data Weighting and Likelihood Conflict in Integrated &amp; Multispecies Assessments (Francis 2011; Maunder &amp; Punt 2013; Thorson et al.&nbsp;2017)</a>
   <ul>
-  <li><a href="#why-unadjusted-composition-likelihoods-destroy-abundance-fits-francis-principle-1" id="toc-why-unadjusted-composition-likelihoods-destroy-abundance-fits-francis-principle-1" class="nav-link" data-scroll-target="#why-unadjusted-composition-likelihoods-destroy-abundance-fits-francis-principle-1">6.2.1 Why Unadjusted Composition Likelihoods Destroy Abundance Fits (“Francis Principle 1”)</a></li>
-  <li><a href="#three-standard-data-weighting-algorithms-for-compositional-data" id="toc-three-standard-data-weighting-algorithms-for-compositional-data" class="nav-link" data-scroll-target="#three-standard-data-weighting-algorithms-for-compositional-data">6.2.2 Three Standard Data-Weighting Algorithms for Compositional Data</a></li>
+  <li><a href="#why-unadjusted-composition-likelihoods-destroy-abundance-fits-francis-principle-1" id="toc-why-unadjusted-composition-likelihoods-destroy-abundance-fits-francis-principle-1" class="nav-link" data-scroll-target="#why-unadjusted-composition-likelihoods-destroy-abundance-fits-francis-principle-1"><span class="header-section-number">6.2.1</span> Why Unadjusted Composition Likelihoods Destroy Abundance Fits (“Francis Principle 1”)</a></li>
+  <li><a href="#three-standard-data-weighting-algorithms-for-compositional-data" id="toc-three-standard-data-weighting-algorithms-for-compositional-data" class="nav-link" data-scroll-target="#three-standard-data-weighting-algorithms-for-compositional-data"><span class="header-section-number">6.2.2</span> Three Standard Data-Weighting Algorithms for Compositional Data</a></li>
   </ul></li>
-  <li><a href="#parameter-estimation-and-uncertainty-quantification-engines" id="toc-parameter-estimation-and-uncertainty-quantification-engines" class="nav-link" data-scroll-target="#parameter-estimation-and-uncertainty-quantification-engines">6.3 Parameter Estimation and Uncertainty Quantification Engines</a>
+  <li><a href="#parameter-estimation-and-uncertainty-quantification-engines" id="toc-parameter-estimation-and-uncertainty-quantification-engines" class="nav-link" data-scroll-target="#parameter-estimation-and-uncertainty-quantification-engines"><span class="header-section-number">6.3</span> Parameter Estimation and Uncertainty Quantification Engines</a>
   <ul>
-  <li><a href="#frequentist-empirical-bayes-state-space-estimation-in-tmb-kristensen-et-al.-2016" id="toc-frequentist-empirical-bayes-state-space-estimation-in-tmb-kristensen-et-al.-2016" class="nav-link" data-scroll-target="#frequentist-empirical-bayes-state-space-estimation-in-tmb-kristensen-et-al.-2016">6.3.1 Frequentist / Empirical Bayes State-Space Estimation in <code>TMB</code> (Kristensen et al.&nbsp;2016)</a></li>
-  <li><a href="#bayesian-evolutionary-and-ensemble-approaches-zhang-et-al.-2015-2016-spence-et-al.-2016-2018-2021" id="toc-bayesian-evolutionary-and-ensemble-approaches-zhang-et-al.-2015-2016-spence-et-al.-2016-2018-2021" class="nav-link" data-scroll-target="#bayesian-evolutionary-and-ensemble-approaches-zhang-et-al.-2015-2016-spence-et-al.-2016-2018-2021">6.3.2 Bayesian, Evolutionary, and Ensemble Approaches (Zhang et al.&nbsp;2015, 2016; Spence et al.&nbsp;2016, 2018, 2021)</a></li>
+  <li><a href="#frequentist-empirical-bayes-state-space-estimation-in-tmb-kristensen-et-al.-2016" id="toc-frequentist-empirical-bayes-state-space-estimation-in-tmb-kristensen-et-al.-2016" class="nav-link" data-scroll-target="#frequentist-empirical-bayes-state-space-estimation-in-tmb-kristensen-et-al.-2016"><span class="header-section-number">6.3.1</span> Frequentist / Empirical Bayes State-Space Estimation in <code>TMB</code> (Kristensen et al.&nbsp;2016)</a></li>
+  <li><a href="#bayesian-evolutionary-and-ensemble-approaches-zhang-et-al.-2015-2016-spence-et-al.-2016-2018-2021" id="toc-bayesian-evolutionary-and-ensemble-approaches-zhang-et-al.-2015-2016-spence-et-al.-2016-2018-2021" class="nav-link" data-scroll-target="#bayesian-evolutionary-and-ensemble-approaches-zhang-et-al.-2015-2016-spence-et-al.-2016-2018-2021"><span class="header-section-number">6.3.2</span> Bayesian, Evolutionary, and Ensemble Approaches (Zhang et al.&nbsp;2015, 2016; Spence et al.&nbsp;2016, 2018, 2021)</a></li>
   </ul></li>
-  <li><a href="#architectural-blueprint-for-next-generation-statistical-dynamic-stock-assessment-in-mizer" id="toc-architectural-blueprint-for-next-generation-statistical-dynamic-stock-assessment-in-mizer" class="nav-link" data-scroll-target="#architectural-blueprint-for-next-generation-statistical-dynamic-stock-assessment-in-mizer">6.4 Architectural Blueprint for Next-Generation Statistical Dynamic Stock Assessment in <code>mizer</code></a>
+  <li><a href="#architectural-blueprint-for-next-generation-statistical-dynamic-stock-assessment-in-mizer" id="toc-architectural-blueprint-for-next-generation-statistical-dynamic-stock-assessment-in-mizer" class="nav-link" data-scroll-target="#architectural-blueprint-for-next-generation-statistical-dynamic-stock-assessment-in-mizer"><span class="header-section-number">6.4</span> Architectural Blueprint for Next-Generation Statistical Dynamic Stock Assessment in <code>mizer</code></a>
   <ul>
-  <li><a href="#pillar-1-resolving-cohort-dispersion-via-jump-growth-diffusion-datta-delius-law-2010" id="toc-pillar-1-resolving-cohort-dispersion-via-jump-growth-diffusion-datta-delius-law-2010" class="nav-link" data-scroll-target="#pillar-1-resolving-cohort-dispersion-via-jump-growth-diffusion-datta-delius-law-2010">Pillar 1: Resolving Cohort Dispersion via Jump-Growth Diffusion (Datta, Delius &amp; Law 2010)</a></li>
-  <li><a href="#pillar-2-two-stage-initialization-differentiable-steady-state-spin-up-dynamic-projection" id="toc-pillar-2-two-stage-initialization-differentiable-steady-state-spin-up-dynamic-projection" class="nav-link" data-scroll-target="#pillar-2-two-stage-initialization-differentiable-steady-state-spin-up-dynamic-projection">Pillar 2: Two-Stage Initialization (Differentiable Steady-State Spin-Up + Dynamic Projection)</a></li>
-  <li><a href="#pillar-3-state-space-process-random-effects-mathbfu" id="toc-pillar-3-state-space-process-random-effects-mathbfu" class="nav-link" data-scroll-target="#pillar-3-state-space-process-random-effects-mathbfu">Pillar 3: State-Space Process Random Effects (<span class="math inline">\(\mathbf{u}\)</span>)</a></li>
-  <li><a href="#pillar-4-observation-operators-and-joint-statistical-likelihood-function" id="toc-pillar-4-observation-operators-and-joint-statistical-likelihood-function" class="nav-link" data-scroll-target="#pillar-4-observation-operators-and-joint-statistical-likelihood-function">Pillar 4: Observation Operators and Joint Statistical Likelihood Function</a></li>
-  <li><a href="#pillar-5-stabilizing-dynamic-multi-decadal-fits-via-prey-refuges-overconsumption-caps" id="toc-pillar-5-stabilizing-dynamic-multi-decadal-fits-via-prey-refuges-overconsumption-caps" class="nav-link" data-scroll-target="#pillar-5-stabilizing-dynamic-multi-decadal-fits-via-prey-refuges-overconsumption-caps">Pillar 5: Stabilizing Dynamic Multi-Decadal Fits via Prey Refuges &amp; Overconsumption Caps</a></li>
+  <li><a href="#pillar-1-resolving-cohort-dispersion-via-jump-growth-diffusion-datta-delius-law-2010" id="toc-pillar-1-resolving-cohort-dispersion-via-jump-growth-diffusion-datta-delius-law-2010" class="nav-link" data-scroll-target="#pillar-1-resolving-cohort-dispersion-via-jump-growth-diffusion-datta-delius-law-2010"><span class="header-section-number">6.4.1</span> Pillar 1: Resolving Cohort Dispersion via Jump-Growth Diffusion (Datta, Delius &amp; Law 2010)</a></li>
+  <li><a href="#pillar-2-two-stage-initialization-differentiable-steady-state-spin-up-dynamic-projection" id="toc-pillar-2-two-stage-initialization-differentiable-steady-state-spin-up-dynamic-projection" class="nav-link" data-scroll-target="#pillar-2-two-stage-initialization-differentiable-steady-state-spin-up-dynamic-projection"><span class="header-section-number">6.4.2</span> Pillar 2: Two-Stage Initialization (Differentiable Steady-State Spin-Up + Dynamic Projection)</a></li>
+  <li><a href="#pillar-3-state-space-process-random-effects-mathbfu" id="toc-pillar-3-state-space-process-random-effects-mathbfu" class="nav-link" data-scroll-target="#pillar-3-state-space-process-random-effects-mathbfu"><span class="header-section-number">6.4.3</span> Pillar 3: State-Space Process Random Effects (<span class="math inline">\(\mathbf{u}\)</span>)</a></li>
+  <li><a href="#pillar-4-observation-operators-and-joint-statistical-likelihood-function" id="toc-pillar-4-observation-operators-and-joint-statistical-likelihood-function" class="nav-link" data-scroll-target="#pillar-4-observation-operators-and-joint-statistical-likelihood-function"><span class="header-section-number">6.4.4</span> Pillar 4: Observation Operators and Joint Statistical Likelihood Function</a></li>
+  <li><a href="#pillar-5-stabilizing-dynamic-multi-decadal-fits-via-prey-refuges-overconsumption-caps" id="toc-pillar-5-stabilizing-dynamic-multi-decadal-fits-via-prey-refuges-overconsumption-caps" class="nav-link" data-scroll-target="#pillar-5-stabilizing-dynamic-multi-decadal-fits-via-prey-refuges-overconsumption-caps"><span class="header-section-number">6.4.5</span> Pillar 5: Stabilizing Dynamic Multi-Decadal Fits via Prey Refuges &amp; Overconsumption Caps</a></li>
   </ul></li>
   </ul>
 <div class="toc-actions"><ul><li><a href="https://github.com/gustavdelius/multispecies_stock_assessment/edit/main/06_statistical_fitting_uncertainty_and_mizer_synthesis.md" class="toc-action"><i class="bi bi-github"></i>Edit this page</a></li></ul></div></nav>
@@ -243,7 +249,7 @@ window.Quarto = {
 
 <header id="title-block-header" class="quarto-title-block default">
 <div class="quarto-title">
-<h1 class="title"><span class="chapter-title">Chapter 6: Statistical Estimation, Data Weighting, Uncertainty Quantification, and an Architectural Roadmap for Dynamic <code>mizer</code> Stock Assessment</span></h1>
+<h1 class="title"><span id="sec-synthesis" class="quarto-section-identifier"><span class="chapter-number">6</span>&nbsp; <span class="chapter-title">Statistical Estimation, Data Weighting, Uncertainty Quantification, and an Architectural Roadmap for Dynamic <code>mizer</code> Stock Assessment</span></span></h1>
 </div>
 
 
@@ -260,8 +266,8 @@ window.Quarto = {
 </header>
 
 
-<section id="master-comparative-synthesis-across-multispecies-stock-assessment-model-families" class="level2">
-<h2 class="anchored" data-anchor-id="master-comparative-synthesis-across-multispecies-stock-assessment-model-families">6.1 Master Comparative Synthesis Across Multispecies Stock Assessment Model Families</h2>
+<section id="master-comparative-synthesis-across-multispecies-stock-assessment-model-families" class="level2" data-number="6.1">
+<h2 data-number="6.1" class="anchored" data-anchor-id="master-comparative-synthesis-across-multispecies-stock-assessment-model-families"><span class="header-section-number">6.1</span> Master Comparative Synthesis Across Multispecies Stock Assessment Model Families</h2>
 <table class="caption-top table">
 <colgroup>
 <col style="width: 11%">
@@ -391,15 +397,15 @@ window.Quarto = {
 </table>
 <hr>
 </section>
-<section id="data-weighting-and-likelihood-conflict-in-integrated-multispecies-assessments-francis-2011-maunder-punt-2013-thorson-et-al.-2017" class="level2">
-<h2 class="anchored" data-anchor-id="data-weighting-and-likelihood-conflict-in-integrated-multispecies-assessments-francis-2011-maunder-punt-2013-thorson-et-al.-2017">6.2 Data Weighting and Likelihood Conflict in Integrated &amp; Multispecies Assessments (Francis 2011; Maunder &amp; Punt 2013; Thorson et al.&nbsp;2017)</h2>
+<section id="data-weighting-and-likelihood-conflict-in-integrated-multispecies-assessments-francis-2011-maunder-punt-2013-thorson-et-al.-2017" class="level2" data-number="6.2">
+<h2 data-number="6.2" class="anchored" data-anchor-id="data-weighting-and-likelihood-conflict-in-integrated-multispecies-assessments-francis-2011-maunder-punt-2013-thorson-et-al.-2017"><span class="header-section-number">6.2</span> Data Weighting and Likelihood Conflict in Integrated &amp; Multispecies Assessments (Francis 2011; Maunder &amp; Punt 2013; Thorson et al.&nbsp;2017)</h2>
 <p>When fitting an integrated single-species or multispecies model simultaneously to <strong>abundance indices</strong> (<span class="math inline">\(I_{f,y}\)</span>), <strong>catch biomass</strong> (<span class="math inline">\(Y_{f,y}\)</span>), <strong>length/age compositions</strong> (<span class="math inline">\(\mathbf{P}_{f,y}\)</span>), and <strong>stomach content compositions</strong> (<span class="math inline">\(\mathbf{W}_{A,L,y,q}\)</span>), the most critical statistical hazard is <strong>likelihood conflict and compositional domination</strong> <span class="citation" data-cites="francis2011 maunder2013 thorson2017">(<a href="references.html#ref-francis2011" role="doc-biblioref">Francis 2011</a>; <a href="references.html#ref-maunder2013" role="doc-biblioref">Maunder and Punt 2013</a>; <a href="references.html#ref-thorson2017" role="doc-biblioref">Thorson et al. 2017</a>)</span>.</p>
-<section id="why-unadjusted-composition-likelihoods-destroy-abundance-fits-francis-principle-1" class="level3">
-<h3 class="anchored" data-anchor-id="why-unadjusted-composition-likelihoods-destroy-abundance-fits-francis-principle-1">6.2.1 Why Unadjusted Composition Likelihoods Destroy Abundance Fits (“Francis Principle 1”)</h3>
+<section id="why-unadjusted-composition-likelihoods-destroy-abundance-fits-francis-principle-1" class="level3" data-number="6.2.1">
+<h3 data-number="6.2.1" class="anchored" data-anchor-id="why-unadjusted-composition-likelihoods-destroy-abundance-fits-francis-principle-1"><span class="header-section-number">6.2.1</span> Why Unadjusted Composition Likelihoods Destroy Abundance Fits (“Francis Principle 1”)</h3>
 <p>Suppose a survey measures <span class="math inline">\(10,000\)</span> fish lengths across <span class="math inline">\(50\)</span> length bins each year, while also providing <span class="math inline">\(1\)</span> annual biomass index point <span class="math inline">\(I_y\)</span> per year. If the nominal number of fish measured (<span class="math inline">\(N_y = 10,000\)</span>) is plugged into a Multinomial likelihood <span class="math inline">\(\sum_y N_y \sum_l P_{l,y} \ln \hat{P}_{l,y}\)</span>, the composition likelihood will have <span class="math inline">\(1000\times\)</span> larger gradient and curvature than the lognormal survey index likelihood <span class="math inline">\(\frac{1}{2\sigma_I^2}(\ln I_y - \ln \hat{I}_y)^2\)</span>. Because fish school by size and because any process model has slight misspecifications in selectivity or growth, positive correlations among bins within a year mean the true <strong>effective sample size</strong> <span class="math inline">\(N_{\text{eff}, y}\)</span> is typically <span class="math inline">\(20\text{--}200\)</span> (closer to the number of <strong>trawl hauls</strong>, not the number of individual fish!). If <span class="math inline">\(N_y\)</span> is not downweighted, the optimizer will distort recruitment <span class="math inline">\(R_y\)</span>, fishing mortality <span class="math inline">\(F_y\)</span>, and biomass trends <span class="math inline">\(\hat{B}_y\)</span> just to chase noise in the length compositions, violating <strong>Francis’s First Principle</strong> <span class="citation" data-cites="francis2011">(<a href="references.html#ref-francis2011" role="doc-biblioref">Francis 2011, 1125</a>)</span>: &gt; <em>“Do not let other data stop the model from fitting abundance data well.”</em></p>
 </section>
-<section id="three-standard-data-weighting-algorithms-for-compositional-data" class="level3">
-<h3 class="anchored" data-anchor-id="three-standard-data-weighting-algorithms-for-compositional-data">6.2.2 Three Standard Data-Weighting Algorithms for Compositional Data</h3>
+<section id="three-standard-data-weighting-algorithms-for-compositional-data" class="level3" data-number="6.2.2">
+<h3 data-number="6.2.2" class="anchored" data-anchor-id="three-standard-data-weighting-algorithms-for-compositional-data"><span class="header-section-number">6.2.2</span> Three Standard Data-Weighting Algorithms for Compositional Data</h3>
 <p>Let <span class="math inline">\(O_{l,y}\)</span> and <span class="math inline">\(E_{l,y}\)</span> denote the observed and model-expected proportions in length (or age) bin <span class="math inline">\(l \in \{1, \dots, n_L\}\)</span> with midpoint <span class="math inline">\(x_l\)</span> in year <span class="math inline">\(y \in \{1, \dots, n_Y\}\)</span>, with initial nominal sample size <span class="math inline">\(N_{y}\)</span>.</p>
 <ol type="1">
 <li><p><strong>McAllister &amp; Ianelli (1997) Harmonic Mean Weighting</strong>: Estimates the effective sample size <span class="math inline">\(\hat{N}_{y} = \frac{\sum_{l} E_{l,y}(1 - E_{l,y})}{\sum_{l} (O_{l,y} - E_{l,y})^2}\)</span> for each year and sets the dataset multiplier <span class="math inline">\(w_{\text{MI}}\)</span> using the harmonic mean across years (used in <code>MSCAA</code> <span class="citation" data-cites="curti2013">(<a href="references.html#ref-curti2013" role="doc-biblioref">Curti et al. 2013</a>)</span> and <code>Rceattle</code> <span class="citation" data-cites="adams2022">(<a href="references.html#ref-adams2022" role="doc-biblioref">Adams et al. 2022</a>)</span>; see <span class="citation" data-cites="mcallister_ianelli1997">McAllister and Ianelli (<a href="references.html#ref-mcallister_ianelli1997" role="doc-biblioref">1997</a>)</span>).</p>
@@ -413,10 +419,10 @@ window.Quarto = {
 <hr>
 </section>
 </section>
-<section id="parameter-estimation-and-uncertainty-quantification-engines" class="level2">
-<h2 class="anchored" data-anchor-id="parameter-estimation-and-uncertainty-quantification-engines">6.3 Parameter Estimation and Uncertainty Quantification Engines</h2>
-<section id="frequentist-empirical-bayes-state-space-estimation-in-tmb-kristensen-et-al.-2016" class="level3">
-<h3 class="anchored" data-anchor-id="frequentist-empirical-bayes-state-space-estimation-in-tmb-kristensen-et-al.-2016">6.3.1 Frequentist / Empirical Bayes State-Space Estimation in <code>TMB</code> (Kristensen et al.&nbsp;2016)</h3>
+<section id="parameter-estimation-and-uncertainty-quantification-engines" class="level2" data-number="6.3">
+<h2 data-number="6.3" class="anchored" data-anchor-id="parameter-estimation-and-uncertainty-quantification-engines"><span class="header-section-number">6.3</span> Parameter Estimation and Uncertainty Quantification Engines</h2>
+<section id="frequentist-empirical-bayes-state-space-estimation-in-tmb-kristensen-et-al.-2016" class="level3" data-number="6.3.1">
+<h3 data-number="6.3.1" class="anchored" data-anchor-id="frequentist-empirical-bayes-state-space-estimation-in-tmb-kristensen-et-al.-2016"><span class="header-section-number">6.3.1</span> Frequentist / Empirical Bayes State-Space Estimation in <code>TMB</code> (Kristensen et al.&nbsp;2016)</h3>
 <p>Modern statistical stock assessment models (<code>SAM</code> <span class="citation" data-cites="nielsen2014">(<a href="references.html#ref-nielsen2014" role="doc-biblioref">Nielsen and Berg 2014</a>)</span>, <code>smsR</code>, <code>Rceattle</code>, <code>gadget3</code>, <code>EcoState</code> <span class="citation" data-cites="thorson2024">(<a href="references.html#ref-thorson2024" role="doc-biblioref">Thorson et al. 2024</a>)</span>) are built on <strong>Template Model Builder (<code>TMB</code>)</strong> <span class="citation" data-cites="kristensen2016">(<a href="references.html#ref-kristensen2016" role="doc-biblioref">Kristensen et al. 2016</a>)</span> or its pure-R interface <strong><code>RTMB</code></strong>.</p>
 <p>Let <span class="math inline">\(\boldsymbol{\theta} \in \mathbb{R}^p\)</span> denote the vector of <strong>fixed effects</strong> (life-history scaling parameters, selectivities, catchabilities, suitability parameters <span class="math inline">\(\beta_i, \sigma_i\)</span>, and variance parameters <span class="math inline">\(\sigma_{\text{proc}}, \sigma_{\text{obs}}\)</span>) and let <span class="math inline">\(\mathbf{u} \in \mathbb{R}^m\)</span> denote the vector of <strong>latent random effects (process errors)</strong> (e.g., annual recruitment deviations <span class="math inline">\(\epsilon_{R,i,y}\)</span>, time-varying fishing mortality random walks <span class="math inline">\(\ln F_{f,y}\)</span>, or biomass process errors <span class="math inline">\(\epsilon_{B,i,y}\)</span>). Given joint negative log-likelihood <span class="math inline">\(f(\boldsymbol{\theta}, \mathbf{u}) = -\ln p(\mathbf{y}, \mathbf{u} \mid \boldsymbol{\theta})\)</span>, TMB approximates the marginal likelihood <span class="math inline">\(L(\boldsymbol{\theta}) = \int \exp(-f(\boldsymbol{\theta}, \mathbf{u})) \, d\mathbf{u}\)</span> via the <strong>Laplace Approximation</strong> <span class="citation" data-cites="kristensen2016">(<a href="references.html#ref-kristensen2016" role="doc-biblioref">Kristensen et al. 2016</a>, Eq. 2)</span>:</p>
 <p><span class="math display">\[-\ln L^{*}(\boldsymbol{\theta}) = f\!\left(\boldsymbol{\theta}, \hat{\mathbf{u}}(\boldsymbol{\theta})\right) + \frac{1}{2} \ln \det \mathbf{H}(\boldsymbol{\theta}) - \frac{m}{2} \ln(2\pi)\]</span></p>
@@ -428,8 +434,8 @@ window.Quarto = {
 <p>Using up to third-order automatic differentiation (<code>CppAD</code>), TMB computes the exact gradient <span class="math inline">\(\nabla_{\boldsymbol{\theta}} (-\ln L^{*}(\boldsymbol{\theta}))\)</span> of the Laplace-approximated marginal likelihood in <span class="math inline">\(O(1)\)</span> reverse-mode sweeps, allowing <code>nlminb</code> or <code>optim</code> to estimate hundreds of fixed effects and thousands of random effects in seconds to minutes, followed by joint precision matrix inversion (<code>sdreport</code>) for derived quantities (<span class="math inline">\(\text{SSB}_{i,y}, M2_{i,a,y}, F_{\text{MSY}, i}\)</span>).</p>
 <hr>
 </section>
-<section id="bayesian-evolutionary-and-ensemble-approaches-zhang-et-al.-2015-2016-spence-et-al.-2016-2018-2021" class="level3">
-<h3 class="anchored" data-anchor-id="bayesian-evolutionary-and-ensemble-approaches-zhang-et-al.-2015-2016-spence-et-al.-2016-2018-2021">6.3.2 Bayesian, Evolutionary, and Ensemble Approaches (Zhang et al.&nbsp;2015, 2016; Spence et al.&nbsp;2016, 2018, 2021)</h3>
+<section id="bayesian-evolutionary-and-ensemble-approaches-zhang-et-al.-2015-2016-spence-et-al.-2016-2018-2021" class="level3" data-number="6.3.2">
+<h3 data-number="6.3.2" class="anchored" data-anchor-id="bayesian-evolutionary-and-ensemble-approaches-zhang-et-al.-2015-2016-spence-et-al.-2016-2018-2021"><span class="header-section-number">6.3.2</span> Bayesian, Evolutionary, and Ensemble Approaches (Zhang et al.&nbsp;2015, 2016; Spence et al.&nbsp;2016, 2018, 2021)</h3>
 <p>When models are implemented as black-box simulation packages without automatic differentiation (or when likelihood surfaces are rugged and multimodal), researchers have developed four complementary calibration and uncertainty frameworks for <code>mizer</code> and <code>LeMaRns</code>:</p>
 <ol type="1">
 <li><strong>Two-Step Genetic Algorithm + Parallel Tempering MCMC (Zhang et al.&nbsp;2015, 2016)</strong>: In calibrating a multispecies <code>mizer</code> model to data-poor and data-rich ecosystems <span class="citation" data-cites="zhang2015 zhang2016">(<a href="references.html#ref-zhang2015" role="doc-biblioref">Zhang et al. 2015</a>, <a href="references.html#ref-zhang2016" role="doc-biblioref">2016</a>)</span>, Zhang et al.&nbsp;found that standard gradient descent or single-chain Metropolis–Hastings gets trapped in local modes where one or more species go extinct during spin-up. They introduced a two-stage global optimizer:
@@ -447,10 +453,10 @@ window.Quarto = {
 <hr>
 </section>
 </section>
-<section id="architectural-blueprint-for-next-generation-statistical-dynamic-stock-assessment-in-mizer" class="level2">
-<h2 class="anchored" data-anchor-id="architectural-blueprint-for-next-generation-statistical-dynamic-stock-assessment-in-mizer">6.4 Architectural Blueprint for Next-Generation Statistical Dynamic Stock Assessment in <code>mizer</code></h2>
+<section id="architectural-blueprint-for-next-generation-statistical-dynamic-stock-assessment-in-mizer" class="level2" data-number="6.4">
+<h2 data-number="6.4" class="anchored" data-anchor-id="architectural-blueprint-for-next-generation-statistical-dynamic-stock-assessment-in-mizer"><span class="header-section-number">6.4</span> Architectural Blueprint for Next-Generation Statistical Dynamic Stock Assessment in <code>mizer</code></h2>
 <p>In their 10-year review of <code>mizer</code>, <span class="citation" data-cites="pennino2025">Pennino et al. (<a href="references.html#ref-pennino2025" role="doc-biblioref">2025</a>, Section <em>“Challenges and Future Directions”</em>, p.&nbsp;9)</span> identify the central barrier preventing <code>mizer</code> from being used as a routine tactical stock assessment tool: &gt; <em>“First, there is a lack of a standardized optimization routine for parameter estimation and uncertainty quantification… Second, <code>mizer</code> models are typically calibrated to a time-averaged steady state rather than fitted dynamically to time series of catches, survey indices, and size compositions.”</em></p>
-<p>Drawing together the mathematical lessons from <strong><code>SMS</code></strong> (Chapter 2), <strong><code>Gadget</code>/<code>gadget3</code></strong>, <strong><code>MULTIFAN-CL</code>/<code>SS3</code></strong>, and <span class="citation" data-cites="punt2016">Punt et al. (<a href="references.html#ref-punt2016" role="doc-biblioref">2016</a>)</span> (Chapter 3), <strong><code>EcoState</code></strong> (Chapter 4), and <strong>stomach content likelihoods</strong> (Chapter 5), we can synthesize a concrete, five-pillar architectural roadmap for transforming <code>mizer</code> into a <strong>differentiable, state-space statistical multispecies stock assessment model</strong> (<code>mizer-TMB</code> / <code>mizer-RTMB</code>).</p>
+<p>Drawing together the mathematical lessons from <strong><code>SMS</code></strong> (<a href="02_age_structured_multispecies_models.html" class="quarto-xref"><span>Chapter 2</span></a>), <strong><code>Gadget</code>/<code>gadget3</code></strong>, <strong><code>MULTIFAN-CL</code>/<code>SS3</code></strong>, and <span class="citation" data-cites="punt2016">Punt et al. (<a href="references.html#ref-punt2016" role="doc-biblioref">2016</a>)</span> (<a href="03_age_length_and_length_structured_models.html" class="quarto-xref"><span>Chapter 3</span></a>), <strong><code>EcoState</code></strong> (<a href="04_size_spectrum_and_food_web_models.html" class="quarto-xref"><span>Chapter 4</span></a>), and <strong>stomach content likelihoods</strong> (<a href="05_stomach_content_data_and_likelihoods.html" class="quarto-xref"><span>Chapter 5</span></a>), we can synthesize a concrete, five-pillar architectural roadmap for transforming <code>mizer</code> into a <strong>differentiable, state-space statistical multispecies stock assessment model</strong> (<code>mizer-TMB</code> / <code>mizer-RTMB</code>).</p>
 <div class="cell" data-layout-align="default">
 <div class="cell-output-display">
 <div>
@@ -480,8 +486,8 @@ window.Quarto = {
 </div>
 </div>
 <hr>
-<section id="pillar-1-resolving-cohort-dispersion-via-jump-growth-diffusion-datta-delius-law-2010" class="level3">
-<h3 class="anchored" data-anchor-id="pillar-1-resolving-cohort-dispersion-via-jump-growth-diffusion-datta-delius-law-2010">Pillar 1: Resolving Cohort Dispersion via Jump-Growth Diffusion (Datta, Delius &amp; Law 2010)</h3>
+<section id="pillar-1-resolving-cohort-dispersion-via-jump-growth-diffusion-datta-delius-law-2010" class="level3" data-number="6.4.1">
+<h3 data-number="6.4.1" class="anchored" data-anchor-id="pillar-1-resolving-cohort-dispersion-via-jump-growth-diffusion-datta-delius-law-2010"><span class="header-section-number">6.4.1</span> Pillar 1: Resolving Cohort Dispersion via Jump-Growth Diffusion (Datta, Delius &amp; Law 2010)</h3>
 <p>When <code>mizer</code> is projected dynamically with interannual recruitment fluctuations <span class="math inline">\(R_{\text{dd}, i}(t) \exp(\epsilon_{R,i,y})\)</span>, a strong year class enters at <span class="math inline">\(w_0\)</span> and propagates across the weight grid.</p>
 <ul>
 <li><p><strong>Problem</strong>: Under the standard first-order upwind scheme, cohort width is governed by numerical grid viscosity <span class="math inline">\(D_{\text{num}} \approx \frac{1}{2} g_i \Delta w\)</span>, which fails to match the true biological variance of size-at-age in survey length-frequency distributions.</p></li>
@@ -492,8 +498,8 @@ window.Quarto = {
 </ul>
 <hr>
 </section>
-<section id="pillar-2-two-stage-initialization-differentiable-steady-state-spin-up-dynamic-projection" class="level3">
-<h3 class="anchored" data-anchor-id="pillar-2-two-stage-initialization-differentiable-steady-state-spin-up-dynamic-projection">Pillar 2: Two-Stage Initialization (Differentiable Steady-State Spin-Up + Dynamic Projection)</h3>
+<section id="pillar-2-two-stage-initialization-differentiable-steady-state-spin-up-dynamic-projection" class="level3" data-number="6.4.2">
+<h3 data-number="6.4.2" class="anchored" data-anchor-id="pillar-2-two-stage-initialization-differentiable-steady-state-spin-up-dynamic-projection"><span class="header-section-number">6.4.2</span> Pillar 2: Two-Stage Initialization (Differentiable Steady-State Spin-Up + Dynamic Projection)</h3>
 <p>In single-species assessments (<code>SS3</code>, <code>SAM</code>), the initial age vector <span class="math inline">\(N_{i,a,t_0}\)</span> at the start of the historical time series <span class="math inline">\(t_0\)</span> is initialized at a fished equilibrium <span class="math inline">\(N_{\text{eq}}(F_{\text{init}, i})\)</span> plus initial deviations. For dynamic <code>mizer</code>:</p>
 <ol type="1">
 <li><strong>Differentiable Steady-State Initialization at <span class="math inline">\(t = t_0\)</span></strong>: Given trial parameters <span class="math inline">\(\boldsymbol{\theta}\)</span> and baseline initial fishing effort <span class="math inline">\(E_{f, t_0}\)</span>, compute the steady-state spectra <span class="math inline">\(N_{i,0}(w)\)</span> via a fixed number (<span class="math inline">\(k = 15\text{--}25\)</span>) of damped fixed-point iterations of the analytical steady-state envelope <span class="math inline">\(N_i(w) = N_i(w_0)\frac{g_i(w_0)}{g_i(w)}\exp\!\left(-\int_{w_0}^w \frac{\mu_i(w')}{g_i(w')} dw'\right)\)</span> (with matching resource <span class="math inline">\(N_{R,0}(w)\)</span>). Because a fixed number of unrolled iterations uses only elementary vector operations, <code>TMB</code> / <code>RTMB</code> differentiates smoothly through the steady-state initialization!</li>
@@ -501,8 +507,8 @@ window.Quarto = {
 </ol>
 <hr>
 </section>
-<section id="pillar-3-state-space-process-random-effects-mathbfu" class="level3">
-<h3 class="anchored" data-anchor-id="pillar-3-state-space-process-random-effects-mathbfu">Pillar 3: State-Space Process Random Effects (<span class="math inline">\(\mathbf{u}\)</span>)</h3>
+<section id="pillar-3-state-space-process-random-effects-mathbfu" class="level3" data-number="6.4.3">
+<h3 data-number="6.4.3" class="anchored" data-anchor-id="pillar-3-state-space-process-random-effects-mathbfu"><span class="header-section-number">6.4.3</span> Pillar 3: State-Space Process Random Effects (<span class="math inline">\(\mathbf{u}\)</span>)</h3>
 <p>Following <code>SAM</code> <span class="citation" data-cites="nielsen2014">(<a href="references.html#ref-nielsen2014" role="doc-biblioref">Nielsen and Berg 2014</a>)</span> and <code>EcoState</code> <span class="citation" data-cites="thorson2024">(<a href="references.html#ref-thorson2024" role="doc-biblioref">Thorson et al. 2024</a>)</span>, introduce three compact sets of latent Gaussian random effects integrated out by TMB’s Laplace approximation:</p>
 <ol type="1">
 <li><strong>Annual Recruitment Deviations</strong>: <span class="math display">\[R_i(t) = R_{\text{dd}, i}(t) \exp\!\left(\epsilon_{R, i, y(t)} - \frac{1}{2}\sigma_{R, i}^2\right), \qquad \epsilon_{R, i, y} \sim \mathcal{N}\!\left(0, \sigma_{R, i}^2\right)\]</span></li>
@@ -511,8 +517,8 @@ window.Quarto = {
 </ol>
 <hr>
 </section>
-<section id="pillar-4-observation-operators-and-joint-statistical-likelihood-function" class="level3">
-<h3 class="anchored" data-anchor-id="pillar-4-observation-operators-and-joint-statistical-likelihood-function">Pillar 4: Observation Operators and Joint Statistical Likelihood Function</h3>
+<section id="pillar-4-observation-operators-and-joint-statistical-likelihood-function" class="level3" data-number="6.4.4">
+<h3 data-number="6.4.4" class="anchored" data-anchor-id="pillar-4-observation-operators-and-joint-statistical-likelihood-function"><span class="header-section-number">6.4.4</span> Pillar 4: Observation Operators and Joint Statistical Likelihood Function</h3>
 <p>To avoid the parameter confounding identified by <span class="citation" data-cites="punt2016">Punt et al. (<a href="references.html#ref-punt2016" role="doc-biblioref">2016</a>)</span>, dynamic <code>mizer</code> should be fitted simultaneously to four orthogonal empirical data streams:</p>
 <ol type="1">
 <li><p><strong>Survey Biomass / Abundance Indices (<span class="math inline">\(I_{f,i,y}\)</span>, Lognormal Likelihood)</strong>: Given survey selectivity <span class="math inline">\(S^{\text{surv}}_{f,i}(w)\)</span> and catchability <span class="math inline">\(Q^{\text{surv}}_{f,i}\)</span>: <span class="math display">\[\hat{I}_{f,i,y} = Q^{\text{surv}}_{f,i} \int_{w_0}^{w_{\max,i}} S^{\text{surv}}_{f,i}(w) \, w \, N_i(w, t_y) \, dw, \qquad \ln I^{\text{obs}}_{f,i,y} \sim \mathcal{N}\!\left(\ln \hat{I}_{f,i,y},\; \sigma^2_{I,f,i,y}\right)\]</span></p></li>
@@ -526,8 +532,8 @@ window.Quarto = {
 </ol>
 <hr>
 </section>
-<section id="pillar-5-stabilizing-dynamic-multi-decadal-fits-via-prey-refuges-overconsumption-caps" class="level3">
-<h3 class="anchored" data-anchor-id="pillar-5-stabilizing-dynamic-multi-decadal-fits-via-prey-refuges-overconsumption-caps">Pillar 5: Stabilizing Dynamic Multi-Decadal Fits via Prey Refuges &amp; Overconsumption Caps</h3>
+<section id="pillar-5-stabilizing-dynamic-multi-decadal-fits-via-prey-refuges-overconsumption-caps" class="level3" data-number="6.4.5">
+<h3 data-number="6.4.5" class="anchored" data-anchor-id="pillar-5-stabilizing-dynamic-multi-decadal-fits-via-prey-refuges-overconsumption-caps"><span class="header-section-number">6.4.5</span> Pillar 5: Stabilizing Dynamic Multi-Decadal Fits via Prey Refuges &amp; Overconsumption Caps</h3>
 <p>A major lesson from <code>Gadget</code> <span class="citation" data-cites="lentz_gadget3">(<a href="references.html#ref-lentz_gadget3" role="doc-biblioref">Lentz and Elvarsson 2024</a>)</span>, <code>MSCAA</code> <span class="citation" data-cites="curti2013">(<a href="references.html#ref-curti2013" role="doc-biblioref">Curti et al. 2013</a>)</span>, and <code>Ecosim</code>/<code>EcoState</code> <span class="citation" data-cites="walters1997 thorson2024">(<a href="references.html#ref-walters1997" role="doc-biblioref">Walters et al. 1997</a>; <a href="references.html#ref-thorson2024" role="doc-biblioref">Thorson et al. 2024</a>)</span> is that during gradient optimization over a 40-year time series, trial parameter values can easily trigger runaway trophic cascades unless two stabilizing mechanisms are included:</p>
 <ol type="1">
 <li><strong>Holling Type III Exponent or Foraging Arena Vulnerability</strong>: Replacing linear encounter <span class="math inline">\(\theta_{ij} N_j(w_p)\)</span> with a weakly sigmoid Type III encounter <span class="math inline">\(\theta_{ij} N_j(w_p)^{1 + \zeta}\)</span> (<span class="math inline">\(\zeta \approx 0.1\text{--}0.3\)</span>) or a Foraging Arena predator-interference denominator <span class="math inline">\(\frac{\theta_{ij} v_{ij}}{2 v_{ij} + \gamma_i N_i}\)</span> provides a low-density prey refuge and prevents unrealistic species extinctions during parameter search.</li>
@@ -1281,8 +1287,8 @@ Zhang, Chongliang, Yong Chen, Katherine Thompson, and Yiping Ren. 2016. <span>�
   </script>
 <nav class="page-navigation">
   <div class="nav-page nav-page-previous">
-      <a href="./05_stomach_content_data_and_likelihoods.html" class="pagination-link" aria-label="Chapter 5: Stomach Content Data, Gastric Evacuation Physics, and Diet Likelihood Formulations">
-        <i class="bi bi-arrow-left-short"></i> <span class="nav-page-text"><span class="chapter-title">Chapter 5: Stomach Content Data, Gastric Evacuation Physics, and Diet Likelihood Formulations</span></span>
+      <a href="./05_stomach_content_data_and_likelihoods.html" class="pagination-link" aria-label="Stomach Content Data, Gastric Evacuation Physics, and Diet Likelihood Formulations">
+        <i class="bi bi-arrow-left-short"></i> <span class="nav-page-text"><span class="chapter-number">5</span>&nbsp; <span class="chapter-title">Stomach Content Data, Gastric Evacuation Physics, and Diet Likelihood Formulations</span></span>
       </a>          
   </div>
   <div class="nav-page nav-page-next">

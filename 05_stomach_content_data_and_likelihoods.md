@@ -1,6 +1,6 @@
-# Chapter 5: Stomach Content Data, Gastric Evacuation Physics, and Diet Likelihood Formulations
+# Stomach Content Data, Gastric Evacuation Physics, and Diet Likelihood Formulations {#sec-stomach-data}
 
-## 5.1 Why Stomach Content Data Cannot Be Treated as Direct Diet Proportions
+## Why Stomach Content Data Cannot Be Treated as Direct Diet Proportions
 
 A common pitfall when calibrating ecological models is to treat the wet weight $S_{i,k}$ of prey $i$ observed inside stomach $k$ as a direct measure of the predator's consumption rate $C_i$. In reality, what is observed inside a sampled fish stomach is the **standing stock of partially digested prey**, which is related to the **ingestion flux (consumption rate)** only through the physics of **gastric evacuation** and **spatial sampling design** [@rindorf2004; @andersen_beyer2005; @buckland2017; @jacobsen2023]:
 
@@ -8,9 +8,9 @@ $$\text{Ingestion Rate } C_i(t) \xrightarrow{\text{Digestion / Evacuation Rate }
 
 ---
 
-## 5.2 Biophysical Modelling of Gastric Evacuation (Andersen & Beyer 2005)
+## Biophysical Modelling of Gastric Evacuation (Andersen & Beyer 2005)
 
-### 5.2.1 The Square-Root Cylinder Evacuation Equation
+### The Square-Root Cylinder Evacuation Equation
 Through extensive laboratory feeding experiments on gadoids and other predatory fishes, @andersen_beyer2005 established the mechanistic **cylinder model of gastric evacuation**.
 
 Because digestive enzymes and hydrochloric acid are secreted by the stomach mucosa and act only on the **outer surface area** of the food bolus in the stomach (modeled as a cylinder of fixed length $l_s \propto L_{\text{pred}}$ and radius $r$, where volume/mass is $S \propto l_s r^2$ and surface area is $A_s \propto l_s r \propto S^{0.5}$), the instantaneous gastric evacuation rate (GER) of total stomach mass $S(t)$ (in $\text{g} \cdot \text{h}^{-1}$) follows a power law with exponent $\alpha = 0.5$ [@andersen_beyer2005, Eqs. 1--3]:
@@ -27,7 +27,7 @@ Typical empirical values for North Sea and Baltic piscivores (cod, whiting, sait
 - Temperature coefficient: $\delta \approx 0.08\text{--}0.10\text{ }^\circ\text{C}^{-1}$,
 - Prey energy-density resistance exponent: $\mu \approx 0.85\text{--}0.90$ (lipid-rich, high-energy prey such as herring or sprat [$E \approx 6\text{--}9\text{ kJ}\cdot\text{g}^{-1}$] are evacuated significantly more slowly in wet weight per hour than lean fish or crustaceans [$E \approx 3.5\text{--}4.5\text{ kJ}\cdot\text{g}^{-1}$], so **rate of energy delivery** $E \cdot |dS/dt| \propto E^{1-\mu} \approx E^{0.12}$ is nearly invariant across prey types!).
 
-### 5.2.2 Evacuation of Individual Prey Items in Mixed Meals
+### Evacuation of Individual Prey Items in Mixed Meals
 When a predator stomach contains $K$ distinct prey items/categories with individual wet masses $S_1, S_2, \dots, S_K$ and total stomach mass $S_{\text{tot}} = \sum_{k=1}^K S_k$, the evacuation rate of prey category $i$ is proportional to its mass share $S_i / S_{\text{tot}}$ in the cylinder multiplied by the total evacuation rate [@andersen_beyer2005, Eq. 6; @rindorf2004, Eq. 2]:
 
 $$\text{GER}_i = -\frac{dS_i}{dt} = \rho_i \left(\frac{S_i}{S_{\text{tot}}}\right) S_{\text{tot}}^{\alpha} = \rho_i \, S_i \, S_{\text{tot}}^{\alpha - 1}$$
@@ -36,11 +36,11 @@ where $\rho_i = \rho_0 L^\lambda e^{\delta T} E_i^{-\mu}$ accounts for the speci
 
 ---
 
-## 5.3 The Nonlinear Stomach-Pooling Bias (Rindorf & Lewy 2004)
+## The Nonlinear Stomach-Pooling Bias (Rindorf & Lewy 2004)
 
 In over a century of stomach sampling (including the 1981 and 1991 ICES North Sea Stomach Sampling Projects), stomachs of predators of the same species and length class caught in the same trawl haul were **physically pooled in a bucket aboard ship** to save laboratory processing time, and only the **mean stomach content weight** $\bar{S}_i = \frac{1}{n} \sum_{k=1}^n S_{i,k}$ across the $n$ sampled predators (including empty stomachs) was recorded [@rindorf2004].
 
-### 5.3.1 Proof of Jensen's Inequality Bias
+### Proof of Jensen's Inequality Bias
 Over a stationary feeding period of duration $D$, the true mean population consumption rate $\bar{C}_i$ per predator is the expectation of the individual evacuation rate across all individual stomachs $k \in \{1, \dots, n\}$:
 
 $$\bar{C}_{\text{true}, i} = D \cdot \mathbb{E}\!\left[ \rho_i \, S_{i,k} \, S_{\text{tot}, k}^{\alpha - 1} \right] = \frac{D}{n} \sum_{k=1}^{n} \rho_i \, S_{i,k} \, S_{\text{tot}, k}^{\alpha - 1}$$
@@ -57,7 +57,7 @@ $$\mathbb{E}\!\left[S_{\text{tot}}^{\alpha}\right] < \Big(\mathbb{E}[S_{\text{to
 1. **Total Consumption Overestimation**: Because individual fish stomachs are highly skewed (many empty or near-empty stomachs, and a few stomachs with recently ingested large fish), applying $\bar{S}_{\text{tot}}^{0.5}$ to pooled haul averages **overestimates total food consumption by $25\%$ to $>100\%$**!
 2. **Prey-Composition Bias Toward Large-Meal Piscivory**: When a predator occasionally eats a large fish prey item $A$ (high $S_{\text{tot}, k}$, so $S_{\text{tot}, k}^{\alpha - 1} = S_{\text{tot}, k}^{-0.5}$ is small) and frequently eats small benthic invertebrate meals $B$ (low $S_{\text{tot}, k}$, so $S_{\text{tot}, k}^{-0.5}$ is large), the naive pooled formula $\hat{C}_{\text{pooled}, i} \propto \bar{S}_i \bar{S}_{\text{tot}}^{-0.5}$ applies the **same** average total stomach weight $\bar{S}_{\text{tot}}^{-0.5}$ to both prey types. This **overestimates the diet share of large fish prey** and **underestimates the diet share of small invertebrate prey** [@rindorf2004, pp. 2491--2494]!
 
-### 5.3.2 Second-Order Taylor Bias Correction (Rindorf & Lewy 2004)
+### Second-Order Taylor Bias Correction (Rindorf & Lewy 2004)
 When individual stomachs cannot be analyzed separately, @rindorf2004 [Eqs. 11--14] derived a second-order Taylor series correction for total consumption among non-empty stomachs (where $p_+$ is the proportion of non-empty stomachs in the sample and $\text{CV}_+$ is the coefficient of variation of stomach content weight among feeding fish):
 
 $$\bar{C}_{\text{corrected}} \approx D \, \rho \, p_{+}^{1 - \alpha} \, \bar{S}_{\text{tot}}^{\alpha} \left[ 1 + \frac{\alpha(\alpha - 1)}{2} \text{CV}_{+}^2 \right]$$
@@ -66,7 +66,7 @@ For $\alpha = 0.5$, $\frac{\alpha(\alpha - 1)}{2} = -\frac{1}{8} = -0.125$, redu
 
 ---
 
-## 5.4 Prey Condition, Differential Digestion, and Dietary Metrics (Hyslop 1980; Buckland et al. 2017)
+## Prey Condition, Differential Digestion, and Dietary Metrics (Hyslop 1980; Buckland et al. 2017)
 
 In empirical stomach content analysis, prey are quantified using one or more of four standard metrics [@hyslop1980; @buckland2017, Table 1]:
 1. **Gravimetric ($\%W$)**: Wet or dry mass of prey category $i$ as a percentage of total stomach content mass.
@@ -74,7 +74,7 @@ In empirical stomach content analysis, prey are quantified using one or more of 
 3. **Numerical ($\%N$)**: Count of prey individuals of category $i$ as a percentage of total counted prey items.
 4. **Frequency of Occurrence ($\%F_i$)**: Percentage of sampled non-empty stomachs in which prey category $i$ is present (binary presence/absence per stomach).
 
-### 5.4.1 Biases Revealed by Prey Condition Grading (Buckland et al. 2017)
+### Biases Revealed by Prey Condition Grading (Buckland et al. 2017)
 By grading stomach contents across **7 digestion states** (from State 1 = intact freshly ingested prey to State 6 = isolated hard parts/otoliths/chaetae and State 7 = unidentifiable organic mush and mucus; @buckland2017 [Table A1]), Buckland et al. demonstrated that:
 - **Unidentifiable Matter & Mucus Adhesion**: Unidentifiable organic tissue and stomach mucus were present in $33\text{--}77\%$ of stomachs and physically adhered to small prey in $>61\%$ of stomachs, making direct separation for $\%W$ and $\%V$ imprecise.
 - **Differential Retention of Hard Parts**: Soft-bodied prey (polychaetes, small teleost larvae, nematodes) digest rapidly into unidentifiable mush, whereas crustacean carapaces, bivalve shells, and large teleost otoliths persist in stomachs for days. Raw $\%W$ of partially digested remains can either severely underestimate teleost importance (if only a tiny otolith remains) or overestimate shelled prey (if indigestible shells are weighed).
@@ -85,9 +85,9 @@ By grading stomach contents across **7 digestion states** (from State 1 = intact
 
 ---
 
-## 5.5 Stomach Content Databases and Spatiotemporal Raising Pipelines (Jacobsen et al. 2023)
+## Stomach Content Databases and Spatiotemporal Raising Pipelines (Jacobsen et al. 2023)
 
-### 5.5.1 Major Open-Access Stomach Content Databases
+### Major Open-Access Stomach Content Databases
 Two primary databases underpin North Atlantic and European multispecies stock assessments [@ices2010stomach; @jacobsen2023], complemented by global predator–prey body-size compilations [@barnes2008; @barnes2010]:
 1. **ICES Stomach Content Database** (`stomachdata.ices.dk`; @ices2010stomach):
    Contains $>800,000$ prey records from the North Sea (1981 & 1991 "Years of the Stomach" plus IBTS collections), Baltic Sea (cod and flounder stomachs 1963–2021+), and Barents/Celtic Seas. Organized into four normalized relational tables linked by `tblUploadID` / `tblHaulID` / `tblPredatorID` [@jacobsen2023, pp. 13--17]:
@@ -100,7 +100,7 @@ Two primary databases underpin North Atlantic and European multispecies stock as
 
 ---
 
-### 5.5.2 Design-Based Stratified Raising (`FishStomachs` R Package)
+### Design-Based Stratified Raising (`FishStomachs` R Package)
 Because research vessels sample a fixed number of stomachs per length class per haul (e.g., at most 5 cod per 5-cm length bin per haul) rather than sampling proportionally to true predator density in the sea, simple arithmetic averages across all sampled stomachs are **spatially biased** toward areas with low predator density.
 
 The ICES standard raising pipeline—implemented in Morten Vinther's **`FishStomachs`** R package [@jacobsen2023, pp. 34--38]—raises individual/haul stomach observations to the population level in three hierarchical steps:
@@ -114,7 +114,7 @@ The ICES standard raising pipeline—implemented in Morten Vinther's **`FishStom
 
 ---
 
-### 5.5.3 Model-Based Spatiotemporal Standardization (`sdmTMB`)
+### Model-Based Spatiotemporal Standardization (`sdmTMB`)
 When stomach sampling is patchy in space and time (missing ICES rectangles in certain quarters/years), design-based raising suffers from missing-stratum bias. @jacobsen2023 [pp. 26--33] developed a **model-based spatiotemporal standardization workflow** using **`sdmTMB`** [@anderson2022]:
 1. Define the **Feeding Ratio (FR)** of prey $i$ in individual predator $k$ of length $L_k$ at spatial coordinates $\mathbf{s}_k$ and year-quarter $t$ as:
    $$\text{FR}_{i,k} = \frac{S_{i,k}}{W_{\text{pred}, k}}$$
@@ -125,11 +125,11 @@ When stomach sampling is patchy in space and time (missing ICES rectangles in ce
 
 ---
 
-## 5.6 Statistical Observation Models and Likelihoods for Stomach Content Data
+## Statistical Observation Models and Likelihoods for Stomach Content Data
 
 Once population-level diet proportions $\mathbf{W}_{U} = (W_{1,U}, \dots, W_{K,U})^\top$ (satisfying $\sum_{k=1}^K W_{k,U} = 1$) or individual predator-prey mass ratios (PPMR) are prepared for predator stratum $U = (A, L, y, q)$, how should they enter the stock assessment objective function?
 
-### 5.6.1 Summary Comparison of Compositional Diet Likelihoods
+### Summary Comparison of Compositional Diet Likelihoods
 
 | Likelihood Distribution | Data Support | Log-Likelihood $\ln L(\mathbf{W}_U \mid \hat{\mathbf{p}}_U, \theta)$ | Variance Structure $\text{Var}(W_k)$ | Handling of Zeros ($W_k = 0$) | Used In |
 | :--- | :--- | :--- | :--- | :--- | :--- |
@@ -138,7 +138,7 @@ Once population-level diet proportions $\mathbf{W}_{U} = (W_{1,U}, \dots, W_{K,U
 | **3. Dirichlet-Multinomial (DM)** | Count vector $N_U \mathbf{W}_U$ with overdispersion $\beta = \theta N_U$ | $\ln\Gamma(N_U+1) + \ln\Gamma(\beta) - \ln\Gamma(N_U+\beta) + \sum_{k=1}^K \left[\ln\frac{\Gamma(N_U W_k + \beta \hat{p}_k)}{\Gamma(N_U W_k + 1)\Gamma(\beta \hat{p}_k)}\right]$ | $\frac{\hat{p}_k(1-\hat{p}_k)}{N_U} \left(\frac{N_U + \beta}{1 + \beta}\right)$ (Linear or saturating parameterization; @thorson2017) | **Natural**: Exact handling of $W_{k,U} = 0$ AND estimable overdispersion $\theta$! | `SS3`, `LIME`, `WHAM`, modern `Rceattle` |
 | **4. Additive Logistic-Normal (Aitchison)** | Log-ratios $y_k = \ln(W_k / W_K) \in \mathbb{R}^{K-1}$ | $-\frac{1}{2}\ln|2\pi\boldsymbol{\Sigma}_U| - \frac{1}{2}(\mathbf{y}_U - \hat{\boldsymbol{\mu}}_U)^\top \boldsymbol{\Sigma}_U^{-1} (\mathbf{y}_U - \hat{\boldsymbol{\mu}}_U) - \sum_{k=1}^K \ln W_{k,U}$ | Arbitrary $(K-1)\times(K-1)$ covariance $\boldsymbol{\Sigma}_U$ (allows positive/negative correlations!) | Requires zero replacement or censored Tobit normal integration | `SAM` (compositions), `gadget3` (`mvlogistic`) |
 
-### 5.6.2 Mathematical Derivation of the Compound Dirichlet-Multinomial Likelihood (Thorson et al. 2017)
+### Mathematical Derivation of the Compound Dirichlet-Multinomial Likelihood (Thorson et al. 2017) {#sec-dm-likelihood}
 Because compositional observations in both age/length sampling and stomach content analysis exhibit strong **overdispersion** relative to a pure multinomial draw of nominal sample size $n$, @thorson2017 derived a model-based compound **Dirichlet-Multinomial (DM)** likelihood that estimates effective sample size $n_{\text{eff}}$ simultaneously with all stock assessment parameters.
 
 1. **Hierarchical Compound Integral Formulation**:
@@ -167,13 +167,13 @@ Because compositional observations in both age/length sampling and stomach conte
 
 ---
 
-## 5.7 Fitting Exponential Family & Gamma Distributions to Predator–Prey Mass Ratios (Morgan 2022)
+## Fitting Exponential Family & Gamma Distributions to Predator–Prey Mass Ratios (Morgan 2022)
 
 For continuous size-spectrum models like `mizer`, stomach content data provide a second, uniquely powerful source of information beyond species diet shares: the **empirical distribution of individual Predator–Prey Mass Ratios (PPMR)**, $\text{PPMR} = w_{\text{pred}} / w_{\text{prey}}$.
 
 In his University of York dissertation analyzing $>300,000$ stomach records from the combined CEFAS `DAPSTOM` and ICES databases, Owain Morgan [@morgan2022] derived an elegant analytical link between **realized stomach log-PPMR distributions** and the **intrinsic `mizer` feeding kernel $\varphi_{w'}(w)$** using the multiplicative closure properties of the exponential family.
 
-### 5.7.1 Linking Realized Diet Size Distribution to the Feeding Kernel via the Sheldon Spectrum
+### Linking Realized Diet Size Distribution to the Feeding Kernel via the Sheldon Spectrum
 Let $w'$ denote the body mass of the predator and $w$ denote the body mass of an individual prey item in its stomach, so the logarithmic predator-prey mass ratio is:
 $$x = \ln\!\left(\frac{w'}{w}\right) \iff w = w' e^{-x}$$
 
@@ -189,7 +189,7 @@ Therefore, in terms of the log-PPMR variable $x = \ln(w'/w)$, the **realized sto
 
 $$f_{\text{real}}(x) \propto \phi(x) \, \exp(\tilde{\lambda} x) \iff \phi(x) \propto f_{\text{real}}(x) \, \exp(-\tilde{\lambda} x)$$
 
-### 5.7.2 Exact Multiplicative Closure of Exponential Family & Gamma Distributions (Morgan 2022, Section 4.6)
+### Exact Multiplicative Closure of Exponential Family & Gamma Distributions (Morgan 2022, Section 4.6)
 @morgan2022 [pp. 7--9] showed that if the realized log-PPMR $X = \ln(w'/w) > 0$ follows any distribution in the natural **Exponential Family** with sufficient statistic vector $T(x)$ containing $x$:
 $$f_{\text{real}}(x \mid \boldsymbol{\eta}) = h(x) \exp\!\left(\boldsymbol{\eta}^\top T(x) - A(\boldsymbol{\eta})\right)$$
 then multiplying by the Sheldon abundance correction $\exp(-\tilde{\lambda} x)$ simply shifts the canonical parameter corresponding to $x$ by $-\tilde{\lambda}$, keeping the intrinsic feeding kernel $\phi(x)$ within the **exact same parametric distribution family**!

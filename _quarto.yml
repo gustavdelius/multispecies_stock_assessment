@@ -49,6 +49,6 @@ format:
 toc: true
 toc-depth: 4
 number-depth: 3
-number-sections: false
+number-sections: true
 crossref:
   eq-prefix: Eq.
