@@ -24,7 +24,26 @@ ul.task-list li input[type="checkbox"] {
   margin: 0 0.8em 0.2em -1em; /* quarto-specific, see https://github.com/quarto-dev/quarto-cli/issues/4556 */ 
   vertical-align: middle;
 }
-</style>
+/* CSS for citations */
+div.csl-bib-body { }
+div.csl-entry {
+  clear: both;
+}
+.hanging-indent div.csl-entry {
+  margin-left:2em;
+  text-indent:-2em;
+}
+div.csl-left-margin {
+  min-width:2em;
+  float:left;
+}
+div.csl-right-inline {
+  margin-left:2em;
+  padding-left:1em;
+}
+div.csl-indent {
+  margin-left: 2em;
+}</style>
 
 
 <script src="site_libs/quarto-nav/quarto-nav.js"></script>
@@ -34,6 +53,7 @@ ul.task-list li input[type="checkbox"] {
 <script src="site_libs/quarto-search/fuse.min.js"></script>
 <script src="site_libs/quarto-search/quarto-search.js"></script>
 <meta name="quarto:offset" content="./">
+<link href="./references.html" rel="next">
 <link href="./05_stomach_content_data_and_likelihoods.html" rel="prev">
 <script src="site_libs/quarto-html/quarto.js" type="module"></script>
 <script src="site_libs/quarto-html/tabsets/tabsets.js" type="module"></script>
@@ -178,6 +198,12 @@ window.Quarto = {
   <a href="./06_statistical_fitting_uncertainty_and_mizer_synthesis.html" class="sidebar-item-text sidebar-link active"><span class="chapter-title">Chapter 6: Statistical Estimation, Data Weighting, Uncertainty Quantification, and an Architectural Roadmap for Dynamic <code>mizer</code> Stock Assessment</span></a>
   </div>
 </li>
+        <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="./references.html" class="sidebar-item-text sidebar-link">
+ <span class="menu-text">References</span></a>
+  </div>
+</li>
     </ul>
     </div>
 </nav>
@@ -189,19 +215,19 @@ window.Quarto = {
    
   <ul>
   <li><a href="#master-comparative-synthesis-across-multispecies-stock-assessment-model-families" id="toc-master-comparative-synthesis-across-multispecies-stock-assessment-model-families" class="nav-link active" data-scroll-target="#master-comparative-synthesis-across-multispecies-stock-assessment-model-families">6.1 Master Comparative Synthesis Across Multispecies Stock Assessment Model Families</a></li>
-  <li><a href="#data-weighting-and-likelihood-conflict-in-integrated-multispecies-assessments-francis-2011-maunder-punt-2013-thorson-et-al.-2017" id="toc-data-weighting-and-likelihood-conflict-in-integrated-multispecies-assessments-francis-2011-maunder-punt-2013-thorson-et-al.-2017" class="nav-link" data-scroll-target="#data-weighting-and-likelihood-conflict-in-integrated-multispecies-assessments-francis-2011-maunder-punt-2013-thorson-et-al.-2017">6.2 Data Weighting and Likelihood Conflict in Integrated &amp; Multispecies Assessments (<code>Francis 2011</code>; <code>Maunder &amp; Punt 2013</code>; <code>Thorson et al. 2017</code>)</a>
+  <li><a href="#data-weighting-and-likelihood-conflict-in-integrated-multispecies-assessments-francis-2011-maunder-punt-2013-thorson-et-al.-2017" id="toc-data-weighting-and-likelihood-conflict-in-integrated-multispecies-assessments-francis-2011-maunder-punt-2013-thorson-et-al.-2017" class="nav-link" data-scroll-target="#data-weighting-and-likelihood-conflict-in-integrated-multispecies-assessments-francis-2011-maunder-punt-2013-thorson-et-al.-2017">6.2 Data Weighting and Likelihood Conflict in Integrated &amp; Multispecies Assessments (Francis 2011; Maunder &amp; Punt 2013; Thorson et al.&nbsp;2017)</a>
   <ul>
   <li><a href="#why-unadjusted-composition-likelihoods-destroy-abundance-fits-francis-principle-1" id="toc-why-unadjusted-composition-likelihoods-destroy-abundance-fits-francis-principle-1" class="nav-link" data-scroll-target="#why-unadjusted-composition-likelihoods-destroy-abundance-fits-francis-principle-1">6.2.1 Why Unadjusted Composition Likelihoods Destroy Abundance Fits (“Francis Principle 1”)</a></li>
   <li><a href="#three-standard-data-weighting-algorithms-for-compositional-data" id="toc-three-standard-data-weighting-algorithms-for-compositional-data" class="nav-link" data-scroll-target="#three-standard-data-weighting-algorithms-for-compositional-data">6.2.2 Three Standard Data-Weighting Algorithms for Compositional Data</a></li>
   </ul></li>
   <li><a href="#parameter-estimation-and-uncertainty-quantification-engines" id="toc-parameter-estimation-and-uncertainty-quantification-engines" class="nav-link" data-scroll-target="#parameter-estimation-and-uncertainty-quantification-engines">6.3 Parameter Estimation and Uncertainty Quantification Engines</a>
   <ul>
-  <li><a href="#frequentist-empirical-bayes-state-space-estimation-in-tmb-kristensen-et-al.-2016" id="toc-frequentist-empirical-bayes-state-space-estimation-in-tmb-kristensen-et-al.-2016" class="nav-link" data-scroll-target="#frequentist-empirical-bayes-state-space-estimation-in-tmb-kristensen-et-al.-2016">6.3.1 Frequentist / Empirical Bayes State-Space Estimation in <code>TMB</code> (<code>Kristensen et al. 2016</code>)</a></li>
-  <li><a href="#bayesian-evolutionary-and-ensemble-approaches-zhang-et-al.-2015-2016-spence-et-al.-2016-2018-2021" id="toc-bayesian-evolutionary-and-ensemble-approaches-zhang-et-al.-2015-2016-spence-et-al.-2016-2018-2021" class="nav-link" data-scroll-target="#bayesian-evolutionary-and-ensemble-approaches-zhang-et-al.-2015-2016-spence-et-al.-2016-2018-2021">6.3.2 Bayesian, Evolutionary, and Ensemble Approaches (<code>Zhang et al. 2015, 2016</code>; <code>Spence et al. 2016, 2018, 2021</code>)</a></li>
+  <li><a href="#frequentist-empirical-bayes-state-space-estimation-in-tmb-kristensen-et-al.-2016" id="toc-frequentist-empirical-bayes-state-space-estimation-in-tmb-kristensen-et-al.-2016" class="nav-link" data-scroll-target="#frequentist-empirical-bayes-state-space-estimation-in-tmb-kristensen-et-al.-2016">6.3.1 Frequentist / Empirical Bayes State-Space Estimation in <code>TMB</code> (Kristensen et al.&nbsp;2016)</a></li>
+  <li><a href="#bayesian-evolutionary-and-ensemble-approaches-zhang-et-al.-2015-2016-spence-et-al.-2016-2018-2021" id="toc-bayesian-evolutionary-and-ensemble-approaches-zhang-et-al.-2015-2016-spence-et-al.-2016-2018-2021" class="nav-link" data-scroll-target="#bayesian-evolutionary-and-ensemble-approaches-zhang-et-al.-2015-2016-spence-et-al.-2016-2018-2021">6.3.2 Bayesian, Evolutionary, and Ensemble Approaches (Zhang et al.&nbsp;2015, 2016; Spence et al.&nbsp;2016, 2018, 2021)</a></li>
   </ul></li>
   <li><a href="#architectural-blueprint-for-next-generation-statistical-dynamic-stock-assessment-in-mizer" id="toc-architectural-blueprint-for-next-generation-statistical-dynamic-stock-assessment-in-mizer" class="nav-link" data-scroll-target="#architectural-blueprint-for-next-generation-statistical-dynamic-stock-assessment-in-mizer">6.4 Architectural Blueprint for Next-Generation Statistical Dynamic Stock Assessment in <code>mizer</code></a>
   <ul>
-  <li><a href="#pillar-1-resolving-cohort-dispersion-via-jump-growth-diffusion-datta-delius-law-2010" id="toc-pillar-1-resolving-cohort-dispersion-via-jump-growth-diffusion-datta-delius-law-2010" class="nav-link" data-scroll-target="#pillar-1-resolving-cohort-dispersion-via-jump-growth-diffusion-datta-delius-law-2010">Pillar 1: Resolving Cohort Dispersion via Jump-Growth Diffusion (<code>Datta, Delius &amp; Law 2010</code>)</a></li>
+  <li><a href="#pillar-1-resolving-cohort-dispersion-via-jump-growth-diffusion-datta-delius-law-2010" id="toc-pillar-1-resolving-cohort-dispersion-via-jump-growth-diffusion-datta-delius-law-2010" class="nav-link" data-scroll-target="#pillar-1-resolving-cohort-dispersion-via-jump-growth-diffusion-datta-delius-law-2010">Pillar 1: Resolving Cohort Dispersion via Jump-Growth Diffusion (Datta, Delius &amp; Law 2010)</a></li>
   <li><a href="#pillar-2-two-stage-initialization-differentiable-steady-state-spin-up-dynamic-projection" id="toc-pillar-2-two-stage-initialization-differentiable-steady-state-spin-up-dynamic-projection" class="nav-link" data-scroll-target="#pillar-2-two-stage-initialization-differentiable-steady-state-spin-up-dynamic-projection">Pillar 2: Two-Stage Initialization (Differentiable Steady-State Spin-Up + Dynamic Projection)</a></li>
   <li><a href="#pillar-3-state-space-process-random-effects-mathbfu" id="toc-pillar-3-state-space-process-random-effects-mathbfu" class="nav-link" data-scroll-target="#pillar-3-state-space-process-random-effects-mathbfu">Pillar 3: State-Space Process Random Effects (<span class="math inline">\(\mathbf{u}\)</span>)</a></li>
   <li><a href="#pillar-4-observation-operators-and-joint-statistical-likelihood-function" id="toc-pillar-4-observation-operators-and-joint-statistical-likelihood-function" class="nav-link" data-scroll-target="#pillar-4-observation-operators-and-joint-statistical-likelihood-function">Pillar 4: Observation Operators and Joint Statistical Likelihood Function</a></li>
@@ -233,12 +259,23 @@ window.Quarto = {
 
 
 <blockquote class="blockquote">
-<p><strong>Navigation</strong>: <a href="./index.html">README (Index &amp; Bibliography)</a> | <a href="./01_taxonomy_and_foundations.html">Chapter 1: Taxonomy &amp; Foundations</a> | <a href="./02_age_structured_multispecies_models.html">Chapter 2: Age-Structured Models</a> | <a href="./03_age_length_and_length_structured_models.html">Chapter 3: Age-Length &amp; Length-Structured Models</a> | <a href="./04_size_spectrum_and_food_web_models.html">Chapter 4: Size-Spectrum &amp; Food-Web Models</a> | <a href="./05_stomach_content_data_and_likelihoods.html">Chapter 5: Stomach Content Data &amp; Likelihoods</a> | <strong>Chapter 6</strong></p>
+<p><strong>Navigation</strong>: <a href="./index.html">Overview</a> | <a href="./01_taxonomy_and_foundations.html">Chapter 1: Taxonomy &amp; Foundations</a> | <a href="./02_age_structured_multispecies_models.html">Chapter 2: Age-Structured Models</a> | <a href="./03_age_length_and_length_structured_models.html">Chapter 3: Age-Length &amp; Length-Structured Models</a> | <a href="./04_size_spectrum_and_food_web_models.html">Chapter 4: Size-Spectrum &amp; Food-Web Models</a> | <a href="./05_stomach_content_data_and_likelihoods.html">Chapter 5: Stomach Content Data &amp; Likelihoods</a> | <strong>Chapter 6</strong> | <a href="./references.html">References</a></p>
 </blockquote>
 <hr>
 <section id="master-comparative-synthesis-across-multispecies-stock-assessment-model-families" class="level2">
 <h2 class="anchored" data-anchor-id="master-comparative-synthesis-across-multispecies-stock-assessment-model-families">6.1 Master Comparative Synthesis Across Multispecies Stock Assessment Model Families</h2>
 <table class="caption-top table">
+<colgroup>
+<col style="width: 11%">
+<col style="width: 11%">
+<col style="width: 11%">
+<col style="width: 11%">
+<col style="width: 11%">
+<col style="width: 11%">
+<col style="width: 11%">
+<col style="width: 11%">
+<col style="width: 11%">
+</colgroup>
 <thead>
 <tr class="header">
 <th style="text-align: left;">Feature / Dimension</th>
@@ -317,7 +354,7 @@ window.Quarto = {
 <td style="text-align: left;">Weighted Sum of Squares or Multinomial on length-prey ratios</td>
 <td style="text-align: left;">History Matching / SMC implausibility</td>
 <td style="text-align: left;">Fixed Ecopath <span class="math inline">\(DC_{ij,0}\)</span> (<code>EwE</code>) or <strong>Dirichlet</strong> (<code>EcoState</code>)</td>
-<td style="text-align: left;">Steady-state calibration or <strong>Gamma/Normal log-PPMR</strong> (<code>Morgan 2022</code>)</td>
+<td style="text-align: left;">Steady-state calibration or <strong>Gamma/Normal log-PPMR</strong> <span class="citation" data-cites="morgan2022">(<a href="references.html#ref-morgan2022" role="doc-biblioref">Morgan 2022</a>)</span></td>
 </tr>
 <tr class="odd">
 <td style="text-align: left;"><strong>Catch &amp; Survey Likelihoods</strong></td>
@@ -328,7 +365,7 @@ window.Quarto = {
 <td style="text-align: left;">Weighted composite likelihoods (<code>g3l_distribution_*</code>)</td>
 <td style="text-align: left;">History Matching + SMC against survey biomass</td>
 <td style="text-align: left;">SSQ (<code>Ecosim</code>) or Lognormal state-space (<code>EcoState</code>)</td>
-<td style="text-align: left;">Steady-state yield/biomass SSQ or GA/MCMC (<code>Zhang 2015</code>)</td>
+<td style="text-align: left;">Steady-state yield/biomass SSQ or GA/MCMC <span class="citation" data-cites="zhang2015">(<a href="references.html#ref-zhang2015" role="doc-biblioref">Zhang et al. 2015</a>)</span></td>
 </tr>
 <tr class="even">
 <td style="text-align: left;"><strong>Software / AD Engine</strong></td>
@@ -343,37 +380,37 @@ window.Quarto = {
 </tr>
 <tr class="odd">
 <td style="text-align: left;"><strong>Key Reference</strong></td>
-<td style="text-align: left;">Helgason &amp; Gislason (1979); <a href="https://github.com/gustavdelius/multispecies_stock_assessment/blob/main/papers/Livingston_1983_Andersen_Ursin_model_evaluation.pdf">Livingston_1983_Andersen_Ursin_model_evaluation.pdf</a></td>
-<td style="text-align: left;"><a href="https://github.com/gustavdelius/multispecies_stock_assessment/blob/main/papers/Lewy_Vinther_2004_SMS_stochastic_multispecies_model.pdf">Lewy_Vinther_2004_SMS_stochastic_multispecies_model.pdf</a></td>
-<td style="text-align: left;"><a href="https://github.com/gustavdelius/multispecies_stock_assessment/blob/main/papers/Kinzey_Punt_2009_Multispecies_single_species_models.pdf">Kinzey_Punt_2009_Multispecies_single_species_models.pdf</a>; <a href="https://github.com/gustavdelius/multispecies_stock_assessment/blob/main/papers/VanKirk_etal_2010_Multispecies_ASA_Gulf_of_Alaska.pdf">VanKirk_etal_2010_Multispecies_ASA_Gulf_of_Alaska.pdf</a>; <a href="https://github.com/gustavdelius/multispecies_stock_assessment/blob/main/papers/Curti_etal_2013_MSCAA_Georges_Bank.pdf">Curti_etal_2013_MSCAA_Georges_Bank.pdf</a>; <a href="https://github.com/gustavdelius/multispecies_stock_assessment/blob/main/papers/Trijoulet_etal_2019_Performance_multispecies_assessment_models.pdf">Trijoulet_etal_2019_Performance_multispecies_assessment_models.pdf</a></td>
-<td style="text-align: left;"><a href="https://github.com/gustavdelius/multispecies_stock_assessment/blob/main/papers/Holsman_etal_2016_CEATTLE_biological_reference_points.pdf">Holsman_etal_2016_CEATTLE_biological_reference_points.pdf</a>; <a href="https://github.com/gustavdelius/multispecies_stock_assessment/blob/main/papers/Adams_etal_2022_Rceattle_ensemble_Gulf_of_Alaska.pdf">Adams_etal_2022_Rceattle_ensemble_Gulf_of_Alaska.pdf</a></td>
-<td style="text-align: left;"><a href="https://github.com/gustavdelius/multispecies_stock_assessment/blob/main/papers/Stefansson_Palsson_1998_Structurally_detailed_statistical_models.pdf">Stefansson_Palsson_1998_Structurally_detailed_statistical_models.pdf</a>; <a href="https://github.com/gustavdelius/multispecies_stock_assessment/blob/main/papers/Begley_Howell_2004_Overview_of_Gadget.pdf">Begley_Howell_2004_Overview_of_Gadget.pdf</a>; <a href="https://github.com/gustavdelius/multispecies_stock_assessment/blob/main/papers/Kulatska_etal_2019_Gadget_Baltic_cod_diet.pdf">Kulatska_etal_2019_Gadget_Baltic_cod_diet.pdf</a></td>
-<td style="text-align: left;"><a href="https://github.com/gustavdelius/multispecies_stock_assessment/blob/main/papers/Spence_etal_2020_LeMaRns_length_based_multispecies.pdf">Spence_etal_2020_LeMaRns_length_based_multispecies.pdf</a></td>
-<td style="text-align: left;"><a href="https://github.com/gustavdelius/multispecies_stock_assessment/blob/main/papers/Walters_Christensen_Pauly_1997_Ecosim.pdf">Walters_Christensen_Pauly_1997_Ecosim.pdf</a>; <a href="https://github.com/gustavdelius/multispecies_stock_assessment/blob/main/papers/Thorson_etal_2024_EcoState_state_space_EwE.pdf">Thorson_etal_2024_EcoState_state_space_EwE.pdf</a></td>
-<td style="text-align: left;"><a href="https://github.com/gustavdelius/multispecies_stock_assessment/blob/main/papers/Scott_Blanchard_Andersen_2014_mizer_package.pdf">Scott_Blanchard_Andersen_2014_mizer_package.pdf</a>; <a href="https://github.com/gustavdelius/multispecies_stock_assessment/blob/main/papers/Pennino_etal_2026_Decade_of_mizer_review.pdf">Pennino_etal_2026_Decade_of_mizer_review.pdf</a></td>
+<td style="text-align: left;"><span class="citation" data-cites="helgason_gislason1979">Helgason and Gislason (<a href="references.html#ref-helgason_gislason1979" role="doc-biblioref">1979</a>)</span>; <span class="citation" data-cites="livingston1983">Livingston (<a href="references.html#ref-livingston1983" role="doc-biblioref">1983</a>)</span></td>
+<td style="text-align: left;"><span class="citation" data-cites="lewy2004">Lewy and Vinther (<a href="references.html#ref-lewy2004" role="doc-biblioref">2004</a>)</span></td>
+<td style="text-align: left;"><span class="citation" data-cites="kinzey2009">Kinzey and Punt (<a href="references.html#ref-kinzey2009" role="doc-biblioref">2009</a>)</span>; <span class="citation" data-cites="vankirk2010">Van Kirk et al. (<a href="references.html#ref-vankirk2010" role="doc-biblioref">2010</a>)</span>; <span class="citation" data-cites="curti2013">Curti et al. (<a href="references.html#ref-curti2013" role="doc-biblioref">2013</a>)</span>; <span class="citation" data-cites="trijoulet2019">Trijoulet et al. (<a href="references.html#ref-trijoulet2019" role="doc-biblioref">2019</a>)</span></td>
+<td style="text-align: left;"><span class="citation" data-cites="holsman2016">Holsman et al. (<a href="references.html#ref-holsman2016" role="doc-biblioref">2016</a>)</span>; <span class="citation" data-cites="adams2022">Adams et al. (<a href="references.html#ref-adams2022" role="doc-biblioref">2022</a>)</span></td>
+<td style="text-align: left;"><span class="citation" data-cites="stefansson1998">Stefánsson and Pálsson (<a href="references.html#ref-stefansson1998" role="doc-biblioref">1998</a>)</span>; <span class="citation" data-cites="begley2004overview">Begley and Howell (<a href="references.html#ref-begley2004overview" role="doc-biblioref">2004</a>)</span>; <span class="citation" data-cites="kulatska2019">Kulatska et al. (<a href="references.html#ref-kulatska2019" role="doc-biblioref">2019</a>)</span></td>
+<td style="text-align: left;"><span class="citation" data-cites="spence2020">Spence et al. (<a href="references.html#ref-spence2020" role="doc-biblioref">2020</a>)</span></td>
+<td style="text-align: left;"><span class="citation" data-cites="walters1997">Walters et al. (<a href="references.html#ref-walters1997" role="doc-biblioref">1997</a>)</span>; <span class="citation" data-cites="thorson2024">Thorson et al. (<a href="references.html#ref-thorson2024" role="doc-biblioref">2024</a>)</span></td>
+<td style="text-align: left;"><span class="citation" data-cites="scott2014">Scott et al. (<a href="references.html#ref-scott2014" role="doc-biblioref">2014</a>)</span>; <span class="citation" data-cites="pennino2025">Pennino et al. (<a href="references.html#ref-pennino2025" role="doc-biblioref">2025</a>)</span></td>
 </tr>
 </tbody>
 </table>
 <hr>
 </section>
 <section id="data-weighting-and-likelihood-conflict-in-integrated-multispecies-assessments-francis-2011-maunder-punt-2013-thorson-et-al.-2017" class="level2">
-<h2 class="anchored" data-anchor-id="data-weighting-and-likelihood-conflict-in-integrated-multispecies-assessments-francis-2011-maunder-punt-2013-thorson-et-al.-2017">6.2 Data Weighting and Likelihood Conflict in Integrated &amp; Multispecies Assessments (<code>Francis 2011</code>; <code>Maunder &amp; Punt 2013</code>; <code>Thorson et al. 2017</code>)</h2>
-<p>When fitting an integrated single-species or multispecies model simultaneously to <strong>abundance indices</strong> (<span class="math inline">\(I_{f,y}\)</span>), <strong>catch biomass</strong> (<span class="math inline">\(Y_{f,y}\)</span>), <strong>length/age compositions</strong> (<span class="math inline">\(\mathbf{P}_{f,y}\)</span>), and <strong>stomach content compositions</strong> (<span class="math inline">\(\mathbf{W}_{A,L,y,q}\)</span>), the most critical statistical hazard is <strong>likelihood conflict and compositional domination</strong> (<a href="https://github.com/gustavdelius/multispecies_stock_assessment/blob/main/papers/Francis_2011_Data_weighting_in_stock_assessment.pdf">Francis_2011_Data_weighting_in_stock_assessment.pdf</a>; <a href="https://github.com/gustavdelius/multispecies_stock_assessment/blob/main/papers/Maunder_Punt_2013_Integrated_analysis_review.pdf">Maunder_Punt_2013_Integrated_analysis_review.pdf</a>; <a href="https://github.com/gustavdelius/multispecies_stock_assessment/blob/main/papers/Thorson_etal_2017_Dirichlet_multinomial_effective_sample_size.pdf">Thorson_etal_2017_Dirichlet_multinomial_effective_sample_size.pdf</a>).</p>
+<h2 class="anchored" data-anchor-id="data-weighting-and-likelihood-conflict-in-integrated-multispecies-assessments-francis-2011-maunder-punt-2013-thorson-et-al.-2017">6.2 Data Weighting and Likelihood Conflict in Integrated &amp; Multispecies Assessments (Francis 2011; Maunder &amp; Punt 2013; Thorson et al.&nbsp;2017)</h2>
+<p>When fitting an integrated single-species or multispecies model simultaneously to <strong>abundance indices</strong> (<span class="math inline">\(I_{f,y}\)</span>), <strong>catch biomass</strong> (<span class="math inline">\(Y_{f,y}\)</span>), <strong>length/age compositions</strong> (<span class="math inline">\(\mathbf{P}_{f,y}\)</span>), and <strong>stomach content compositions</strong> (<span class="math inline">\(\mathbf{W}_{A,L,y,q}\)</span>), the most critical statistical hazard is <strong>likelihood conflict and compositional domination</strong> <span class="citation" data-cites="francis2011 maunder2013 thorson2017">(<a href="references.html#ref-francis2011" role="doc-biblioref">Francis 2011</a>; <a href="references.html#ref-maunder2013" role="doc-biblioref">Maunder and Punt 2013</a>; <a href="references.html#ref-thorson2017" role="doc-biblioref">Thorson et al. 2017</a>)</span>.</p>
 <section id="why-unadjusted-composition-likelihoods-destroy-abundance-fits-francis-principle-1" class="level3">
 <h3 class="anchored" data-anchor-id="why-unadjusted-composition-likelihoods-destroy-abundance-fits-francis-principle-1">6.2.1 Why Unadjusted Composition Likelihoods Destroy Abundance Fits (“Francis Principle 1”)</h3>
-<p>Suppose a survey measures <span class="math inline">\(10,000\)</span> fish lengths across <span class="math inline">\(50\)</span> length bins each year, while also providing <span class="math inline">\(1\)</span> annual biomass index point <span class="math inline">\(I_y\)</span> per year. If the nominal number of fish measured (<span class="math inline">\(N_y = 10,000\)</span>) is plugged into a Multinomial likelihood <span class="math inline">\(\sum_y N_y \sum_l P_{l,y} \ln \hat{P}_{l,y}\)</span>, the composition likelihood will have <span class="math inline">\(1000\times\)</span> larger gradient and curvature than the lognormal survey index likelihood <span class="math inline">\(\frac{1}{2\sigma_I^2}(\ln I_y - \ln \hat{I}_y)^2\)</span>. Because fish school by size and because any process model has slight misspecifications in selectivity or growth, positive correlations among bins within a year mean the true <strong>effective sample size</strong> <span class="math inline">\(N_{\text{eff}, y}\)</span> is typically <span class="math inline">\(20\text{--}200\)</span> (closer to the number of <strong>trawl hauls</strong>, not the number of individual fish!). If <span class="math inline">\(N_y\)</span> is not downweighted, the optimizer will distort recruitment <span class="math inline">\(R_y\)</span>, fishing mortality <span class="math inline">\(F_y\)</span>, and biomass trends <span class="math inline">\(\hat{B}_y\)</span> just to chase noise in the length compositions, violating <strong>Francis’s First Principle</strong> (<a href="https://github.com/gustavdelius/multispecies_stock_assessment/blob/main/papers/Francis_2011_Data_weighting_in_stock_assessment.pdf">Francis_2011_Data_weighting_in_stock_assessment.pdf</a>, p.&nbsp;1125): &gt; <em>“Do not let other data stop the model from fitting abundance data well.”</em></p>
+<p>Suppose a survey measures <span class="math inline">\(10,000\)</span> fish lengths across <span class="math inline">\(50\)</span> length bins each year, while also providing <span class="math inline">\(1\)</span> annual biomass index point <span class="math inline">\(I_y\)</span> per year. If the nominal number of fish measured (<span class="math inline">\(N_y = 10,000\)</span>) is plugged into a Multinomial likelihood <span class="math inline">\(\sum_y N_y \sum_l P_{l,y} \ln \hat{P}_{l,y}\)</span>, the composition likelihood will have <span class="math inline">\(1000\times\)</span> larger gradient and curvature than the lognormal survey index likelihood <span class="math inline">\(\frac{1}{2\sigma_I^2}(\ln I_y - \ln \hat{I}_y)^2\)</span>. Because fish school by size and because any process model has slight misspecifications in selectivity or growth, positive correlations among bins within a year mean the true <strong>effective sample size</strong> <span class="math inline">\(N_{\text{eff}, y}\)</span> is typically <span class="math inline">\(20\text{--}200\)</span> (closer to the number of <strong>trawl hauls</strong>, not the number of individual fish!). If <span class="math inline">\(N_y\)</span> is not downweighted, the optimizer will distort recruitment <span class="math inline">\(R_y\)</span>, fishing mortality <span class="math inline">\(F_y\)</span>, and biomass trends <span class="math inline">\(\hat{B}_y\)</span> just to chase noise in the length compositions, violating <strong>Francis’s First Principle</strong> <span class="citation" data-cites="francis2011">(<a href="references.html#ref-francis2011" role="doc-biblioref">Francis 2011, 1125</a>)</span>: &gt; <em>“Do not let other data stop the model from fitting abundance data well.”</em></p>
 </section>
 <section id="three-standard-data-weighting-algorithms-for-compositional-data" class="level3">
 <h3 class="anchored" data-anchor-id="three-standard-data-weighting-algorithms-for-compositional-data">6.2.2 Three Standard Data-Weighting Algorithms for Compositional Data</h3>
 <p>Let <span class="math inline">\(O_{l,y}\)</span> and <span class="math inline">\(E_{l,y}\)</span> denote the observed and model-expected proportions in length (or age) bin <span class="math inline">\(l \in \{1, \dots, n_L\}\)</span> with midpoint <span class="math inline">\(x_l\)</span> in year <span class="math inline">\(y \in \{1, \dots, n_Y\}\)</span>, with initial nominal sample size <span class="math inline">\(N_{y}\)</span>.</p>
 <ol type="1">
-<li><p><strong>McAllister &amp; Ianelli (1997) Harmonic Mean Weighting</strong>: Estimates the effective sample size <span class="math inline">\(\hat{N}_{y} = \frac{\sum_{l} E_{l,y}(1 - E_{l,y})}{\sum_{l} (O_{l,y} - E_{l,y})^2}\)</span> for each year and sets the dataset multiplier <span class="math inline">\(w_{\text{MI}}\)</span> using the harmonic mean across years (used in <code>MSCAA</code> <a href="https://github.com/gustavdelius/multispecies_stock_assessment/blob/main/papers/Curti_etal_2013_MSCAA_Georges_Bank.pdf">Curti_etal_2013_MSCAA_Georges_Bank.pdf</a> and <code>Rceattle</code> <a href="https://github.com/gustavdelius/multispecies_stock_assessment/blob/main/papers/Adams_etal_2022_Rceattle_ensemble_Gulf_of_Alaska.pdf">Adams_etal_2022_Rceattle_ensemble_Gulf_of_Alaska.pdf</a>).</p>
+<li><p><strong>McAllister &amp; Ianelli (1997) Harmonic Mean Weighting</strong>: Estimates the effective sample size <span class="math inline">\(\hat{N}_{y} = \frac{\sum_{l} E_{l,y}(1 - E_{l,y})}{\sum_{l} (O_{l,y} - E_{l,y})^2}\)</span> for each year and sets the dataset multiplier <span class="math inline">\(w_{\text{MI}}\)</span> using the harmonic mean across years (used in <code>MSCAA</code> <span class="citation" data-cites="curti2013">(<a href="references.html#ref-curti2013" role="doc-biblioref">Curti et al. 2013</a>)</span> and <code>Rceattle</code> <span class="citation" data-cites="adams2022">(<a href="references.html#ref-adams2022" role="doc-biblioref">Adams et al. 2022</a>)</span>; see <span class="citation" data-cites="mcallister_ianelli1997">McAllister and Ianelli (<a href="references.html#ref-mcallister_ianelli1997" role="doc-biblioref">1997</a>)</span>).</p>
 <ul>
-<li><em>Critique (<a href="https://github.com/gustavdelius/multispecies_stock_assessment/blob/main/papers/Francis_2011_Data_weighting_in_stock_assessment.pdf">Francis_2011_Data_weighting_in_stock_assessment.pdf</a>, pp.&nbsp;1128–1131)</em>: Assumes residuals across bins <span class="math inline">\(l\)</span> within the same year <span class="math inline">\(y\)</span> are uncorrelated. When residuals are positively correlated across adjacent length bins (the norm when growth or selectivity varies), McAllister–Ianelli <strong>dramatically overweights</strong> the composition data!</li>
+<li><em>Critique <span class="citation" data-cites="francis2011">(<a href="references.html#ref-francis2011" role="doc-biblioref">Francis 2011, 1128–31</a>)</span></em>: Assumes residuals across bins <span class="math inline">\(l\)</span> within the same year <span class="math inline">\(y\)</span> are uncorrelated. When residuals are positively correlated across adjacent length bins (the norm when growth or selectivity varies), McAllister–Ianelli <strong>dramatically overweights</strong> the composition data!</li>
 </ul></li>
-<li><p><strong>Francis (2011) Method <code>TA1.8</code> (Mean-Length / Mean-Age Residual Variance)</strong>: Collapses each year’s length composition into its <strong>observed mean length</strong> <span class="math inline">\(\bar{O}_y = \sum_l x_l O_{l,y}\)</span> and <strong>expected mean length</strong> <span class="math inline">\(\bar{E}_y = \sum_l x_l E_{l,y}\)</span>, with multinomial within-year variance <span class="math inline">\(v_y = \sum_l x_l^2 E_{l,y} - \bar{E}_y^2\)</span>. Because collapsing to the annual mean <span class="math inline">\(\bar{O}_y\)</span> absorbs all within-year inter-bin correlations, the standardized mean-length residuals <span class="math inline">\(\frac{\bar{O}_y - \bar{E}_y}{\sqrt{v_y / (w N_y)}}\)</span> must have unit variance, yielding the <strong>Francis <code>TA1.8</code> weight multiplier</strong> (<a href="https://github.com/gustavdelius/multispecies_stock_assessment/blob/main/papers/Francis_2011_Data_weighting_in_stock_assessment.pdf">Francis_2011_Data_weighting_in_stock_assessment.pdf</a>, Appendix A, Table A1):</p>
+<li><p><strong>Francis (2011) Method <code>TA1.8</code> (Mean-Length / Mean-Age Residual Variance)</strong>: Collapses each year’s length composition into its <strong>observed mean length</strong> <span class="math inline">\(\bar{O}_y = \sum_l x_l O_{l,y}\)</span> and <strong>expected mean length</strong> <span class="math inline">\(\bar{E}_y = \sum_l x_l E_{l,y}\)</span>, with multinomial within-year variance <span class="math inline">\(v_y = \sum_l x_l^2 E_{l,y} - \bar{E}_y^2\)</span>. Because collapsing to the annual mean <span class="math inline">\(\bar{O}_y\)</span> absorbs all within-year inter-bin correlations, the standardized mean-length residuals <span class="math inline">\(\frac{\bar{O}_y - \bar{E}_y}{\sqrt{v_y / (w N_y)}}\)</span> must have unit variance, yielding the <strong>Francis <code>TA1.8</code> weight multiplier</strong> <span class="citation" data-cites="francis2011">(<a href="references.html#ref-francis2011" role="doc-biblioref">Francis 2011</a>, Appendix A, Table A1)</span>:</p>
 <p><span class="math display">\[w_{\text{Francis}} = \left[ \text{Var}_{y}\!\left( \frac{\bar{O}_y - \bar{E}_y}{\sqrt{v_y / N_y}} \right) \right]^{-1}\]</span></p></li>
-<li><p><strong>Self-Weighting Likelihoods (Dirichlet-Multinomial / Logistic-Normal / SMS Dirichlet)</strong>: Rather than outer fixed-point reweighting loops (<code>Francis TA1.8</code> or <code>Gadget</code> two-stage reweighting), modern TMB and SS3 models (<code>SMS</code>, <code>EcoState</code>, <code>LIME</code> <a href="https://github.com/gustavdelius/multispecies_stock_assessment/blob/main/papers/Rudd_Thorson_2018_LIME_length_based_mixed_effects.pdf">Rudd_Thorson_2018_LIME_length_based_mixed_effects.pdf</a>, <code>SS3</code> <a href="https://github.com/gustavdelius/multispecies_stock_assessment/blob/main/papers/Thorson_etal_2017_Dirichlet_multinomial_effective_sample_size.pdf">Thorson_etal_2017_Dirichlet_multinomial_effective_sample_size.pdf</a>) use a <strong>Dirichlet</strong> or <strong>Dirichlet-Multinomial</strong> likelihood with an estimable dispersion parameter <span class="math inline">\(\theta\)</span>, where effective sample size is either linear in <span class="math inline">\(N_y\)</span>: <span class="math display">\[N_{\text{eff}, y} = \frac{1 + \theta N_y}{1 + \theta}\]</span> or saturating at <span class="math inline">\(1 + \beta\)</span>: <span class="math display">\[N_{\text{eff}, y} = \frac{N_y + N_y \beta}{N_y + \beta}\]</span> In a 4,500-replicate simulation study and Pacific hake application, Thorson et al.&nbsp;(<a href="https://github.com/gustavdelius/multispecies_stock_assessment/blob/main/papers/Thorson_etal_2017_Dirichlet_multinomial_effective_sample_size.pdf">Thorson_etal_2017_Dirichlet_multinomial_effective_sample_size.pdf</a>) proved that simultaneous DM estimation eliminates the Severe bias of unweighted multinomial likelihoods, matches the accuracy and precision of iterative McAllister–Ianelli tuning for <span class="math inline">\(M\)</span>, <span class="math inline">\(\ln R_0\)</span>, and spawning output, and propagates data-weighting uncertainty directly into the joint Hessian and MCMC posterior!</p></li>
+<li><p><strong>Self-Weighting Likelihoods (Dirichlet-Multinomial / Logistic-Normal / SMS Dirichlet)</strong>: Rather than outer fixed-point reweighting loops (<code>Francis TA1.8</code> or <code>Gadget</code> two-stage reweighting), modern TMB and SS3 models (<code>SMS</code>, <code>EcoState</code>, <code>LIME</code> <span class="citation" data-cites="rudd2018">(<a href="references.html#ref-rudd2018" role="doc-biblioref">Rudd and Thorson 2018</a>)</span>, <code>SS3</code> <span class="citation" data-cites="thorson2017">(<a href="references.html#ref-thorson2017" role="doc-biblioref">Thorson et al. 2017</a>)</span>) use a <strong>Dirichlet</strong> or <strong>Dirichlet-Multinomial</strong> likelihood with an estimable dispersion parameter <span class="math inline">\(\theta\)</span>, where effective sample size is either linear in <span class="math inline">\(N_y\)</span>: <span class="math display">\[N_{\text{eff}, y} = \frac{1 + \theta N_y}{1 + \theta}\]</span> or saturating at <span class="math inline">\(1 + \beta\)</span>: <span class="math display">\[N_{\text{eff}, y} = \frac{N_y + N_y \beta}{N_y + \beta}\]</span> In a 4,500-replicate simulation study and Pacific hake application, <span class="citation" data-cites="thorson2017">Thorson et al. (<a href="references.html#ref-thorson2017" role="doc-biblioref">2017</a>)</span> proved that simultaneous DM estimation eliminates the severe bias of unweighted multinomial likelihoods, matches the accuracy and precision of iterative McAllister–Ianelli tuning for <span class="math inline">\(M\)</span>, <span class="math inline">\(\ln R_0\)</span>, and spawning output, and propagates data-weighting uncertainty directly into the joint Hessian and MCMC posterior!</p></li>
 </ol>
 <hr>
 </section>
@@ -381,37 +418,37 @@ window.Quarto = {
 <section id="parameter-estimation-and-uncertainty-quantification-engines" class="level2">
 <h2 class="anchored" data-anchor-id="parameter-estimation-and-uncertainty-quantification-engines">6.3 Parameter Estimation and Uncertainty Quantification Engines</h2>
 <section id="frequentist-empirical-bayes-state-space-estimation-in-tmb-kristensen-et-al.-2016" class="level3">
-<h3 class="anchored" data-anchor-id="frequentist-empirical-bayes-state-space-estimation-in-tmb-kristensen-et-al.-2016">6.3.1 Frequentist / Empirical Bayes State-Space Estimation in <code>TMB</code> (<code>Kristensen et al. 2016</code>)</h3>
-<p>Modern statistical stock assessment models (<code>SAM</code> <a href="https://github.com/gustavdelius/multispecies_stock_assessment/blob/main/papers/Nielsen_Berg_2014_SAM_state_space_assessment_model.pdf">Nielsen_Berg_2014_SAM_state_space_assessment_model.pdf</a>, <code>smsR</code>, <code>Rceattle</code>, <code>gadget3</code>, <code>EcoState</code> <a href="https://github.com/gustavdelius/multispecies_stock_assessment/blob/main/papers/Thorson_etal_2024_EcoState_state_space_EwE.pdf">Thorson_etal_2024_EcoState_state_space_EwE.pdf</a>) are built on <strong>Template Model Builder (<code>TMB</code>)</strong> (<a href="https://github.com/gustavdelius/multispecies_stock_assessment/blob/main/papers/Kristensen_etal_2016_TMB_automatic_differentiation_Laplace.pdf">Kristensen_etal_2016_TMB_automatic_differentiation_Laplace.pdf</a>) or its pure-R interface <strong><code>RTMB</code></strong>.</p>
-<p>Let <span class="math inline">\(\boldsymbol{\theta} \in \mathbb{R}^p\)</span> denote the vector of <strong>fixed effects</strong> (life-history scaling parameters, selectivities, catchabilities, suitability parameters <span class="math inline">\(\beta_i, \sigma_i\)</span>, and variance parameters <span class="math inline">\(\sigma_{\text{proc}}, \sigma_{\text{obs}}\)</span>) and let <span class="math inline">\(\mathbf{u} \in \mathbb{R}^m\)</span> denote the vector of <strong>latent random effects (process errors)</strong> (e.g., annual recruitment deviations <span class="math inline">\(\epsilon_{R,i,y}\)</span>, time-varying fishing mortality random walks <span class="math inline">\(\ln F_{f,y}\)</span>, or biomass process errors <span class="math inline">\(\epsilon_{B,i,y}\)</span>). Given joint negative log-likelihood <span class="math inline">\(f(\boldsymbol{\theta}, \mathbf{u}) = -\ln p(\mathbf{y}, \mathbf{u} \mid \boldsymbol{\theta})\)</span>, TMB approximates the marginal likelihood <span class="math inline">\(L(\boldsymbol{\theta}) = \int \exp(-f(\boldsymbol{\theta}, \mathbf{u})) \, d\mathbf{u}\)</span> via the <strong>Laplace Approximation</strong> (<a href="https://github.com/gustavdelius/multispecies_stock_assessment/blob/main/papers/Kristensen_etal_2016_TMB_automatic_differentiation_Laplace.pdf">Kristensen_etal_2016_TMB_automatic_differentiation_Laplace.pdf</a>, Eq. 2):</p>
+<h3 class="anchored" data-anchor-id="frequentist-empirical-bayes-state-space-estimation-in-tmb-kristensen-et-al.-2016">6.3.1 Frequentist / Empirical Bayes State-Space Estimation in <code>TMB</code> (Kristensen et al.&nbsp;2016)</h3>
+<p>Modern statistical stock assessment models (<code>SAM</code> <span class="citation" data-cites="nielsen2014">(<a href="references.html#ref-nielsen2014" role="doc-biblioref">Nielsen and Berg 2014</a>)</span>, <code>smsR</code>, <code>Rceattle</code>, <code>gadget3</code>, <code>EcoState</code> <span class="citation" data-cites="thorson2024">(<a href="references.html#ref-thorson2024" role="doc-biblioref">Thorson et al. 2024</a>)</span>) are built on <strong>Template Model Builder (<code>TMB</code>)</strong> <span class="citation" data-cites="kristensen2016">(<a href="references.html#ref-kristensen2016" role="doc-biblioref">Kristensen et al. 2016</a>)</span> or its pure-R interface <strong><code>RTMB</code></strong>.</p>
+<p>Let <span class="math inline">\(\boldsymbol{\theta} \in \mathbb{R}^p\)</span> denote the vector of <strong>fixed effects</strong> (life-history scaling parameters, selectivities, catchabilities, suitability parameters <span class="math inline">\(\beta_i, \sigma_i\)</span>, and variance parameters <span class="math inline">\(\sigma_{\text{proc}}, \sigma_{\text{obs}}\)</span>) and let <span class="math inline">\(\mathbf{u} \in \mathbb{R}^m\)</span> denote the vector of <strong>latent random effects (process errors)</strong> (e.g., annual recruitment deviations <span class="math inline">\(\epsilon_{R,i,y}\)</span>, time-varying fishing mortality random walks <span class="math inline">\(\ln F_{f,y}\)</span>, or biomass process errors <span class="math inline">\(\epsilon_{B,i,y}\)</span>). Given joint negative log-likelihood <span class="math inline">\(f(\boldsymbol{\theta}, \mathbf{u}) = -\ln p(\mathbf{y}, \mathbf{u} \mid \boldsymbol{\theta})\)</span>, TMB approximates the marginal likelihood <span class="math inline">\(L(\boldsymbol{\theta}) = \int \exp(-f(\boldsymbol{\theta}, \mathbf{u})) \, d\mathbf{u}\)</span> via the <strong>Laplace Approximation</strong> <span class="citation" data-cites="kristensen2016">(<a href="references.html#ref-kristensen2016" role="doc-biblioref">Kristensen et al. 2016</a>, Eq. 2)</span>:</p>
 <p><span class="math display">\[-\ln L^{*}(\boldsymbol{\theta}) = f\!\left(\boldsymbol{\theta}, \hat{\mathbf{u}}(\boldsymbol{\theta})\right) + \frac{1}{2} \ln \det \mathbf{H}(\boldsymbol{\theta}) - \frac{m}{2} \ln(2\pi)\]</span></p>
 <p>where: - <span class="math inline">\(\hat{\mathbf{u}}(\boldsymbol{\theta}) = \arg\min_{\mathbf{u}} f(\boldsymbol{\theta}, \mathbf{u})\)</span> is the inner-loop empirical Bayes mode of the random effects, and - <span class="math inline">\(\mathbf{H}(\boldsymbol{\theta}) = \left.\frac{\partial^2 f(\boldsymbol{\theta}, \mathbf{u})}{\partial \mathbf{u} \partial \mathbf{u}^\top}\right|_{\mathbf{u} = \hat{\mathbf{u}}(\boldsymbol{\theta})}\)</span> is the sparse <span class="math inline">\(m \times m\)</span> Hessian matrix of the random effects, factored via sparse Cholesky decomposition (<code>CHOLMOD</code>).</p>
 <p>Using up to third-order automatic differentiation (<code>CppAD</code>), TMB computes the exact gradient <span class="math inline">\(\nabla_{\boldsymbol{\theta}} (-\ln L^{*}(\boldsymbol{\theta}))\)</span> of the Laplace-approximated marginal likelihood in <span class="math inline">\(O(1)\)</span> reverse-mode sweeps, allowing <code>nlminb</code> or <code>optim</code> to estimate hundreds of fixed effects and thousands of random effects in seconds to minutes, followed by joint precision matrix inversion (<code>sdreport</code>) for derived quantities (<span class="math inline">\(\text{SSB}_{i,y}, M2_{i,a,y}, F_{\text{MSY}, i}\)</span>).</p>
 <hr>
 </section>
 <section id="bayesian-evolutionary-and-ensemble-approaches-zhang-et-al.-2015-2016-spence-et-al.-2016-2018-2021" class="level3">
-<h3 class="anchored" data-anchor-id="bayesian-evolutionary-and-ensemble-approaches-zhang-et-al.-2015-2016-spence-et-al.-2016-2018-2021">6.3.2 Bayesian, Evolutionary, and Ensemble Approaches (<code>Zhang et al. 2015, 2016</code>; <code>Spence et al. 2016, 2018, 2021</code>)</h3>
+<h3 class="anchored" data-anchor-id="bayesian-evolutionary-and-ensemble-approaches-zhang-et-al.-2015-2016-spence-et-al.-2016-2018-2021">6.3.2 Bayesian, Evolutionary, and Ensemble Approaches (Zhang et al.&nbsp;2015, 2016; Spence et al.&nbsp;2016, 2018, 2021)</h3>
 <p>When models are implemented as black-box simulation packages without automatic differentiation (or when likelihood surfaces are rugged and multimodal), researchers have developed four complementary calibration and uncertainty frameworks for <code>mizer</code> and <code>LeMaRns</code>:</p>
 <ol type="1">
-<li><strong>Two-Step Genetic Algorithm + Parallel Tempering MCMC (<code>Zhang et al. 2015, 2016</code>)</strong>: In calibrating a multispecies <code>mizer</code> model to data-poor and data-rich ecosystems (<a href="https://github.com/gustavdelius/multispecies_stock_assessment/blob/main/papers/Zhang_etal_2015_Assessing_uncertainty_mizer.pdf">Zhang_etal_2015_Assessing_uncertainty_mizer.pdf</a>; <a href="https://github.com/gustavdelius/multispecies_stock_assessment/blob/main/papers/Zhang_etal_2016_Mizer_data_poor_ecosystem.pdf">Zhang_etal_2016_Mizer_data_poor_ecosystem.pdf</a>), Zhang et al.&nbsp;found that standard gradient descent or single-chain Metropolis–Hastings gets trapped in local modes where one or more species go extinct during spin-up. They introduced a two-stage global optimizer:
+<li><strong>Two-Step Genetic Algorithm + Parallel Tempering MCMC (Zhang et al.&nbsp;2015, 2016)</strong>: In calibrating a multispecies <code>mizer</code> model to data-poor and data-rich ecosystems <span class="citation" data-cites="zhang2015 zhang2016">(<a href="references.html#ref-zhang2015" role="doc-biblioref">Zhang et al. 2015</a>, <a href="references.html#ref-zhang2016" role="doc-biblioref">2016</a>)</span>, Zhang et al.&nbsp;found that standard gradient descent or single-chain Metropolis–Hastings gets trapped in local modes where one or more species go extinct during spin-up. They introduced a two-stage global optimizer:
 <ul>
 <li><em>Stage 1</em>: A parallel <strong>Real-Coded Genetic Algorithm (GA)</strong> searches the high-dimensional parameter space <span class="math inline">\((\ln R_{\max, i}, \kappa, q_{f,i}, F_i)\)</span> using a survival penalty for extinct species to locate the global basin of attraction.</li>
 <li><em>Stage 2</em>: <strong>Parallel Tempering MCMC</strong> (running multiple interacting Markov chains at temperatures <span class="math inline">\(T_1 = 1 &lt; T_2 &lt; \dots &lt; T_M\)</span>) samples the posterior distribution across multimodal ridges.</li>
 </ul></li>
-<li><strong>History Matching + Sequential Monte Carlo (<code>Spence et al. 2016, 2021</code>)</strong>: To calibrate <code>mizer</code> (<a href="https://github.com/gustavdelius/multispecies_stock_assessment/blob/main/papers/Spence_Blackwell_Blanchard_2016_Parameter_uncertainty_mizer.pdf">Spence_Blackwell_Blanchard_2016_Parameter_uncertainty_mizer.pdf</a>) and <code>LeMaRns</code> (<a href="https://github.com/gustavdelius/multispecies_stock_assessment/blob/main/papers/Spence_etal_2021_Quantifying_uncertainty_LeMaRns.pdf">Spence_etal_2021_Quantifying_uncertainty_LeMaRns.pdf</a>) to North Sea time series while explicitly accounting for <strong>structural model discrepancy</strong> <span class="math inline">\(\boldsymbol{\eta}_{\text{disc}}\)</span> (the difference between the true ocean and the best possible parameterization of the model), Spence et al.&nbsp;combined:
+<li><strong>History Matching + Sequential Monte Carlo (Spence et al.&nbsp;2016, 2021)</strong>: To calibrate <code>mizer</code> <span class="citation" data-cites="spence2016">(<a href="references.html#ref-spence2016" role="doc-biblioref">Spence et al. 2016</a>)</span> and <code>LeMaRns</code> <span class="citation" data-cites="spence2021uncertainty">(<a href="references.html#ref-spence2021uncertainty" role="doc-biblioref">Spence, Thorpe, et al. 2021</a>)</span> to North Sea time series while explicitly accounting for <strong>structural model discrepancy</strong> <span class="math inline">\(\boldsymbol{\eta}_{\text{disc}}\)</span> (the difference between the true ocean and the best possible parameterization of the model), Spence et al.&nbsp;combined:
 <ul>
 <li><strong>History Matching</strong>: Defines an <strong>implausibility measure</strong> <span class="math inline">\(I_k(\boldsymbol{\theta})\)</span> for summary statistic <span class="math inline">\(k\)</span>: <span class="math display">\[I_k(\boldsymbol{\theta}) = \frac{\left|y^{\text{obs}}_k - \mathbb{E}[f_k(\boldsymbol{\theta})]\right|}{\sqrt{\text{Var}(y^{\text{obs}}_k) + \text{Var}(f_k(\boldsymbol{\theta})) + \text{Var}(\eta_{\text{disc}, k})}}\]</span> and rules out any parameter vector <span class="math inline">\(\boldsymbol{\theta}\)</span> where <span class="math inline">\(\max_k I_k(\boldsymbol{\theta}) &gt; 3\)</span> (by Pukelsheim’s <span class="math inline">\(3\sigma\)</span> rule), rapidly shrinking the feasible space before running full time-series likelihood evaluations.</li>
 <li><strong>Sequential Monte Carlo (SMC)</strong>: Propagates a particle cloud <span class="math inline">\(\left\{\boldsymbol{\theta}^{(p)}\right\}_{p=1}^P\)</span> through sequential annealing or time-series filtering steps using Normalizing Flows / Metropolis-Hastings rejuvenation moves.</li>
 </ul></li>
-<li><strong>Bayesian Multi-Model Ensembles (<code>Spence et al. 2018</code>)</strong>: Instead of selecting a single “winner” model via AIC, Spence et al.&nbsp;(<a href="https://github.com/gustavdelius/multispecies_stock_assessment/blob/main/papers/Spence_etal_2018_Ensemble_ecosystem_models.pdf">Spence_etal_2018_Ensemble_ecosystem_models.pdf</a>) constructed a hierarchical Bayesian ensemble linking five distinct multispecies simulators (<code>EcoPath with Ecosim</code>, <code>LeMans</code>, <code>mizer</code>, <code>SMS</code>, and single-species assessments) as biased noisy realizations around a latent <strong>true ecosystem trajectory</strong> <span class="math inline">\(\boldsymbol{\mu}_t\)</span>, decomposing structural discrepancy into shared vs.&nbsp;simulator-specific discrepancy processes.</li>
+<li><strong>Bayesian Multi-Model Ensembles (Spence et al.&nbsp;2018)</strong>: Instead of selecting a single “winner” model via AIC, <span class="citation" data-cites="spence2018">Spence et al. (<a href="references.html#ref-spence2018" role="doc-biblioref">2018</a>)</span> constructed a hierarchical Bayesian ensemble linking five distinct multispecies simulators (<code>EcoPath with Ecosim</code>, <code>LeMans</code>, <code>mizer</code>, <code>SMS</code>, and single-species assessments) as biased noisy realizations around a latent <strong>true ecosystem trajectory</strong> <span class="math inline">\(\boldsymbol{\mu}_t\)</span>, decomposing structural discrepancy into shared vs.&nbsp;simulator-specific discrepancy processes.</li>
 </ol>
 <hr>
 </section>
 </section>
 <section id="architectural-blueprint-for-next-generation-statistical-dynamic-stock-assessment-in-mizer" class="level2">
 <h2 class="anchored" data-anchor-id="architectural-blueprint-for-next-generation-statistical-dynamic-stock-assessment-in-mizer">6.4 Architectural Blueprint for Next-Generation Statistical Dynamic Stock Assessment in <code>mizer</code></h2>
-<p>In their 10-year review of <code>mizer</code>, Pennino, Delius, Blanchard, Andersen et al.&nbsp;(<a href="https://github.com/gustavdelius/multispecies_stock_assessment/blob/main/papers/Pennino_etal_2026_Decade_of_mizer_review.pdf">Pennino_etal_2026_Decade_of_mizer_review.pdf</a>, Section <em>“Challenges and Future Directions”</em>, p.&nbsp;9) identify the central barrier preventing <code>mizer</code> from being used as a routine tactical stock assessment tool: &gt; <em>“First, there is a lack of a standardized optimization routine for parameter estimation and uncertainty quantification… Second, <code>mizer</code> models are typically calibrated to a time-averaged steady state rather than fitted dynamically to time series of catches, survey indices, and size compositions.”</em></p>
-<p>Drawing together the mathematical lessons from <strong><code>SMS</code></strong> (Chapter 2), <strong><code>Gadget</code>/<code>gadget3</code></strong>, <strong><code>MULTIFAN-CL</code>/<code>SS3</code></strong>, and <strong>Punt et al.&nbsp;(2016)</strong> (Chapter 3), <strong><code>EcoState</code></strong> (Chapter 4), and <strong>stomach content likelihoods</strong> (Chapter 5), we can synthesize a concrete, five-pillar architectural roadmap for transforming <code>mizer</code> into a <strong>differentiable, state-space statistical multispecies stock assessment model</strong> (<code>mizer-TMB</code> / <code>mizer-RTMB</code>).</p>
+<p>In their 10-year review of <code>mizer</code>, <span class="citation" data-cites="pennino2025">Pennino et al. (<a href="references.html#ref-pennino2025" role="doc-biblioref">2025</a>, Section <em>“Challenges and Future Directions”</em>, p.&nbsp;9)</span> identify the central barrier preventing <code>mizer</code> from being used as a routine tactical stock assessment tool: &gt; <em>“First, there is a lack of a standardized optimization routine for parameter estimation and uncertainty quantification… Second, <code>mizer</code> models are typically calibrated to a time-averaged steady state rather than fitted dynamically to time series of catches, survey indices, and size compositions.”</em></p>
+<p>Drawing together the mathematical lessons from <strong><code>SMS</code></strong> (Chapter 2), <strong><code>Gadget</code>/<code>gadget3</code></strong>, <strong><code>MULTIFAN-CL</code>/<code>SS3</code></strong>, and <span class="citation" data-cites="punt2016">Punt et al. (<a href="references.html#ref-punt2016" role="doc-biblioref">2016</a>)</span> (Chapter 3), <strong><code>EcoState</code></strong> (Chapter 4), and <strong>stomach content likelihoods</strong> (Chapter 5), we can synthesize a concrete, five-pillar architectural roadmap for transforming <code>mizer</code> into a <strong>differentiable, state-space statistical multispecies stock assessment model</strong> (<code>mizer-TMB</code> / <code>mizer-RTMB</code>).</p>
 <pre class="mermaid"><code>flowchart TD
     subgraph P1["1. Differentiable Dynamic Size-Spectrum Core (RTMB / TMB)"]
         A["Jump-Growth Advection-Diffusion PDE\n(Datta, Delius &amp; Law 2010)\nor Beta-Binomial Transition (gadget3)\ndN/dt + d(gN)/dw = 1/2 d^2(d N)/dw^2 - mu N"]
@@ -432,42 +469,377 @@ window.Quarto = {
     D --&gt; G</code></pre>
 <hr>
 <section id="pillar-1-resolving-cohort-dispersion-via-jump-growth-diffusion-datta-delius-law-2010" class="level3">
-<h3 class="anchored" data-anchor-id="pillar-1-resolving-cohort-dispersion-via-jump-growth-diffusion-datta-delius-law-2010">Pillar 1: Resolving Cohort Dispersion via Jump-Growth Diffusion (<code>Datta, Delius &amp; Law 2010</code>)</h3>
-<p>When <code>mizer</code> is projected dynamically with interannual recruitment fluctuations <span class="math inline">\(R_{\text{dd}, i}(t) \exp(\epsilon_{R,i,y})\)</span>, a strong year class enters at <span class="math inline">\(w_0\)</span> and propagates across the weight grid. - <strong>Problem</strong>: Under the standard first-order upwind scheme, cohort width is governed by numerical grid viscosity <span class="math inline">\(D_{\text{num}} \approx \frac{1}{2} g_i \Delta w\)</span>, which fails to match the true biological variance of size-at-age in survey length-frequency distributions. - <strong>Solution</strong>: Replace the first-order upwind step with the <strong>semi-implicit Crank–Nicolson / Chang–Cooper finite-volume discretization of the Jump-Growth Fokker–Planck PDE</strong> (<a href="https://github.com/gustavdelius/multispecies_stock_assessment/blob/main/papers/Datta_Delius_Law_2010_Jump_growth_model.pdf">Datta_Delius_Law_2010_Jump_growth_model.pdf</a>, Eq. 7):</p>
+<h3 class="anchored" data-anchor-id="pillar-1-resolving-cohort-dispersion-via-jump-growth-diffusion-datta-delius-law-2010">Pillar 1: Resolving Cohort Dispersion via Jump-Growth Diffusion (Datta, Delius &amp; Law 2010)</h3>
+<p>When <code>mizer</code> is projected dynamically with interannual recruitment fluctuations <span class="math inline">\(R_{\text{dd}, i}(t) \exp(\epsilon_{R,i,y})\)</span>, a strong year class enters at <span class="math inline">\(w_0\)</span> and propagates across the weight grid. - <strong>Problem</strong>: Under the standard first-order upwind scheme, cohort width is governed by numerical grid viscosity <span class="math inline">\(D_{\text{num}} \approx \frac{1}{2} g_i \Delta w\)</span>, which fails to match the true biological variance of size-at-age in survey length-frequency distributions. - <strong>Solution</strong>: Replace the first-order upwind step with the <strong>semi-implicit Crank–Nicolson / Chang–Cooper finite-volume discretization of the Jump-Growth Fokker–Planck PDE</strong> <span class="citation" data-cites="datta2010">(<a href="references.html#ref-datta2010" role="doc-biblioref">Datta et al. 2010</a>, Eq. 7)</span>:</p>
 <p><span class="math display">\[\frac{\partial N_i}{\partial t} + \frac{\partial (g_i N_i)}{\partial w} - \frac{1}{2} \frac{\partial^2 \left(\psi_{\text{disp}, i} \, d_i(w,t) \, N_i\right)}{\partial w^2} = -\mu_i(w,t) N_i\]</span></p>
-<p>where <span class="math inline">\(d_i(w,t)\)</span> is the mechanistic second moment of prey mass intake, optionally scaled by a species-specific dispersion multiplier <span class="math inline">\(\psi_{\text{disp}, i} \ge 1\)</span> (analogous to Gadget’s Beta-Binomial dispersion parameter <span class="math inline">\(\beta_s\)</span> in <a href="https://github.com/gustavdelius/multispecies_stock_assessment/blob/main/papers/software_docs/gadget3_action_grow.R#L91-L133"><code>g3a_grow_impl_bbinom</code></a>) to account for genetic growth variation and patchy foraging. - <strong>Computational Cost</strong>: Discretizing the second derivative <span class="math inline">\(\partial_w^2 (d_i N_i)\)</span> changes the implicit linear system per species per time step from <strong>lower-bidiagonal</strong> to <strong>tridiagonal</strong>, which is still solved in exact <strong><span class="math inline">\(O(n_w)\)</span> operations</strong> via the Thomas algorithm (<code>solve_tridiag</code>) and is <span class="math inline">\(100\%\)</span> differentiable in <code>TMB</code> / <code>RTMB</code>!</p>
+<p>where <span class="math inline">\(d_i(w,t)\)</span> is the mechanistic second moment of prey mass intake, optionally scaled by a species-specific dispersion multiplier <span class="math inline">\(\psi_{\text{disp}, i} \ge 1\)</span> (analogous to Gadget’s Beta-Binomial dispersion parameter <span class="math inline">\(\beta_s\)</span> in <code>g3a_grow_impl_bbinom</code>; <span class="citation" data-cites="lentz_gadget3">Lentz and Elvarsson (<a href="references.html#ref-lentz_gadget3" role="doc-biblioref">2024</a>)</span>) to account for genetic growth variation and patchy foraging. - <strong>Computational Cost</strong>: Discretizing the second derivative <span class="math inline">\(\partial_w^2 (d_i N_i)\)</span> changes the implicit linear system per species per time step from <strong>lower-bidiagonal</strong> to <strong>tridiagonal</strong>, which is still solved in exact <strong><span class="math inline">\(O(n_w)\)</span> operations</strong> via the Thomas algorithm (<code>solve_tridiag</code>) and is <span class="math inline">\(100\%\)</span> differentiable in <code>TMB</code> / <code>RTMB</code>!</p>
 <hr>
 </section>
 <section id="pillar-2-two-stage-initialization-differentiable-steady-state-spin-up-dynamic-projection" class="level3">
 <h3 class="anchored" data-anchor-id="pillar-2-two-stage-initialization-differentiable-steady-state-spin-up-dynamic-projection">Pillar 2: Two-Stage Initialization (Differentiable Steady-State Spin-Up + Dynamic Projection)</h3>
-<p>In single-species assessments (<code>SS3</code>, <code>SAM</code>), the initial age vector <span class="math inline">\(N_{i,a,t_0}\)</span> at the start of the historical time series <span class="math inline">\(t_0\)</span> is initialized at an fished equilibrium <span class="math inline">\(N_{\text{eq}}(F_{\text{init}, i})\)</span> plus initial deviations. For dynamic <code>mizer</code>: 1. <strong>Differentiable Steady-State Initialization at <span class="math inline">\(t = t_0\)</span></strong>: Given trial parameters <span class="math inline">\(\boldsymbol{\theta}\)</span> and baseline initial fishing effort <span class="math inline">\(E_{f, t_0}\)</span>, compute the steady-state spectra <span class="math inline">\(N_{i,0}(w)\)</span> via a fixed number (<span class="math inline">\(k = 15\text{--}25\)</span>) of damped fixed-point iterations of the analytical steady-state envelope <span class="math inline">\(N_i(w) = N_i(w_0)\frac{g_i(w_0)}{g_i(w)}\exp\!\left(-\int_{w_0}^w \frac{\mu_i(w')}{g_i(w')} dw'\right)\)</span> (with matching resource <span class="math inline">\(N_{R,0}(w)\)</span>). Because a fixed number of unrolled iterations uses only elementary vector operations, <code>TMB</code> / <code>RTMB</code> differentiates smoothly through the steady-state initialization! 2. <strong>Dynamic Time-Stepping (<span class="math inline">\(t \in [t_0, T]\)</span>)</strong>: Step forward in quarterly or monthly increments <span class="math inline">\(\Delta t\)</span> (e.g., <span class="math inline">\(\Delta t = 0.1\)</span> or <span class="math inline">\(0.25\text{ yr}\)</span>) driven by time-varying fishing mortality <span class="math inline">\(F_{f,i}(w, t)\)</span>, temperature anomalies <span class="math inline">\(T(t)\)</span> (scaling metabolic rates <span class="math inline">\(k_{s,i}\)</span>, intake <span class="math inline">\(h_i\)</span>, and search rates <span class="math inline">\(\gamma_i\)</span> via Arrhenius activation <span class="math inline">\(e^{-E_a / k_B T}\)</span>), and state-space recruitment deviations <span class="math inline">\(\epsilon_{R,i,y}\)</span>.</p>
+<p>In single-species assessments (<code>SS3</code>, <code>SAM</code>), the initial age vector <span class="math inline">\(N_{i,a,t_0}\)</span> at the start of the historical time series <span class="math inline">\(t_0\)</span> is initialized at a fished equilibrium <span class="math inline">\(N_{\text{eq}}(F_{\text{init}, i})\)</span> plus initial deviations. For dynamic <code>mizer</code>: 1. <strong>Differentiable Steady-State Initialization at <span class="math inline">\(t = t_0\)</span></strong>: Given trial parameters <span class="math inline">\(\boldsymbol{\theta}\)</span> and baseline initial fishing effort <span class="math inline">\(E_{f, t_0}\)</span>, compute the steady-state spectra <span class="math inline">\(N_{i,0}(w)\)</span> via a fixed number (<span class="math inline">\(k = 15\text{--}25\)</span>) of damped fixed-point iterations of the analytical steady-state envelope <span class="math inline">\(N_i(w) = N_i(w_0)\frac{g_i(w_0)}{g_i(w)}\exp\!\left(-\int_{w_0}^w \frac{\mu_i(w')}{g_i(w')} dw'\right)\)</span> (with matching resource <span class="math inline">\(N_{R,0}(w)\)</span>). Because a fixed number of unrolled iterations uses only elementary vector operations, <code>TMB</code> / <code>RTMB</code> differentiates smoothly through the steady-state initialization! 2. <strong>Dynamic Time-Stepping (<span class="math inline">\(t \in [t_0, T]\)</span>)</strong>: Step forward in quarterly or monthly increments <span class="math inline">\(\Delta t\)</span> (e.g., <span class="math inline">\(\Delta t = 0.1\)</span> or <span class="math inline">\(0.25\text{ yr}\)</span>) driven by time-varying fishing mortality <span class="math inline">\(F_{f,i}(w, t)\)</span>, temperature anomalies <span class="math inline">\(T(t)\)</span> (scaling metabolic rates <span class="math inline">\(k_{s,i}\)</span>, intake <span class="math inline">\(h_i\)</span>, and search rates <span class="math inline">\(\gamma_i\)</span> via Arrhenius activation <span class="math inline">\(e^{-E_a / k_B T}\)</span>), and state-space recruitment deviations <span class="math inline">\(\epsilon_{R,i,y}\)</span>.</p>
 <hr>
 </section>
 <section id="pillar-3-state-space-process-random-effects-mathbfu" class="level3">
 <h3 class="anchored" data-anchor-id="pillar-3-state-space-process-random-effects-mathbfu">Pillar 3: State-Space Process Random Effects (<span class="math inline">\(\mathbf{u}\)</span>)</h3>
-<p>Following <code>SAM</code> (<a href="https://github.com/gustavdelius/multispecies_stock_assessment/blob/main/papers/Nielsen_Berg_2014_SAM_state_space_assessment_model.pdf">Nielsen_Berg_2014_SAM_state_space_assessment_model.pdf</a>) and <code>EcoState</code> (<a href="https://github.com/gustavdelius/multispecies_stock_assessment/blob/main/papers/Thorson_etal_2024_EcoState_state_space_EwE.pdf">Thorson_etal_2024_EcoState_state_space_EwE.pdf</a>), introduce three compact sets of latent Gaussian random effects integrated out by TMB’s Laplace approximation: 1. <strong>Annual Recruitment Deviations</strong>: <span class="math display">\[R_i(t) = R_{\text{dd}, i}(t) \exp\!\left(\epsilon_{R, i, y(t)} - \frac{1}{2}\sigma_{R, i}^2\right), \qquad \epsilon_{R, i, y} \sim \mathcal{N}\!\left(0, \sigma_{R, i}^2\right)\]</span> 2. <strong>Resource Spectrum Productivity / Carrying Capacity Anomalies</strong> (capturing bottom-up climate/plankton regimes): <span class="math display">\[\kappa_R(w, t) = \kappa_0 \exp\!\left(\epsilon_{\kappa, y(t)}\right) w^{-\lambda}, \qquad \epsilon_{\kappa, y} \sim \text{AR1}\!\left(\rho_\kappa, \sigma_\kappa^2\right)\]</span> 3. <strong>Random-Walk Fishing Effort / Mortality</strong> (when commercial effort is noisy or unrecorded): <span class="math display">\[\ln E_{f, y+1} \sim \mathcal{N}\!\left(\ln E_{f, y},\; \sigma_{E, f}^2\right)\]</span></p>
+<p>Following <code>SAM</code> <span class="citation" data-cites="nielsen2014">(<a href="references.html#ref-nielsen2014" role="doc-biblioref">Nielsen and Berg 2014</a>)</span> and <code>EcoState</code> <span class="citation" data-cites="thorson2024">(<a href="references.html#ref-thorson2024" role="doc-biblioref">Thorson et al. 2024</a>)</span>, introduce three compact sets of latent Gaussian random effects integrated out by TMB’s Laplace approximation: 1. <strong>Annual Recruitment Deviations</strong>: <span class="math display">\[R_i(t) = R_{\text{dd}, i}(t) \exp\!\left(\epsilon_{R, i, y(t)} - \frac{1}{2}\sigma_{R, i}^2\right), \qquad \epsilon_{R, i, y} \sim \mathcal{N}\!\left(0, \sigma_{R, i}^2\right)\]</span> 2. <strong>Resource Spectrum Productivity / Carrying Capacity Anomalies</strong> (capturing bottom-up climate/plankton regimes): <span class="math display">\[\kappa_R(w, t) = \kappa_0 \exp\!\left(\epsilon_{\kappa, y(t)}\right) w^{-\lambda}, \qquad \epsilon_{\kappa, y} \sim \text{AR1}\!\left(\rho_\kappa, \sigma_\kappa^2\right)\]</span> 3. <strong>Random-Walk Fishing Effort / Mortality</strong> (when commercial effort is noisy or unrecorded): <span class="math display">\[\ln E_{f, y+1} \sim \mathcal{N}\!\left(\ln E_{f, y},\; \sigma_{E, f}^2\right)\]</span></p>
 <hr>
 </section>
 <section id="pillar-4-observation-operators-and-joint-statistical-likelihood-function" class="level3">
 <h3 class="anchored" data-anchor-id="pillar-4-observation-operators-and-joint-statistical-likelihood-function">Pillar 4: Observation Operators and Joint Statistical Likelihood Function</h3>
-<p>To avoid the parameter confounding identified by Punt et al.&nbsp;(<a href="https://github.com/gustavdelius/multispecies_stock_assessment/blob/main/papers/Punt_etal_2016_Estimating_growth_in_size_structured_assessments.pdf">Punt_etal_2016_Estimating_growth_in_size_structured_assessments.pdf</a>), dynamic <code>mizer</code> should be fitted simultaneously to four orthogonal empirical data streams:</p>
+<p>To avoid the parameter confounding identified by <span class="citation" data-cites="punt2016">Punt et al. (<a href="references.html#ref-punt2016" role="doc-biblioref">2016</a>)</span>, dynamic <code>mizer</code> should be fitted simultaneously to four orthogonal empirical data streams:</p>
 <ol type="1">
 <li><p><strong>Survey Biomass / Abundance Indices (<span class="math inline">\(I_{f,i,y}\)</span>, Lognormal Likelihood)</strong>: Given survey selectivity <span class="math inline">\(S^{\text{surv}}_{f,i}(w)\)</span> and catchability <span class="math inline">\(Q^{\text{surv}}_{f,i}\)</span>: <span class="math display">\[\hat{I}_{f,i,y} = Q^{\text{surv}}_{f,i} \int_{w_0}^{w_{\max,i}} S^{\text{surv}}_{f,i}(w) \, w \, N_i(w, t_y) \, dw, \qquad \ln I^{\text{obs}}_{f,i,y} \sim \mathcal{N}\!\left(\ln \hat{I}_{f,i,y},\; \sigma^2_{I,f,i,y}\right)\]</span></p></li>
 <li><p><strong>Commercial Fishery Yields (<span class="math inline">\(Y_{f,i,y}\)</span>, Lognormal Likelihood)</strong>: <span class="math display">\[\hat{Y}_{f,i,y} = \int_{y}^{y+1} dt \int_{w_0}^{w_{\max,i}} F_{f,i}(w, t) \, w \, N_i(w, t) \, dw, \qquad \ln Y^{\text{obs}}_{f,i,y} \sim \mathcal{N}\!\left(\ln \hat{Y}_{f,i,y},\; \sigma^2_{Y,f,i}\right)\]</span></p></li>
-<li><p><strong>Survey &amp; Commercial Length-Frequency Compositions (<span class="math inline">\(\mathbf{P}^{\text{obs}}_{f,i,y}\)</span>, Dirichlet-Multinomial or Fournier Robustified Normal Likelihood)</strong>: For observed length bin <span class="math inline">\(l\)</span> with boundaries <span class="math inline">\([L_l, L_{l+1})\)</span> corresponding to body weights <span class="math inline">\([w_{i,l}, w_{i,l+1}) = [a_i L_l^{b_i}, a_i L_{l+1}^{b_i})\)</span>, the expected catch number in bin <span class="math inline">\(l\)</span> is: <span class="math display">\[\hat{C}_{f,i,l,y} = \int_{w_{i,l}}^{w_{i,l+1}} S_{f,i}(w) \, N_i(w, t_y) \, dw, \qquad \hat{p}_{f,i,l,y} = \frac{\hat{C}_{f,i,l,y}}{\sum_{m} \hat{C}_{f,i,m,y}}\]</span> Evaluated via the <strong>self-weighting Dirichlet-Multinomial likelihood</strong> (Thorson et al.&nbsp;2017) with haul sample size <span class="math inline">\(N_{\text{haul}, f, y}\)</span> and estimated overdispersion <span class="math inline">\(\theta_{\text{comp}, f, i}\)</span> (or Fournier’s robustified normal likelihood from <code>MULTIFAN-CL</code> to prevent tail outliers from distorting growth parameters).</p></li>
+<li><p><strong>Survey &amp; Commercial Length-Frequency Compositions (<span class="math inline">\(\mathbf{P}^{\text{obs}}_{f,i,y}\)</span>, Dirichlet-Multinomial or Fournier Robustified Normal Likelihood)</strong>: For observed length bin <span class="math inline">\(l\)</span> with boundaries <span class="math inline">\([L_l, L_{l+1})\)</span> corresponding to body weights <span class="math inline">\([w_{i,l}, w_{i,l+1}) = [a_i L_l^{b_i}, a_i L_{l+1}^{b_i})\)</span>, the expected catch number in bin <span class="math inline">\(l\)</span> is: <span class="math display">\[\hat{C}_{f,i,l,y} = \int_{w_{i,l}}^{w_{i,l+1}} S_{f,i}(w) \, N_i(w, t_y) \, dw, \qquad \hat{p}_{f,i,l,y} = \frac{\hat{C}_{f,i,l,y}}{\sum_{m} \hat{C}_{f,i,m,y}}\]</span> Evaluated via the <strong>self-weighting Dirichlet-Multinomial likelihood</strong> <span class="citation" data-cites="thorson2017">(<a href="references.html#ref-thorson2017" role="doc-biblioref">Thorson et al. 2017</a>)</span> with haul sample size <span class="math inline">\(N_{\text{haul}, f, y}\)</span> and estimated overdispersion <span class="math inline">\(\theta_{\text{comp}, f, i}\)</span> (or Fournier’s robustified normal likelihood from <code>MULTIFAN-CL</code> <span class="citation" data-cites="fournier1998">(<a href="references.html#ref-fournier1998" role="doc-biblioref">Fournier et al. 1998</a>)</span> to prevent tail outliers from distorting growth parameters).</p></li>
 <li><p><strong>Stomach Content Diet Shares &amp; Log-PPMR Distributions (Dirichlet-Multinomial + Gamma Likelihood)</strong>: For predator <span class="math inline">\((i, w')\)</span> in year-quarter <span class="math inline">\(t\)</span>, the model-predicted mass share of prey species <span class="math inline">\(j\)</span> in prey weight bin <span class="math inline">\([w_{p,m}, w_{p,m+1})\)</span> in the diet is: <span class="math display">\[\hat{W}_{i,w', j, m, t} = \frac{\gamma_i(w') \, \theta_{ij} \int_{w_{p,m}}^{w_{p,m+1}} \phi_i(w' / w_p) \, N_j(w_p, t) \, w_p \, dw_p}{E_i(w', t)}\]</span></p>
 <ul>
-<li><strong>Taxonomic Diet Shares</strong>: Fit evacuated, CPUE-weighted (or <code>sdmTMB</code>-standardized; <a href="https://github.com/gustavdelius/multispecies_stock_assessment/blob/main/papers/Jacobsen_etal_2023_Stomach_content_databases_study.pdf">Jacobsen_etal_2023_Stomach_content_databases_study.pdf</a>) stomach weight proportions against <span class="math inline">\(\hat{W}_{i,w',j,m,t}\)</span> using the <strong>SMS Dirichlet</strong> or <strong>Dirichlet-Multinomial</strong> likelihood, which directly identifies the interaction matrix <span class="math inline">\(\theta_{ij}\)</span>!</li>
-<li><strong>Predator–Prey Size Kernel Parameters (<span class="math inline">\(\beta_i, \sigma_i\)</span> or Gamma <span class="math inline">\(\alpha_i, \beta_i\)</span>)</strong>: Fit the observed log-PPMR distribution <span class="math inline">\(x = \ln(w'/w_p)\)</span> using the <strong>Exponential Family / Gamma likelihood</strong> of Morgan (<a href="https://github.com/gustavdelius/multispecies_stock_assessment/blob/main/papers/Morgan_2022_Fitting_distributions_stomach_contents_mizer.pdf">Morgan_2022_Fitting_distributions_stomach_contents_mizer.pdf</a>).</li>
+<li><strong>Taxonomic Diet Shares</strong>: Fit evacuated, CPUE-weighted (or <code>sdmTMB</code>-standardized; <span class="citation" data-cites="jacobsen2023"><span class="nocase">Jacobsen et al.</span> (<a href="references.html#ref-jacobsen2023" role="doc-biblioref">2023</a>)</span>) stomach weight proportions against <span class="math inline">\(\hat{W}_{i,w',j,m,t}\)</span> using the <strong>SMS Dirichlet</strong> <span class="citation" data-cites="lewy2004">(<a href="references.html#ref-lewy2004" role="doc-biblioref">Lewy and Vinther 2004</a>)</span> or <strong>Dirichlet-Multinomial</strong> <span class="citation" data-cites="thorson2017">(<a href="references.html#ref-thorson2017" role="doc-biblioref">Thorson et al. 2017</a>)</span> likelihood, which directly identifies the interaction matrix <span class="math inline">\(\theta_{ij}\)</span>!</li>
+<li><strong>Predator–Prey Size Kernel Parameters (<span class="math inline">\(\beta_i, \sigma_i\)</span> or Gamma <span class="math inline">\(\alpha_i, \beta_i\)</span>)</strong>: Fit the observed log-PPMR distribution <span class="math inline">\(x = \ln(w'/w_p)\)</span> using the <strong>Exponential Family / Gamma likelihood</strong> of <span class="citation" data-cites="morgan2022">Morgan (<a href="references.html#ref-morgan2022" role="doc-biblioref">2022</a>)</span>.</li>
 </ul></li>
 </ol>
 <hr>
 </section>
 <section id="pillar-5-stabilizing-dynamic-multi-decadal-fits-via-prey-refuges-overconsumption-caps" class="level3">
 <h3 class="anchored" data-anchor-id="pillar-5-stabilizing-dynamic-multi-decadal-fits-via-prey-refuges-overconsumption-caps">Pillar 5: Stabilizing Dynamic Multi-Decadal Fits via Prey Refuges &amp; Overconsumption Caps</h3>
-<p>A major lesson from <code>Gadget</code> (<a href="https://github.com/gustavdelius/multispecies_stock_assessment/blob/main/papers/software_docs/gadget3_action_predate.R">gadget3_action_predate.R</a>), <code>MSCAA</code> (Curti et al.&nbsp;2013), and <code>Ecosim</code>/<code>EcoState</code> (<a href="https://github.com/gustavdelius/multispecies_stock_assessment/blob/main/papers/Walters_Christensen_Pauly_1997_Ecosim.pdf">Walters_Christensen_Pauly_1997_Ecosim.pdf</a>; <a href="https://github.com/gustavdelius/multispecies_stock_assessment/blob/main/papers/Thorson_etal_2024_EcoState_state_space_EwE.pdf">Thorson_etal_2024_EcoState_state_space_EwE.pdf</a>) is that during gradient optimization over a 40-year time series, trial parameter values can easily trigger runaway trophic cascades unless two stabilizing mechanisms are included: 1. <strong>Holling Type III Exponent or Foraging Arena Vulnerability</strong>: Replacing linear encounter <span class="math inline">\(\theta_{ij} N_j(w_p)\)</span> with a weakly sigmoid Type III encounter <span class="math inline">\(\theta_{ij} N_j(w_p)^{1 + \zeta}\)</span> (<span class="math inline">\(\zeta \approx 0.1\text{--}0.3\)</span>) or a Foraging Arena predator-interference denominator <span class="math inline">\(\frac{\theta_{ij} v_{ij}}{2 v_{ij} + \gamma_i N_i}\)</span> provides a low-density prey refuge and prevents unrealistic species extinctions during parameter search. 2. <strong>Smooth Differentiable Overconsumption Cap (<code>dif_pmin</code>)</strong>: Borrowing <code>gadget3</code>’s smooth logistic minimum cap on total mortality per time step ensures that <span class="math inline">\(N_i(w, t)\)</span> remains strictly positive and gradients <span class="math inline">\(\nabla_{\boldsymbol{\theta}} \mathcal{L}\)</span> remain finite across the entire parameter space.</p>
+<p>A major lesson from <code>Gadget</code> <span class="citation" data-cites="lentz_gadget3">(<a href="references.html#ref-lentz_gadget3" role="doc-biblioref">Lentz and Elvarsson 2024</a>)</span>, <code>MSCAA</code> <span class="citation" data-cites="curti2013">(<a href="references.html#ref-curti2013" role="doc-biblioref">Curti et al. 2013</a>)</span>, and <code>Ecosim</code>/<code>EcoState</code> <span class="citation" data-cites="walters1997 thorson2024">(<a href="references.html#ref-walters1997" role="doc-biblioref">Walters et al. 1997</a>; <a href="references.html#ref-thorson2024" role="doc-biblioref">Thorson et al. 2024</a>)</span> is that during gradient optimization over a 40-year time series, trial parameter values can easily trigger runaway trophic cascades unless two stabilizing mechanisms are included: 1. <strong>Holling Type III Exponent or Foraging Arena Vulnerability</strong>: Replacing linear encounter <span class="math inline">\(\theta_{ij} N_j(w_p)\)</span> with a weakly sigmoid Type III encounter <span class="math inline">\(\theta_{ij} N_j(w_p)^{1 + \zeta}\)</span> (<span class="math inline">\(\zeta \approx 0.1\text{--}0.3\)</span>) or a Foraging Arena predator-interference denominator <span class="math inline">\(\frac{\theta_{ij} v_{ij}}{2 v_{ij} + \gamma_i N_i}\)</span> provides a low-density prey refuge and prevents unrealistic species extinctions during parameter search. 2. <strong>Smooth Differentiable Overconsumption Cap (<code>dif_pmin</code>)</strong>: Borrowing <code>gadget3</code>’s smooth logistic minimum cap on total mortality per time step ensures that <span class="math inline">\(N_i(w, t)\)</span> remains strictly positive and gradients <span class="math inline">\(\nabla_{\boldsymbol{\theta}} \mathcal{L}\)</span> remain finite across the entire parameter space.</p>
 
 
+<div id="refs" class="references csl-bib-body hanging-indent" role="list" style="display: none">
+<div id="ref-adams2022" class="csl-entry" role="listitem">
+Adams, Grant D., Kirstin K. Holsman, Steven J. Barbeaux, et al. 2022. <span>“An Ensemble Approach to Understand Predation Mortality for Groundfish in the <span class="nocase">Gulf of Alaska</span>.”</span> <em>Fisheries Research</em> 251: 106303. <a href="https://doi.org/10.1016/j.fishres.2022.106303">https://doi.org/10.1016/j.fishres.2022.106303</a>.
+</div>
+<div id="ref-andersen2019" class="csl-entry" role="listitem">
+Andersen, Ken H. 2019. <em>Fish Ecology, Evolution, and Exploitation: A New Theoretical Synthesis</em>. Princeton University Press. <a href="https://doi.org/10.23943/princeton/9780691192956.001.0001">https://doi.org/10.23943/princeton/9780691192956.001.0001</a>.
+</div>
+<div id="ref-andersen2020" class="csl-entry" role="listitem">
+Andersen, Ken H. 2020. <span>“Size-Based Theory for Fisheries Advice.”</span> <em>ICES Journal of Marine Science</em> 77 (7–8): 2445–55. <a href="https://doi.org/10.1093/icesjms/fsaa157">https://doi.org/10.1093/icesjms/fsaa157</a>.
+</div>
+<div id="ref-andersen_beyer2006" class="csl-entry" role="listitem">
+Andersen, Ken H., and Jan E. Beyer. 2006. <span>“Asymptotic Size Determines Species Abundance in the Marine Size Spectrum.”</span> <em>The American Naturalist</em> 168 (1): 54–61. <a href="https://doi.org/10.1086/504849">https://doi.org/10.1086/504849</a>.
+</div>
+<div id="ref-andersen2016" class="csl-entry" role="listitem">
+Andersen, Ken H., Nis S. Jacobsen, and Keith D. Farnsworth. 2016. <span>“The Theoretical Foundations for Size Spectrum Models of Fish Communities.”</span> <em>Canadian Journal of Fisheries and Aquatic Sciences</em> 73 (4): 575–88. <a href="https://doi.org/10.1139/cjfas-2015-0230">https://doi.org/10.1139/cjfas-2015-0230</a>.
+</div>
+<div id="ref-andersen_ursin1977" class="csl-entry" role="listitem">
+Andersen, Knud P., and Erik Ursin. 1977. <span>“A Multispecies Extension to the <span>Beverton</span> and <span>Holt</span> Theory of Fishing, with Accounts of Phosphorus Circulation and Primary Production.”</span> <em>Meddelelser Fra Danmarks Fiskeri- Og Havunders<span>ø</span>gelser, N.S.</em> 7: 319–435.
+</div>
+<div id="ref-andersen_beyer2005" class="csl-entry" role="listitem">
+Andersen, Niels G., and Jan E. Beyer. 2005. <span>“Mechanistic Modelling of Gastric Evacuation in Predatory Gadoids Applying the Square Root Model to Describe Surface-Dependent Evacuation.”</span> <em>Journal of Fish Biology</em> 67 (5): 1392–412. <a href="https://doi.org/10.1111/j.1095-8649.2005.00834.x">https://doi.org/10.1111/j.1095-8649.2005.00834.x</a>.
+</div>
+<div id="ref-anderson2022" class="csl-entry" role="listitem">
+Anderson, Sean C., Eric J. Ward, Philina A. English, Lewis A. K. Barnett, and James T. Thorson. 2022. <span>“<span class="nocase">sdmTMB</span>: An <span>R</span> Package for Fast, Flexible, and User-Friendly Generalized Linear Mixed Effects Models with Spatial and Spatiotemporal Random Fields.”</span> <em>bioRxiv</em>, ahead of print. <a href="https://doi.org/10.1101/2022.03.24.485545">https://doi.org/10.1101/2022.03.24.485545</a>.
+</div>
+<div id="ref-aydin2005" class="csl-entry" role="listitem">
+Aydin, Kerim Y., Sarah K. Gaichas, Ivonne Ortiz, Douglas Kinzey, and Nancy Friday. 2005. <em>A Comparison of the <span>Bering Sea</span>, <span class="nocase">Gulf of Alaska</span>, and <span>Aleutian Islands</span> Large Marine Ecosystems Through Food Web Modeling</em>. NOAA Technical Memorandum NMFS-AFSC-178. U.S. Department of Commerce.
+</div>
+<div id="ref-barnes2008" class="csl-entry" role="listitem">
+Barnes, Carolyn, Dana M. Bethea, Richard D. Brodeur, et al. 2008. <span>“Predator and Prey Body Sizes in Marine Food Webs.”</span> <em>Ecology</em> 89 (3): 881. <a href="https://doi.org/10.1890/07-1551.1">https://doi.org/10.1890/07-1551.1</a>.
+</div>
+<div id="ref-barnes2010" class="csl-entry" role="listitem">
+Barnes, Carolyn, David Maxwell, Daniel C. Reuman, and Simon Jennings. 2010. <span>“Global Patterns in Predator–Prey Size Relationships Reveal Size Dependency of Trophic Transfer Efficiency.”</span> <em>Ecology</em> 91 (1): 222–32. <a href="https://doi.org/10.1890/08-2061.1">https://doi.org/10.1890/08-2061.1</a>.
+</div>
+<div id="ref-bartolino2011" class="csl-entry" role="listitem">
+Bartolino, Valerio, Francesco Colloca, Lorna Taylor, and Gunnar Stefánsson. 2011. <span>“First Implementation of a <span>Gadget</span> Model for the Analysis of Hake in the <span>Mediterranean</span>.”</span> <em>Fisheries Research</em> 107 (1–3): 75–83. <a href="https://doi.org/10.1016/j.fishres.2010.10.010">https://doi.org/10.1016/j.fishres.2010.10.010</a>.
+</div>
+<div id="ref-begley2004guide" class="csl-entry" role="listitem">
+Begley, James. 2004. <em><span>Gadget</span> User Guide</em>. Report No. 120. Marine Research Institute.
+</div>
+<div id="ref-begley2004overview" class="csl-entry" role="listitem">
+Begley, James, and Daniel Howell. 2004. <em>An Overview of <span>Gadget</span>, the <span class="nocase">Globally applicable Area-Disaggregated General Ecosystem Toolbox</span></em>. ICES CM 2004/FF:13. International Council for the Exploration of the Sea.
+</div>
+<div id="ref-benoit_rochet2004" class="csl-entry" role="listitem">
+Benoît, Elisabeth, and Marie-Joëlle Rochet. 2004. <span>“A Continuous Model of Biomass Size Spectra Governed by Predation and the Effects of Fishing on Them.”</span> <em>Journal of Theoretical Biology</em> 226 (1): 9–21. <a href="https://doi.org/10.1016/s0022-5193(03)00290-x">https://doi.org/10.1016/s0022-5193(03)00290-x</a>.
+</div>
+<div id="ref-beverton_holt1956" class="csl-entry" role="listitem">
+Beverton, Raymond J. H., and Sidney J. Holt. 1956. <span>“A Review of Methods for Estimating Mortality Rates in Exploited Fish Populations, with Special Reference to Sources of Bias in Catch Sampling.”</span> <em>Rapports Et Proc<span>è</span>s-Verbaux Des R<span>é</span>unions Du Conseil Permanent International Pour l’Exploration de La Mer</em> 140: 67–83.
+</div>
+<div id="ref-beverton_holt1957" class="csl-entry" role="listitem">
+Beverton, Raymond J. H., and Sidney J. Holt. 1957. <em>On the Dynamics of Exploited Fish Populations</em>. Vol. 19. Fishery Investigations Series II. Her Majesty’s Stationery Office. <a href="https://doi.org/10.1007/978-94-011-2106-4">https://doi.org/10.1007/978-94-011-2106-4</a>.
+</div>
+<div id="ref-blanchard2014" class="csl-entry" role="listitem">
+Blanchard, Julia L., Ken H. Andersen, Finlay Scott, Niels T. Hintzen, Gerjan Piet, and Simon Jennings. 2014. <span>“Evaluating Targets and Trade-Offs Among Fisheries and Conservation Objectives Using a Multispecies Size Spectrum Model.”</span> <em>Journal of Applied Ecology</em> 51 (3): 612–22. <a href="https://doi.org/10.1111/1365-2664.12238">https://doi.org/10.1111/1365-2664.12238</a>.
+</div>
+<div id="ref-bogstad1997" class="csl-entry" role="listitem">
+Bogstad, Bjarte, K. Hiis Hauge, and Øyvind Ulltang. 1997. <span>“<span>MULTSPEC</span> – a Multi-Species Model for Fish and Marine Mammals in the <span>Barents Sea</span>.”</span> <em>Journal of Northwest Atlantic Fishery Science</em> 22: 317–41. <a href="https://doi.org/10.2960/j.v22.a23">https://doi.org/10.2960/j.v22.a23</a>.
+</div>
+<div id="ref-buckland2017" class="csl-entry" role="listitem">
+Buckland, A., R. Baker, N. Loneragan, and M. Sheaves. 2017. <span>“Standardising Fish Stomach Content Analysis: The Importance of Prey Condition.”</span> <em>Fisheries Research</em> 196: 126–40. <a href="https://doi.org/10.1016/j.fishres.2017.08.003">https://doi.org/10.1016/j.fishres.2017.08.003</a>.
+</div>
+<div id="ref-cadima2003" class="csl-entry" role="listitem">
+Cadima, Emygdio L. 2003. <em>Fish Stock Assessment Manual</em>. FAO Fisheries Technical Paper No. 393. Food; Agriculture Organization of the United Nations.
+</div>
+<div id="ref-canales2020" class="csl-entry" role="listitem">
+Canales, T. Mariella, Gustav W. Delius, and Richard Law. 2020. <span>“Regulation of Fish Stocks Without Stock–Recruitment Relationships: The Case of Small Pelagic Fish.”</span> <em>Fish and Fisheries</em> 21 (5): 857–71. <a href="https://doi.org/10.1111/faf.12465">https://doi.org/10.1111/faf.12465</a>.
+</div>
+<div id="ref-christensen1992" class="csl-entry" role="listitem">
+Christensen, Villy, and Daniel Pauly. 1992. <span>“<span>ECOPATH II</span> — a Software for Balancing Steady-State Ecosystem Models and Calculating Network Characteristics.”</span> <em>Ecological Modelling</em> 61 (3–4): 169–85. <a href="https://doi.org/10.1016/0304-3800(92)90016-8">https://doi.org/10.1016/0304-3800(92)90016-8</a>.
+</div>
+<div id="ref-christensen2004" class="csl-entry" role="listitem">
+Christensen, Villy, and Carl J. Walters. 2004. <span>“<span class="nocase">Ecopath with Ecosim</span>: Methods, Capabilities and Limitations.”</span> <em>Ecological Modelling</em> 172 (2–4): 109–39. <a href="https://doi.org/10.1016/j.ecolmodel.2003.09.003">https://doi.org/10.1016/j.ecolmodel.2003.09.003</a>.
+</div>
+<div id="ref-christensen2024ewe" class="csl-entry" role="listitem">
+Christensen, Villy, Carl J. Walters, Robert N. M. Ahrens, et al. 2024. <em>Ecosystem Modelling with <span>Ecosim</span> (<span>EwE</span>)</em>. University of British Columbia / Ecopath International Initiative.
+</div>
+<div id="ref-christensen2005guide" class="csl-entry" role="listitem">
+Christensen, Villy, Carl J. Walters, and Daniel Pauly. 2005. <em><span class="nocase">Ecopath with Ecosim</span>: A User’s Guide</em>. Fisheries Centre, University of British Columbia.
+</div>
+<div id="ref-collie2016" class="csl-entry" role="listitem">
+Collie, Jeremy S., Louis W. Botsford, Alan Hastings, et al. 2016. <span>“Ecosystem Models for Fisheries Management: Finding the Sweet Spot.”</span> <em>Fish and Fisheries</em> 17 (1): 101–25. <a href="https://doi.org/10.1111/faf.12093">https://doi.org/10.1111/faf.12093</a>.
+</div>
+<div id="ref-cuesta2018" class="csl-entry" role="listitem">
+Cuesta, José A., Gustav W. Delius, and Richard Law. 2018. <span>“Sheldon Spectrum and the Plankton Paradox: Two Sides of the Same Coin—a Trait-Based Plankton Size-Spectrum Model.”</span> <em>Journal of Mathematical Biology</em> 76 (1–2): 67–96. <a href="https://doi.org/10.1007/s00285-017-1132-7">https://doi.org/10.1007/s00285-017-1132-7</a>.
+</div>
+<div id="ref-curti2013" class="csl-entry" role="listitem">
+Curti, Kiersten L., Jeremy S. Collie, Christopher M. Legault, and Jason S. Link. 2013. <span>“Evaluating the Performance of a Multispecies Statistical Catch-at-Age Model.”</span> <em>Canadian Journal of Fisheries and Aquatic Sciences</em> 70 (3): 470–84. <a href="https://doi.org/10.1139/cjfas-2012-0229">https://doi.org/10.1139/cjfas-2012-0229</a>.
+</div>
+<div id="ref-datta2010" class="csl-entry" role="listitem">
+Datta, Samik, Gustav W. Delius, and Richard Law. 2010. <span>“A Jump-Growth Model for Predator–Prey Dynamics: Derivation and Application to Marine Ecosystems.”</span> <em>Bulletin of Mathematical Biology</em> 72 (6): 1361–82. <a href="https://doi.org/10.1007/s11538-009-9496-5">https://doi.org/10.1007/s11538-009-9496-5</a>.
+</div>
+<div id="ref-datta2011" class="csl-entry" role="listitem">
+Datta, Samik, Gustav W. Delius, Richard Law, and Michael J. Plank. 2011. <span>“A Stability Analysis of the Power-Law Steady State of Marine Size Spectra.”</span> <em>Journal of Mathematical Biology</em> 63 (4): 779–99. <a href="https://doi.org/10.1007/s00285-010-0387-z">https://doi.org/10.1007/s00285-010-0387-z</a>.
+</div>
+<div id="ref-essington2001" class="csl-entry" role="listitem">
+Essington, Timothy E., James F. Kitchell, and Carl J. Walters. 2001. <span>“The <span class="nocase">von Bertalanffy</span> Growth Function, Bioenergetics, and the Consumption Rates of Fish.”</span> <em>Canadian Journal of Fisheries and Aquatic Sciences</em> 58 (11): 2129–38. <a href="https://doi.org/10.1139/f01-151">https://doi.org/10.1139/f01-151</a>.
+</div>
+<div id="ref-fournier1998" class="csl-entry" role="listitem">
+Fournier, David A., John Hampton, and John R. Sibert. 1998. <span>“<span>MULTIFAN-CL</span>: A Length-Based, Age-Structured Model for Fisheries Stock Assessment, with Application to <span>South Pacific</span> Albacore, <em>Thunnus Alalunga</em>.”</span> <em>Canadian Journal of Fisheries and Aquatic Sciences</em> 55 (9): 2105–16. <a href="https://doi.org/10.1139/f98-100">https://doi.org/10.1139/f98-100</a>.
+</div>
+<div id="ref-francis2011" class="csl-entry" role="listitem">
+Francis, R. I. C. Chris. 2011. <span>“Data Weighting in Statistical Fisheries Stock Assessment Models.”</span> <em>Canadian Journal of Fisheries and Aquatic Sciences</em> 68 (6): 1124–38. <a href="https://doi.org/10.1139/f2011-025">https://doi.org/10.1139/f2011-025</a>.
+</div>
+<div id="ref-gedamke_hoenig2006" class="csl-entry" role="listitem">
+Gedamke, Todd, and John M. Hoenig. 2006. <span>“Estimating Mortality from Mean Length Data in Nonequilibrium Situations, with Application to the Assessment of Goosefish.”</span> <em>Transactions of the American Fisheries Society</em> 135 (2): 476–87. <a href="https://doi.org/10.1577/t05-153.1">https://doi.org/10.1577/t05-153.1</a>.
+</div>
+<div id="ref-gislason2010" class="csl-entry" role="listitem">
+Gislason, Henrik, Niels Daan, Jake C. Rice, and John G. Pope. 2010. <span>“Size, Growth, Temperature and the Natural Mortality of Marine Fish.”</span> <em>Fish and Fisheries</em> 11 (2): 149–58. <a href="https://doi.org/10.1111/j.1467-2979.2009.00350.x">https://doi.org/10.1111/j.1467-2979.2009.00350.x</a>.
+</div>
+<div id="ref-hall2006" class="csl-entry" role="listitem">
+Hall, Stephen J., Jeremy S. Collie, Daniel E. Duplisea, Simon Jennings, Mark Bravington, and Jason Link. 2006. <span>“A Length-Based Multispecies Model for Evaluating Community Responses to Fishing.”</span> <em>Canadian Journal of Fisheries and Aquatic Sciences</em> 63 (6): 1344–59. <a href="https://doi.org/10.1139/f06-039">https://doi.org/10.1139/f06-039</a>.
+</div>
+<div id="ref-hartvig2011" class="csl-entry" role="listitem">
+Hartvig, Martin, Ken H. Andersen, and Jan E. Beyer. 2011. <span>“Food Web Framework for Size-Structured Populations.”</span> <em>Journal of Theoretical Biology</em> 272 (1): 113–22. <a href="https://doi.org/10.1016/j.jtbi.2010.12.006">https://doi.org/10.1016/j.jtbi.2010.12.006</a>.
+</div>
+<div id="ref-helgason_gislason1979" class="csl-entry" role="listitem">
+Helgason, Thorkell, and Henrik Gislason. 1979. <em><span>VPA</span>-Analysis with Species Interaction Due to Predation</em>. ICES CM 1979/G:52. International Council for the Exploration of the Sea.
+</div>
+<div id="ref-holsman_aydin2015" class="csl-entry" role="listitem">
+Holsman, Kirstin K., and Kerim Aydin. 2015. <span>“Comparative Methods for Evaluating Climate Change Impacts on the Foraging Ecology of <span>Alaskan</span> Groundfish.”</span> <em>Marine Ecology Progress Series</em> 521: 217–35. <a href="https://doi.org/10.3354/meps11102">https://doi.org/10.3354/meps11102</a>.
+</div>
+<div id="ref-holsman2016" class="csl-entry" role="listitem">
+Holsman, Kirstin K., James Ianelli, Kerim Aydin, André E. Punt, and Elizabeth A. Moffitt. 2016. <span>“A Comparison of Fisheries Biological Reference Points Estimated from Temperature-Specific Multi-Species and Single-Species Climate-Enhanced Stock Assessment Models.”</span> <em>Deep Sea Research Part II: Topical Studies in Oceanography</em> 134: 360–78. <a href="https://doi.org/10.1016/j.dsr2.2015.08.001">https://doi.org/10.1016/j.dsr2.2015.08.001</a>.
+</div>
+<div id="ref-hordyk2015" class="csl-entry" role="listitem">
+Hordyk, Adrian, Kotaro Ono, Sarah Valencia, Neil Loneragan, and Jeremy Prince. 2015. <span>“A Novel Length-Based Empirical Estimation Method of Spawning Potential Ratio (<span>SPR</span>), and Tests of Its Performance, for Small-Scale, Data-Poor Fisheries.”</span> <em>ICES Journal of Marine Science</em> 72 (1): 217–31. <a href="https://doi.org/10.1093/icesjms/fsu004">https://doi.org/10.1093/icesjms/fsu004</a>.
+</div>
+<div id="ref-hyslop1980" class="csl-entry" role="listitem">
+Hyslop, E. J. 1980. <span>“Stomach Contents Analysis—a Review of Methods and Their Application.”</span> <em>Journal of Fish Biology</em> 17 (4): 411–29. <a href="https://doi.org/10.1111/j.1095-8649.1980.tb02775.x">https://doi.org/10.1111/j.1095-8649.1980.tb02775.x</a>.
+</div>
+<div id="ref-ices2010stomach" class="csl-entry" role="listitem">
+ICES. 2010. <em><span>ICES</span> Year of the Stomach Dataset – Securing and Making the Data Available</em>. ICES Data Centre Stomach Data Fact Sheet. International Council for the Exploration of the Sea.
+</div>
+<div id="ref-ices2021" class="csl-entry" role="listitem">
+ICES. 2021. <em>Working Group on Multispecies Assessment Methods (<span>WGSAM</span>; Outputs from 2020 Meeting)</em>. ICES Scientific Reports 3:10. International Council for the Exploration of the Sea. <a href="https://doi.org/10.17895/ices.pub.7695">https://doi.org/10.17895/ices.pub.7695</a>.
+</div>
+<div id="ref-ices2023" class="csl-entry" role="listitem">
+ICES. 2023. <em>Working Group on Multispecies Assessment Methods (<span>WGSAM</span>; Outputs from 2022 Meeting)</em>. ICES Scientific Reports 5:12. International Council for the Exploration of the Sea. <a href="https://doi.org/10.17895/ices.pub.22087292">https://doi.org/10.17895/ices.pub.22087292</a>.
+</div>
+<div id="ref-jacobsen2016" class="csl-entry" role="listitem">
+Jacobsen, Nis S., Timothy E. Essington, and Ken H. Andersen. 2016. <span>“Comparing Model Predictions for Ecosystem-Based Management.”</span> <em>Canadian Journal of Fisheries and Aquatic Sciences</em> 73 (4): 666–76. <a href="https://doi.org/10.1139/cjfas-2014-0561">https://doi.org/10.1139/cjfas-2014-0561</a>.
+</div>
+<div id="ref-jacobsen2023" class="csl-entry" role="listitem">
+<span class="nocase">Jacobsen, Nis S., Katarzyna Nadolna-Ałtyn, Didzis Ustups, et al.</span> 2023. <em>Study on Stomach Content of Fish to Update Databases and Analyse Possible Changes in Diet or Food Web Interactions</em>. European Climate, Infrastructure; Environment Executive Agency (CINEA). <a href="https://doi.org/10.2926/683598">https://doi.org/10.2926/683598</a>.
+</div>
+<div id="ref-jones1976" class="csl-entry" role="listitem">
+Jones, Rodney. 1976. <span>“Growth of Fishes.”</span> In <em>The Ecology of the Seas</em>, edited by D. H. Cushing and J. J. Walsh. Blackwell Scientific Publications.
+</div>
+<div id="ref-jones1978" class="csl-entry" role="listitem">
+Jones, Rodney. 1978. <span>“Estimates of the Food Consumption of Haddock (<em>Melanogrammus Aeglefinus</em>) and Cod (<em>Gadus Morhua</em>).”</span> <em>Journal Du Conseil International Pour l’Exploration de La Mer</em> 38 (1): 18–27. <a href="https://doi.org/10.1093/icesjms/38.1.18">https://doi.org/10.1093/icesjms/38.1.18</a>.
+</div>
+<div id="ref-jurado_molina2005" class="csl-entry" role="listitem">
+Jurado-Molina, Jesús, Patricia A. Livingston, and James N. Ianelli. 2005. <span>“Incorporating Predation Interactions in a Statistical Catch-at-Age Model for a Predator–Prey System in the Eastern <span>Bering Sea</span>.”</span> <em>Canadian Journal of Fisheries and Aquatic Sciences</em> 62 (8): 1865–73. <a href="https://doi.org/10.1139/f05-110">https://doi.org/10.1139/f05-110</a>.
+</div>
+<div id="ref-karp2023" class="csl-entry" role="listitem">
+<span class="nocase">Karp, Melissa A., Jason S. Link, Max Grezlik, et al.</span> 2023. <span>“Increasing the Uptake of Multispecies Models in Fisheries Management.”</span> <em>ICES Journal of Marine Science</em> 80 (2): 243–57. <a href="https://doi.org/10.1093/icesjms/fsad001">https://doi.org/10.1093/icesjms/fsad001</a>.
+</div>
+<div id="ref-kinzey2009" class="csl-entry" role="listitem">
+Kinzey, Douglas, and André E. Punt. 2009. <span>“Multispecies and Single-Species Models of Fish Population Dynamics: Comparing Parameter Estimates.”</span> <em>Natural Resource Modeling</em> 22 (1): 67–104. <a href="https://doi.org/10.1111/j.1939-7445.2008.00030.x">https://doi.org/10.1111/j.1939-7445.2008.00030.x</a>.
+</div>
+<div id="ref-kitchell1977" class="csl-entry" role="listitem">
+Kitchell, James F., Donald J. Stewart, and David Weininger. 1977. <span>“Applications of a Bioenergetics Model to Yellow Perch (<em>Perca Flavescens</em>) and Walleye (<em>Stizostedion Vitreum Vitreum</em>).”</span> <em>Journal of the Fisheries Research Board of Canada</em> 34 (10): 1922–35. <a href="https://doi.org/10.1139/f77-258">https://doi.org/10.1139/f77-258</a>.
+</div>
+<div id="ref-kristensen2016" class="csl-entry" role="listitem">
+Kristensen, Kasper, Anders Nielsen, Casper W. Berg, Hans Skaug, and Bradley M. Bell. 2016. <span>“<span>TMB</span>: Automatic Differentiation and <span>Laplace</span> Approximation.”</span> <em>Journal of Statistical Software</em> 70 (5): 1–21. <a href="https://doi.org/10.18637/jss.v070.i05">https://doi.org/10.18637/jss.v070.i05</a>.
+</div>
+<div id="ref-kulatska2019" class="csl-entry" role="listitem">
+Kulatska, Nataliia, Stefan Neuenfeldt, Ulrika Beier, et al. 2019. <span>“Understanding Ontogenetic and Temporal Variability of <span>Eastern Baltic</span> Cod Diet Using a Multispecies Model and Stomach Data.”</span> <em>Fisheries Research</em> 211: 338–49. <a href="https://doi.org/10.1016/j.fishres.2018.11.023">https://doi.org/10.1016/j.fishres.2018.11.023</a>.
+</div>
+<div id="ref-lart2022" class="csl-entry" role="listitem">
+Lart, William. 2022. <em>Guide to Fish Stock Assessment and <span>ICES</span> Reference Points</em>. Seafish.
+</div>
+<div id="ref-lentz_gadget3" class="csl-entry" role="listitem">
+Lentz, Jamie, and Bjarki ór Elvarsson. 2024. <em><span class="nocase">gadget3</span>: Globally-Applicable Area Disaggregated General Ecosystem Toolbox V3</em>.
+</div>
+<div id="ref-lewy2004" class="csl-entry" role="listitem">
+Lewy, Peter, and Morten Vinther. 2004. <em>A Stochastic Age-Length-Structured Multispecies Model Applied to <span>North Sea</span> Stocks</em>. ICES CM 2004/FF:20. International Council for the Exploration of the Sea.
+</div>
+<div id="ref-livingston1983" class="csl-entry" role="listitem">
+Livingston, Patricia A. 1983. <em>Potential Use of the <span>Andersen–Ursin</span> Multispecies <span>Beverton</span> and <span>Holt</span> Model for Modelling <span>North Pacific</span> Fish Interactions</em>. NOAA Technical Memorandum NMFS F/NWC-43. U.S. Department of Commerce.
+</div>
+<div id="ref-lucey2020" class="csl-entry" role="listitem">
+Lucey, Sean M., Sarah K. Gaichas, and Kerim Y. Aydin. 2020. <span>“Conducting Reproducible Ecosystem Modeling Using the Open Source Mass Balance Model <span>Rpath</span>.”</span> <em>Ecological Modelling</em> 427: 109057. <a href="https://doi.org/10.1016/j.ecolmodel.2020.109057">https://doi.org/10.1016/j.ecolmodel.2020.109057</a>.
+</div>
+<div id="ref-maunder2013" class="csl-entry" role="listitem">
+Maunder, Mark N., and André E. Punt. 2013. <span>“A Review of Integrated Analysis in Fisheries Stock Assessment.”</span> <em>Fisheries Research</em> 142: 61–74. <a href="https://doi.org/10.1016/j.fishres.2012.07.025">https://doi.org/10.1016/j.fishres.2012.07.025</a>.
+</div>
+<div id="ref-mcallister_ianelli1997" class="csl-entry" role="listitem">
+McAllister, Murdoch K., and James N. Ianelli. 1997. <span>“Bayesian Stock Assessment Using Catch-Age Data and the Sampling – Importance Resampling Algorithm.”</span> <em>Canadian Journal of Fisheries and Aquatic Sciences</em> 54 (2): 284–300. <a href="https://doi.org/10.1139/f96-285">https://doi.org/10.1139/f96-285</a>.
+</div>
+<div id="ref-methot2013" class="csl-entry" role="listitem">
+Methot, Richard D., and Chantell R. Wetzel. 2013. <span>“Stock Synthesis: A Biological and Statistical Framework for Fish Stock Assessment and Fishery Management.”</span> <em>Fisheries Research</em> 142: 86–99. <a href="https://doi.org/10.1016/j.fishres.2012.10.012">https://doi.org/10.1016/j.fishres.2012.10.012</a>.
+</div>
+<div id="ref-morgan2022" class="csl-entry" role="listitem">
+Morgan, Owain. 2022. <span>“Fitting Exponential Family Distributions to Observed Stomach Contents Data for Certain Species of Fish.”</span> Master’s thesis, Department of Mathematics, University of York.
+</div>
+<div id="ref-nielsen2014" class="csl-entry" role="listitem">
+Nielsen, Anders, and Casper W. Berg. 2014. <span>“Estimation of Time-Varying Selectivity in Stock Assessments Using State-Space Models.”</span> <em>Fisheries Research</em> 158: 96–101. <a href="https://doi.org/10.1016/j.fishres.2014.01.014">https://doi.org/10.1016/j.fishres.2014.01.014</a>.
+</div>
+<div id="ref-pennino2025" class="csl-entry" role="listitem">
+Pennino, M. Grazia, D. J. Nachón, D. Bamio, et al. 2025. <span>“A Decade of <span class="nocase">mizer</span>: A Systematic Review of Advancements and Applications of Size Spectrum Modeling in Aquatic Ecosystems.”</span> <em>Ecological Modelling</em> 508: 111241. <a href="https://doi.org/10.1016/j.ecolmodel.2025.111241">https://doi.org/10.1016/j.ecolmodel.2025.111241</a>.
+</div>
+<div id="ref-pinnegar2014" class="csl-entry" role="listitem">
+Pinnegar, John K. 2015. <span>“A New Compilation of Stomach Content Data for Commercially Important Fish Species in the Northeast <span>Atlantic</span>.”</span> <em>Earth System Science Data</em> 7 (1): 19–28. <a href="https://doi.org/10.5194/essd-7-19-2015">https://doi.org/10.5194/essd-7-19-2015</a>.
+</div>
+<div id="ref-plaganyi2004" class="csl-entry" role="listitem">
+Plagányi, Éva E., and Douglas S. Butterworth. 2004. <span>“A Critical Look at the Potential of <span class="nocase">Ecopath with Ecosim</span> to Assist in Practical Fisheries Management.”</span> <em>African Journal of Marine Science</em> 26 (1): 261–87. <a href="https://doi.org/10.2989/18142320409504061">https://doi.org/10.2989/18142320409504061</a>.
+</div>
+<div id="ref-plaganyi2014" class="csl-entry" role="listitem">
+Plagányi, Éva E., André E. Punt, Richard Hillary, et al. 2014. <span>“Multispecies Fisheries Management and Conservation: Tactical Applications Using Models of Intermediate Complexity.”</span> <em>Fish and Fisheries</em> 15 (1): 1–22. <a href="https://doi.org/10.1111/j.1467-2979.2012.00488.x">https://doi.org/10.1111/j.1467-2979.2012.00488.x</a>.
+</div>
+<div id="ref-platt1977" class="csl-entry" role="listitem">
+Platt, Trevor, and Kenneth Denman. 1977. <span>“Organisation in the Pelagic Ecosystem.”</span> <em>Helgol<span>ä</span>nder Wissenschaftliche Meeresuntersuchungen</em> 30 (1–4): 575–81. <a href="https://doi.org/10.1007/bf02207862">https://doi.org/10.1007/bf02207862</a>.
+</div>
+<div id="ref-polovina1984" class="csl-entry" role="listitem">
+Polovina, Jeffrey J. 1984. <span>“Model of a Coral Reef Ecosystem. <span>I</span>. <span>The ECOPATH</span> Model and Its Application to <span>French Frigate Shoals</span>.”</span> <em>Coral Reefs</em> 3 (1): 1–11. <a href="https://doi.org/10.1007/bf00306135">https://doi.org/10.1007/bf00306135</a>.
+</div>
+<div id="ref-pope1979" class="csl-entry" role="listitem">
+Pope, John G. 1979. <em>A Modified Cohort Analysis in Which Constant Natural Mortality Is Replaced by Estimates of Predation Levels</em>. ICES CM 1979/H:16. International Council for the Exploration of the Sea.
+</div>
+<div id="ref-pope2019" class="csl-entry" role="listitem">
+Pope, John G., Valerio Bartolino, Nataliia Kulatska, et al. 2019. <span>“Comparing the Steady State Results of a Range of Multispecies Models Between and Across Geographical Areas by the Use of the <span>Jacobian</span> Matrix of Yield on Fishing Mortality Rate.”</span> <em>Fisheries Research</em> 209: 259–70. <a href="https://doi.org/10.1016/j.fishres.2018.08.011">https://doi.org/10.1016/j.fishres.2018.08.011</a>.
+</div>
+<div id="ref-pope2006" class="csl-entry" role="listitem">
+Pope, John G., Jake C. Rice, Niels Daan, Simon Jennings, and Henrik Gislason. 2006. <span>“Modelling an Exploited Marine Fish Community with 15 Parameters – Results from a Simple Size-Based Model.”</span> <em>ICES Journal of Marine Science</em> 63 (6): 1029–44. <a href="https://doi.org/10.1016/j.icesjms.2006.04.015">https://doi.org/10.1016/j.icesjms.2006.04.015</a>.
+</div>
+<div id="ref-punt2016" class="csl-entry" role="listitem">
+Punt, André E., Malcolm Haddon, and Richard McGarvey. 2016. <span>“Estimating Growth Within Size-Structured Fishery Stock Assessments: What Is the State of the Art and What Does the Future Look Like?”</span> <em>Fisheries Research</em> 180: 147–60. <a href="https://doi.org/10.1016/j.fishres.2014.11.007">https://doi.org/10.1016/j.fishres.2014.11.007</a>.
+</div>
+<div id="ref-rindorf2004" class="csl-entry" role="listitem">
+Rindorf, Anna, and Peter Lewy. 2004. <span>“Bias in Estimating Food Consumption of Fish by Stomach-Content Analysis.”</span> <em>Canadian Journal of Fisheries and Aquatic Sciences</em> 61 (12): 2487–98. <a href="https://doi.org/10.1139/f04-200">https://doi.org/10.1139/f04-200</a>.
+</div>
+<div id="ref-rochet2011" class="csl-entry" role="listitem">
+Rochet, Marie-Joëlle, Jeremy S. Collie, Simon Jennings, and Stephen J. Hall. 2011. <span>“Does Selective Fishing Conserve Community Biodiversity? <span>Predictions</span> from a Length-Based Multispecies Model.”</span> <em>Canadian Journal of Fisheries and Aquatic Sciences</em> 68 (3): 469–86. <a href="https://doi.org/10.1139/f10-159">https://doi.org/10.1139/f10-159</a>.
+</div>
+<div id="ref-rudd2018" class="csl-entry" role="listitem">
+Rudd, Merrill B., and James T. Thorson. 2018. <span>“Accounting for Variable Recruitment and Fishing Mortality in Length-Based Stock Assessments for Data-Limited Fisheries.”</span> <em>Canadian Journal of Fisheries and Aquatic Sciences</em> 75 (7): 1019–35. <a href="https://doi.org/10.1139/cjfas-2017-0143">https://doi.org/10.1139/cjfas-2017-0143</a>.
+</div>
+<div id="ref-scott2016" class="csl-entry" role="listitem">
+Scott, Erin, Natalia Serpetti, Jeroen Steenbeek, and Sheila J. J. Heymans. 2016. <span>“A Stepwise Fitting Procedure for Automated Fitting of <span class="nocase">Ecopath with Ecosim</span> Models.”</span> <em>SoftwareX</em> 5: 25–30. <a href="https://doi.org/10.1016/j.softx.2016.02.002">https://doi.org/10.1016/j.softx.2016.02.002</a>.
+</div>
+<div id="ref-scott2014" class="csl-entry" role="listitem">
+Scott, Finlay, Julia L. Blanchard, and Ken H. Andersen. 2014. <span>“<span class="nocase">mizer</span>: An <span>R</span> Package for Multispecies, Trait-Based and Community Size Spectrum Ecological Modelling.”</span> <em>Methods in Ecology and Evolution</em> 5 (10): 1121–25. <a href="https://doi.org/10.1111/2041-210x.12256">https://doi.org/10.1111/2041-210x.12256</a>.
+</div>
+<div id="ref-sheldon1972" class="csl-entry" role="listitem">
+Sheldon, R. W., A. Prakash, and W. H. Sutcliffe. 1972. <span>“The Size Distribution of Particles in the Ocean.”</span> <em>Limnology and Oceanography</em> 17 (3): 327–40. <a href="https://doi.org/10.4319/lo.1972.17.3.0327">https://doi.org/10.4319/lo.1972.17.3.0327</a>.
+</div>
+<div id="ref-sheldon1977" class="csl-entry" role="listitem">
+Sheldon, R. W., W. H. Sutcliffe, and M. A. Paranjape. 1977. <span>“Structure of Pelagic Food Chain and Relationship Between Plankton and Fish Production.”</span> <em>Journal of the Fisheries Research Board of Canada</em> 34 (12): 2344–53. <a href="https://doi.org/10.1139/f77-314">https://doi.org/10.1139/f77-314</a>.
+</div>
+<div id="ref-silvert_platt1978" class="csl-entry" role="listitem">
+Silvert, William, and Trevor Platt. 1978. <span>“Energy Flux in the Pelagic Ecosystem: A Time-Dependent Equation.”</span> <em>Limnology and Oceanography</em> 23 (4): 813–16. <a href="https://doi.org/10.4319/lo.1978.23.4.0813">https://doi.org/10.4319/lo.1978.23.4.0813</a>.
+</div>
+<div id="ref-sparre1980" class="csl-entry" role="listitem">
+Sparre, Per. 1980. <em>A Goal Function of Fisheries (Legion Analysis)</em>. ICES CM 1980/G:40. International Council for the Exploration of the Sea.
+</div>
+<div id="ref-spence2020" class="csl-entry" role="listitem">
+Spence, Michael A., Hayley J. Bannister, Johnathan E. Ball, Paul J. Dolder, Christopher A. Griffiths, and Robert B. Thorpe. 2020. <span>“<span>LeMaRns</span>: A Length-Based Multi-Species Analysis by Numerical Simulation in <span>R</span>.”</span> <em>PLOS ONE</em> 15 (2): e0227767. <a href="https://doi.org/10.1371/journal.pone.0227767">https://doi.org/10.1371/journal.pone.0227767</a>.
+</div>
+<div id="ref-spence2016" class="csl-entry" role="listitem">
+Spence, Michael A., Paul G. Blackwell, and Julia L. Blanchard. 2016. <span>“Parameter Uncertainty of a Dynamic Multispecies Size Spectrum Model.”</span> <em>Canadian Journal of Fisheries and Aquatic Sciences</em> 73 (4): 589–97. <a href="https://doi.org/10.1139/cjfas-2015-0022">https://doi.org/10.1139/cjfas-2015-0022</a>.
+</div>
+<div id="ref-spence2018" class="csl-entry" role="listitem">
+Spence, Michael A., Julia L. Blanchard, Axel G. Rossberg, et al. 2018. <span>“A General Framework for Combining Ecosystem Models.”</span> <em>Fish and Fisheries</em> 19 (6): 1031–42. <a href="https://doi.org/10.1111/faf.12310">https://doi.org/10.1111/faf.12310</a>.
+</div>
+<div id="ref-spence2021advice" class="csl-entry" role="listitem">
+Spence, Michael A., Paul J. Dolder, Richard D. M. Nash, and Robert B. Thorpe. 2021. <span>“The Use of a Length-Structured Multispecies Model Fitted Directly to Data in Near-Real Time as a Viable Tool for Advice.”</span> <em>Frontiers in Marine Science</em> 8: 700534. <a href="https://doi.org/10.3389/fmars.2021.700534">https://doi.org/10.3389/fmars.2021.700534</a>.
+</div>
+<div id="ref-spence2021uncertainty" class="csl-entry" role="listitem">
+Spence, Michael A., Robert B. Thorpe, Paul G. Blackwell, Finlay Scott, Richard Southwell, and Julia L. Blanchard. 2021. <span>“Quantifying Uncertainty and Dynamical Changes in Multi-Species Fishing Mortality Rates, Catches and Biomass by Combining State-Space and Size-Based Multi-Species Models.”</span> <em>Fish and Fisheries</em> 22 (4): 667–81. <a href="https://doi.org/10.1111/faf.12543">https://doi.org/10.1111/faf.12543</a>.
+</div>
+<div id="ref-stefansson2003" class="csl-entry" role="listitem">
+Stefánsson, Gunnar. 2003. <span>“Issues in Multispecies Models.”</span> <em>Natural Resource Modeling</em> 16 (4): 415–37. <a href="https://doi.org/10.1111/j.1939-7445.2003.tb00121.x">https://doi.org/10.1111/j.1939-7445.2003.tb00121.x</a>.
+</div>
+<div id="ref-stefansson2004dst2" class="csl-entry" role="listitem">
+Stefánsson, Gunnar. 2004. <em>Development of Structurally Detailed Statistically Testable Models of Marine Populations (<span class="nocase">dst<span class="math inline">\(^2\)</span></span>): Final Report</em>. Marine Research Institute Technical Report No. 98. Marine Research Institute.
+</div>
+<div id="ref-stefansson_palsson1997" class="csl-entry" role="listitem">
+Stefánsson, Gunnar, and Ólafur K. Pálsson. 1997. <em><span>BORMICON</span>: A Boreal Migration and Consumption Model</em>. Report No. 58. Marine Research Institute.
+</div>
+<div id="ref-stefansson1998" class="csl-entry" role="listitem">
+Stefánsson, Gunnar, and Ólafur K. Pálsson. 1998. <span>“A Framework for Multispecies Modelling of <span>Arcto</span>-Boreal Systems.”</span> <em>Reviews in Fish Biology and Fisheries</em> 8 (1): 101–4. <a href="https://doi.org/10.1023/a:1008820702467">https://doi.org/10.1023/a:1008820702467</a>.
+</div>
+<div id="ref-taylor2004cod" class="csl-entry" role="listitem">
+Taylor, Lorna, James Begley, Vojtech Kupča, and Gunnar Stefánsson. 2004. <em>A Simple Implementation of <span>Gadget</span> for Cod in <span>Icelandic</span> Waters</em>. ICES CM 2004/FF:23. International Council for the Exploration of the Sea.
+</div>
+<div id="ref-taylor2007" class="csl-entry" role="listitem">
+Taylor, Lorna, James Begley, Vojtech Kupča, and Gunnar Stefánsson. 2007. <span>“A Simple Implementation of the Statistical Modelling Framework <span>Gadget</span> for Cod in <span>Icelandic</span> Waters.”</span> <em>African Journal of Marine Science</em> 29 (2): 223–45. <a href="https://doi.org/10.2989/ajms.2007.29.2.7.190">https://doi.org/10.2989/ajms.2007.29.2.7.190</a>.
+</div>
+<div id="ref-taylor2004shrimp" class="csl-entry" role="listitem">
+Taylor, Lorna, and Gunnar Stefánsson. 2004. <em><span>Gadget</span> Models of Cod–Capelin–Shrimp Interactions in <span>Icelandic</span> Waters</em>. ICES CM 2004/FF:29. International Council for the Exploration of the Sea.
+</div>
+<div id="ref-thornton_lessem1978" class="csl-entry" role="listitem">
+Thornton, Kent W., and Allan S. Lessem. 1978. <span>“A Temperature Algorithm for Modifying Biological Rates.”</span> <em>Transactions of the American Fisheries Society</em> 107 (2): 284–87. <a href="https://doi.org/10.1577/1548-8659(1978)107<284:atafmb>2.0.co;2">https://doi.org/10.1577/1548-8659(1978)107&lt;284:atafmb&gt;2.0.co;2</a>.
+</div>
+<div id="ref-thorpe2015" class="csl-entry" role="listitem">
+Thorpe, Robert B., Will J. F. Le Quesne, Fay Luxford, Jeremy S. Collie, and Simon Jennings. 2015. <span>“Evaluation and Management Implications of Uncertainty in a Multispecies Size-Structured Model of Population and Community Responses to Fishing.”</span> <em>Methods in Ecology and Evolution</em> 6 (1): 49–58. <a href="https://doi.org/10.1111/2041-210x.12292">https://doi.org/10.1111/2041-210x.12292</a>.
+</div>
+<div id="ref-thorson2014" class="csl-entry" role="listitem">
+Thorson, James T., Olaf P. Jensen, and Elise F. Zipkin. 2014. <span>“How Variable Is Recruitment for Exploited Marine Fishes? <span>A</span> Hierarchical Model for Testing Life History Theory.”</span> <em>Canadian Journal of Fisheries and Aquatic Sciences</em> 71 (7): 973–83. <a href="https://doi.org/10.1139/cjfas-2013-0645">https://doi.org/10.1139/cjfas-2013-0645</a>.
+</div>
+<div id="ref-thorson2017" class="csl-entry" role="listitem">
+Thorson, James T., Kelli F. Johnson, Richard D. Methot, and Ian G. Taylor. 2017. <span>“Model-Based Estimates of Effective Sample Size in Stock Assessment Models Using the <span>Dirichlet</span>-Multinomial Distribution.”</span> <em>Fisheries Research</em> 192: 84–93. <a href="https://doi.org/10.1016/j.fishres.2016.06.005">https://doi.org/10.1016/j.fishres.2016.06.005</a>.
+</div>
+<div id="ref-thorson2024" class="csl-entry" role="listitem">
+Thorson, James T., Kasper Kristensen, Kerim Y. Aydin, et al. 2024. <span>“The Benefits of Hierarchical Ecosystem Models: Demonstration Using <span>EcoState</span>, a New State-Space Mass-Balance Model.”</span> <em>Fish and Fisheries</em> 26 (2): 203–18. <a href="https://doi.org/10.1111/faf.12874">https://doi.org/10.1111/faf.12874</a>.
+</div>
+<div id="ref-trijoulet2019" class="csl-entry" role="listitem">
+Trijoulet, Vanessa, Gavin Fay, Kiersten L. Curti, Brian Smith, and Timothy J. Miller. 2019. <span>“Performance of Multispecies Assessment Models: Insights on the Influence of Diet Data.”</span> <em>ICES Journal of Marine Science</em> 76 (6): 1464–76. <a href="https://doi.org/10.1093/icesjms/fsz053">https://doi.org/10.1093/icesjms/fsz053</a>.
+</div>
+<div id="ref-tsou_collie2001" class="csl-entry" role="listitem">
+Tsou, Tien-Shui, and Jeremy S. Collie. 2001. <span>“Predation-Mediated Recruitment in the <span>Georges Bank</span> Fish Community.”</span> <em>ICES Journal of Marine Science</em> 58 (5): 994–1001. <a href="https://doi.org/10.1006/jmsc.2001.1088">https://doi.org/10.1006/jmsc.2001.1088</a>.
+</div>
+<div id="ref-ursin1967" class="csl-entry" role="listitem">
+Ursin, Erik. 1967. <span>“A Mathematical Model of Some Aspects of Fish Growth, Respiration, and Mortality.”</span> <em>Journal of the Fisheries Research Board of Canada</em> 24 (11): 2355–453. <a href="https://doi.org/10.1139/f67-190">https://doi.org/10.1139/f67-190</a>.
+</div>
+<div id="ref-ursin1973" class="csl-entry" role="listitem">
+Ursin, Erik. 1973. <span>“On the Prey Size Preferences of Cod and Dab.”</span> <em>Meddelelser Fra Danmarks Fiskeri- Og Havunders<span>ø</span>gelser, N.S.</em> 7: 85–98.
+</div>
+<div id="ref-vankirk2010" class="csl-entry" role="listitem">
+Van Kirk, Kray F., Terrance J. Quinn, and Jeremy S. Collie. 2010. <span>“A Multispecies Age-Structured Assessment Model for the <span class="nocase">Gulf of Alaska</span>.”</span> <em>Canadian Journal of Fisheries and Aquatic Sciences</em> 67 (7): 1135–48. <a href="https://doi.org/10.1139/f10-053">https://doi.org/10.1139/f10-053</a>.
+</div>
+<div id="ref-walters1997" class="csl-entry" role="listitem">
+Walters, Carl, Villy Christensen, and Daniel Pauly. 1997. <span>“Structuring Dynamic Models of Exploited Ecosystems from Trophic Mass-Balance Assessments.”</span> <em>Reviews in Fish Biology and Fisheries</em> 7 (2): 139–72. <a href="https://doi.org/10.1023/a:1018479526149">https://doi.org/10.1023/a:1018479526149</a>.
+</div>
+<div id="ref-walters1999" class="csl-entry" role="listitem">
+Walters, Carl, Daniel Pauly, and Villy Christensen. 1999. <span>“<span>Ecospace</span>: Prediction of Mesoscale Spatial Patterns in Trophic Relationships of Exploited Ecosystems, with Emphasis on the Impacts of Marine Protected Areas.”</span> <em>Ecosystems</em> 2 (6): 539–54. <a href="https://doi.org/10.1007/s100219900101">https://doi.org/10.1007/s100219900101</a>.
+</div>
+<div id="ref-zhang2015" class="csl-entry" role="listitem">
+Zhang, Chongliang, Yong Chen, and Yiping Ren. 2015. <span>“Assessing Uncertainty of a Multispecies Size-Spectrum Model Resulting from Process and Observation Errors.”</span> <em>ICES Journal of Marine Science</em> 72 (8): 2223–33. <a href="https://doi.org/10.1093/icesjms/fsv086">https://doi.org/10.1093/icesjms/fsv086</a>.
+</div>
+<div id="ref-zhang2016" class="csl-entry" role="listitem">
+Zhang, Chongliang, Yong Chen, Katherine Thompson, and Yiping Ren. 2016. <span>“Implementing a Multispecies Size-Spectrum Model in a Data-Poor Ecosystem.”</span> <em>Acta Oceanologica Sinica</em> 35 (4): 63–73. <a href="https://doi.org/10.1007/s13131-016-0822-0">https://doi.org/10.1007/s13131-016-0822-0</a>.
+</div>
+</div>
 </section>
 </section>
 
@@ -884,6 +1256,9 @@ window.Quarto = {
       </a>          
   </div>
   <div class="nav-page nav-page-next">
+      <a href="./references.html" class="pagination-link" aria-label="References">
+        <span class="nav-page-text">References</span> <i class="bi bi-arrow-right-short"></i>
+      </a>
   </div>
 </nav>
 </div> <!-- /content -->
