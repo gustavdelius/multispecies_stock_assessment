@@ -93,18 +93,18 @@ Drawing together the mathematical lessons from **`SMS`** (Chapter 2), **`Gadget`
 
 ```mermaid
 flowchart TD
-    subgraph P1["1. Differentiable Dynamic Size-Spectrum Core (RTMB / TMB)"]
-        A["Jump-Growth Advection-Diffusion PDE\n(Datta, Delius & Law 2010)\nor Beta-Binomial Transition (gadget3)\ndN/dt + d(gN)/dw = 1/2 d^2(d N)/dw^2 - mu N"]
-        B["State-Space Process Random Effects\n- Log-Recruitment Deviations: eps_{R,i,y} ~ N(0, sigma_R^2)\n- Fleet Effort Random Walks: log E_{f,t}\n- Resource Spectrum Anomalies: eps_{kappa,t}"]
+    subgraph P1["<b>1. Differentiable Dynamic Size-Spectrum Core (RTMB / TMB)</b>"]
+        A["<b>Jump-Growth Advection-Diffusion PDE</b><br/>(Datta, Delius & Law 2010)<br/>or Beta-Binomial Transition (gadget3)<br/>∂N/∂t + ∂(gN)/∂w = ½ ∂²(dN)/∂w² − μN"]
+        B["<b>State-Space Process Random Effects</b><br/>• Log-Recruitment Deviations: ε<sub>R,i,y</sub> ~ N(0, σ<sub>R</sub>²)<br/>• Fleet Effort Random Walks: log E<sub>f,t</sub><br/>• Resource Spectrum Anomalies: ε<sub>κ,t</sub>"]
     end
-    subgraph P2["2. Observation Operators (Mapping w-grid to Data)"]
-        C["Fleet & Survey Catch-at-Weight / Length:\nC_{f,i}(w,t) = F_{f,i}(w,t) N_i(w,t) dt\nMapped to length bins l via w = a_i L^{b_i}"]
-        D["Predicted Stomach Content Shares & PPMR:\nDiet share p_{i,w', j,w_p, t} = theta_{ij} phi_i(w'/w_p) N_j(w_p) w_p / E_i(w')"]
+    subgraph P2["<b>2. Observation Operators (Mapping w-grid to Data)</b>"]
+        C["<b>Fleet & Survey Catch-at-Weight / Length</b><br/>C<sub>f,i</sub>(w,t) = F<sub>f,i</sub>(w,t) N<sub>i</sub>(w,t) dt<br/>Mapped to length bins l via w = a<sub>i</sub> L<sup>b<sub>i</sub></sup>"]
+        D["<b>Predicted Stomach Content Shares & PPMR</b><br/>Diet share p<sub>i,w',j,w<sub>p</sub>,t</sub> = θ<sub>ij</sub> φ<sub>i</sub>(w'/w<sub>p</sub>) N<sub>j</sub>(w<sub>p</sub>) w<sub>p</sub> / E<sub>i</sub>(w')"]
     end
-    subgraph P3["3. Joint Statistical Likelihood & Laplace Marginals"]
-        E["Abundance Indices & Total Yield:\nLognormal Likelihood"]
-        F["Length Compositions (Survey & Catch):\nDirichlet-Multinomial (Thorson 2017) or\nFournier Robustified Normal (MULTIFAN-CL)"]
-        G["Stomach Data:\n1. Species/Size Diet Shares: Dirichlet / DM\n2. Individual log-PPMR: Gamma (Morgan 2022)"]
+    subgraph P3["<b>3. Joint Statistical Likelihood & Laplace Marginals</b>"]
+        E["<b>Abundance Indices & Total Yield</b><br/>Lognormal Likelihood"]
+        F["<b>Length Compositions (Survey & Catch)</b><br/>Dirichlet-Multinomial (Thorson 2017) or<br/>Fournier Robustified Normal (MULTIFAN-CL)"]
+        G["<b>Stomach Data</b><br/>1. Species/Size Diet Shares: Dirichlet / DM<br/>2. Individual log-PPMR: Gamma (Morgan 2022)"]
     end
     A --> C & D
     B --> A

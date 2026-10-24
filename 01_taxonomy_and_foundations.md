@@ -18,9 +18,9 @@ Fisheries ecosystem models span a wide continuum of structural complexity, taxon
 
 ```mermaid
 flowchart LR
-    A["Single-Species Assessments\n(SAM, SS3, MULTIFAN-CL)\nHigh statistical rigor\nZero trophic coupling"] --> B["Extended Single-Species\n(ESAM)\nPredator index covariates\non M or Q"]
-    B --> C["Tactical Multispecies / MICE\n(SMS, CEATTLE, Gadget, Hydra,\nEcoState, Dynamic mizer)\nFormal likelihood fitting\nFocused food web (3-15 spp.)"]
-    C --> D["Whole-Ecosystem / End-to-End\n(EwE, Atlantis, OSMOSE)\n30-100+ functional groups\nStrategic / MSE focus\nLimited formal parameter estimation"]
+    A["<b>Single-Species Assessments</b><br/>(SAM, SS3, MULTIFAN-CL)<br/>High statistical rigor<br/>Zero trophic coupling"] --> B["<b>Extended Single-Species (ESAM)</b><br/>Predator index covariates<br/>on M or Q"]
+    B --> C["<b>Tactical Multispecies / MICE</b><br/>(SMS, CEATTLE, Gadget, Hydra,<br/>EcoState, Dynamic mizer)<br/>Formal likelihood fitting<br/>Focused food web (3–15 spp.)"]
+    C --> D["<b>Whole-Ecosystem / End-to-End</b><br/>(EwE, Atlantis, OSMOSE)<br/>30–100+ functional groups<br/>Strategic / MSE focus<br/>Limited formal parameter estimation"]
 ```
 
 ### 1.2.1 Models of Intermediate Complexity for Ecosystem Assessments (MICE)
@@ -122,9 +122,9 @@ By perturbing each parameter of the 14-entity Andersen–Ursin skeleton model (p
 
 ```mermaid
 flowchart TD
-    AU["Andersen & Ursin (1977)\nFull Bioenergetic Multispecies Model\n83 coupled ODEs\nFeeding level f_j = Phi_j / (Phi_j + Q_j)\nPutter/von Bertalanffy growth: dw/dt = (1-alpha)beta f_j h w^n - k w^m"]
-    AU -->|"Simplification 1: Helgason & Gislason (1979) / Pope (1979)\nAssume f_j = const (fixed ration R_j = f_j h_j w_j^n)\nFix weight-at-age w_{a,t} empirically"| MSVPA["MSVPA & SMS (Lewy & Vinther 2004)\nM2_{i,a} = sum_j (N_j R_j G_{ij}) / Phi_j\nExact match to stomach proportions!\nOne-way trophic feedback"]
-    AU -->|"Simplification 2: Hartvig, Andersen & Beyer (2011)\nContinuous size-spectrum PDE\nExplicit search volume gamma_j w_j^q (so Q_j = h_j w_j^n / gamma_j w_j^q)\nDynamic growth g_j(w) & reproduction R_{p,j}"| MIZER["mizer (Scott et al. 2014)\nFull two-way bioenergetic feedback\nEmergent growth, maturity & M2\nHistorically lacked statistical time-series likelihoods"]
+    AU["<b>Andersen & Ursin (1977)</b><br/>Full Bioenergetic Multispecies Model (83 coupled ODEs)<br/>Feeding level: f<sub>j</sub> = Ψ<sub>j</sub> / (Ψ<sub>j</sub> + Q<sub>j</sub>)<br/>Growth: dw/dt = (1 − α)β f<sub>j</sub> h w<sup>m</sup> − k w<sup>n</sup>"]
+    AU -->|"<b>Simplification 1: Helgason & Gislason (1979) / Pope (1979)</b><br/>Assume f<sub>j</sub> = const (fixed ration R<sub>j</sub> = f<sub>j</sub> h<sub>j</sub> w<sub>j</sub><sup>m</sup>)<br/>Fix empirical weight-at-age w<sub>a,t</sub>"| MSVPA["<b>MSVPA & SMS (Lewy & Vinther 2004)</b><br/>M2<sub>i,a</sub> = ∑<sub>j</sub> (N<sub>j</sub> R<sub>j</sub> G<sub>ij</sub>) / Φ<sub>j</sub><br/>Exact match to stomach proportions<br/>One-way trophic feedback"]
+    AU -->|"<b>Simplification 2: Hartvig, Andersen & Beyer (2011)</b><br/>Continuous size-spectrum PDE<br/>Volumetric search rate γ<sub>j</sub> w<sub>j</sub><sup>q</sup><br/>Dynamic growth g<sub>j</sub>(w) & reproduction R<sub>p,j</sub>"| MIZER["<b>mizer (Scott et al. 2014)</b><br/>Full two-way bioenergetic feedback<br/>Emergent growth, maturity & M2<br/>Historically lacked time-series likelihoods"]
 ```
 
 1. **The MSVPA / SMS Simplification [@helgason_gislason1979; @pope1979; @lewy2004]**:

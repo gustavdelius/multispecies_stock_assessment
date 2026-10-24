@@ -1,6 +1,5 @@
 # Quarto temporary files
 /.quarto/
-
 # R / RStudio temporary files
 .Rhistory
 .Rapp.history
@@ -12,5 +11,5 @@
 *.utf8.md
 *.knit.md
 .Renviron
-
 **/*.quarto_ipynb
+multispecies_stock_assessment.Rproj
