@@ -1,9 +1,5 @@
 # Chapter 2: Age-Structured Multispecies Stock Assessment Models (`MSVPA`, `SMS`/`smsR`, `MSCAA`/`Hydra`, `CEATTLE`)
 
-> **Navigation**: [Overview](index.md) | [Chapter 1: Taxonomy & Foundations](01_taxonomy_and_foundations.md) | **Chapter 2** | [Chapter 3: Age-Length & Length-Structured Models](03_age_length_and_length_structured_models.md) | [Chapter 4: Size-Spectrum & Food-Web Models](04_size_spectrum_and_food_web_models.md) | [Chapter 5: Stomach Content Data & Likelihoods](05_stomach_content_data_and_likelihoods.md) | [Chapter 6: Fitting, Uncertainty & `mizer` Roadmap](06_statistical_fitting_uncertainty_and_mizer_synthesis.md) | [References](references.md)
-
----
-
 ## 2.1 Overview of the Age-Structured Multispecies Family
 
 Age-structured multispecies models are direct extensions of single-species Virtual Population Analysis (VPA) and Statistical Catch-at-Age (SCAA) models. They partition total instantaneous mortality $Z_{s,a,y,q}$ of species $s$, age class $a$, year $y$, and season/quarter $q$ into three additive components (first formalized by @helgason_gislason1979 and @pope1979):
@@ -16,6 +12,12 @@ where:
 - $M2_{s,a,y,q}$ is the **endogenous predation mortality rate** inflicted by the modeled predators in the ecosystem.
 
 Because these models track discrete age cohorts $(s, a)$ rather than continuous body size, individual body weight $w_{s,a,y,q}$ and length $l_{s,a,y,q}$ are typically treated as known empirical inputs (measured from port and survey sampling), or mapped via pre-computed age-length keys ($\text{ALK}_{s,a,l,y,q}$).
+
+Four major model lineages define this family:
+- **Foundations and `MSVPA`**: @ursin1967, @ursin1973, and @andersen_ursin1977 established the size-based bioenergetic and prey-suitability equations, evaluated for North Pacific stocks by @livingston1983 and simplified into operational `MSVPA` by @helgason_gislason1979, @pope1979, and @sparre1980.
+- **Stochastic Multispecies Model (`SMS` / `smsR`)**: @lewy2004 formulated the seasonal age-length statistical multispecies model and Dirichlet stomach-content likelihood used in ICES key runs [@ices2021; @ices2023].
+- **North American Statistical Catch-at-Age (`MSASA` / `MSCAA` / `Hydra`)**: @jurado_molina2005, @kinzey2009, @vankirk2010, @curti2013, and @trijoulet2019 developed and tested forward-projecting multispecies catch-at-age models across alternative predator functional responses and diet observation error regimes.
+- **Climate-Enhanced Multispecies Assessment (`CEATTLE` / `Rceattle`)**: @holsman_aydin2015, @holsman2016, and @adams2022 coupled temperature-dependent von Bertalanffy growth [@essington2001] and Wisconsin bioenergetics [@kitchell1977; @thornton_lessem1978] with age-structured stock assessment and multispecies biological reference points.
 
 ---
 
