@@ -2,7 +2,7 @@
 <html xmlns="http://www.w3.org/1999/xhtml" lang="en" xml:lang="en"><head>
 
 <meta charset="utf-8">
-<meta name="generator" content="quarto-1.9.37">
+<meta name="generator" content="quarto-1.9.38">
 
 <meta name="viewport" content="width=device-width, initial-scale=1.0, user-scalable=yes">
 
@@ -61,7 +61,7 @@ div.csl-indent {
 <script src="site_libs/quarto-html/tippy.umd.min.js"></script>
 <script src="site_libs/quarto-html/anchor.min.js"></script>
 <link href="site_libs/quarto-html/tippy.css" rel="stylesheet">
-<link href="site_libs/quarto-html/quarto-syntax-highlighting-7f8f88aac4f3542376d5c11b86a4c14d.css" rel="stylesheet" id="quarto-text-highlighting-styles">
+<link href="site_libs/quarto-html/quarto-syntax-highlighting-15634bcf2e68342d4ad2dfa704d543f6.css" rel="stylesheet" id="quarto-text-highlighting-styles">
 <script src="site_libs/bootstrap/bootstrap.min.js"></script>
 <link href="site_libs/bootstrap/bootstrap-icons.css" rel="stylesheet">
 <link href="site_libs/bootstrap/bootstrap-67e563c3f8baddecfc039ce11a1d00ae.min.css" rel="stylesheet" append-hash="true" id="quarto-bootstrap" data-mode="light">
@@ -305,59 +305,72 @@ window.Quarto = {
 <h3 data-number="1.2.1" class="anchored" data-anchor-id="axis-1-individual-state-space-age-vs.-length-vs.-continuous-body-mass"><span class="header-section-number">1.2.1</span> Axis 1: Individual State Space (Age vs.&nbsp;Length vs.&nbsp;Continuous Body Mass)</h3>
 <table class="caption-top table">
 <colgroup>
-<col style="width: 20%">
-<col style="width: 20%">
-<col style="width: 20%">
-<col style="width: 20%">
-<col style="width: 20%">
+<col style="width: 33%">
+<col style="width: 33%">
+<col style="width: 33%">
 </colgroup>
 <thead>
 <tr class="header">
 <th style="text-align: left;">State Space</th>
 <th style="text-align: left;">State Variable</th>
-<th style="text-align: left;">Governing Dynamical Equation</th>
 <th style="text-align: left;">Representative Models</th>
-<th style="text-align: left;">Primary Strengths &amp; Limitations</th>
 </tr>
 </thead>
 <tbody>
 <tr class="odd">
 <td style="text-align: left;"><strong>1. Biomass Pool / Multi-Stanza</strong></td>
 <td style="text-align: left;"><span class="math inline">\(B_{i}(t)\)</span></td>
-<td style="text-align: left;">Coupled system of ordinary differential equations (ODEs): <span class="math inline">\(\frac{dB_i}{dt} = g_i \sum_j Q_{ij} - \sum_k Q_{ki} - (M0_i + F_i) B_i\)</span></td>
 <td style="text-align: left;"><code>Ecopath with Ecosim</code> <span class="citation" data-cites="walters1997">(<a href="references.html#ref-walters1997" role="doc-biblioref">Walters et al. 1997</a>)</span>, <code>Rpath</code> <span class="citation" data-cites="lucey2020">(<a href="references.html#ref-lucey2020" role="doc-biblioref">Lucey et al. 2020</a>)</span>, <code>EcoState</code> <span class="citation" data-cites="thorson2024">(<a href="references.html#ref-thorson2024" role="doc-biblioref">Thorson et al. 2024</a>)</span></td>
-<td style="text-align: left;">Fast; low state dimension; captures whole-food-web energy flow; cannot directly fit length/age compositions without multi-stanza delay-difference approximations.</td>
 </tr>
 <tr class="even">
 <td style="text-align: left;"><strong>2. Discrete Age-Structured</strong></td>
 <td style="text-align: left;"><span class="math inline">\(N_{i,a,t}\)</span></td>
-<td style="text-align: left;">Difference equation along cohort diagonals: <span class="math inline">\(N_{i,a+1,t+1} = N_{i,a,t} \exp(-Z_{i,a,t})\)</span> with empirical weight-at-age <span class="math inline">\(w_{i,a,t}\)</span></td>
 <td style="text-align: left;"><code>MSVPA</code>/<code>MSFOR</code>, <code>SMS</code> <span class="citation" data-cites="lewy2004">(<a href="references.html#ref-lewy2004" role="doc-biblioref">Lewy and Vinther 2004</a>)</span>, <code>MSCAA</code>/<code>Hydra</code>, <code>CEATTLE</code></td>
-<td style="text-align: left;">Directly compatible with single-species age-based assessments; simple cohort tracking; requires aging data (otoliths); size-based predation must be mapped through fixed <span class="math inline">\(w_{i,a,t}\)</span> or age-length keys.</td>
 </tr>
 <tr class="odd">
 <td style="text-align: left;"><strong>3. Joint Age-Length Structured</strong></td>
-<td style="text-align: left;"><span class="math inline">\(N_{i,a,l,t}\)</span> and <span class="math inline">\(W_{i,a,l,t}\)</span></td>
-<td style="text-align: left;">Advection-dispersion across length bins within each discrete age class: <span class="math inline">\(\mathbf{N}_{i,a,t+\Delta t} = \mathbf{G}_{i,a,t} \mathbf{S}_{i,a,t} \mathbf{N}_{i,a,t}\)</span></td>
+<td style="text-align: left;"><span class="math inline">\(N_{i,a,l,t},\; W_{i,a,l,t}\)</span></td>
 <td style="text-align: left;"><code>MULTSPEC</code>, <code>BORMICON</code>, <code>Gadget2</code>, <code>gadget3</code> <span class="citation" data-cites="stefansson1998 begley2004overview">(<a href="references.html#ref-stefansson1998" role="doc-biblioref">Stefánsson and Pálsson 1998</a>; <a href="references.html#ref-begley2004overview" role="doc-biblioref">Begley and Howell 2004</a>)</span></td>
-<td style="text-align: left;">Separates chronological age from physical size; resolves size-selective mortality effects on mean length-at-age; computationally intensive due to <span class="math inline">\((s \times a \times l \times r)\)</span> state tensor.</td>
 </tr>
 <tr class="even">
 <td style="text-align: left;"><strong>4. Discrete Length-Structured (Age-Free)</strong></td>
 <td style="text-align: left;"><span class="math inline">\(N_{i,l,t}\)</span></td>
-<td style="text-align: left;">Matrix projection across length bins: <span class="math inline">\(\mathbf{N}_{i,t+1} = \mathbf{X}_i \mathbf{S}_{i,t} \mathbf{N}_{i,t} + \mathbf{R}_{i,t}\)</span></td>
 <td style="text-align: left;"><code>LeMans</code> <span class="citation" data-cites="hall2006">(<a href="references.html#ref-hall2006" role="doc-biblioref">Hall et al. 2006</a>)</span>, <code>LeMaRns</code> <span class="citation" data-cites="spence2020">(<a href="references.html#ref-spence2020" role="doc-biblioref">Spence et al. 2020</a>)</span>, <code>CSMS</code> <span class="citation" data-cites="pope2006">(<a href="references.html#ref-pope2006" role="doc-biblioref">Pope et al. 2006</a>)</span></td>
-<td style="text-align: left;">Requires no otolith aging; matches survey length-frequency data directly; deterministic fractional bin transition (<span class="math inline">\(\phi_{i,l}\)</span>) introduces numerical cohort diffusion unless stochastic transition matrix <span class="math inline">\(\mathbf{X}_{l,l'}\)</span> is used.</td>
 </tr>
 <tr class="odd">
 <td style="text-align: left;"><strong>5. Continuous Body-Mass Spectrum</strong></td>
 <td style="text-align: left;"><span class="math inline">\(N_i(w,t)\)</span> (<span class="math inline">\(\text{numbers}\cdot\text{g}^{-1}\)</span>)</td>
-<td style="text-align: left;">McKendrick–von Foerster PDE (or Fokker-Planck Jump-Growth PDE): <span class="math inline">\(\frac{\partial N_i}{\partial t} + \frac{\partial (g_i N_i)}{\partial w} = \frac{1}{2}\frac{\partial^2 (d_i N_i)}{\partial w^2} - \mu_i N_i\)</span></td>
 <td style="text-align: left;"><code>mizer</code> <span class="citation" data-cites="hartvig2011 scott2014 datta2010">(<a href="references.html#ref-hartvig2011" role="doc-biblioref">Hartvig et al. 2011</a>; <a href="references.html#ref-scott2014" role="doc-biblioref">Scott et al. 2014</a>; <a href="references.html#ref-datta2010" role="doc-biblioref">Datta et al. 2010</a>)</span></td>
-<td style="text-align: left;">Mechanistic mass and energy conservation from plankton to top predators; emergent growth, maturity, and mortality; requires PDE discretization and diffusion treatment to track cohorts dynamically.</td>
 </tr>
 </tbody>
 </table>
+<ol type="1">
+<li><strong>Biomass Pool / Multi-Stanza (<span class="math inline">\(B_i(t)\)</span>)</strong>:
+<ul>
+<li><em>Governing Dynamical Equation</em>: Coupled system of ordinary differential equations (ODEs): <span class="math display">\[\frac{dB_i}{dt} = g_i \sum_j Q_{ij} - \sum_k Q_{ki} - (M0_i + F_i) B_i\]</span></li>
+<li><em>Strengths &amp; Limitations</em>: Fast; low state dimension; captures whole-food-web energy flow; cannot directly fit length or age compositions without multi-stanza delay-difference approximations.</li>
+</ul></li>
+<li><strong>Discrete Age-Structured (<span class="math inline">\(N_{i,a,t}\)</span>)</strong>:
+<ul>
+<li><em>Governing Dynamical Equation</em>: Difference equation along cohort diagonals with empirical weight-at-age <span class="math inline">\(w_{i,a,t}\)</span>: <span class="math display">\[N_{i,a+1,t+1} = N_{i,a,t} \exp(-Z_{i,a,t})\]</span></li>
+<li><em>Strengths &amp; Limitations</em>: Directly compatible with single-species age-based assessments; simple cohort tracking; requires aging data (otoliths); size-based predation must be mapped through fixed <span class="math inline">\(w_{i,a,t}\)</span> or age-length keys.</li>
+</ul></li>
+<li><strong>Joint Age-Length Structured (<span class="math inline">\(N_{i,a,l,t}\)</span> and <span class="math inline">\(W_{i,a,l,t}\)</span>)</strong>:
+<ul>
+<li><em>Governing Dynamical Equation</em>: Advection-dispersion across length bins within each discrete age class: <span class="math display">\[\mathbf{N}_{i,a,t+\Delta t} = \mathbf{G}_{i,a,t} \mathbf{S}_{i,a,t} \mathbf{N}_{i,a,t}\]</span></li>
+<li><em>Strengths &amp; Limitations</em>: Separates chronological age from physical size; resolves size-selective mortality effects on mean length-at-age; computationally intensive due to the <span class="math inline">\((s \times a \times l \times r)\)</span> state tensor.</li>
+</ul></li>
+<li><strong>Discrete Length-Structured / Age-Free (<span class="math inline">\(N_{i,l,t}\)</span>)</strong>:
+<ul>
+<li><em>Governing Dynamical Equation</em>: Matrix projection across length bins: <span class="math display">\[\mathbf{N}_{i,t+1} = \mathbf{X}_i \mathbf{S}_{i,t} \mathbf{N}_{i,t} + \mathbf{R}_{i,t}\]</span></li>
+<li><em>Strengths &amp; Limitations</em>: Requires no otolith aging; matches survey length-frequency data directly; deterministic fractional bin transition (<span class="math inline">\(\phi_{i,l}\)</span>) introduces numerical cohort diffusion unless a stochastic transition matrix <span class="math inline">\(\mathbf{X}_{l,l'}\)</span> is used.</li>
+</ul></li>
+<li><strong>Continuous Body-Mass Spectrum (<span class="math inline">\(N_i(w,t)\)</span>, <span class="math inline">\(\text{numbers}\cdot\text{g}^{-1}\)</span>)</strong>:
+<ul>
+<li><em>Governing Dynamical Equation</em>: McKendrick–von Foerster PDE (or Fokker–Planck Jump-Growth PDE): <span class="math display">\[\frac{\partial N_i}{\partial t} + \frac{\partial (g_i N_i)}{\partial w} = \frac{1}{2}\frac{\partial^2 (d_i N_i)}{\partial w^2} - \mu_i N_i\]</span></li>
+<li><em>Strengths &amp; Limitations</em>: Mechanistic mass and energy conservation from plankton to top predators; emergent growth, maturity, and mortality; requires PDE discretization and diffusion treatment to track cohorts dynamically.</li>
+</ul></li>
+</ol>
 <hr>
 </section>
 <section id="axis-2-direction-of-trophic-feedback-one-way-vs.-two-way-coupling" class="level3" data-number="1.2.2">
