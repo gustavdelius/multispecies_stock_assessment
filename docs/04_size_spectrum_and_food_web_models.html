@@ -1,0 +1,815 @@
+<!DOCTYPE html>
+<html xmlns="http://www.w3.org/1999/xhtml" lang="en" xml:lang="en"><head>
+
+<meta charset="utf-8">
+<meta name="generator" content="quarto-1.9.37">
+
+<meta name="viewport" content="width=device-width, initial-scale=1.0, user-scalable=yes">
+
+<meta name="description" content="Mathematical and statistical review of multispecies stock assessment methods, stomach content likelihoods, and size-structured assessment software.">
+
+<title>Chapter 4: Continuous Size-Spectrum (mizer) and State-Space Food-Web Models (EwE, Rpath, EcoState) – Multispecies Stock Assessment: Mathematical Methods, Data, and Software</title>
+<style>
+/* Default styles provided by pandoc.
+** See https://pandoc.org/MANUAL.html#variables-for-html for config info.
+*/
+code{white-space: pre-wrap;}
+span.smallcaps{font-variant: small-caps;}
+div.columns{display: flex; gap: min(4vw, 1.5em);}
+div.column{flex: auto; overflow-x: auto;}
+div.hanging-indent{margin-left: 1.5em; text-indent: -1.5em;}
+ul.task-list{list-style: none;}
+ul.task-list li input[type="checkbox"] {
+  width: 0.8em;
+  margin: 0 0.8em 0.2em -1em; /* quarto-specific, see https://github.com/quarto-dev/quarto-cli/issues/4556 */ 
+  vertical-align: middle;
+}
+</style>
+
+
+<script src="site_libs/quarto-nav/quarto-nav.js"></script>
+<script src="site_libs/quarto-nav/headroom.min.js"></script>
+<script src="site_libs/clipboard/clipboard.min.js"></script>
+<script src="site_libs/quarto-search/autocomplete.umd.js"></script>
+<script src="site_libs/quarto-search/fuse.min.js"></script>
+<script src="site_libs/quarto-search/quarto-search.js"></script>
+<meta name="quarto:offset" content="./">
+<link href="./05_stomach_content_data_and_likelihoods.html" rel="next">
+<link href="./03_age_length_and_length_structured_models.html" rel="prev">
+<script src="site_libs/quarto-html/quarto.js" type="module"></script>
+<script src="site_libs/quarto-html/tabsets/tabsets.js" type="module"></script>
+<script src="site_libs/quarto-html/popper.min.js"></script>
+<script src="site_libs/quarto-html/tippy.umd.min.js"></script>
+<script src="site_libs/quarto-html/anchor.min.js"></script>
+<link href="site_libs/quarto-html/tippy.css" rel="stylesheet">
+<link href="site_libs/quarto-html/quarto-syntax-highlighting-7f8f88aac4f3542376d5c11b86a4c14d.css" rel="stylesheet" id="quarto-text-highlighting-styles">
+<script src="site_libs/bootstrap/bootstrap.min.js"></script>
+<link href="site_libs/bootstrap/bootstrap-icons.css" rel="stylesheet">
+<link href="site_libs/bootstrap/bootstrap-67e563c3f8baddecfc039ce11a1d00ae.min.css" rel="stylesheet" append-hash="true" id="quarto-bootstrap" data-mode="light">
+<script id="quarto-search-options" type="application/json">{
+  "location": "sidebar",
+  "copy-button": false,
+  "collapse-after": 3,
+  "panel-placement": "start",
+  "type": "textbox",
+  "limit": 50,
+  "keyboard-shortcut": [
+    "f",
+    "/",
+    "s"
+  ],
+  "show-item-context": false,
+  "language": {
+    "search-no-results-text": "No results",
+    "search-matching-documents-text": "matching documents",
+    "search-copy-link-title": "Copy link to search",
+    "search-hide-matches-text": "Hide additional matches",
+    "search-more-match-text": "more match in this document",
+    "search-more-matches-text": "more matches in this document",
+    "search-clear-button-title": "Clear",
+    "search-text-placeholder": "",
+    "search-detached-cancel-button-title": "Cancel",
+    "search-submit-button-title": "Submit",
+    "search-label": "Search"
+  }
+}</script>
+
+  <script src="https://cdnjs.cloudflare.com/polyfill/v3/polyfill.min.js?features=es6"></script>
+  <script defer="" src="https://cdn.jsdelivr.net/npm/mathjax@3/es5/tex-chtml-full.js" type="text/javascript"></script>
+
+<script type="text/javascript">
+const typesetMath = (el) => {
+  if (window.MathJax) {
+    // MathJax Typeset
+    window.MathJax.typeset([el]);
+  } else if (window.katex) {
+    // KaTeX Render
+    var mathElements = el.getElementsByClassName("math");
+    var macros = [];
+    for (var i = 0; i < mathElements.length; i++) {
+      var texText = mathElements[i].firstChild;
+      if (mathElements[i].tagName == "SPAN" && texText && texText.data) {
+        window.katex.render(texText.data, mathElements[i], {
+          displayMode: mathElements[i].classList.contains('display'),
+          throwOnError: false,
+          macros: macros,
+          fleqn: false
+        });
+      }
+    }
+  }
+}
+window.Quarto = {
+  typesetMath
+};
+</script>
+
+</head>
+
+<body class="nav-sidebar floating quarto-light">
+
+<div id="quarto-search-results"></div>
+  <header id="quarto-header" class="headroom fixed-top">
+  <nav class="quarto-secondary-nav">
+    <div class="container-fluid d-flex">
+      <button type="button" class="quarto-btn-toggle btn" data-bs-toggle="collapse" role="button" data-bs-target=".quarto-sidebar-collapse-item" aria-controls="quarto-sidebar" aria-expanded="false" aria-label="Toggle sidebar navigation" onclick="if (window.quartoToggleHeadroom) { window.quartoToggleHeadroom(); }">
+        <i class="bi bi-layout-text-sidebar-reverse"></i>
+      </button>
+        <nav class="quarto-page-breadcrumbs" aria-label="breadcrumb"><ol class="breadcrumb"><li class="breadcrumb-item"><a href="./04_size_spectrum_and_food_web_models.html"><span class="chapter-title">Chapter 4: Continuous Size-Spectrum (<code>mizer</code>) and State-Space Food-Web Models (<code>EwE</code>, <code>Rpath</code>, <code>EcoState</code>)</span></a></li></ol></nav>
+        <a class="flex-grow-1" role="navigation" data-bs-toggle="collapse" data-bs-target=".quarto-sidebar-collapse-item" aria-controls="quarto-sidebar" aria-expanded="false" aria-label="Toggle sidebar navigation" onclick="if (window.quartoToggleHeadroom) { window.quartoToggleHeadroom(); }">      
+        </a>
+      <button type="button" class="btn quarto-search-button" aria-label="Search" onclick="window.quartoOpenSearch();">
+        <i class="bi bi-search"></i>
+      </button>
+    </div>
+  </nav>
+</header>
+<!-- content -->
+<div id="quarto-content" class="quarto-container page-columns page-rows-contents page-layout-article">
+<!-- sidebar -->
+  <nav id="quarto-sidebar" class="sidebar collapse collapse-horizontal quarto-sidebar-collapse-item sidebar-navigation floating overflow-auto">
+    <div class="pt-lg-2 mt-2 text-left sidebar-header">
+    <div class="sidebar-title mb-0 py-0">
+      <a href="./">Multispecies Stock Assessment: Mathematical Methods, Data, and Software</a> 
+        <div class="sidebar-tools-main">
+    <a href="https://github.com/gustavdelius/multispecies_stock_assessment" title="Source Code" class="quarto-navigation-tool px-1" aria-label="Source Code"><i class="bi bi-github"></i></a>
+</div>
+    </div>
+      </div>
+        <div class="mt-2 flex-shrink-0 align-items-center">
+        <div class="sidebar-search">
+        <div id="quarto-search" class="" title="Search"></div>
+        </div>
+        </div>
+    <div class="sidebar-menu-container"> 
+    <ul class="list-unstyled mt-1">
+        <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="./index.html" class="sidebar-item-text sidebar-link">
+ <span class="menu-text">Mathematical &amp; Statistical Literature Review of Multispecies Stock Assessment Models</span></a>
+  </div>
+</li>
+        <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="./01_taxonomy_and_foundations.html" class="sidebar-item-text sidebar-link"><span class="chapter-title">Chapter 1: Taxonomy and Theoretical Foundations of Multispecies Stock Assessment Models</span></a>
+  </div>
+</li>
+        <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="./02_age_structured_multispecies_models.html" class="sidebar-item-text sidebar-link"><span class="chapter-title">Chapter 2: Age-Structured Multispecies Stock Assessment Models (<code>MSVPA</code>, <code>SMS</code>/<code>smsR</code>, <code>MSCAA</code>/<code>Hydra</code>, <code>CEATTLE</code>)</span></a>
+  </div>
+</li>
+        <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="./03_age_length_and_length_structured_models.html" class="sidebar-item-text sidebar-link"><span class="chapter-title">Chapter 3: Age-Length and Length-Structured Assessment Models (<code>Gadget</code>/<code>gadget3</code>, <code>SS3</code>, <code>MULTIFAN-CL</code>, <code>LeMans</code>/<code>LeMaRns</code>, <code>CSMS</code>/<code>CSM</code>)</span></a>
+  </div>
+</li>
+        <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="./04_size_spectrum_and_food_web_models.html" class="sidebar-item-text sidebar-link active"><span class="chapter-title">Chapter 4: Continuous Size-Spectrum (<code>mizer</code>) and State-Space Food-Web Models (<code>EwE</code>, <code>Rpath</code>, <code>EcoState</code>)</span></a>
+  </div>
+</li>
+        <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="./05_stomach_content_data_and_likelihoods.html" class="sidebar-item-text sidebar-link"><span class="chapter-title">Chapter 5: Stomach Content Data, Gastric Evacuation Physics, and Diet Likelihood Formulations</span></a>
+  </div>
+</li>
+        <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="./06_statistical_fitting_uncertainty_and_mizer_synthesis.html" class="sidebar-item-text sidebar-link"><span class="chapter-title">Chapter 6: Statistical Estimation, Data Weighting, Uncertainty Quantification, and an Architectural Roadmap for Dynamic <code>mizer</code> Stock Assessment</span></a>
+  </div>
+</li>
+    </ul>
+    </div>
+</nav>
+<div id="quarto-sidebar-glass" class="quarto-sidebar-collapse-item" data-bs-toggle="collapse" data-bs-target=".quarto-sidebar-collapse-item"></div>
+<!-- margin-sidebar -->
+    <div id="quarto-margin-sidebar" class="sidebar margin-sidebar">
+        <nav id="TOC" role="doc-toc" class="toc-active">
+    <h2 id="toc-title">Table of contents</h2>
+   
+  <ul>
+  <li><a href="#continuous-multispecies-size-spectrum-models-mizer" id="toc-continuous-multispecies-size-spectrum-models-mizer" class="nav-link active" data-scroll-target="#continuous-multispecies-size-spectrum-models-mizer">4.1 Continuous Multispecies Size-Spectrum Models (<code>mizer</code>)</a>
+  <ul>
+  <li><a href="#theoretical-lineage-and-core-philosophy" id="toc-theoretical-lineage-and-core-philosophy" class="nav-link" data-scroll-target="#theoretical-lineage-and-core-philosophy">4.1.1 Theoretical Lineage and Core Philosophy</a></li>
+  <li><a href="#complete-mathematical-formulation-of-standard-mizer" id="toc-complete-mathematical-formulation-of-standard-mizer" class="nav-link" data-scroll-target="#complete-mathematical-formulation-of-standard-mizer">4.1.2 Complete Mathematical Formulation of Standard <code>mizer</code></a>
+  <ul class="collapse">
+  <li><a href="#governing-mckendrickvon-foerster-conservation-pde" id="toc-governing-mckendrickvon-foerster-conservation-pde" class="nav-link" data-scroll-target="#governing-mckendrickvon-foerster-conservation-pde">1. Governing McKendrick–von Foerster Conservation PDE</a></li>
+  <li><a href="#volumetric-search-rate-predation-kernel-and-encounter-rate-e_iwt" id="toc-volumetric-search-rate-predation-kernel-and-encounter-rate-e_iwt" class="nav-link" data-scroll-target="#volumetric-search-rate-predation-kernel-and-encounter-rate-e_iwt">2. Volumetric Search Rate, Predation Kernel, and Encounter Rate (<span class="math inline">\(E_i(w,t)\)</span>)</a></li>
+  <li><a href="#feeding-level-f_iwt-and-holling-type-ii-satiation" id="toc-feeding-level-f_iwt-and-holling-type-ii-satiation" class="nav-link" data-scroll-target="#feeding-level-f_iwt-and-holling-type-ii-satiation">3. Feeding Level (<span class="math inline">\(f_i(w,t)\)</span>) and Holling Type II Satiation</a></li>
+  <li><a href="#bioenergetic-allocation-somatic-growth-g_iwt-and-reproduction-r_pit" id="toc-bioenergetic-allocation-somatic-growth-g_iwt-and-reproduction-r_pit" class="nav-link" data-scroll-target="#bioenergetic-allocation-somatic-growth-g_iwt-and-reproduction-r_pit">4. Bioenergetic Allocation, Somatic Growth (<span class="math inline">\(g_i(w,t)\)</span>), and Reproduction (<span class="math inline">\(R_{p,i}(t)\)</span>)</a></li>
+  <li><a href="#total-mortality-mu_iwt-background-predation-starvation-and-fishing" id="toc-total-mortality-mu_iwt-background-predation-starvation-and-fishing" class="nav-link" data-scroll-target="#total-mortality-mu_iwt-background-predation-starvation-and-fishing">5. Total Mortality (<span class="math inline">\(\mu_i(w,t)\)</span>): Background, Predation, Starvation, and Fishing</a></li>
+  <li><a href="#resource-spectrum-dynamics-n_rwt" id="toc-resource-spectrum-dynamics-n_rwt" class="nav-link" data-scroll-target="#resource-spectrum-dynamics-n_rwt">6. Resource Spectrum Dynamics (<span class="math inline">\(N_R(w,t)\)</span>)</a></li>
+  <li><a href="#semi-implicit-upwind-finite-difference-discretization-in-mizer" id="toc-semi-implicit-upwind-finite-difference-discretization-in-mizer" class="nav-link" data-scroll-target="#semi-implicit-upwind-finite-difference-discretization-in-mizer">7. Semi-Implicit Upwind Finite-Difference Discretization in <code>mizer</code></a></li>
+  </ul></li>
+  </ul></li>
+  <li><a href="#the-jump-growth-fokkerplanck-pde-datta-delius-law-2010" id="toc-the-jump-growth-fokkerplanck-pde-datta-delius-law-2010" class="nav-link" data-scroll-target="#the-jump-growth-fokkerplanck-pde-datta-delius-law-2010">4.2 The Jump-Growth Fokker–Planck PDE (<code>Datta, Delius &amp; Law 2010</code>)</a>
+  <ul>
+  <li><a href="#why-the-first-order-mckendrickvon-foerster-pde-fails-for-dynamic-cohort-fitting" id="toc-why-the-first-order-mckendrickvon-foerster-pde-fails-for-dynamic-cohort-fitting" class="nav-link" data-scroll-target="#why-the-first-order-mckendrickvon-foerster-pde-fails-for-dynamic-cohort-fitting">4.2.1 Why the First-Order McKendrick–von Foerster PDE Fails for Dynamic Cohort Fitting</a></li>
+  <li><a href="#derivation-of-the-jump-growth-equation-datta-delius-law-2010" id="toc-derivation-of-the-jump-growth-equation-datta-delius-law-2010" class="nav-link" data-scroll-target="#derivation-of-the-jump-growth-equation-datta-delius-law-2010">4.2.2 Derivation of the Jump-Growth Equation (<code>Datta, Delius &amp; Law 2010</code>)</a></li>
+  </ul></li>
+  <li><a href="#population-regulation-without-ad-hoc-stockrecruitment-relationships-canales-delius-law-2020" id="toc-population-regulation-without-ad-hoc-stockrecruitment-relationships-canales-delius-law-2020" class="nav-link" data-scroll-target="#population-regulation-without-ad-hoc-stockrecruitment-relationships-canales-delius-law-2020">4.3 Population Regulation Without Ad-Hoc Stock–Recruitment Relationships (<code>Canales, Delius &amp; Law 2020</code>)</a></li>
+  <li><a href="#mass-balance-foraging-arena-and-state-space-food-web-models-ecopath-ecosim-rpath-ecostate" id="toc-mass-balance-foraging-arena-and-state-space-food-web-models-ecopath-ecosim-rpath-ecostate" class="nav-link" data-scroll-target="#mass-balance-foraging-arena-and-state-space-food-web-models-ecopath-ecosim-rpath-ecostate">4.4 Mass-Balance, Foraging Arena, and State-Space Food-Web Models (<code>Ecopath</code>, <code>Ecosim</code>, <code>Rpath</code>, <code>EcoState</code>)</a>
+  <ul>
+  <li><a href="#ecopath-static-mass-balance-at-reference-equilibrium" id="toc-ecopath-static-mass-balance-at-reference-equilibrium" class="nav-link" data-scroll-target="#ecopath-static-mass-balance-at-reference-equilibrium">4.4.1 <code>Ecopath</code>: Static Mass Balance at Reference Equilibrium</a></li>
+  <li><a href="#ecosim-and-walters-foraging-arena-theory" id="toc-ecosim-and-walters-foraging-arena-theory" class="nav-link" data-scroll-target="#ecosim-and-walters-foraging-arena-theory">4.4.2 <code>Ecosim</code> and Walters’ Foraging Arena Theory</a></li>
+  <li><a href="#ecostate-thorson-et-al.-2024-state-space-mass-balance-assessment-in-tmb" id="toc-ecostate-thorson-et-al.-2024-state-space-mass-balance-assessment-in-tmb" class="nav-link" data-scroll-target="#ecostate-thorson-et-al.-2024-state-space-mass-balance-assessment-in-tmb">4.4.3 <code>EcoState</code> (<code>Thorson et al. 2024</code>): State-Space Mass-Balance Assessment in TMB</a></li>
+  </ul></li>
+  </ul>
+<div class="toc-actions"><ul><li><a href="https://github.com/gustavdelius/multispecies_stock_assessment/edit/main/04_size_spectrum_and_food_web_models.md" class="toc-action"><i class="bi bi-github"></i>Edit this page</a></li></ul></div></nav>
+    </div>
+<!-- main -->
+<main class="content" id="quarto-document-content">
+
+<header id="title-block-header" class="quarto-title-block default">
+<div class="quarto-title">
+<h1 class="title"><span class="chapter-title">Chapter 4: Continuous Size-Spectrum (<code>mizer</code>) and State-Space Food-Web Models (<code>EwE</code>, <code>Rpath</code>, <code>EcoState</code>)</span></h1>
+</div>
+
+
+
+<div class="quarto-title-meta">
+
+    
+  
+    
+  </div>
+  
+
+
+</header>
+
+
+<blockquote class="blockquote">
+<p><strong>Navigation</strong>: <a href="./index.html">README (Index &amp; Bibliography)</a> | <a href="./01_taxonomy_and_foundations.html">Chapter 1: Taxonomy &amp; Foundations</a> | <a href="./02_age_structured_multispecies_models.html">Chapter 2: Age-Structured Models</a> | <a href="./03_age_length_and_length_structured_models.html">Chapter 3: Age-Length &amp; Length-Structured Models</a> | <strong>Chapter 4</strong> | <a href="./05_stomach_content_data_and_likelihoods.html">Chapter 5: Stomach Content Data &amp; Likelihoods</a> | <a href="./06_statistical_fitting_uncertainty_and_mizer_synthesis.html">Chapter 6: Fitting, Uncertainty &amp; <code>mizer</code> Roadmap</a></p>
+</blockquote>
+<hr>
+<section id="continuous-multispecies-size-spectrum-models-mizer" class="level2">
+<h2 class="anchored" data-anchor-id="continuous-multispecies-size-spectrum-models-mizer">4.1 Continuous Multispecies Size-Spectrum Models (<code>mizer</code>)</h2>
+<section id="theoretical-lineage-and-core-philosophy" class="level3">
+<h3 class="anchored" data-anchor-id="theoretical-lineage-and-core-philosophy">4.1.1 Theoretical Lineage and Core Philosophy</h3>
+<p>Size-spectrum theory originated from the empirical discovery by Sheldon et al.&nbsp;(1972) that pelagic marine biomass is approximately constant across logarithmic body-mass bins (<span class="math inline">\(B(w) dw \propto w^0 d(\ln w) \implies N(w) \propto w^{-2}\)</span>), and from the continuous mass-balance derivations of Silvert &amp; Platt (1978), Benoît &amp; Rochet (2004), and Andersen &amp; Beyer (2006).</p>
+<p>In a landmark synthesis, Hartvig, Andersen &amp; Beyer (<a href="https://github.com/gustavdelius/multispecies_stock_assessment/blob/main/papers/Hartvig_Andersen_Beyer_2011_Food_web_framework_size_structured.pdf">Hartvig_Andersen_Beyer_2011_Food_web_framework_size_structured.pdf</a>) and Scott, Blanchard &amp; Andersen (<a href="https://github.com/gustavdelius/multispecies_stock_assessment/blob/main/papers/Scott_Blanchard_Andersen_2014_mizer_package.pdf">Scott_Blanchard_Andersen_2014_mizer_package.pdf</a>) resolved species identity within the continuous size spectrum to create the <strong><code>mizer</code></strong> framework (<em>Multi-species size-spectrum ecological modelling in R</em>; reviewed comprehensively by <a href="https://github.com/gustavdelius/multispecies_stock_assessment/blob/main/papers/Andersen_Jacobsen_Farnsworth_2016_Theoretical_foundations_size_spectrum.pdf">Andersen_Jacobsen_Farnsworth_2016_Theoretical_foundations_size_spectrum.pdf</a>, <a href="https://github.com/gustavdelius/multispecies_stock_assessment/blob/main/papers/Andersen_2020_Size_based_theory_fisheries_advice.pdf">Andersen_2020_Size_based_theory_fisheries_advice.pdf</a>, and <a href="https://github.com/gustavdelius/multispecies_stock_assessment/blob/main/papers/Pennino_etal_2026_Decade_of_mizer_review.pdf">Pennino_etal_2026_Decade_of_mizer_review.pdf</a>).</p>
+<p>Unlike age-structured models where somatic growth and natural mortality are external inputs, in <code>mizer</code> <strong>both individual somatic growth <span class="math inline">\(g_i(w,t)\)</span> and predation mortality <span class="math inline">\(\mu_{p,i}(w,t)\)</span> emerge dynamically from individual-level foraging and strict conservation of mass/energy</strong>.</p>
+<hr>
+</section>
+<section id="complete-mathematical-formulation-of-standard-mizer" class="level3">
+<h3 class="anchored" data-anchor-id="complete-mathematical-formulation-of-standard-mizer">4.1.2 Complete Mathematical Formulation of Standard <code>mizer</code></h3>
+<p>Let <span class="math inline">\(N_i(w, t)\)</span> (<span class="math inline">\(\text{numbers} \cdot \text{g}^{-1} \cdot \text{m}^{-3}\)</span> or total numbers per weight interval) denote the number density of species <span class="math inline">\(i \in \{1, \dots, S\}\)</span> at body mass <span class="math inline">\(w \in [w_0, w_{\max, i}]\)</span> and time <span class="math inline">\(t\)</span>, and let <span class="math inline">\(N_R(w, t)\)</span> denote the background plankton/benthic resource spectrum for <span class="math inline">\(w \in [w_{\text{cut}}, w_{\text{max}, R}]\)</span>.</p>
+<section id="governing-mckendrickvon-foerster-conservation-pde" class="level4">
+<h4 class="anchored" data-anchor-id="governing-mckendrickvon-foerster-conservation-pde">1. Governing McKendrick–von Foerster Conservation PDE</h4>
+<p>The time evolution of <span class="math inline">\(N_i(w, t)\)</span> is governed by the first-order hyperbolic continuity (advection-reaction) equation (<a href="https://github.com/gustavdelius/multispecies_stock_assessment/blob/main/papers/Hartvig_Andersen_Beyer_2011_Food_web_framework_size_structured.pdf">Hartvig_Andersen_Beyer_2011_Food_web_framework_size_structured.pdf</a>, Eq. 1; <a href="https://github.com/gustavdelius/multispecies_stock_assessment/blob/main/papers/Scott_Blanchard_Andersen_2014_mizer_package.pdf">Scott_Blanchard_Andersen_2014_mizer_package.pdf</a>, Eq. 3.1):</p>
+<p><span class="math display">\[\frac{\partial N_i(w, t)}{\partial t} + \frac{\partial \left(g_i(w, t) N_i(w, t)\right)}{\partial w} = -\mu_i(w, t) N_i(w, t)\]</span></p>
+<p>coupled to the <strong>boundary condition (recruitment flux)</strong> at egg weight <span class="math inline">\(w_0\)</span>:</p>
+<p><span class="math display">\[g_i(w_0, t) N_i(w_0, t) = R_{\text{dd}, i}(t)\]</span></p>
+</section>
+<section id="volumetric-search-rate-predation-kernel-and-encounter-rate-e_iwt" class="level4">
+<h4 class="anchored" data-anchor-id="volumetric-search-rate-predation-kernel-and-encounter-rate-e_iwt">2. Volumetric Search Rate, Predation Kernel, and Encounter Rate (<span class="math inline">\(E_i(w,t)\)</span>)</h4>
+<p>A predator of species <span class="math inline">\(i\)</span> and mass <span class="math inline">\(w\)</span> searches a water volume at allometric rate <span class="math inline">\(\gamma_i(w) = \gamma_i w^q\)</span> (<span class="math inline">\(q \approx 0.8\)</span>). Its size preference for prey of mass <span class="math inline">\(w_p\)</span> is described by a <strong>predation kernel</strong> <span class="math inline">\(\phi_i(w / w_p)\)</span>, most commonly the Andersen–Ursin lognormal kernel (<a href="https://github.com/gustavdelius/multispecies_stock_assessment/blob/main/papers/Scott_Blanchard_Andersen_2014_mizer_package.pdf">Scott_Blanchard_Andersen_2014_mizer_package.pdf</a>, Eq. 3.4):</p>
+<p><span class="math display">\[\phi_i\!\left(\frac{w}{w_p}\right) = \exp\!\left( -\frac{\left(\ln\!\left(\frac{w}{\beta_i w_p}\right)\right)^2}{2\sigma_i^2} \right)\]</span></p>
+<p>(or a power-law / box / double-logistic kernel). Given the species interaction (spatial overlap / vulnerability) matrix <span class="math inline">\(\theta_{ij} \in [0, 1]\)</span>, the <strong>total biomass of suitable prey encountered per unit time</strong> <span class="math inline">\(E_i(w, t)\)</span> by predator <span class="math inline">\((i, w)\)</span> is:</p>
+<p><span class="math display">\[E_i(w, t) = \gamma_i(w) \int \phi_i\!\left(\frac{w}{w_p}\right) \left[ \theta_{iR} N_R(w_p, t) + \sum_{j=1}^{S} \theta_{ij} N_j(w_p, t) \right] w_p \, dw_p\]</span></p>
+</section>
+<section id="feeding-level-f_iwt-and-holling-type-ii-satiation" class="level4">
+<h4 class="anchored" data-anchor-id="feeding-level-f_iwt-and-holling-type-ii-satiation">3. Feeding Level (<span class="math inline">\(f_i(w,t)\)</span>) and Holling Type II Satiation</h4>
+<p>Given physiological maximum intake rate <span class="math inline">\(I_{\max, i}(w) = h_i w^n\)</span> (<span class="math inline">\(n \approx 0.67\text{--}0.75\)</span>), the dimensionless <strong>feeding level</strong> <span class="math inline">\(f_i(w, t) \in [0, 1)\)</span> follows a Holling Type II functional response:</p>
+<p><span class="math display">\[f_i(w, t) = \frac{E_i(w, t)}{E_i(w, t) + h_i w^n}\]</span></p>
+<p>Thus actual biomass consumption per predator per unit time is <span class="math inline">\(C_i(w, t) = f_i(w, t) h_i w^n\)</span>.</p>
+</section>
+<section id="bioenergetic-allocation-somatic-growth-g_iwt-and-reproduction-r_pit" class="level4">
+<h4 class="anchored" data-anchor-id="bioenergetic-allocation-somatic-growth-g_iwt-and-reproduction-r_pit">4. Bioenergetic Allocation, Somatic Growth (<span class="math inline">\(g_i(w,t)\)</span>), and Reproduction (<span class="math inline">\(R_{p,i}(t)\)</span>)</h4>
+<p>Assimilated energy is a fraction <span class="math inline">\(\alpha_i \in (0, 1)\)</span> of ingested food (<span class="math inline">\(\alpha_i \approx 0.6\)</span>), from which standard metabolic maintenance <span class="math inline">\(k_{s,i} w^p\)</span> (<span class="math inline">\(p \approx 0.7\text{--}1.0\)</span>) is subtracted to give net available energy <span class="math inline">\(E_{\text{avail}, i}(w, t)\)</span>:</p>
+<p><span class="math display">\[E_{\text{avail}, i}(w, t) = \alpha_i \, f_i(w, t) \, h_i w^n - k_{s,i} w^p\]</span></p>
+<p>A size-dependent maturation ogive <span class="math inline">\(\psi_i(w)\)</span> (transitioning from <span class="math inline">\(0\)</span> to <span class="math inline">\(1\)</span> around maturation weight <span class="math inline">\(w_{\text{mat}, i}\)</span> and scaling with <span class="math inline">\(\left(w / w_{\max, i}\right)^{1-n}\)</span> or <span class="math inline">\(1 - (w/w_{\max,i})^{p-n}\)</span> so growth ceases at <span class="math inline">\(w_{\max, i}\)</span>) partitions net positive energy between <strong>somatic growth</strong> <span class="math inline">\(g_i(w, t)\)</span> and <strong>gonadal reproduction</strong> <span class="math inline">\(E_{r,i}(w, t)\)</span>:</p>
+<p><span class="math display">\[g_i(w, t) = \max\!\Big(0,\; E_{\text{avail}, i}(w, t)\Big) \Big(1 - \psi_i(w)\Big)\]</span></p>
+<p><span class="math display">\[\psi_i(w) = \left[1 + \left(\frac{w}{w_{\text{mat}, i}}\right)^{-U}\right]^{-1} \left(\frac{w}{w_{\max, i}}\right)^{1 - n}\]</span></p>
+<p>The <strong>density-independent physiological egg production rate</strong> <span class="math inline">\(R_{\text{di}, i}(t)\)</span> (<span class="math inline">\(\text{eggs} \cdot \text{yr}^{-1}\)</span>) is obtained by integrating reproductive energy over all sizes, multiplying by reproductive efficiency <span class="math inline">\(\epsilon_{\text{rep}, i}\)</span> and female fraction <span class="math inline">\(1/2\)</span>, and dividing by egg weight <span class="math inline">\(w_0\)</span>:</p>
+<p><span class="math display">\[R_{\text{di}, i}(t) = \frac{\epsilon_{\text{rep}, i}}{2 w_0} \int_{w_0}^{w_{\max, i}} N_i(w, t) \max\!\Big(0,\; E_{\text{avail}, i}(w, t)\Big) \psi_i(w) \, dw\]</span></p>
+<p>In standard <code>mizer</code>, external density dependence at the larval stage (e.g., limited larval habitat or unmodeled larval mortality) is represented by passing <span class="math inline">\(R_{\text{di}, i}(t)\)</span> through a <strong>Beverton–Holt stock-recruitment function</strong> with maximum recruitment cap <span class="math inline">\(R_{\max, i}\)</span>:</p>
+<p><span class="math display">\[R_{\text{dd}, i}(t) = \frac{R_{\max, i} \, R_{\text{di}, i}(t)}{R_{\text{di}, i}(t) + R_{\max, i}}\]</span></p>
+</section>
+<section id="total-mortality-mu_iwt-background-predation-starvation-and-fishing" class="level4">
+<h4 class="anchored" data-anchor-id="total-mortality-mu_iwt-background-predation-starvation-and-fishing">5. Total Mortality (<span class="math inline">\(\mu_i(w,t)\)</span>): Background, Predation, Starvation, and Fishing</h4>
+<p>Total instantaneous mortality <span class="math inline">\(\mu_i(w, t)\)</span> is the sum of four mechanistic components:</p>
+<p><span class="math display">\[\mu_i(w, t) = \mu_{0, i}(w) + \mu_{p, i}(w, t) + \mu_{s, i}(w, t) + F_i(w, t)\]</span></p>
+<ol type="1">
+<li><p><strong>Background / Senescence Mortality</strong>: <span class="math inline">\(\mu_{0, i}(w) = \mu_{0, i} w_{\max, i}^{n - 1}\)</span> (allometrically scaled with <span class="math inline">\(w_{\max,i}\)</span>).</p></li>
+<li><p><strong>Endogenous Predation Mortality (<span class="math inline">\(\mu_{p, i}(w_p, t) \equiv M2\)</span>)</strong>: By strict mass balance, every gram of prey <span class="math inline">\((j, w_p)\)</span> eaten by predators <span class="math inline">\((i, w)\)</span> must appear as mortality on <span class="math inline">\((j, w_p)\)</span> (<a href="https://github.com/gustavdelius/multispecies_stock_assessment/blob/main/papers/Scott_Blanchard_Andersen_2014_mizer_package.pdf">Scott_Blanchard_Andersen_2014_mizer_package.pdf</a>, Eq. 3.11):</p>
+<p><span class="math display">\[\mu_{p, j}(w_p, t) = \sum_{i=1}^{S} \theta_{ij} \int_{w_0}^{w_{\max, i}} \phi_i\!\left(\frac{w}{w_p}\right) \Big(1 - f_i(w, t)\Big) \gamma_i(w) \, N_i(w, t) \, dw\]</span></p>
+<p><em>(Notice the identity <span class="math inline">\(\frac{f_i(w) h_i w^n}{E_i(w)} = 1 - f_i(w)\)</span>: when a predator is satiated [<span class="math inline">\(f_i(w) \to 1\)</span>], its per-unit-prey clearance rate <span class="math inline">\((1 - f_i)\gamma_i(w)\)</span> drops toward zero!)</em></p></li>
+<li><p><strong>Starvation Mortality (<span class="math inline">\(\mu_{s, i}(w, t)\)</span>)</strong>: Whenever available assimilated energy falls below metabolic maintenance (<span class="math inline">\(E_{\text{avail}, i}(w, t) &lt; 0\)</span>), individuals suffer starvation mortality proportional to the energy deficit divided by lipid energy stores <span class="math inline">\(\xi_{\text{store}} w\)</span> (<a href="https://github.com/gustavdelius/multispecies_stock_assessment/blob/main/papers/Scott_Blanchard_Andersen_2014_mizer_package.pdf">Scott_Blanchard_Andersen_2014_mizer_package.pdf</a>, Eq. 3.12):</p>
+<p><span class="math display">\[\mu_{s, i}(w, t) = \begin{cases} \dfrac{-E_{\text{avail}, i}(w, t)}{\xi_{\text{store}} w} &amp; \text{if } E_{\text{avail}, i}(w, t) &lt; 0 \\[8pt] 0 &amp; \text{otherwise} \end{cases}\]</span></p></li>
+<li><p><strong>Fishing Mortality (<span class="math inline">\(F_i(w, t)\)</span>)</strong>: Summed over fishing gears/fleets <span class="math inline">\(f\)</span> with size selectivity <span class="math inline">\(S_{f,i}(w)\)</span>, catchability <span class="math inline">\(Q_{f,i}\)</span>, and fishing effort <span class="math inline">\(E_{f}(t)\)</span>:</p>
+<p><span class="math display">\[F_i(w, t) = \sum_{f} S_{f, i}(w) \, Q_{f, i} \, E_{f}(t)\]</span></p>
+<p>generating total fishery yield in weight <span class="math inline">\(Y_{f,i}(t) = \int_{w_0}^{w_{\max,i}} F_{f,i}(w, t) \, w \, N_i(w, t) \, dw\)</span>.</p></li>
+</ol>
+</section>
+<section id="resource-spectrum-dynamics-n_rwt" class="level4">
+<h4 class="anchored" data-anchor-id="resource-spectrum-dynamics-n_rwt">6. Resource Spectrum Dynamics (<span class="math inline">\(N_R(w,t)\)</span>)</h4>
+<p>The background plankton/benthos spectrum <span class="math inline">\(N_R(w, t)\)</span> evolves via semi-chemostat (or logistic) renewal at rate <span class="math inline">\(r_R(w) = r_0 w^{n-1}\)</span> toward carrying capacity <span class="math inline">\(\kappa_R(w) = \kappa w^{-\lambda}\)</span> (<span class="math inline">\(\lambda \approx 2 + q - n \approx 2.05\)</span>):</p>
+<p><span class="math display">\[\frac{\partial N_R(w, t)}{\partial t} = r_R(w) \Big(\kappa_R(w) - N_R(w, t)\Big) - \mu_{p, R}(w, t) N_R(w, t)\]</span></p>
+</section>
+<section id="semi-implicit-upwind-finite-difference-discretization-in-mizer" class="level4">
+<h4 class="anchored" data-anchor-id="semi-implicit-upwind-finite-difference-discretization-in-mizer">7. Semi-Implicit Upwind Finite-Difference Discretization in <code>mizer</code></h4>
+<p>On a logarithmically spaced weight grid <span class="math inline">\(w_j = w_0 \cdot 10^{(j-1)\Delta x}\)</span> with bin widths <span class="math inline">\(\Delta w_j = w_{j+1} - w_j\)</span>, <code>mizer</code> solves the McKendrick–von Foerster PDE over time step <span class="math inline">\(\Delta t\)</span> by evaluating encounter <span class="math inline">\(E_i\)</span>, feeding level <span class="math inline">\(f_i\)</span>, growth <span class="math inline">\(g_{i,j}^t\)</span>, and mortality <span class="math inline">\(\mu_{i,j}^t\)</span> explicitly at time <span class="math inline">\(t\)</span> (using Fast Fourier Transform [FFT] convolution on the log-weight grid for the integrals <span class="math inline">\(E_i\)</span> and <span class="math inline">\(\mu_{p,i}\)</span> when kernels are shift-invariant in <span class="math inline">\(\ln(w/w_p)\)</span>), and then advancing <span class="math inline">\(N_{i,j}^{t+\Delta t}\)</span> via a <strong>first-order upwind, backward-Euler (semi-implicit) scheme</strong> (<a href="https://github.com/gustavdelius/multispecies_stock_assessment/blob/main/papers/Scott_Blanchard_Andersen_2014_mizer_package.pdf">Scott_Blanchard_Andersen_2014_mizer_package.pdf</a>, Appendix A):</p>
+<p><span class="math display">\[\frac{N_{i,j}^{t+\Delta t} - N_{i,j}^t}{\Delta t} + \frac{g_{i,j}^t N_{i,j}^{t+\Delta t} - g_{i,j-1}^t N_{i,j-1}^{t+\Delta t}}{\Delta w_j} = -\mu_{i,j}^t N_{i,j}^{t+\Delta t}\]</span></p>
+<p>Solving for <span class="math inline">\(N_{i,j}^{t+\Delta t}\)</span> gives a lower-bidiagonal linear system solved in <span class="math inline">\(O(n_w)\)</span> forward substitution:</p>
+<p><span class="math display">\[N_{i,j}^{t+\Delta t} = \frac{N_{i,j}^t + \frac{\Delta t}{\Delta w_j} g_{i,j-1}^t N_{i,j-1}^{t+\Delta t}}{1 + \Delta t \left(\frac{g_{i,j}^t}{\Delta w_j} + \mu_{i,j}^t\right)}\]</span></p>
+<hr>
+</section>
+</section>
+</section>
+<section id="the-jump-growth-fokkerplanck-pde-datta-delius-law-2010" class="level2">
+<h2 class="anchored" data-anchor-id="the-jump-growth-fokkerplanck-pde-datta-delius-law-2010">4.2 The Jump-Growth Fokker–Planck PDE (<code>Datta, Delius &amp; Law 2010</code>)</h2>
+<section id="why-the-first-order-mckendrickvon-foerster-pde-fails-for-dynamic-cohort-fitting" class="level3">
+<h3 class="anchored" data-anchor-id="why-the-first-order-mckendrickvon-foerster-pde-fails-for-dynamic-cohort-fitting">4.2.1 Why the First-Order McKendrick–von Foerster PDE Fails for Dynamic Cohort Fitting</h3>
+<p>In the standard McKendrick–von Foerster PDE <span class="math inline">\(\partial_t N + \partial_w (g N) = -\mu N\)</span>, somatic growth is treated as a purely deterministic continuous drift <span class="math inline">\(dw/dt = g(w, t)\)</span>. Consequently: 1. <strong>No Intrinsic Cohort Broadening</strong>: All individuals born at the same instant <span class="math inline">\(t_0\)</span> at egg weight <span class="math inline">\(w_0\)</span> travel along the exact same characteristic trajectory <span class="math inline">\(w(t)\)</span> with zero variance in size-at-age! If recruitment is pulsed seasonally (or fluctuates interannually as in real stock assessments), a narrow delta-function pulse at <span class="math inline">\(w_0\)</span> remains an unrealistically sharp spike (broadened only by <strong>numerical discretization error</strong> <span class="math inline">\(\propto \Delta w_j\)</span> of the upwind scheme!). 2. <strong>Grid-Dependent Numerical Diffusion</strong>: In <code>mizer</code>’s first-order upwind scheme, changing the number of weight bins <span class="math inline">\(n_w\)</span> or time step <span class="math inline">\(\Delta t\)</span> alters the numerical diffusivity <span class="math inline">\(D_{\text{num}} \approx \frac{1}{2} g \Delta w\)</span>, which artificially changes how recruitment pulses smear across length compositions! 3. <strong>Deterministic Instability of the Community Size Spectrum</strong>: Without growth dispersion or an external stock-recruitment clamp, the continuous McKendrick–von Foerster PDE exhibits traveling-wave instabilities (cohort cycles) for realistic predator-prey mass ratios (<span class="math inline">\(\beta \sim 100\)</span>).</p>
+</section>
+<section id="derivation-of-the-jump-growth-equation-datta-delius-law-2010" class="level3">
+<h3 class="anchored" data-anchor-id="derivation-of-the-jump-growth-equation-datta-delius-law-2010">4.2.2 Derivation of the Jump-Growth Equation (<code>Datta, Delius &amp; Law 2010</code>)</h3>
+<p>Datta, Delius &amp; Law (<a href="https://github.com/gustavdelius/multispecies_stock_assessment/blob/main/papers/Datta_Delius_Law_2010_Jump_growth_model.pdf">Datta_Delius_Law_2010_Jump_growth_model.pdf</a>) resolved this fundamental limitation from first principles by observing that fish do not grow by absorbing a continuous fluid: they grow by <strong>discrete stochastic jumps</strong> <span class="math inline">\(\Delta w = \alpha w_p\)</span> each time they capture and assimilate a discrete prey organism of body mass <span class="math inline">\(w_p\)</span>.</p>
+<p>Starting from the exact Markov <strong>Master Equation</strong> for discrete prey-capture events in continuous time (<a href="https://github.com/gustavdelius/multispecies_stock_assessment/blob/main/papers/Datta_Delius_Law_2010_Jump_growth_model.pdf">Datta_Delius_Law_2010_Jump_growth_model.pdf</a>, Eq. 5): <span class="math display">\[\frac{\partial N_i(w,t)}{\partial t} = \int dw_p \Big[ \text{Transition in from } (w - \alpha_i w_p) - \text{Transition out from } w \Big] - \mu_i(w,t) N_i(w,t)\]</span> and performing a second-order <strong>Kramers–Moyal Taylor expansion</strong> in the prey mass increment <span class="math inline">\(\alpha_i w_p \ll w\)</span>, Datta, Delius &amp; Law (2010) derived the <strong>Jump-Growth Fokker–Planck (Advection–Diffusion–Reaction) PDE</strong>:</p>
+<p><span class="math display">\[\frac{\partial N_i(w, t)}{\partial t} + \frac{\partial \left(g_i(w, t) N_i(w, t)\right)}{\partial w} = \frac{1}{2} \frac{\partial^2 \left(d_i(w, t) N_i(w, t)\right)}{\partial w^2} - \mu_i(w, t) N_i(w, t)\]</span></p>
+<p>where: - The <strong>first-order drift (mean somatic growth rate)</strong> <span class="math inline">\(g_i(w, t)\)</span> is the first moment of assimilated prey mass: <span class="math display">\[g_i(w, t) = \alpha_i \Big(1 - \psi_i(w)\Big) \Big(1 - f_i(w, t)\Big) \gamma_i(w) \int \phi_i\!\left(\frac{w}{w_p}\right) N_c(w_p, t) \, \mathbf{w_p} \, dw_p - k_{s,i} w^p \Big(1 - \psi_i(w)\Big)\]</span> - The <strong>second-order macro-diffusion (growth variance) coefficient</strong> <span class="math inline">\(d_i(w, t)\)</span> is the <strong>second moment</strong> of assimilated prey mass (<a href="https://github.com/gustavdelius/multispecies_stock_assessment/blob/main/papers/Datta_Delius_Law_2010_Jump_growth_model.pdf">Datta_Delius_Law_2010_Jump_growth_model.pdf</a>, Eq. 9): <span class="math display">\[d_i(w, t) = \alpha_i^2 \Big(1 - \psi_i(w)\Big)^2 \Big(1 - f_i(w, t)\Big) \gamma_i(w) \int \phi_i\!\left(\frac{w}{w_p}\right) N_c(w_p, t) \, \mathbf{w_p^2} \, dw_p\]</span></p>
+<blockquote class="blockquote">
+<p>[!IMPORTANT] <strong>Mathematical &amp; Practical Significance of the Jump-Growth Diffusion Term <span class="math inline">\(d_i(w,t)\)</span></strong>: 1. <strong>Zero Free Parameters</strong>: In the pure mechanistic derivation, <span class="math inline">\(d_i(w, t)\)</span> requires <strong>no additional free parameters</strong> (or a single scaling multiplier if accounting for behavioral bout-feeding / schooling variation, analogous to Gadget’s Beta-Binomial <span class="math inline">\(\beta_s\)</span>). 2. <strong>Physical Cohort Dispersion</strong>: A recruiting year-class pulse at <span class="math inline">\(w_0\)</span> naturally broadens into a realistic bell-shaped size-at-age distribution as it advects to larger sizes, enabling direct likelihood fitting to time-series length-frequency distributions! 3. <strong>Grid-Independent Convergence</strong>: When solved on a sufficiently fine grid (or via Crank–Nicolson / implicit central differences for the <span class="math inline">\(\partial_w^2(d_i N_i)\)</span> term), the physical diffusivity <span class="math inline">\(d_i(w, t)\)</span> dominates numerical grid diffusivity, making model predictions invariant to grid resolution.</p>
+</blockquote>
+<hr>
+</section>
+</section>
+<section id="population-regulation-without-ad-hoc-stockrecruitment-relationships-canales-delius-law-2020" class="level2">
+<h2 class="anchored" data-anchor-id="population-regulation-without-ad-hoc-stockrecruitment-relationships-canales-delius-law-2020">4.3 Population Regulation Without Ad-Hoc Stock–Recruitment Relationships (<code>Canales, Delius &amp; Law 2020</code>)</h2>
+<p>In standard fisheries models (including standard <code>mizer</code>, <code>SMS</code>, <code>Gadget</code>, and <code>LeMaRns</code>), population abundance is stabilized externally by imposing an ad-hoc <strong>Beverton–Holt or Ricker stock-recruitment relationship (SRR)</strong> at the boundary <span class="math inline">\(w_0\)</span>, with one or two free species-specific parameters (<span class="math inline">\(R_{\max, i}\)</span> or steepness <span class="math inline">\(h_i\)</span>) that have little direct physiological basis and strongly dictate MSY predictions.</p>
+<p>Canales, Delius &amp; Law (<a href="https://github.com/gustavdelius/multispecies_stock_assessment/blob/main/papers/Canales_Delius_Law_2020_Regulation_without_SRR.pdf">Canales_Delius_Law_2020_Regulation_without_SRR.pdf</a>) demonstrated that in a size-spectrum model with linear density-independent reproduction (<span class="math inline">\(R_{\text{dd}, i} = R_{\text{di}, i}\)</span>, i.e., <span class="math inline">\(R_{\max, i} \to \infty\)</span>), <strong>three endogenous biological mechanisms</strong> naturally regulate population abundance and coexistence without any ad-hoc SRR: 1. <strong>Density-Dependent Somatic Growth via Prey Competition</strong>: When a species’ abundance increases, it depletes its prey size range, lowering its feeding level <span class="math inline">\(f_i(w, t)\)</span> and slowing juvenile growth <span class="math inline">\(g_i(w, t)\)</span>. Because juveniles spend longer in small vulnerable size classes (<span class="math inline">\(w &lt; w_{\text{mat}, i}\)</span>) while experiencing predation mortality <span class="math inline">\(\mu_{p,i}(w, t)\)</span>, cumulative survival to maturity <span class="math inline">\(\exp\!\left(-\int_{w_0}^{w_{\text{mat}}} \frac{\mu_i(w)}{g_i(w)} dw\right)\)</span> drops sharply! 2. <strong>Early-Life Predation and Cannibalism</strong>: Extending the predation kernel to planktonic/larval stages and accounting for intra- and inter-specific predation on larvae creates a self-regulating mortality bottleneck. 3. <strong>Reproductive Allometry (<span class="math inline">\(m_i &gt; n_i\)</span>)</strong>: When reproductive investment scales steeper with body mass than metabolic intake (matching empirical BOFFFF—Big Old Fat Fecund Female—observations), truncating the adult size structure via fishing directly reduces per-biomass egg output without needing an SRR curve.</p>
+<hr>
+</section>
+<section id="mass-balance-foraging-arena-and-state-space-food-web-models-ecopath-ecosim-rpath-ecostate" class="level2">
+<h2 class="anchored" data-anchor-id="mass-balance-foraging-arena-and-state-space-food-web-models-ecopath-ecosim-rpath-ecostate">4.4 Mass-Balance, Foraging Arena, and State-Space Food-Web Models (<code>Ecopath</code>, <code>Ecosim</code>, <code>Rpath</code>, <code>EcoState</code>)</h2>
+<p>While size-spectrum models resolve continuous body mass, the most widely applied whole-ecosystem modeling framework in marine science is <strong>Ecopath with Ecosim (EwE)</strong> (<a href="https://github.com/gustavdelius/multispecies_stock_assessment/blob/main/papers/Polovina_1984_ECOPATH_coral_reef_ecosystem.pdf">Polovina_1984_ECOPATH_coral_reef_ecosystem.pdf</a>; <a href="https://github.com/gustavdelius/multispecies_stock_assessment/blob/main/papers/Christensen_Pauly_1992_ECOPATH_II.pdf">Christensen_Pauly_1992_ECOPATH_II.pdf</a>; <a href="https://github.com/gustavdelius/multispecies_stock_assessment/blob/main/papers/Walters_Christensen_Pauly_1997_Ecosim.pdf">Walters_Christensen_Pauly_1997_Ecosim.pdf</a>; <a href="https://github.com/gustavdelius/multispecies_stock_assessment/blob/main/papers/Christensen_Walters_2004_Ecopath_with_Ecosim_methods.pdf">Christensen_Walters_2004_Ecopath_with_Ecosim_methods.pdf</a>), along with its reproducible R implementation <strong><code>Rpath</code></strong> (<a href="https://github.com/gustavdelius/multispecies_stock_assessment/blob/main/papers/Lucey_etal_2020_Rpath_mass_balance_model.pdf">Lucey_etal_2020_Rpath_mass_balance_model.pdf</a>) and its recent TMB state-space stock assessment reformulation <strong><code>EcoState</code></strong> (<a href="https://github.com/gustavdelius/multispecies_stock_assessment/blob/main/papers/Thorson_etal_2024_EcoState_state_space_EwE.pdf">Thorson_etal_2024_EcoState_state_space_EwE.pdf</a>).</p>
+<section id="ecopath-static-mass-balance-at-reference-equilibrium" class="level3">
+<h3 class="anchored" data-anchor-id="ecopath-static-mass-balance-at-reference-equilibrium">4.4.1 <code>Ecopath</code>: Static Mass Balance at Reference Equilibrium</h3>
+<p><code>Ecopath</code> partitions the ecosystem into <span class="math inline">\(i \in \{1, \dots, n\}\)</span> functional groups (which may be single species, multi-species guilds, or juvenile/adult life stanzas). At a reference equilibrium period, production of group <span class="math inline">\(i\)</span> equals the sum of all mortality and export fluxes (<a href="https://github.com/gustavdelius/multispecies_stock_assessment/blob/main/papers/Christensen_Walters_2004_Ecopath_with_Ecosim_methods.pdf">Christensen_Walters_2004_Ecopath_with_Ecosim_methods.pdf</a>, Eq. 1; <a href="https://github.com/gustavdelius/multispecies_stock_assessment/blob/main/papers/Lucey_etal_2020_Rpath_mass_balance_model.pdf">Lucey_etal_2020_Rpath_mass_balance_model.pdf</a>, Eq. 1):</p>
+<p><span class="math display">\[B_i \left(\frac{P}{B}\right)_i \cdot EE_i = Y_i + E_i + BA_i + \sum_{j=1}^{n} B_j \left(\frac{Q}{B}\right)_j DC_{ij}\]</span></p>
+<p>where: - <span class="math inline">\(B_i\)</span> is biomass, <span class="math inline">\((P/B)_i = Z_i\)</span> is the production-to-biomass ratio (total mortality rate under equilibrium), and <span class="math inline">\((Q/B)_j\)</span> is the consumption-to-biomass ratio of predator <span class="math inline">\(j\)</span>, - <span class="math inline">\(EE_i \in [0, 1]\)</span> is <strong>Ecotrophic Efficiency</strong> (the fraction of production explained within the modeled system, so <span class="math inline">\(M0_i = (P/B)_i (1 - EE_i)\)</span> is residual unexplained mortality), - <span class="math inline">\(Y_i\)</span> is fishery catch, <span class="math inline">\(E_i\)</span> is net migration, <span class="math inline">\(BA_i\)</span> is biomass accumulation, and - <span class="math inline">\(DC_{ij}\)</span> is the <strong>diet composition matrix</strong> (fraction by weight of predator <span class="math inline">\(j\)</span>’s diet consisting of prey <span class="math inline">\(i\)</span>, with <span class="math inline">\(\sum_i DC_{ij} = 1\)</span>). For each group <span class="math inline">\(i\)</span>, three of the four core parameters <span class="math inline">\(\{B_i, (P/B)_i, (Q/B)_i, EE_i\}\)</span> are supplied along with <span class="math inline">\(DC_{ij}\)</span> and <span class="math inline">\(Y_i\)</span>, and the linear system is solved for the missing parameter (typically <span class="math inline">\(EE_i\)</span> or <span class="math inline">\(B_i\)</span>).</p>
+<hr>
+</section>
+<section id="ecosim-and-walters-foraging-arena-theory" class="level3">
+<h3 class="anchored" data-anchor-id="ecosim-and-walters-foraging-arena-theory">4.4.2 <code>Ecosim</code> and Walters’ Foraging Arena Theory</h3>
+<p>When <code>Ecopath</code> is projected dynamically through time as a system of coupled ODEs (<code>Ecosim</code>; <a href="https://github.com/gustavdelius/multispecies_stock_assessment/blob/main/papers/Walters_Christensen_Pauly_1997_Ecosim.pdf">Walters_Christensen_Pauly_1997_Ecosim.pdf</a>):</p>
+<p><span class="math display">\[\frac{dB_i}{dt} = g_i \sum_{j} Q_{ji}(t) - \sum_{k} Q_{ik}(t) + I_i - \left(M0_i + F_i(t) + e_i\right) B_i(t)\]</span></p>
+<p>where <span class="math inline">\(g_i = (P/Q)_i\)</span> is net growth efficiency, a critical question arises: how should the consumption flux <span class="math inline">\(Q_{ij}(t)\)</span> of prey <span class="math inline">\(i\)</span> by predator <span class="math inline">\(j\)</span> depend on <span class="math inline">\(B_i(t)\)</span> and <span class="math inline">\(B_j(t)\)</span>?</p>
+<p>Walters, Christensen &amp; Pauly (<a href="https://github.com/gustavdelius/multispecies_stock_assessment/blob/main/papers/Walters_Christensen_Pauly_1997_Ecosim.pdf">Walters_Christensen_Pauly_1997_Ecosim.pdf</a>) showed that if one uses standard mass-action Lotka–Volterra (<span class="math inline">\(Q_{ij} = a_{ij} B_i B_j\)</span>) or standard Holling Type II in a complex 30-species food web, <strong>the ecosystem rapidly collapses via Gause competitive exclusion or violent predator-prey limit cycles</strong>.</p>
+<p>To resolve this, Walters et al.&nbsp;(1997) formulated <strong>Foraging Arena Theory</strong>: at any given moment, total prey biomass <span class="math inline">\(B_i\)</span> is partitioned with respect to predator <span class="math inline">\(j\)</span> into an <strong>invulnerable (refuge/sheltered/un-overlapping) state</strong> <span class="math inline">\(B_i - V_{ij}\)</span> and a small <strong>vulnerable foraging arena state</strong> <span class="math inline">\(V_{ij}\)</span>, with behavioural/spatial exchange rate <span class="math inline">\(v_{ij}\)</span> between them:</p>
+<p><span class="math display">\[\frac{dV_{ij}}{dt} = v_{ij}\left(B_i - V_{ij}\right) - v'_{ij} V_{ij} - a_{ij} V_{ij} B_j\]</span></p>
+<p>Assuming the behavioral exchange <span class="math inline">\(V_{ij}\)</span> equilibrates rapidly relative to annual population changes (<span class="math inline">\(dV_{ij}/dt \approx 0\)</span>, with <span class="math inline">\(v'_{ij} = v_{ij}\)</span>), solving for <span class="math inline">\(V_{ij}\)</span> yields the <strong>Foraging Arena Functional Response</strong> (<a href="https://github.com/gustavdelius/multispecies_stock_assessment/blob/main/papers/Walters_Christensen_Pauly_1997_Ecosim.pdf">Walters_Christensen_Pauly_1997_Ecosim.pdf</a>, Eq. 4; <a href="https://github.com/gustavdelius/multispecies_stock_assessment/blob/main/papers/Christensen_Walters_2004_Ecopath_with_Ecosim_methods.pdf">Christensen_Walters_2004_Ecopath_with_Ecosim_methods.pdf</a>, Eq. 5; <a href="https://github.com/gustavdelius/multispecies_stock_assessment/blob/main/papers/Thorson_etal_2024_EcoState_state_space_EwE.pdf">Thorson_etal_2024_EcoState_state_space_EwE.pdf</a>, Eq. 4):</p>
+<p><span class="math display">\[Q_{ij}(t) = a_{ij} V_{ij}(t) B_j(t) = \frac{a_{ij} \, v_{ij} \, B_i(t) \, B_j(t)}{2 v_{ij} + a_{ij} B_j(t)}\]</span></p>
+<p>Calibrating to the Ecopath baseline <span class="math inline">\(Q_{ij,0} = B_{j,0} (Q/B)_{j,0} DC_{ij,0}\)</span> at reference biomasses <span class="math inline">\((B_{i,0}, B_{j,0})\)</span> eliminates <span class="math inline">\(a_{ij}\)</span> in favor of a single dimensionless <strong>vulnerability multiplier</strong> <span class="math inline">\(X_{ij} = \frac{v_{ij} B_{i,0}}{Q_{ij,0}} \in (1, \infty)\)</span> (default <span class="math inline">\(X_{ij} = 2\)</span>):</p>
+<p><span class="math display">\[Q_{ij}(t) = Q_{ij,0} \, \frac{X_{ij}}{X_{ij} - 1 + \frac{B_j(t)}{B_{j,0}}} \, \frac{B_i(t)}{B_{i,0}}\]</span></p>
+<ul>
+<li><strong>Low Vulnerability (<span class="math inline">\(X_{ij} \to 1\)</span>, “Bottom-Up / Donor Control”)</strong>: As <span class="math inline">\(X_{ij} \to 1\)</span>, <span class="math inline">\(Q_{ij}(t) \to Q_{ij,0} \frac{B_i(t)}{B_{i,0}}\)</span> is <strong>independent of predator biomass <span class="math inline">\(B_j(t)\)</span></strong>! Doubling predator abundance <span class="math inline">\(B_j\)</span> simply means twice as many predators compete for the same trickle of prey entering the foraging arena, halving per-capita predator intake and preventing top-down prey extermination.</li>
+<li><strong>High Vulnerability (<span class="math inline">\(X_{ij} \to \infty\)</span>, “Top-Down / Lotka–Volterra Control”)</strong>: As <span class="math inline">\(X_{ij} \to \infty\)</span>, <span class="math inline">\(Q_{ij}(t) \to Q_{ij,0} \frac{B_i(t)}{B_{i,0}} \frac{B_j(t)}{B_{j,0}}\)</span> recovers mass-action top-down predation.</li>
+</ul>
+<p><em>(For critique of EwE’s delay-difference multi-stanza assumptions and vulnerability overfitting when many <span class="math inline">\(X_{ij}\)</span> are tuned to short time series, see Plagányi &amp; Butterworth <a href="https://github.com/gustavdelius/multispecies_stock_assessment/blob/main/papers/Plaganyi_Butterworth_2004_Critical_look_at_EwE.pdf">Plaganyi_Butterworth_2004_Critical_look_at_EwE.pdf</a> and the stepwise AIC fitting protocol of Scott et al.&nbsp;<a href="https://github.com/gustavdelius/multispecies_stock_assessment/blob/main/papers/Scott_etal_2016_Stepwise_fitting_EwE.pdf">Scott_etal_2016_Stepwise_fitting_EwE.pdf</a>).</em></p>
+<hr>
+</section>
+<section id="ecostate-thorson-et-al.-2024-state-space-mass-balance-assessment-in-tmb" class="level3">
+<h3 class="anchored" data-anchor-id="ecostate-thorson-et-al.-2024-state-space-mass-balance-assessment-in-tmb">4.4.3 <code>EcoState</code> (<code>Thorson et al. 2024</code>): State-Space Mass-Balance Assessment in TMB</h3>
+<p>Historically, EwE was fitted by shooting (deterministic trajectory matching) without process errors or formal state-space marginal likelihoods. In 2024, James Thorson, Kirstin Holsman, Gaichas, Aydin, and Punt introduced <strong><code>EcoState</code></strong> (<a href="https://github.com/gustavdelius/multispecies_stock_assessment/blob/main/papers/Thorson_etal_2024_EcoState_state_space_EwE.pdf">Thorson_etal_2024_EcoState_state_space_EwE.pdf</a>), which embeds the Ecopath + Ecosim ODEs directly inside a <strong>Template Model Builder (TMB) state-space stock assessment model</strong>:</p>
+<ol type="1">
+<li><strong>Continuous-Time ODE with Annual Process Errors <span class="math inline">\(\epsilon_{i,t}\)</span></strong>: Within each year <span class="math inline">\(t \in \{t_0, \dots, T\}\)</span>, biomass <span class="math inline">\(B_i(s)\)</span> evolves over <span class="math inline">\(s \in [t, t+1]\)</span> via the Ecosim Foraging Arena ODE augmented with an estimated annual unexplained process-error rate <span class="math inline">\(\epsilon_{i,t}\)</span> (<a href="https://github.com/gustavdelius/multispecies_stock_assessment/blob/main/papers/Thorson_etal_2024_EcoState_state_space_EwE.pdf">Thorson_etal_2024_EcoState_state_space_EwE.pdf</a>, Eq. 5): <span class="math display">\[\frac{dB_i(s)}{ds} = g_i \sum_j Q_{ji}(s) - \sum_k Q_{ik}(s) - \Big(M0_i + F_{i,t} - \epsilon_{i,t}\Big) B_i(s)\]</span> integrated numerically in TMB using a differentiable Runge–Kutta / Adams–Bashforth ODE solver (<code>odeint</code>), where <span class="math inline">\(\epsilon_{i,t} \sim \mathcal{N}(0, \sigma^2_{\text{proc}, i})\)</span> are random effects marginalized via the <strong>Laplace approximation</strong>.</li>
+<li><strong>Simultaneous Joint Likelihood Across All Data Streams</strong>: <code>EcoState</code> estimates Ecopath baseline parameters (<span class="math inline">\(\ln B_{i,0}, EE_i, DC_{ij,0}\)</span>), Ecosim vulnerabilities <span class="math inline">\(\ln(X_{ij}-1)\)</span>, fishing mortalities <span class="math inline">\(\ln F_{i,t}\)</span>, and process error variances <span class="math inline">\(\sigma_{\text{proc},i}\)</span> simultaneously by fitting to:
+<ul>
+<li>Survey biomass indices: <span class="math inline">\(\ln I_{i,t} \sim \mathcal{N}\!\left(\ln(q_i \hat{B}_{i,t}),\, \sigma^2_{I,i,t}\right)\)</span>,</li>
+<li>Fishery catches: <span class="math inline">\(\ln C^{\text{obs}}_{i,t} \sim \mathcal{N}\!\left(\ln \hat{C}_{i,t},\, \sigma^2_{C,i}\right)\)</span>,</li>
+<li>Time-varying stomach diet proportions <span class="math inline">\(\mathbf{W}^{\text{obs}}_{j,t}\)</span>: modeled via a <strong>Dirichlet likelihood</strong> on predicted Ecosim consumption shares <span class="math inline">\(\hat{p}_{ij,t} = \frac{\hat{Q}_{ij,t}}{\sum_k \hat{Q}_{kj,t}}\)</span>!</li>
+</ul></li>
+</ol>
+
+
+</section>
+</section>
+
+</main> <!-- /main -->
+<script id="quarto-html-after-body" type="application/javascript">
+  window.document.addEventListener("DOMContentLoaded", function (event) {
+    const icon = "";
+    const anchorJS = new window.AnchorJS();
+    anchorJS.options = {
+      placement: 'right',
+      icon: icon
+    };
+    anchorJS.add('.anchored');
+    const isCodeAnnotation = (el) => {
+      for (const clz of el.classList) {
+        if (clz.startsWith('code-annotation-')) {                     
+          return true;
+        }
+      }
+      return false;
+    }
+    const onCopySuccess = function(e) {
+      // button target
+      const button = e.trigger;
+      // don't keep focus
+      button.blur();
+      // flash "checked"
+      button.classList.add('code-copy-button-checked');
+      var currentTitle = button.getAttribute("title");
+      button.setAttribute("title", "Copied!");
+      let tooltip;
+      if (window.bootstrap) {
+        button.setAttribute("data-bs-toggle", "tooltip");
+        button.setAttribute("data-bs-placement", "left");
+        button.setAttribute("data-bs-title", "Copied!");
+        tooltip = new bootstrap.Tooltip(button, 
+          { trigger: "manual", 
+            customClass: "code-copy-button-tooltip",
+            offset: [0, -8]});
+        tooltip.show();    
+      }
+      setTimeout(function() {
+        if (tooltip) {
+          tooltip.hide();
+          button.removeAttribute("data-bs-title");
+          button.removeAttribute("data-bs-toggle");
+          button.removeAttribute("data-bs-placement");
+        }
+        button.setAttribute("title", currentTitle);
+        button.classList.remove('code-copy-button-checked');
+      }, 1000);
+      // clear code selection
+      e.clearSelection();
+    }
+    const getTextToCopy = function(trigger) {
+      const outerScaffold = trigger.parentElement.cloneNode(true);
+      const codeEl = outerScaffold.querySelector('code');
+      for (const childEl of codeEl.children) {
+        if (isCodeAnnotation(childEl)) {
+          childEl.remove();
+        }
+      }
+      return codeEl.innerText;
+    }
+    const clipboard = new window.ClipboardJS('.code-copy-button:not([data-in-quarto-modal])', {
+      text: getTextToCopy
+    });
+    clipboard.on('success', onCopySuccess);
+    if (window.document.getElementById('quarto-embedded-source-code-modal')) {
+      const clipboardModal = new window.ClipboardJS('.code-copy-button[data-in-quarto-modal]', {
+        text: getTextToCopy,
+        container: window.document.getElementById('quarto-embedded-source-code-modal')
+      });
+      clipboardModal.on('success', onCopySuccess);
+    }
+      var localhostRegex = new RegExp(/^(?:http|https):\/\/localhost\:?[0-9]*\//);
+      var mailtoRegex = new RegExp(/^mailto:/);
+        var filterRegex = new RegExp('/' + window.location.host + '/');
+      var isInternal = (href) => {
+          return filterRegex.test(href) || localhostRegex.test(href) || mailtoRegex.test(href);
+      }
+      // Inspect non-navigation links and adorn them if external
+     var links = window.document.querySelectorAll('a[href]:not(.nav-link):not(.navbar-brand):not(.toc-action):not(.sidebar-link):not(.sidebar-item-toggle):not(.pagination-link):not(.no-external):not([aria-hidden]):not(.dropdown-item):not(.quarto-navigation-tool):not(.about-link)');
+      for (var i=0; i<links.length; i++) {
+        const link = links[i];
+        if (!isInternal(link.href)) {
+          // undo the damage that might have been done by quarto-nav.js in the case of
+          // links that we want to consider external
+          if (link.dataset.originalHref !== undefined) {
+            link.href = link.dataset.originalHref;
+          }
+            // target, if specified
+            link.setAttribute("target", "_blank");
+            if (link.getAttribute("rel") === null) {
+              link.setAttribute("rel", "noopener");
+            }
+        }
+      }
+    function tippyHover(el, contentFn, onTriggerFn, onUntriggerFn) {
+      const config = {
+        allowHTML: true,
+        maxWidth: 500,
+        delay: 100,
+        arrow: false,
+        appendTo: function(el) {
+            return el.parentElement;
+        },
+        interactive: true,
+        interactiveBorder: 10,
+        theme: 'quarto',
+        placement: 'bottom-start',
+      };
+      if (contentFn) {
+        config.content = contentFn;
+      }
+      if (onTriggerFn) {
+        config.onTrigger = onTriggerFn;
+      }
+      if (onUntriggerFn) {
+        config.onUntrigger = onUntriggerFn;
+      }
+      window.tippy(el, config); 
+    }
+    const noterefs = window.document.querySelectorAll('a[role="doc-noteref"]');
+    for (var i=0; i<noterefs.length; i++) {
+      const ref = noterefs[i];
+      tippyHover(ref, function() {
+        // use id or data attribute instead here
+        let href = ref.getAttribute('data-footnote-href') || ref.getAttribute('href');
+        try { href = new URL(href).hash; } catch {}
+        const id = href.replace(/^#\/?/, "");
+        const note = window.document.getElementById(id);
+        if (note) {
+          return note.innerHTML;
+        } else {
+          return "";
+        }
+      });
+    }
+    const xrefs = window.document.querySelectorAll('a.quarto-xref');
+    const processXRef = (id, note) => {
+      // Strip column container classes
+      const stripColumnClz = (el) => {
+        el.classList.remove("page-full", "page-columns");
+        if (el.children) {
+          for (const child of el.children) {
+            stripColumnClz(child);
+          }
+        }
+      }
+      stripColumnClz(note)
+      if (id === null || id.startsWith('sec-')) {
+        // Special case sections, only their first couple elements
+        const container = document.createElement("div");
+        if (note.children && note.children.length > 2) {
+          container.appendChild(note.children[0].cloneNode(true));
+          for (let i = 1; i < note.children.length; i++) {
+            const child = note.children[i];
+            if (child.tagName === "P" && child.innerText === "") {
+              continue;
+            } else {
+              container.appendChild(child.cloneNode(true));
+              break;
+            }
+          }
+          if (window.Quarto?.typesetMath) {
+            window.Quarto.typesetMath(container);
+          }
+          return container.innerHTML
+        } else {
+          if (window.Quarto?.typesetMath) {
+            window.Quarto.typesetMath(note);
+          }
+          return note.innerHTML;
+        }
+      } else {
+        // Remove any anchor links if they are present
+        const anchorLink = note.querySelector('a.anchorjs-link');
+        if (anchorLink) {
+          anchorLink.remove();
+        }
+        if (window.Quarto?.typesetMath) {
+          window.Quarto.typesetMath(note);
+        }
+        if (note.classList.contains("callout")) {
+          return note.outerHTML;
+        } else {
+          return note.innerHTML;
+        }
+      }
+    }
+    for (var i=0; i<xrefs.length; i++) {
+      const xref = xrefs[i];
+      tippyHover(xref, undefined, function(instance) {
+        instance.disable();
+        let url = xref.getAttribute('href');
+        let hash = undefined; 
+        if (url.startsWith('#')) {
+          hash = url;
+        } else {
+          try { hash = new URL(url).hash; } catch {}
+        }
+        if (hash) {
+          const id = hash.replace(/^#\/?/, "");
+          const note = window.document.getElementById(id);
+          if (note !== null) {
+            try {
+              const html = processXRef(id, note.cloneNode(true));
+              instance.setContent(html);
+            } finally {
+              instance.enable();
+              instance.show();
+            }
+          } else {
+            // See if we can fetch this
+            fetch(url.split('#')[0])
+            .then(res => res.text())
+            .then(html => {
+              const parser = new DOMParser();
+              const htmlDoc = parser.parseFromString(html, "text/html");
+              const note = htmlDoc.getElementById(id);
+              if (note !== null) {
+                const html = processXRef(id, note);
+                instance.setContent(html);
+              } 
+            }).finally(() => {
+              instance.enable();
+              instance.show();
+            });
+          }
+        } else {
+          // See if we can fetch a full url (with no hash to target)
+          // This is a special case and we should probably do some content thinning / targeting
+          fetch(url)
+          .then(res => res.text())
+          .then(html => {
+            const parser = new DOMParser();
+            const htmlDoc = parser.parseFromString(html, "text/html");
+            const note = htmlDoc.querySelector('main.content');
+            if (note !== null) {
+              // This should only happen for chapter cross references
+              // (since there is no id in the URL)
+              // remove the first header
+              if (note.children.length > 0 && note.children[0].tagName === "HEADER") {
+                note.children[0].remove();
+              }
+              const html = processXRef(null, note);
+              instance.setContent(html);
+            } 
+          }).finally(() => {
+            instance.enable();
+            instance.show();
+          });
+        }
+      }, function(instance) {
+      });
+    }
+        let selectedAnnoteEl;
+        const selectorForAnnotation = ( cell, annotation) => {
+          let cellAttr = 'data-code-cell="' + cell + '"';
+          let lineAttr = 'data-code-annotation="' +  annotation + '"';
+          const selector = 'span[' + cellAttr + '][' + lineAttr + ']';
+          return selector;
+        }
+        const selectCodeLines = (annoteEl) => {
+          const doc = window.document;
+          const targetCell = annoteEl.getAttribute("data-target-cell");
+          const targetAnnotation = annoteEl.getAttribute("data-target-annotation");
+          const annoteSpan = window.document.querySelector(selectorForAnnotation(targetCell, targetAnnotation));
+          const lines = annoteSpan.getAttribute("data-code-lines").split(",");
+          const lineIds = lines.map((line) => {
+            return targetCell + "-" + line;
+          })
+          let top = null;
+          let height = null;
+          let parent = null;
+          if (lineIds.length > 0) {
+              //compute the position of the single el (top and bottom and make a div)
+              const el = window.document.getElementById(lineIds[0]);
+              top = el.offsetTop;
+              height = el.offsetHeight;
+              parent = el.parentElement.parentElement;
+            if (lineIds.length > 1) {
+              const lastEl = window.document.getElementById(lineIds[lineIds.length - 1]);
+              const bottom = lastEl.offsetTop + lastEl.offsetHeight;
+              height = bottom - top;
+            }
+            if (top !== null && height !== null && parent !== null) {
+              // cook up a div (if necessary) and position it 
+              let div = window.document.getElementById("code-annotation-line-highlight");
+              if (div === null) {
+                div = window.document.createElement("div");
+                div.setAttribute("id", "code-annotation-line-highlight");
+                div.style.position = 'absolute';
+                parent.appendChild(div);
+              }
+              div.style.top = top - 2 + "px";
+              div.style.height = height + 4 + "px";
+              div.style.left = 0;
+              let gutterDiv = window.document.getElementById("code-annotation-line-highlight-gutter");
+              if (gutterDiv === null) {
+                gutterDiv = window.document.createElement("div");
+                gutterDiv.setAttribute("id", "code-annotation-line-highlight-gutter");
+                gutterDiv.style.position = 'absolute';
+                const codeCell = window.document.getElementById(targetCell);
+                const gutter = codeCell.querySelector('.code-annotation-gutter');
+                gutter.appendChild(gutterDiv);
+              }
+              gutterDiv.style.top = top - 2 + "px";
+              gutterDiv.style.height = height + 4 + "px";
+            }
+            selectedAnnoteEl = annoteEl;
+          }
+        };
+        const unselectCodeLines = () => {
+          const elementsIds = ["code-annotation-line-highlight", "code-annotation-line-highlight-gutter"];
+          elementsIds.forEach((elId) => {
+            const div = window.document.getElementById(elId);
+            if (div) {
+              div.remove();
+            }
+          });
+          selectedAnnoteEl = undefined;
+        };
+          // Handle positioning of the toggle
+      window.addEventListener(
+        "resize",
+        throttle(() => {
+          elRect = undefined;
+          if (selectedAnnoteEl) {
+            selectCodeLines(selectedAnnoteEl);
+          }
+        }, 10)
+      );
+      function throttle(fn, ms) {
+      let throttle = false;
+      let timer;
+        return (...args) => {
+          if(!throttle) { // first call gets through
+              fn.apply(this, args);
+              throttle = true;
+          } else { // all the others get throttled
+              if(timer) clearTimeout(timer); // cancel #2
+              timer = setTimeout(() => {
+                fn.apply(this, args);
+                timer = throttle = false;
+              }, ms);
+          }
+        };
+      }
+        // Attach click handler to the DT
+        const annoteDls = window.document.querySelectorAll('dt[data-target-cell]');
+        for (const annoteDlNode of annoteDls) {
+          annoteDlNode.addEventListener('click', (event) => {
+            const clickedEl = event.target;
+            if (clickedEl !== selectedAnnoteEl) {
+              unselectCodeLines();
+              const activeEl = window.document.querySelector('dt[data-target-cell].code-annotation-active');
+              if (activeEl) {
+                activeEl.classList.remove('code-annotation-active');
+              }
+              selectCodeLines(clickedEl);
+              clickedEl.classList.add('code-annotation-active');
+            } else {
+              // Unselect the line
+              unselectCodeLines();
+              clickedEl.classList.remove('code-annotation-active');
+            }
+          });
+        }
+    const findCites = (el) => {
+      const parentEl = el.parentElement;
+      if (parentEl) {
+        const cites = parentEl.dataset.cites;
+        if (cites) {
+          return {
+            el,
+            cites: cites.split(' ')
+          };
+        } else {
+          return findCites(el.parentElement)
+        }
+      } else {
+        return undefined;
+      }
+    };
+    var bibliorefs = window.document.querySelectorAll('a[role="doc-biblioref"]');
+    for (var i=0; i<bibliorefs.length; i++) {
+      const ref = bibliorefs[i];
+      const citeInfo = findCites(ref);
+      if (citeInfo) {
+        tippyHover(citeInfo.el, function() {
+          var popup = window.document.createElement('div');
+          citeInfo.cites.forEach(function(cite) {
+            var citeDiv = window.document.createElement('div');
+            citeDiv.classList.add('hanging-indent');
+            citeDiv.classList.add('csl-entry');
+            var biblioDiv = window.document.getElementById('ref-' + cite);
+            if (biblioDiv) {
+              citeDiv.innerHTML = biblioDiv.innerHTML;
+            }
+            popup.appendChild(citeDiv);
+          });
+          return popup.innerHTML;
+        });
+      }
+    }
+  });
+  </script>
+<nav class="page-navigation">
+  <div class="nav-page nav-page-previous">
+      <a href="./03_age_length_and_length_structured_models.html" class="pagination-link" aria-label="Chapter 3: Age-Length and Length-Structured Assessment Models (`Gadget`/`gadget3`, `SS3`, `MULTIFAN-CL`, `LeMans`/`LeMaRns`, `CSMS`/`CSM`)">
+        <i class="bi bi-arrow-left-short"></i> <span class="nav-page-text"><span class="chapter-title">Chapter 3: Age-Length and Length-Structured Assessment Models (<code>Gadget</code>/<code>gadget3</code>, <code>SS3</code>, <code>MULTIFAN-CL</code>, <code>LeMans</code>/<code>LeMaRns</code>, <code>CSMS</code>/<code>CSM</code>)</span></span>
+      </a>          
+  </div>
+  <div class="nav-page nav-page-next">
+      <a href="./05_stomach_content_data_and_likelihoods.html" class="pagination-link" aria-label="Chapter 5: Stomach Content Data, Gastric Evacuation Physics, and Diet Likelihood Formulations">
+        <span class="nav-page-text"><span class="chapter-title">Chapter 5: Stomach Content Data, Gastric Evacuation Physics, and Diet Likelihood Formulations</span></span> <i class="bi bi-arrow-right-short"></i>
+      </a>
+  </div>
+</nav>
+</div> <!-- /content -->
+
+
+
+
+<footer class="footer"><div class="nav-footer"><div class="nav-footer-center"><div class="toc-actions d-sm-block d-md-none"><ul><li><a href="https://github.com/gustavdelius/multispecies_stock_assessment/edit/main/04_size_spectrum_and_food_web_models.md" class="toc-action"><i class="bi bi-github"></i>Edit this page</a></li></ul></div></div></div></footer></body></html>
