@@ -1,15 +1,11 @@
 # Chapter 4: Continuous Size-Spectrum (`mizer`) and State-Space Food-Web Models (`EwE`, `Rpath`, `EcoState`)
 
-> **Navigation**: [Overview](index.md) | [Chapter 1: Taxonomy & Foundations](01_taxonomy_and_foundations.md) | [Chapter 2: Age-Structured Models](02_age_structured_multispecies_models.md) | [Chapter 3: Age-Length & Length-Structured Models](03_age_length_and_length_structured_models.md) | **Chapter 4** | [Chapter 5: Stomach Content Data & Likelihoods](05_stomach_content_data_and_likelihoods.md) | [Chapter 6: Fitting, Uncertainty & `mizer` Roadmap](06_statistical_fitting_uncertainty_and_mizer_synthesis.md) | [References](references.md)
-
----
-
 ## 4.1 Continuous Multispecies Size-Spectrum Models (`mizer`)
 
 ### 4.1.1 Theoretical Lineage and Core Philosophy
-Size-spectrum theory originated from the empirical discovery by @sheldon1972 that pelagic marine biomass is approximately constant across logarithmic body-mass bins ($B(w) dw \propto w^0 d(\ln w) \implies N(w) \propto w^{-2}$), and from the continuous mass-balance derivations of @silvert_platt1978, @benoit_rochet2004, and @andersen_beyer2006.
+Size-spectrum theory originated from the empirical discovery by @sheldon1972 and @sheldon1977 that pelagic marine biomass is approximately constant across logarithmic body-mass bins ($B(w) dw \propto w^0 d(\ln w) \implies N(w) \propto w^{-2}$), and from the continuous mass-balance and pelagic ecosystem derivations of @platt1977, @silvert_platt1978, @benoit_rochet2004, @andersen_beyer2006, and @cuesta2018.
 
-In a landmark synthesis, @hartvig2011 and @scott2014 resolved species identity within the continuous size spectrum to create the **`mizer`** framework (*Multi-species size-spectrum ecological modelling in R*; reviewed comprehensively by @andersen2016, @andersen2020, and @pennino2025).
+In a landmark synthesis, @hartvig2011 and @scott2014 resolved species identity within the continuous size spectrum to create the **`mizer`** framework (*Multi-species size-spectrum ecological modelling in R*; applied to North Sea reference points by @blanchard2014 and reviewed comprehensively by @andersen2016, @andersen2019, @andersen2020, and @pennino2025).
 
 Unlike age-structured models where somatic growth and natural mortality are external inputs, in `mizer` **both individual somatic growth $g_i(w,t)$ and predation mortality $\mu_{p,i}(w,t)$ emerge dynamically from individual-level foraging and strict conservation of mass/energy**.
 
@@ -100,13 +96,13 @@ $$N_{i,j}^{t+\Delta t} = \frac{N_{i,j}^t + \frac{\Delta t}{\Delta w_j} g_{i,j-1}
 
 ---
 
-## 4.2 The Jump-Growth Fokker–Planck PDE (Datta, Delius & Law 2010)
+## 4.2 The Jump-Growth Fokker–Planck PDE (Datta, Delius & Law 2010, 2011)
 
 ### 4.2.1 Why the First-Order McKendrick–von Foerster PDE Fails for Dynamic Cohort Fitting
 In the standard McKendrick–von Foerster PDE $\partial_t N + \partial_w (g N) = -\mu N$, somatic growth is treated as a purely deterministic continuous drift $dw/dt = g(w, t)$. Consequently:
 1. **No Intrinsic Cohort Broadening**: All individuals born at the same instant $t_0$ at egg weight $w_0$ travel along the exact same characteristic trajectory $w(t)$ with zero variance in size-at-age! If recruitment is pulsed seasonally (or fluctuates interannually as in real stock assessments), a narrow delta-function pulse at $w_0$ remains an unrealistically sharp spike (broadened only by **numerical discretization error** $\propto \Delta w_j$ of the upwind scheme!).
 2. **Grid-Dependent Numerical Diffusion**: In `mizer`'s first-order upwind scheme, changing the number of weight bins $n_w$ or time step $\Delta t$ alters the numerical diffusivity $D_{\text{num}} \approx \frac{1}{2} g \Delta w$, which artificially changes how recruitment pulses smear across length compositions!
-3. **Deterministic Instability of the Community Size Spectrum**: Without growth dispersion or an external stock-recruitment clamp, the continuous McKendrick–von Foerster PDE exhibits traveling-wave instabilities (cohort cycles) for realistic predator-prey mass ratios ($\beta \sim 100$).
+3. **Deterministic Instability of the Community Size Spectrum**: Without growth dispersion or an external stock-recruitment clamp, the continuous McKendrick–von Foerster PDE exhibits traveling-wave instabilities (cohort cycles) for realistic predator-prey mass ratios ($\beta \sim 100$; @datta2011).
 
 ### 4.2.2 Derivation of the Jump-Growth Equation (Datta, Delius & Law 2010)
 @datta2010 resolved this fundamental limitation from first principles by observing that fish do not grow by absorbing a continuous fluid: they grow by **discrete stochastic jumps** $\Delta w = \alpha w_p$ each time they capture and assimilate a discrete prey organism of body mass $w_p$.
@@ -144,7 +140,7 @@ In standard fisheries models (including standard `mizer`, `SMS`, `Gadget`, and `
 
 ## 4.4 Mass-Balance, Foraging Arena, and State-Space Food-Web Models (`Ecopath`, `Ecosim`, `Rpath`, `EcoState`)
 
-While size-spectrum models resolve continuous body mass, the most widely applied whole-ecosystem modeling framework in marine science is **Ecopath with Ecosim (EwE)** [@polovina1984; @christensen1992; @walters1997; @christensen2004], along with its reproducible R implementation **`Rpath`** [@lucey2020] and its recent TMB state-space stock assessment reformulation **`EcoState`** [@thorson2024].
+While size-spectrum models resolve continuous body mass, the most widely applied whole-ecosystem modeling framework in marine science is **Ecopath with Ecosim (EwE)**—originating with @polovina1984 and @christensen1992, extended dynamically and spatially via Foraging Arena Theory in `Ecosim` and `Ecospace` by @walters1997, @walters1999, @christensen2004, @christensen2005guide, and @christensen2024ewe, critically evaluated by @plaganyi2004, and automated via stepwise fitting by @scott2016—along with its reproducible R implementation **`Rpath`** [@lucey2020] and its recent TMB state-space stock assessment reformulation **`EcoState`** [@thorson2024].
 
 ### 4.4.1 `Ecopath`: Static Mass Balance at Reference Equilibrium
 `Ecopath` partitions the ecosystem into $i \in \{1, \dots, n\}$ functional groups (which may be single species, multi-species guilds, or juvenile/adult life stanzas). At a reference equilibrium period, production of group $i$ equals the sum of all mortality and export fluxes [@christensen2004, Eq. 1; @lucey2020, Eq. 1]:
