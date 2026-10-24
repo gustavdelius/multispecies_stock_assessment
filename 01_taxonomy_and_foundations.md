@@ -5,10 +5,10 @@
 Fisheries ecosystem models span a wide continuum of structural complexity, taxonomic resolution, and statistical rigor [@plaganyi2014; @collie2016; @karp2023]:
 
 ```mermaid
-flowchart LR
-    A["<b>Single-Species Assessments</b><br/>(SAM, SS3, MULTIFAN-CL)<br/>High statistical rigor<br/>Zero trophic coupling"] --> B["<b>Extended Single-Species (ESAM)</b><br/>Predator index covariates<br/>on M or Q"]
-    B --> C["<b>Tactical Multispecies / MICE</b><br/>(SMS, CEATTLE, Gadget, Hydra,<br/>EcoState, Dynamic mizer)<br/>Formal likelihood fitting<br/>Focused food web (3–15 spp.)"]
-    C --> D["<b>Whole-Ecosystem / End-to-End</b><br/>(EwE, Atlantis, OSMOSE)<br/>30–100+ functional groups<br/>Strategic / MSE focus<br/>Limited formal parameter estimation"]
+flowchart TD
+    A["<b>Single-Species Assessments</b> (SAM, SS3, MULTIFAN-CL)<br/>High statistical rigor · Zero trophic coupling"] --> B["<b>Extended Single-Species (ESAM)</b><br/>Predator index covariates on M or Q"]
+    B --> C["<b>Tactical Multispecies / MICE</b> (SMS, CEATTLE, Gadget, Hydra, EcoState, Dynamic mizer)<br/>Formal likelihood fitting · Focused food web (3–15 spp.)"]
+    C --> D["<b>Whole-Ecosystem / End-to-End</b> (EwE, Atlantis, OSMOSE)<br/>30–100+ functional groups · Strategic / MSE focus · Limited formal parameter estimation"]
 ```
 
 ### Models of Intermediate Complexity for Ecosystem Assessments (MICE)
