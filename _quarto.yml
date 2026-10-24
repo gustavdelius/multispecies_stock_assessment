@@ -28,6 +28,11 @@ book:
     - 04_size_spectrum_and_food_web_models.md
     - 05_stomach_content_data_and_likelihoods.md
     - 06_statistical_fitting_uncertainty_and_mizer_synthesis.md
+    - references.md
+
+bibliography: references.bib
+nocite: |
+  @*
 
 format:
   html:
