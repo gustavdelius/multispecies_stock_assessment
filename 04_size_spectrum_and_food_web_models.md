@@ -1,8 +1,8 @@
-# Chapter 4: Continuous Size-Spectrum (`mizer`) and State-Space Food-Web Models (`EwE`, `Rpath`, `EcoState`)
+# Continuous Size-Spectrum (`mizer`) and State-Space Food-Web Models (`EwE`, `Rpath`, `EcoState`) {#sec-size-spectrum}
 
-## 4.1 Continuous Multispecies Size-Spectrum Models (`mizer`)
+## Continuous Multispecies Size-Spectrum Models (`mizer`)
 
-### 4.1.1 Theoretical Lineage and Core Philosophy
+### Theoretical Lineage and Core Philosophy
 Size-spectrum theory originated from the empirical discovery by @sheldon1972 and @sheldon1977 that pelagic marine biomass is approximately constant across logarithmic body-mass bins ($B(w) dw \propto w^0 d(\ln w) \implies N(w) \propto w^{-2}$), and from the continuous mass-balance and pelagic ecosystem derivations of @platt1977, @silvert_platt1978, @benoit_rochet2004, @andersen_beyer2006, and @cuesta2018.
 
 In a landmark synthesis, @hartvig2011 and @scott2014 resolved species identity within the continuous size spectrum to create the **`mizer`** framework (*Multi-species size-spectrum ecological modelling in R*; applied to North Sea reference points by @blanchard2014 and reviewed comprehensively by @andersen2016, @andersen2019, @andersen2020, and @pennino2025).
@@ -11,7 +11,7 @@ Unlike age-structured models where somatic growth and natural mortality are exte
 
 ---
 
-### 4.1.2 Complete Mathematical Formulation of Standard `mizer`
+### Complete Mathematical Formulation of Standard `mizer`
 
 Let $N_i(w, t)$ ($\text{numbers} \cdot \text{g}^{-1} \cdot \text{m}^{-3}$ or total numbers per weight interval) denote the number density of species $i \in \{1, \dots, S\}$ at body mass $w \in [w_0, w_{\max, i}]$ and time $t$, and let $N_R(w, t)$ denote the background plankton/benthic resource spectrum for $w \in [w_{\text{cut}}, w_{\text{max}, R}]$.
 
@@ -96,15 +96,15 @@ $$N_{i,j}^{t+\Delta t} = \frac{N_{i,j}^t + \frac{\Delta t}{\Delta w_j} g_{i,j-1}
 
 ---
 
-## 4.2 The Jump-Growth Fokker–Planck PDE (Datta, Delius & Law 2010, 2011)
+## The Jump-Growth Fokker–Planck PDE (Datta, Delius & Law 2010, 2011)
 
-### 4.2.1 Why the First-Order McKendrick–von Foerster PDE Fails for Dynamic Cohort Fitting
+### Why the First-Order McKendrick–von Foerster PDE Fails for Dynamic Cohort Fitting
 In the standard McKendrick–von Foerster PDE $\partial_t N + \partial_w (g N) = -\mu N$, somatic growth is treated as a purely deterministic continuous drift $dw/dt = g(w, t)$. Consequently:
 1. **No Intrinsic Cohort Broadening**: All individuals born at the same instant $t_0$ at egg weight $w_0$ travel along the exact same characteristic trajectory $w(t)$ with zero variance in size-at-age! If recruitment is pulsed seasonally (or fluctuates interannually as in real stock assessments), a narrow delta-function pulse at $w_0$ remains an unrealistically sharp spike (broadened only by **numerical discretization error** $\propto \Delta w_j$ of the upwind scheme!).
 2. **Grid-Dependent Numerical Diffusion**: In `mizer`'s first-order upwind scheme, changing the number of weight bins $n_w$ or time step $\Delta t$ alters the numerical diffusivity $D_{\text{num}} \approx \frac{1}{2} g \Delta w$, which artificially changes how recruitment pulses smear across length compositions!
 3. **Deterministic Instability of the Community Size Spectrum**: Without growth dispersion or an external stock-recruitment clamp, the continuous McKendrick–von Foerster PDE exhibits traveling-wave instabilities (cohort cycles) for realistic predator-prey mass ratios ($\beta \sim 100$; @datta2011).
 
-### 4.2.2 Derivation of the Jump-Growth Equation (Datta, Delius & Law 2010)
+### Derivation of the Jump-Growth Equation (Datta, Delius & Law 2010)
 @datta2010 resolved this fundamental limitation from first principles by observing that fish do not grow by absorbing a continuous fluid: they grow by **discrete stochastic jumps** $\Delta w = \alpha w_p$ each time they capture and assimilate a discrete prey organism of body mass $w_p$.
 
 Starting from the exact Markov **Master Equation** for discrete prey-capture events in continuous time [@datta2010, Eq. 5]:
@@ -127,7 +127,7 @@ where:
 
 ---
 
-## 4.3 Population Regulation Without Ad-Hoc Stock–Recruitment Relationships (Canales, Delius & Law 2020)
+## Population Regulation Without Ad-Hoc Stock–Recruitment Relationships (Canales, Delius & Law 2020)
 
 In standard fisheries models (including standard `mizer`, `SMS`, `Gadget`, and `LeMaRns`), population abundance is stabilized externally by imposing an ad-hoc **Beverton–Holt or Ricker stock-recruitment relationship (SRR)** at the boundary $w_0$, with one or two free species-specific parameters ($R_{\max, i}$ or steepness $h_i$) that have little direct physiological basis and strongly dictate MSY predictions.
 
@@ -138,11 +138,11 @@ In standard fisheries models (including standard `mizer`, `SMS`, `Gadget`, and `
 
 ---
 
-## 4.4 Mass-Balance, Foraging Arena, and State-Space Food-Web Models (`Ecopath`, `Ecosim`, `Rpath`, `EcoState`)
+## Mass-Balance, Foraging Arena, and State-Space Food-Web Models (`Ecopath`, `Ecosim`, `Rpath`, `EcoState`)
 
 While size-spectrum models resolve continuous body mass, the most widely applied whole-ecosystem modeling framework in marine science is **Ecopath with Ecosim (EwE)**—originating with @polovina1984 and @christensen1992, extended dynamically and spatially via Foraging Arena Theory in `Ecosim` and `Ecospace` by @walters1997, @walters1999, @christensen2004, @christensen2005guide, and @christensen2024ewe, critically evaluated by @plaganyi2004, and automated via stepwise fitting by @scott2016—along with its reproducible R implementation **`Rpath`** [@lucey2020] and its recent TMB state-space stock assessment reformulation **`EcoState`** [@thorson2024].
 
-### 4.4.1 `Ecopath`: Static Mass Balance at Reference Equilibrium
+### `Ecopath`: Static Mass Balance at Reference Equilibrium
 `Ecopath` partitions the ecosystem into $i \in \{1, \dots, n\}$ functional groups (which may be single species, multi-species guilds, or juvenile/adult life stanzas). At a reference equilibrium period, production of group $i$ equals the sum of all mortality and export fluxes [@christensen2004, Eq. 1; @lucey2020, Eq. 1]:
 
 $$B_i \left(\frac{P}{B}\right)_i \cdot EE_i = Y_i + E_i + BA_i + \sum_{j=1}^{n} B_j \left(\frac{Q}{B}\right)_j DC_{ij}$$
@@ -156,7 +156,7 @@ For each group $i$, three of the four core parameters $\{B_i, (P/B)_i, (Q/B)_i, 
 
 ---
 
-### 4.4.2 `Ecosim` and Walters' Foraging Arena Theory
+### `Ecosim` and Walters' Foraging Arena Theory
 When `Ecopath` is projected dynamically through time as a system of coupled ODEs (`Ecosim`; @walters1997):
 
 $$\frac{dB_i}{dt} = g_i \sum_{j} Q_{ji}(t) - \sum_{k} Q_{ik}(t) + I_i - \left(M0_i + F_i(t) + e_i\right) B_i(t)$$
@@ -184,7 +184,7 @@ $$Q_{ij}(t) = Q_{ij,0} \, \frac{X_{ij}}{X_{ij} - 1 + \frac{B_j(t)}{B_{j,0}}} \, 
 
 ---
 
-### 4.4.3 `EcoState` (Thorson et al. 2024): State-Space Mass-Balance Assessment in TMB
+### `EcoState` (Thorson et al. 2024): State-Space Mass-Balance Assessment in TMB
 Historically, EwE was fitted by shooting (deterministic trajectory matching) without process errors or formal state-space marginal likelihoods. In 2024, James Thorson, Kirstin Holsman, Gaichas, Aydin, and Punt introduced **`EcoState`** [@thorson2024], which embeds the Ecopath + Ecosim ODEs directly inside a **Template Model Builder (TMB) state-space stock assessment model**:
 
 1. **Continuous-Time ODE with Annual Process Errors $\epsilon_{i,t}$**:

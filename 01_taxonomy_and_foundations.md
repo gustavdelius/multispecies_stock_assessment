@@ -1,6 +1,6 @@
-# Chapter 1: Taxonomy and Theoretical Foundations of Multispecies Stock Assessment Models
+# Taxonomy and Theoretical Foundations of Multispecies Stock Assessment Models {#sec-taxonomy}
 
-## 1.1 Introduction: From Single-Species to Multispecies Tactical Assessment
+## Introduction: From Single-Species to Multispecies Tactical Assessment
 
 Traditional fisheries stock assessment relies on the single-species paradigm [@beverton_holt1957; @cadima2003; @lart2022], in which each exploited population is modeled in isolation from its biological community. In single-species Virtual Population Analysis (VPA), Statistical Catch-at-Age (SCAA), or integrated assessment models such as Stock Synthesis [@methot2013] and SAM [@nielsen2014], all non-fishing mortality is aggregated into a single natural mortality rate $M_{s,a,t}$ that is frequently assumed constant across time and often across ages (or scaled empirically with body size and life-history parameters; @gislason2010). Somatic growth (weight-at-age $w_{s,a,t}$) and maturity ogives ($\text{Mat}_{s,a,t}$) are typically entered as empirical covariates rather than state variables coupled to prey availability.
 
@@ -12,7 +12,7 @@ Decades of empirical and modeling work in the North Sea, Baltic Sea, Barents Sea
 
 ---
 
-## 1.2 The Complexity Spectrum: Strategic Models, Tactical Assessments, and MICE
+## The Complexity Spectrum: Strategic Models, Tactical Assessments, and MICE
 
 Fisheries ecosystem models span a wide continuum of structural complexity, taxonomic resolution, and statistical rigor [@plaganyi2014; @collie2016; @karp2023]:
 
@@ -23,7 +23,7 @@ flowchart LR
     C --> D["<b>Whole-Ecosystem / End-to-End</b><br/>(EwE, Atlantis, OSMOSE)<br/>30–100+ functional groups<br/>Strategic / MSE focus<br/>Limited formal parameter estimation"]
 ```
 
-### 1.2.1 Models of Intermediate Complexity for Ecosystem Assessments (MICE)
+### Models of Intermediate Complexity for Ecosystem Assessments (MICE)
 @plaganyi2014 and @collie2016 formalized the concept of **MICE** (Models of Intermediate Complexity for Ecosystem assessments) as the "sweet spot" for tactical fisheries management. As model complexity increases, **structural bias** (from omitting trophic interactions) decreases, whereas **parameter estimation uncertainty** (from fitting hundreds of poorly identified interaction rates to noisy data) increases rapidly [@collie2016, Fig. 1].
 
 A model qualifies as a tactical multispecies assessment or MICE when it satisfies four operational criteria [@plaganyi2014; @karp2023]:
@@ -34,7 +34,7 @@ A model qualifies as a tactical multispecies assessment or MICE when it satisfie
 
 ---
 
-## 1.3 Fundamental Axes of Structural Classification
+## Fundamental Axes of Structural Classification
 
 Every multispecies stock assessment model can be positioned along three fundamental mathematical axes [@stefansson1998; @andersen2016; @pennino2025]:
 
@@ -76,13 +76,13 @@ A critical distinction in multispecies stock assessment—emphasized by @stefans
 
 ---
 
-## 1.4 The Andersen & Ursin (1977) Theoretical Foundation and Livingston's (1983) Evaluation
+## The Andersen & Ursin (1977) Theoretical Foundation and Livingston's (1983) Evaluation
 
 Virtually all modern size- and age-structured multispecies models—including **MSVPA**, **SMS**, **Gadget**, **LeMans/LeMaRns**, **CSMS**, and **`mizer`**—trace their mathematical lineage to the landmark monograph by K. P. Andersen and Erik Ursin [-@andersen_ursin1977], *"A Multispecies Extension to the Beverton and Holt Theory of Fishing, with Accounts of Phosphorus Circulation and Primary Production"*, Ursin's [-@ursin1973] empirical analysis of prey size preferences in cod and dab, and Patricia Livingston's [-@livingston1983] mathematical evaluation and sensitivity analysis of the Andersen–Ursin equations for North Pacific fisheries.
 
 Because @andersen_ursin1977 is the shared ancestor of both statistical multispecies assessments (`SMS`, `MSCAA`, `CEATTLE`) and continuous size-spectrum models (`mizer`), examining its exact differential equations and parameter sensitivities—as documented by @livingston1983 [pp. 2--11, Table 1]—clarifies how these two branches diverged.
 
-### 1.4.1 Core Coupled Differential Equations of Andersen & Ursin (1977)
+### Core Coupled Differential Equations of Andersen & Ursin (1977)
 @andersen_ursin1977 extended the three basic @beverton_holt1957 differential equations for individual body weight $w_i(t)$, cohort abundance $N_i(t)$, and fishery yield $Y_i(t)$ of computational entity $i$ (a species-age group) [@livingston1983, Eqs. 1--8]:
 
 1. **Bioenergetic Pütter / Generalized von Bertalanffy Somatic Growth**:
@@ -111,14 +111,14 @@ Because @andersen_ursin1977 is the shared ancestor of both statistical multispec
    Residual natural mortality $\hat{M}_i = M1_i + M4_i + M5_i + M6_i$ comprises density-dependent larval mortality $M1_i$ plus background disease ($M4_i \approx 0.03\text{ yr}^{-1}$), senescence ($M5_i$), and spawning stress ($M6_i$). At discrete spawning dates, mature age groups lose a weight fraction $\pi_i$ to release $E = \sum \pi_i(1-\pi_{\text{male}}) N_i w_i / \omega_i$ eggs of weight $\omega_i$, which hatch into age-0 recruits via a Beverton–Holt density-dependent survival function [@livingston1983, Eq. 9, p. 13]:
    $$E1 = E \left(\frac{C}{C + E}\right)$$
 
-### 1.4.2 Nonlinear Parameter Sensitivity of the Andersen–Ursin System (Livingston 1983)
+### Nonlinear Parameter Sensitivity of the Andersen–Ursin System (Livingston 1983)
 By perturbing each parameter of the 14-entity Andersen–Ursin skeleton model (phytoplankton, 3 zooplankton age classes, 4 herring age classes, 6 cod age classes) by $\pm 10\%$ and $\pm 20\%$ and fitting the nonlinear power-law response $y = \alpha x^\beta$ [@livingston1983, pp. 13--27, Tables 4--6], Livingston discovered a striking hierarchy of parameter sensitivities:
 - **Low Sensitivity ($|\beta| \le 0.5$, Table 4)**: Spawning fraction $\pi$, residual natural mortality $M1$, fish egg weights $\omega_2, \omega_3$, and herring fishing mortalities $F_6\text{--}F_8$ had weak, nearly linear effects on equilibrium numbers and body weights.
 - **Moderate Sensitivity ($0.5 < |\beta| \le 1.5$, Table 5)**: Predator search rate scalar $Q$, density-dependent larval recruitment caps $C_2, C_3$, and adult cod fishing mortality $F_{14}$ had moderate effects; increasing $Q$ (i.e., reducing search efficiency $q_i$) lowered individual body weights $W_i$ ($\beta = -0.34$ to $-0.66$) while increasing prey numbers $N_i$ ($\beta = +0.12$ to $+0.53$) via reduced predation.
 - **High, Strongly Nonlinear Sensitivity ($|\beta| > 1.5$, Table 6)**: The **anabolic growth and assimilation parameters** ($v, H_1, H_2, H_3, m$), catabolic exponent ($n$), and **mean prey size preference** ($\eta$) produced massive, strongly nonlinear responses across the food web (e.g., $\beta = +7.17$ for total weight with respect to anabolic exponent $m$, and $\beta = +2.39\text{ to }+3.37$ for cod weight with respect to assimilation efficiency $v$).
 - **Mathematical Rationale**: In a two-way size-structured model, increasing anabolic growth ($H_i, m, v$) simultaneously (1) increases predator body mass $w_j$, (2) increases per-capita predator ration $h_j w_j^m$, and (3) shifts the predator's preferred prey size window $w_j e^{-\eta_j}$ across the prey size spectrum, creating a multiplicative trophic cascade across cohorts [@livingston1983, pp. 26--27].
 
-### 1.4.3 The Fundamental Divergence: How `SMS`/`MSVPA` vs. `mizer` Simplified Andersen & Ursin (1977)
+### The Fundamental Divergence: How `SMS`/`MSVPA` vs. `mizer` Simplified Andersen & Ursin (1977)
 
 ```mermaid
 flowchart TD
@@ -141,11 +141,11 @@ flowchart TD
 
 ---
 
-## 1.5 Community-Level Dynamics and the Multispecies Jacobian Matrix
+## Community-Level Dynamics and the Multispecies Jacobian Matrix
 
 When comparing multispecies stock assessment models across these structural paradigms [@tsou_collie2001; @aydin2005; @jacobsen2016; @spence2018; @pope2019], @pope2006, @pope2019, and @jacobsen2016 introduced two unifying analytical diagnostics:
 
-### 1.5.1 The Yield Vector and Jacobian Interaction Matrix ($\mathbf{J}$)
+### The Yield Vector and Jacobian Interaction Matrix ($\mathbf{J}$)
 Let $\mathbf{F} = (F_1, F_2, \dots, F_S)^\top$ be the vector of long-term fishing mortality rates across $S$ species, and let $\mathbf{Y}(\mathbf{F}) = (Y_1, Y_2, \dots, Y_S)^\top$ and $\mathbf{SSB}(\mathbf{F}) = (\text{SSB}_1, \dots, \text{SSB}_S)^\top$ be the resulting equilibrium yield and spawning stock biomass vectors. Near a reference fishing vector $\mathbf{F}_0$, the response of the multispecies community is characterized by the **Jacobian matrix** [@pope2019, p. 5]:
 
 $$J_{ik} = \left.\frac{\partial \ln \text{SSB}_i}{\partial F_k}\right|_{\mathbf{F} = \mathbf{F}_0} \quad \text{or} \quad J^{(Y)}_{ik} = \left.\frac{\partial Y_i}{\partial F_k}\right|_{\mathbf{F} = \mathbf{F}_0}$$
@@ -155,7 +155,7 @@ $$J_{ik} = \left.\frac{\partial \ln \text{SSB}_i}{\partial F_k}\right|_{\mathbf{
   - In **one-way models** (`SMS`, `LeMans`), $J_{\text{prey}, \text{pred}} > 0$ (fishing down a predator increases prey SSB by reducing $M2$), while $J_{\text{pred}, \text{prey}} \approx 0$ (fishing down a prey has zero direct effect on predator SSB, or only an indirect "prey-switching/shielding" effect if total suitable food $\Phi_{\text{pred}}$ changes cannibalism rates).
   - In **two-way bioenergetic models** (`mizer`, `Gadget`, `Ecosim`), $J_{\text{pred}, \text{prey}} < 0$ because fishing down forage fish reduces predator feeding level $f_{\text{pred}}$, slowing predator somatic growth $g_{\text{pred}}$ and lowering reproductive output $R_{p,\text{pred}}$.
 
-### 1.5.2 Quadratic Approximation of Total Multispecies Yield
+### Quadratic Approximation of Total Multispecies Yield
 @pope2006 and @pope2019 showed that across widely different multispecies models of the North Sea (`SMS`, `Gadget`, `EwE`, `LeMans`, `mizer`, `CSMS`, `CSM`), the equilibrium yield of species $i$ as a function of the fishing mortality vector $\mathbf{F}$ is well approximated by a coupled quadratic form (a multispecies generalization of the Schaefer surplus production parabola):
 
 $$Y_i(\mathbf{F}) \approx a_i F_i + \sum_{k=1}^{S} b_{ik} F_i F_k$$

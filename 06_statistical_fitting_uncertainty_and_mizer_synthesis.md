@@ -1,6 +1,6 @@
-# Chapter 6: Statistical Estimation, Data Weighting, Uncertainty Quantification, and an Architectural Roadmap for Dynamic `mizer` Stock Assessment
+# Statistical Estimation, Data Weighting, Uncertainty Quantification, and an Architectural Roadmap for Dynamic `mizer` Stock Assessment {#sec-synthesis}
 
-## 6.1 Master Comparative Synthesis Across Multispecies Stock Assessment Model Families
+## Master Comparative Synthesis Across Multispecies Stock Assessment Model Families
 
 | Feature / Dimension | `MSVPA` / `MSFOR` | `SMS` / `smsR` | `MSCAA` / `Hydra` | `CEATTLE` / `Rceattle` | `Gadget2` / `gadget3` | `LeMans` / `LeMaRns` | `EwE` / `Rpath` / `EcoState` | `mizer` (Standard & Jump-Growth) |
 | :--- | :--- | :--- | :--- | :--- | :--- | :--- | :--- | :--- |
@@ -16,16 +16,16 @@
 
 ---
 
-## 6.2 Data Weighting and Likelihood Conflict in Integrated & Multispecies Assessments (Francis 2011; Maunder & Punt 2013; Thorson et al. 2017)
+## Data Weighting and Likelihood Conflict in Integrated & Multispecies Assessments (Francis 2011; Maunder & Punt 2013; Thorson et al. 2017)
 
 When fitting an integrated single-species or multispecies model simultaneously to **abundance indices** ($I_{f,y}$), **catch biomass** ($Y_{f,y}$), **length/age compositions** ($\mathbf{P}_{f,y}$), and **stomach content compositions** ($\mathbf{W}_{A,L,y,q}$), the most critical statistical hazard is **likelihood conflict and compositional domination** [@francis2011; @maunder2013; @thorson2017].
 
-### 6.2.1 Why Unadjusted Composition Likelihoods Destroy Abundance Fits ("Francis Principle 1")
+### Why Unadjusted Composition Likelihoods Destroy Abundance Fits ("Francis Principle 1")
 Suppose a survey measures $10,000$ fish lengths across $50$ length bins each year, while also providing $1$ annual biomass index point $I_y$ per year. If the nominal number of fish measured ($N_y = 10,000$) is plugged into a Multinomial likelihood $\sum_y N_y \sum_l P_{l,y} \ln \hat{P}_{l,y}$, the composition likelihood will have $1000\times$ larger gradient and curvature than the lognormal survey index likelihood $\frac{1}{2\sigma_I^2}(\ln I_y - \ln \hat{I}_y)^2$.
 Because fish school by size and because any process model has slight misspecifications in selectivity or growth, positive correlations among bins within a year mean the true **effective sample size** $N_{\text{eff}, y}$ is typically $20\text{--}200$ (closer to the number of **trawl hauls**, not the number of individual fish!). If $N_y$ is not downweighted, the optimizer will distort recruitment $R_y$, fishing mortality $F_y$, and biomass trends $\hat{B}_y$ just to chase noise in the length compositions, violating **Francis's First Principle** [@francis2011, p. 1125]:
 > *"Do not let other data stop the model from fitting abundance data well."*
 
-### 6.2.2 Three Standard Data-Weighting Algorithms for Compositional Data
+### Three Standard Data-Weighting Algorithms for Compositional Data
 
 Let $O_{l,y}$ and $E_{l,y}$ denote the observed and model-expected proportions in length (or age) bin $l \in \{1, \dots, n_L\}$ with midpoint $x_l$ in year $y \in \{1, \dots, n_Y\}$, with initial nominal sample size $N_{y}$.
 
@@ -47,9 +47,9 @@ Let $O_{l,y}$ and $E_{l,y}$ denote the observed and model-expected proportions i
 
 ---
 
-## 6.3 Parameter Estimation and Uncertainty Quantification Engines
+## Parameter Estimation and Uncertainty Quantification Engines
 
-### 6.3.1 Frequentist / Empirical Bayes State-Space Estimation in `TMB` (Kristensen et al. 2016)
+### Frequentist / Empirical Bayes State-Space Estimation in `TMB` (Kristensen et al. 2016)
 Modern statistical stock assessment models (`SAM` [@nielsen2014], `smsR`, `Rceattle`, `gadget3`, `EcoState` [@thorson2024]) are built on **Template Model Builder (`TMB`)** [@kristensen2016] or its pure-R interface **`RTMB`**.
 
 Let $\boldsymbol{\theta} \in \mathbb{R}^p$ denote the vector of **fixed effects** (life-history scaling parameters, selectivities, catchabilities, suitability parameters $\beta_i, \sigma_i$, and variance parameters $\sigma_{\text{proc}}, \sigma_{\text{obs}}$) and let $\mathbf{u} \in \mathbb{R}^m$ denote the vector of **latent random effects (process errors)** (e.g., annual recruitment deviations $\epsilon_{R,i,y}$, time-varying fishing mortality random walks $\ln F_{f,y}$, or biomass process errors $\epsilon_{B,i,y}$). Given joint negative log-likelihood $f(\boldsymbol{\theta}, \mathbf{u}) = -\ln p(\mathbf{y}, \mathbf{u} \mid \boldsymbol{\theta})$, TMB approximates the marginal likelihood $L(\boldsymbol{\theta}) = \int \exp(-f(\boldsymbol{\theta}, \mathbf{u})) \, d\mathbf{u}$ via the **Laplace Approximation** [@kristensen2016, Eq. 2]:
@@ -64,7 +64,7 @@ Using up to third-order automatic differentiation (`CppAD`), TMB computes the ex
 
 ---
 
-### 6.3.2 Bayesian, Evolutionary, and Ensemble Approaches (Zhang et al. 2015, 2016; Spence et al. 2016, 2018, 2021)
+### Bayesian, Evolutionary, and Ensemble Approaches (Zhang et al. 2015, 2016; Spence et al. 2016, 2018, 2021)
 When models are implemented as black-box simulation packages without automatic differentiation (or when likelihood surfaces are rugged and multimodal), researchers have developed four complementary calibration and uncertainty frameworks for `mizer` and `LeMaRns`:
 
 1. **Two-Step Genetic Algorithm + Parallel Tempering MCMC (Zhang et al. 2015, 2016)**:
@@ -84,12 +84,12 @@ When models are implemented as black-box simulation packages without automatic d
 
 ---
 
-## 6.4 Architectural Blueprint for Next-Generation Statistical Dynamic Stock Assessment in `mizer`
+## Architectural Blueprint for Next-Generation Statistical Dynamic Stock Assessment in `mizer`
 
 In their 10-year review of `mizer`, @pennino2025 [Section *"Challenges and Future Directions"*, p. 9] identify the central barrier preventing `mizer` from being used as a routine tactical stock assessment tool:
 > *"First, there is a lack of a standardized optimization routine for parameter estimation and uncertainty quantification... Second, `mizer` models are typically calibrated to a time-averaged steady state rather than fitted dynamically to time series of catches, survey indices, and size compositions."*
 
-Drawing together the mathematical lessons from **`SMS`** (Chapter 2), **`Gadget`/`gadget3`**, **`MULTIFAN-CL`/`SS3`**, and @punt2016 (Chapter 3), **`EcoState`** (Chapter 4), and **stomach content likelihoods** (Chapter 5), we can synthesize a concrete, five-pillar architectural roadmap for transforming `mizer` into a **differentiable, state-space statistical multispecies stock assessment model** (`mizer-TMB` / `mizer-RTMB`).
+Drawing together the mathematical lessons from **`SMS`** (@sec-age-structured), **`Gadget`/`gadget3`**, **`MULTIFAN-CL`/`SS3`**, and @punt2016 (@sec-length-structured), **`EcoState`** (@sec-size-spectrum), and **stomach content likelihoods** (@sec-stomach-data), we can synthesize a concrete, five-pillar architectural roadmap for transforming `mizer` into a **differentiable, state-space statistical multispecies stock assessment model** (`mizer-TMB` / `mizer-RTMB`).
 
 ```mermaid
 flowchart TD
