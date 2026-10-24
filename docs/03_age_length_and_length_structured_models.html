@@ -1,0 +1,847 @@
+<!DOCTYPE html>
+<html xmlns="http://www.w3.org/1999/xhtml" lang="en" xml:lang="en"><head>
+
+<meta charset="utf-8">
+<meta name="generator" content="quarto-1.9.37">
+
+<meta name="viewport" content="width=device-width, initial-scale=1.0, user-scalable=yes">
+
+<meta name="description" content="Mathematical and statistical review of multispecies stock assessment methods, stomach content likelihoods, and size-structured assessment software.">
+
+<title>Chapter 3: Age-Length and Length-Structured Assessment Models (Gadget/gadget3, SS3, MULTIFAN-CL, LeMans/LeMaRns, CSMS/CSM) – Multispecies Stock Assessment: Mathematical Methods, Data, and Software</title>
+<style>
+/* Default styles provided by pandoc.
+** See https://pandoc.org/MANUAL.html#variables-for-html for config info.
+*/
+code{white-space: pre-wrap;}
+span.smallcaps{font-variant: small-caps;}
+div.columns{display: flex; gap: min(4vw, 1.5em);}
+div.column{flex: auto; overflow-x: auto;}
+div.hanging-indent{margin-left: 1.5em; text-indent: -1.5em;}
+ul.task-list{list-style: none;}
+ul.task-list li input[type="checkbox"] {
+  width: 0.8em;
+  margin: 0 0.8em 0.2em -1em; /* quarto-specific, see https://github.com/quarto-dev/quarto-cli/issues/4556 */ 
+  vertical-align: middle;
+}
+</style>
+
+
+<script src="site_libs/quarto-nav/quarto-nav.js"></script>
+<script src="site_libs/quarto-nav/headroom.min.js"></script>
+<script src="site_libs/clipboard/clipboard.min.js"></script>
+<script src="site_libs/quarto-search/autocomplete.umd.js"></script>
+<script src="site_libs/quarto-search/fuse.min.js"></script>
+<script src="site_libs/quarto-search/quarto-search.js"></script>
+<meta name="quarto:offset" content="./">
+<link href="./04_size_spectrum_and_food_web_models.html" rel="next">
+<link href="./02_age_structured_multispecies_models.html" rel="prev">
+<script src="site_libs/quarto-html/quarto.js" type="module"></script>
+<script src="site_libs/quarto-html/tabsets/tabsets.js" type="module"></script>
+<script src="site_libs/quarto-html/popper.min.js"></script>
+<script src="site_libs/quarto-html/tippy.umd.min.js"></script>
+<script src="site_libs/quarto-html/anchor.min.js"></script>
+<link href="site_libs/quarto-html/tippy.css" rel="stylesheet">
+<link href="site_libs/quarto-html/quarto-syntax-highlighting-7f8f88aac4f3542376d5c11b86a4c14d.css" rel="stylesheet" id="quarto-text-highlighting-styles">
+<script src="site_libs/bootstrap/bootstrap.min.js"></script>
+<link href="site_libs/bootstrap/bootstrap-icons.css" rel="stylesheet">
+<link href="site_libs/bootstrap/bootstrap-67e563c3f8baddecfc039ce11a1d00ae.min.css" rel="stylesheet" append-hash="true" id="quarto-bootstrap" data-mode="light">
+<script id="quarto-search-options" type="application/json">{
+  "location": "sidebar",
+  "copy-button": false,
+  "collapse-after": 3,
+  "panel-placement": "start",
+  "type": "textbox",
+  "limit": 50,
+  "keyboard-shortcut": [
+    "f",
+    "/",
+    "s"
+  ],
+  "show-item-context": false,
+  "language": {
+    "search-no-results-text": "No results",
+    "search-matching-documents-text": "matching documents",
+    "search-copy-link-title": "Copy link to search",
+    "search-hide-matches-text": "Hide additional matches",
+    "search-more-match-text": "more match in this document",
+    "search-more-matches-text": "more matches in this document",
+    "search-clear-button-title": "Clear",
+    "search-text-placeholder": "",
+    "search-detached-cancel-button-title": "Cancel",
+    "search-submit-button-title": "Submit",
+    "search-label": "Search"
+  }
+}</script>
+
+  <script src="https://cdnjs.cloudflare.com/polyfill/v3/polyfill.min.js?features=es6"></script>
+  <script defer="" src="https://cdn.jsdelivr.net/npm/mathjax@3/es5/tex-chtml-full.js" type="text/javascript"></script>
+
+<script type="text/javascript">
+const typesetMath = (el) => {
+  if (window.MathJax) {
+    // MathJax Typeset
+    window.MathJax.typeset([el]);
+  } else if (window.katex) {
+    // KaTeX Render
+    var mathElements = el.getElementsByClassName("math");
+    var macros = [];
+    for (var i = 0; i < mathElements.length; i++) {
+      var texText = mathElements[i].firstChild;
+      if (mathElements[i].tagName == "SPAN" && texText && texText.data) {
+        window.katex.render(texText.data, mathElements[i], {
+          displayMode: mathElements[i].classList.contains('display'),
+          throwOnError: false,
+          macros: macros,
+          fleqn: false
+        });
+      }
+    }
+  }
+}
+window.Quarto = {
+  typesetMath
+};
+</script>
+
+</head>
+
+<body class="nav-sidebar floating quarto-light">
+
+<div id="quarto-search-results"></div>
+  <header id="quarto-header" class="headroom fixed-top">
+  <nav class="quarto-secondary-nav">
+    <div class="container-fluid d-flex">
+      <button type="button" class="quarto-btn-toggle btn" data-bs-toggle="collapse" role="button" data-bs-target=".quarto-sidebar-collapse-item" aria-controls="quarto-sidebar" aria-expanded="false" aria-label="Toggle sidebar navigation" onclick="if (window.quartoToggleHeadroom) { window.quartoToggleHeadroom(); }">
+        <i class="bi bi-layout-text-sidebar-reverse"></i>
+      </button>
+        <nav class="quarto-page-breadcrumbs" aria-label="breadcrumb"><ol class="breadcrumb"><li class="breadcrumb-item"><a href="./03_age_length_and_length_structured_models.html"><span class="chapter-title">Chapter 3: Age-Length and Length-Structured Assessment Models (<code>Gadget</code>/<code>gadget3</code>, <code>SS3</code>, <code>MULTIFAN-CL</code>, <code>LeMans</code>/<code>LeMaRns</code>, <code>CSMS</code>/<code>CSM</code>)</span></a></li></ol></nav>
+        <a class="flex-grow-1" role="navigation" data-bs-toggle="collapse" data-bs-target=".quarto-sidebar-collapse-item" aria-controls="quarto-sidebar" aria-expanded="false" aria-label="Toggle sidebar navigation" onclick="if (window.quartoToggleHeadroom) { window.quartoToggleHeadroom(); }">      
+        </a>
+      <button type="button" class="btn quarto-search-button" aria-label="Search" onclick="window.quartoOpenSearch();">
+        <i class="bi bi-search"></i>
+      </button>
+    </div>
+  </nav>
+</header>
+<!-- content -->
+<div id="quarto-content" class="quarto-container page-columns page-rows-contents page-layout-article">
+<!-- sidebar -->
+  <nav id="quarto-sidebar" class="sidebar collapse collapse-horizontal quarto-sidebar-collapse-item sidebar-navigation floating overflow-auto">
+    <div class="pt-lg-2 mt-2 text-left sidebar-header">
+    <div class="sidebar-title mb-0 py-0">
+      <a href="./">Multispecies Stock Assessment: Mathematical Methods, Data, and Software</a> 
+        <div class="sidebar-tools-main">
+    <a href="https://github.com/gustavdelius/multispecies_stock_assessment" title="Source Code" class="quarto-navigation-tool px-1" aria-label="Source Code"><i class="bi bi-github"></i></a>
+</div>
+    </div>
+      </div>
+        <div class="mt-2 flex-shrink-0 align-items-center">
+        <div class="sidebar-search">
+        <div id="quarto-search" class="" title="Search"></div>
+        </div>
+        </div>
+    <div class="sidebar-menu-container"> 
+    <ul class="list-unstyled mt-1">
+        <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="./index.html" class="sidebar-item-text sidebar-link">
+ <span class="menu-text">Mathematical &amp; Statistical Literature Review of Multispecies Stock Assessment Models</span></a>
+  </div>
+</li>
+        <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="./01_taxonomy_and_foundations.html" class="sidebar-item-text sidebar-link"><span class="chapter-title">Chapter 1: Taxonomy and Theoretical Foundations of Multispecies Stock Assessment Models</span></a>
+  </div>
+</li>
+        <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="./02_age_structured_multispecies_models.html" class="sidebar-item-text sidebar-link"><span class="chapter-title">Chapter 2: Age-Structured Multispecies Stock Assessment Models (<code>MSVPA</code>, <code>SMS</code>/<code>smsR</code>, <code>MSCAA</code>/<code>Hydra</code>, <code>CEATTLE</code>)</span></a>
+  </div>
+</li>
+        <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="./03_age_length_and_length_structured_models.html" class="sidebar-item-text sidebar-link active"><span class="chapter-title">Chapter 3: Age-Length and Length-Structured Assessment Models (<code>Gadget</code>/<code>gadget3</code>, <code>SS3</code>, <code>MULTIFAN-CL</code>, <code>LeMans</code>/<code>LeMaRns</code>, <code>CSMS</code>/<code>CSM</code>)</span></a>
+  </div>
+</li>
+        <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="./04_size_spectrum_and_food_web_models.html" class="sidebar-item-text sidebar-link"><span class="chapter-title">Chapter 4: Continuous Size-Spectrum (<code>mizer</code>) and State-Space Food-Web Models (<code>EwE</code>, <code>Rpath</code>, <code>EcoState</code>)</span></a>
+  </div>
+</li>
+        <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="./05_stomach_content_data_and_likelihoods.html" class="sidebar-item-text sidebar-link"><span class="chapter-title">Chapter 5: Stomach Content Data, Gastric Evacuation Physics, and Diet Likelihood Formulations</span></a>
+  </div>
+</li>
+        <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="./06_statistical_fitting_uncertainty_and_mizer_synthesis.html" class="sidebar-item-text sidebar-link"><span class="chapter-title">Chapter 6: Statistical Estimation, Data Weighting, Uncertainty Quantification, and an Architectural Roadmap for Dynamic <code>mizer</code> Stock Assessment</span></a>
+  </div>
+</li>
+    </ul>
+    </div>
+</nav>
+<div id="quarto-sidebar-glass" class="quarto-sidebar-collapse-item" data-bs-toggle="collapse" data-bs-target=".quarto-sidebar-collapse-item"></div>
+<!-- margin-sidebar -->
+    <div id="quarto-margin-sidebar" class="sidebar margin-sidebar">
+        <nav id="TOC" role="doc-toc" class="toc-active">
+    <h2 id="toc-title">Table of contents</h2>
+   
+  <ul>
+  <li><a href="#why-track-length-in-addition-to-or-instead-of-age" id="toc-why-track-length-in-addition-to-or-instead-of-age" class="nav-link active" data-scroll-target="#why-track-length-in-addition-to-or-instead-of-age">3.1 Why Track Length in Addition to (or Instead of) Age?</a></li>
+  <li><a href="#gadget-gadget2-and-gadget3-statistical-age-length-structured-multispecies-framework" id="toc-gadget-gadget2-and-gadget3-statistical-age-length-structured-multispecies-framework" class="nav-link" data-scroll-target="#gadget-gadget2-and-gadget3-statistical-age-length-structured-multispecies-framework">3.2 <code>Gadget</code> (<code>Gadget2</code> and <code>gadget3</code>): Statistical Age-Length-Structured Multispecies Framework</a>
+  <ul>
+  <li><a href="#lineage-and-architecture" id="toc-lineage-and-architecture" class="nav-link" data-scroll-target="#lineage-and-architecture">3.2.1 Lineage and Architecture</a></li>
+  <li><a href="#state-space-tensor-n_salrt-and-w_salrt" id="toc-state-space-tensor-n_salrt-and-w_salrt" class="nav-link" data-scroll-target="#state-space-tensor-n_salrt-and-w_salrt">3.2.2 State-Space Tensor (<span class="math inline">\(N_{s,a,l,r,t}\)</span> and <span class="math inline">\(W_{s,a,l,r,t}\)</span>)</a></li>
+  <li><a href="#somatic-growth-and-the-beta-binomial-length-transition-distribution" id="toc-somatic-growth-and-the-beta-binomial-length-transition-distribution" class="nav-link" data-scroll-target="#somatic-growth-and-the-beta-binomial-length-transition-distribution">3.2.3 Somatic Growth and the Beta-Binomial Length-Transition Distribution</a>
+  <ul class="collapse">
+  <li><a href="#a.-mean-length-weight-increments-gadget3_action_grow.r" id="toc-a.-mean-length-weight-increments-gadget3_action_grow.r" class="nav-link" data-scroll-target="#a.-mean-length-weight-increments-gadget3_action_grow.r">A. Mean Length &amp; Weight Increments (<code>gadget3_action_grow.R</code>)</a></li>
+  <li><a href="#b.-the-beta-binomial-length-bin-jump-distribution-g3a_grow_impl_bbinom" id="toc-b.-the-beta-binomial-length-bin-jump-distribution-g3a_grow_impl_bbinom" class="nav-link" data-scroll-target="#b.-the-beta-binomial-length-bin-jump-distribution-g3a_grow_impl_bbinom">B. The Beta-Binomial Length-Bin Jump Distribution (<code>g3a_grow_impl_bbinom</code>)</a></li>
+  </ul></li>
+  <li><a href="#predation-functional-response-and-overconsumption-protection-gadget3_action_predate.r" id="toc-predation-functional-response-and-overconsumption-protection-gadget3_action_predate.r" class="nav-link" data-scroll-target="#predation-functional-response-and-overconsumption-protection-gadget3_action_predate.r">3.2.4 Predation, Functional Response, and Overconsumption Protection (<code>gadget3_action_predate.R</code>)</a></li>
+  <li><a href="#composite-likelihoods-and-two-stage-iterative-reweighting-in-gadget" id="toc-composite-likelihoods-and-two-stage-iterative-reweighting-in-gadget" class="nav-link" data-scroll-target="#composite-likelihoods-and-two-stage-iterative-reweighting-in-gadget">3.2.5 Composite Likelihoods and Two-Stage Iterative Reweighting in <code>Gadget</code></a>
+  <ul class="collapse">
+  <li><a href="#stefánssons-1998-two-stage-iterative-likelihood-reweighting" id="toc-stefánssons-1998-two-stage-iterative-likelihood-reweighting" class="nav-link" data-scroll-target="#stefánssons-1998-two-stage-iterative-likelihood-reweighting">Stefánsson’s (1998) Two-Stage Iterative Likelihood Reweighting</a></li>
+  </ul></li>
+  <li><a href="#case-study-baltic-sea-multispecies-gadget-model-and-ontogenetic-diet-shifts-kulatska-et-al.-2019" id="toc-case-study-baltic-sea-multispecies-gadget-model-and-ontogenetic-diet-shifts-kulatska-et-al.-2019" class="nav-link" data-scroll-target="#case-study-baltic-sea-multispecies-gadget-model-and-ontogenetic-diet-shifts-kulatska-et-al.-2019">3.2.6 Case Study: Baltic Sea Multispecies <code>Gadget</code> Model and Ontogenetic Diet Shifts (<code>Kulatska et al. 2019</code>)</a></li>
+  </ul></li>
+  <li><a href="#single-species-length-based-integrated-assessments-as-a-methodological-bridge" id="toc-single-species-length-based-integrated-assessments-as-a-methodological-bridge" class="nav-link" data-scroll-target="#single-species-length-based-integrated-assessments-as-a-methodological-bridge">3.3 Single-Species Length-Based &amp; Integrated Assessments as a Methodological Bridge</a>
+  <ul>
+  <li><a href="#multifan-cl-and-fourniers-robustified-length-frequency-likelihood" id="toc-multifan-cl-and-fourniers-robustified-length-frequency-likelihood" class="nav-link" data-scroll-target="#multifan-cl-and-fourniers-robustified-length-frequency-likelihood">3.3.1 <code>MULTIFAN-CL</code> and Fournier’s Robustified Length-Frequency Likelihood</a></li>
+  <li><a href="#stock-synthesis-ss3-age-length-kernels-and-growth-morphsplatoons" id="toc-stock-synthesis-ss3-age-length-kernels-and-growth-morphsplatoons" class="nav-link" data-scroll-target="#stock-synthesis-ss3-age-length-kernels-and-growth-morphsplatoons">3.3.2 <code>Stock Synthesis</code> (<code>SS3</code>): Age-Length Kernels and Growth Morphs/Platoons</a></li>
+  <li><a href="#pure-size-structured-assessments-and-size-transition-matrices-mathbfx_ll" id="toc-pure-size-structured-assessments-and-size-transition-matrices-mathbfx_ll" class="nav-link" data-scroll-target="#pure-size-structured-assessments-and-size-transition-matrices-mathbfx_ll">3.3.3 Pure Size-Structured Assessments and Size-Transition Matrices (<span class="math inline">\(\mathbf{X}_{l,l'}\)</span>)</a>
+  <ul class="collapse">
+  <li><a href="#parameterizing-the-size-transition-matrix-mathbfx_l-l-punt_etal_2016_estimating_growth_in_size_structured_assessments.pdf-eq.-25" id="toc-parameterizing-the-size-transition-matrix-mathbfx_l-l-punt_etal_2016_estimating_growth_in_size_structured_assessments.pdf-eq.-25" class="nav-link" data-scroll-target="#parameterizing-the-size-transition-matrix-mathbfx_l-l-punt_etal_2016_estimating_growth_in_size_structured_assessments.pdf-eq.-25">Parameterizing the Size-Transition Matrix <span class="math inline">\(\mathbf{X}_{l', l}\)</span> (Punt_etal_2016_Estimating_growth_in_size_structured_assessments.pdf, Eq. 2–5)</a></li>
+  </ul></li>
+  <li><a href="#lime-length-based-integrated-mixed-effects-for-non-equilibrium-length-data-rudd-thorson-2018" id="toc-lime-length-based-integrated-mixed-effects-for-non-equilibrium-length-data-rudd-thorson-2018" class="nav-link" data-scroll-target="#lime-length-based-integrated-mixed-effects-for-non-equilibrium-length-data-rudd-thorson-2018">3.3.4 <code>LIME</code>: Length-Based Integrated Mixed Effects for Non-Equilibrium Length Data (<code>Rudd &amp; Thorson 2018</code>)</a></li>
+  </ul></li>
+  <li><a href="#discrete-length-structured-multispecies-models-lemans-lemarns-csms-csm" id="toc-discrete-length-structured-multispecies-models-lemans-lemarns-csms-csm" class="nav-link" data-scroll-target="#discrete-length-structured-multispecies-models-lemans-lemarns-csms-csm">3.4 Discrete Length-Structured Multispecies Models (<code>LeMans</code>, <code>LeMaRns</code>, <code>CSMS</code>, <code>CSM</code>)</a>
+  <ul>
+  <li><a href="#lemans-and-lemarns-hall-et-al.-2006-thorpe-et-al.-2015-spence-et-al.-2020-2021" id="toc-lemans-and-lemarns-hall-et-al.-2006-thorpe-et-al.-2015-spence-et-al.-2020-2021" class="nav-link" data-scroll-target="#lemans-and-lemarns-hall-et-al.-2006-thorpe-et-al.-2015-spence-et-al.-2020-2021">3.4.1 <code>LeMans</code> and <code>LeMaRns</code> (Hall et al.&nbsp;2006; Thorpe et al.&nbsp;2015; Spence et al.&nbsp;2020, 2021)</a>
+  <ul class="collapse">
+  <li><a href="#mathematical-equations-of-lemarns-spence_etal_2020_lemarns_length_based_multispecies.pdf-pp.-37" id="toc-mathematical-equations-of-lemarns-spence_etal_2020_lemarns_length_based_multispecies.pdf-pp.-37" class="nav-link" data-scroll-target="#mathematical-equations-of-lemarns-spence_etal_2020_lemarns_length_based_multispecies.pdf-pp.-37">Mathematical Equations of <code>LeMaRns</code> (Spence_etal_2020_LeMaRns_length_based_multispecies.pdf, pp.&nbsp;3–7)</a></li>
+  </ul></li>
+  <li><a href="#csms-and-csm-pope-et-al.-2006-2019-moment-based-reduction-of-length-spectra" id="toc-csms-and-csm-pope-et-al.-2006-2019-moment-based-reduction-of-length-spectra" class="nav-link" data-scroll-target="#csms-and-csm-pope-et-al.-2006-2019-moment-based-reduction-of-length-spectra">3.4.2 <code>CSMS</code> and <code>CSM</code> (Pope et al.&nbsp;2006, 2019): Moment-Based Reduction of Length Spectra</a></li>
+  </ul></li>
+  </ul>
+<div class="toc-actions"><ul><li><a href="https://github.com/gustavdelius/multispecies_stock_assessment/edit/main/03_age_length_and_length_structured_models.md" class="toc-action"><i class="bi bi-github"></i>Edit this page</a></li></ul></div></nav>
+    </div>
+<!-- main -->
+<main class="content" id="quarto-document-content">
+
+<header id="title-block-header" class="quarto-title-block default">
+<div class="quarto-title">
+<h1 class="title"><span class="chapter-title">Chapter 3: Age-Length and Length-Structured Assessment Models (<code>Gadget</code>/<code>gadget3</code>, <code>SS3</code>, <code>MULTIFAN-CL</code>, <code>LeMans</code>/<code>LeMaRns</code>, <code>CSMS</code>/<code>CSM</code>)</span></h1>
+</div>
+
+
+
+<div class="quarto-title-meta">
+
+    
+  
+    
+  </div>
+  
+
+
+</header>
+
+
+<blockquote class="blockquote">
+<p><strong>Navigation</strong>: <a href="./index.html">README (Index &amp; Bibliography)</a> | <a href="./01_taxonomy_and_foundations.html">Chapter 1: Taxonomy &amp; Foundations</a> | <a href="./02_age_structured_multispecies_models.html">Chapter 2: Age-Structured Models</a> | <strong>Chapter 3</strong> | <a href="./04_size_spectrum_and_food_web_models.html">Chapter 4: Size-Spectrum &amp; Food-Web Models</a> | <a href="./05_stomach_content_data_and_likelihoods.html">Chapter 5: Stomach Content Data &amp; Likelihoods</a> | <a href="./06_statistical_fitting_uncertainty_and_mizer_synthesis.html">Chapter 6: Fitting, Uncertainty &amp; <code>mizer</code> Roadmap</a></p>
+</blockquote>
+<hr>
+<section id="why-track-length-in-addition-to-or-instead-of-age" class="level2">
+<h2 class="anchored" data-anchor-id="why-track-length-in-addition-to-or-instead-of-age">3.1 Why Track Length in Addition to (or Instead of) Age?</h2>
+<p>In marine ecosystems, nearly every ecological and fishery interaction—gape-limited predation, trawl mesh selection, gillnet dome-shaped selectivity, metabolic rate, and fecundity—is a direct physical function of <strong>body size (length <span class="math inline">\(L\)</span> or weight <span class="math inline">\(W\)</span>)</strong> rather than chronological age <span class="math inline">\(a\)</span> (<a href="https://github.com/gustavdelius/multispecies_stock_assessment/blob/main/papers/Stefansson_Palsson_1998_Structurally_detailed_statistical_models.pdf">Stefansson_Palsson_1998_Structurally_detailed_statistical_models.pdf</a>; <a href="https://github.com/gustavdelius/multispecies_stock_assessment/blob/main/papers/Punt_etal_2016_Estimating_growth_in_size_structured_assessments.pdf">Punt_etal_2016_Estimating_growth_in_size_structured_assessments.pdf</a>). Purely age-structured models (<code>MSVPA</code>, <code>SMS</code>, <code>CEATTLE</code>) suffer from three structural limitations when size-dependent processes are strong: 1. <strong>Rosa Lee’s Phenomenon (Size-Selective Mortality Within an Age Class)</strong>: When fishing or predation selectively removes the fastest-growing (or slowest-growing) individuals within an age cohort, the surviving individuals of age <span class="math inline">\(a\)</span> have a distorted length and weight distribution that cannot be represented by a fixed empirical weight-at-age <span class="math inline">\(w_{s,a,t}\)</span> (<a href="https://github.com/gustavdelius/multispecies_stock_assessment/blob/main/papers/Methot_Wetzel_2013_Stock_Synthesis.pdf">Methot_Wetzel_2013_Stock_Synthesis.pdf</a>; <a href="https://github.com/gustavdelius/multispecies_stock_assessment/blob/main/papers/Begley_Howell_2004_Overview_of_Gadget.pdf">Begley_Howell_2004_Overview_of_Gadget.pdf</a>). 2. <strong>Consumption-Driven Growth Plasticity</strong>: When forage fish collapse, predators grow more slowly in length and lose body condition (weight-at-length). A joint age-length-weight model can track both stunted length growth and starvation-induced weight loss dynamically (<a href="https://github.com/gustavdelius/multispecies_stock_assessment/blob/main/papers/Stefansson_Palsson_1998_Structurally_detailed_statistical_models.pdf">Stefansson_Palsson_1998_Structurally_detailed_statistical_models.pdf</a>). 3. <strong>Direct Observation of Length Frequencies</strong>: Measuring fish lengths at sea or port is fast and cheap, whereas reading otolith ages is expensive, prone to reader bias, and unavailable for crustaceans (shrimp, Nephrops, crabs), cephalopods, and many tropical or data-limited stocks (<a href="https://github.com/gustavdelius/multispecies_stock_assessment/blob/main/papers/Fournier_etal_1998_MULTIFAN_CL.pdf">Fournier_etal_1998_MULTIFAN_CL.pdf</a>; <a href="https://github.com/gustavdelius/multispecies_stock_assessment/blob/main/papers/Punt_etal_2016_Estimating_growth_in_size_structured_assessments.pdf">Punt_etal_2016_Estimating_growth_in_size_structured_assessments.pdf</a>).</p>
+<hr>
+</section>
+<section id="gadget-gadget2-and-gadget3-statistical-age-length-structured-multispecies-framework" class="level2">
+<h2 class="anchored" data-anchor-id="gadget-gadget2-and-gadget3-statistical-age-length-structured-multispecies-framework">3.2 <code>Gadget</code> (<code>Gadget2</code> and <code>gadget3</code>): Statistical Age-Length-Structured Multispecies Framework</h2>
+<section id="lineage-and-architecture" class="level3">
+<h3 class="anchored" data-anchor-id="lineage-and-architecture">3.2.1 Lineage and Architecture</h3>
+<p><strong>Gadget</strong> (<em>Globally Applicable Area Disaggregated General Ecosystem Toolbox</em>) evolved from two Nordic multispecies research models of the late 1980s and 1990s (<a href="https://github.com/gustavdelius/multispecies_stock_assessment/blob/main/papers/Stefansson_Palsson_1998_Structurally_detailed_statistical_models.pdf">Stefansson_Palsson_1998_Structurally_detailed_statistical_models.pdf</a>; <a href="https://github.com/gustavdelius/multispecies_stock_assessment/blob/main/papers/Begley_Howell_2004_Overview_of_Gadget.pdf">Begley_Howell_2004_Overview_of_Gadget.pdf</a>): - <strong>MULTSPEC</strong> (Bogstad, Hiis Hauge &amp; Ulltang 1997, IMR Norway): An area-, age-, and length-structured model of Barents Sea cod, capelin, herring, harp seals, and minke whales. - <strong>BORMICON</strong> (<em>Boreal Migration and Consumption model</em>; Stefánsson &amp; Pálsson 1997, MRI Iceland): A statistical multi-area age-length assessment model of Icelandic cod, capelin, and northern shrimp (<em>Pandalus borealis</em>) (<a href="https://github.com/gustavdelius/multispecies_stock_assessment/blob/main/papers/Taylor_Stefansson_2004_Gadget_cod_capelin_shrimp.pdf">Taylor_Stefansson_2004_Gadget_cod_capelin_shrimp.pdf</a>; <a href="https://github.com/gustavdelius/multispecies_stock_assessment/blob/main/papers/Taylor_etal_2004_Simple_Gadget_cod_Iceland.pdf">Taylor_etal_2004_Simple_Gadget_cod_Iceland.pdf</a>).</p>
+<p>Originally written in C++ (<code>Gadget2</code>, Begley 2004) and optimized via Hooke &amp; Jeeves pattern search, Simulated Annealing, and BFGS, the framework has recently been re-engineered as <strong><code>gadget3</code> (<code>g3</code>)</strong> (Lentz, Elvarsson et al.; <a href="https://github.com/gustavdelius/multispecies_stock_assessment/blob/main/papers/ICES_2021_WGSAM_report.pdf">ICES_2021_WGSAM_report.pdf</a>; see source code in <a href="https://github.com/gustavdelius/multispecies_stock_assessment/blob/main/papers/software_docs/gadget3_action_grow.R">gadget3_action_grow.R</a>, <a href="https://github.com/gustavdelius/multispecies_stock_assessment/blob/main/papers/software_docs/gadget3_action_predate.R">gadget3_action_predate.R</a>, <a href="https://github.com/gustavdelius/multispecies_stock_assessment/blob/main/papers/software_docs/gadget3_likelihood_distribution.R">gadget3_likelihood_distribution.R</a>), which compiles modular R model definitions directly into <strong>TMB C++ templates with exact automatic differentiation</strong>.</p>
+</section>
+<section id="state-space-tensor-n_salrt-and-w_salrt" class="level3">
+<h3 class="anchored" data-anchor-id="state-space-tensor-n_salrt-and-w_salrt">3.2.2 State-Space Tensor (<span class="math inline">\(N_{s,a,l,r,t}\)</span> and <span class="math inline">\(W_{s,a,l,r,t}\)</span>)</h3>
+<p>Gadget tracks sub-stocks <span class="math inline">\(s\)</span> (which may represent species, sex, or immature vs.&nbsp;mature life stages, e.g., immature hake vs.&nbsp;mature hake in <a href="https://github.com/gustavdelius/multispecies_stock_assessment/blob/main/papers/Bartolino_etal_2011_Gadget_hake.pdf">Bartolino_etal_2011_Gadget_hake.pdf</a>) across discrete time steps <span class="math inline">\(t\)</span> (typically monthly or quarterly, <span class="math inline">\(\Delta t = 1/12\)</span> or <span class="math inline">\(1/4\text{ yr}\)</span>), spatial areas <span class="math inline">\(r\)</span>, discrete ages <span class="math inline">\(a \in \{a_{\min}, \dots, a_{\max}\}\)</span>, and discrete length bins <span class="math inline">\(l \in \{1, \dots, n_L\}\)</span> with bin boundaries <span class="math inline">\([L_{\min, l}, L_{\max, l})\)</span> and midpoint <span class="math inline">\(L_l\)</span>.</p>
+<p>Crucially, in every <span class="math inline">\((s, a, l, r, t)\)</span> cell, Gadget tracks <strong>two coupled state variables</strong> (<a href="https://github.com/gustavdelius/multispecies_stock_assessment/blob/main/papers/Begley_Howell_2004_Overview_of_Gadget.pdf">Begley_Howell_2004_Overview_of_Gadget.pdf</a>, p.&nbsp;4; <a href="https://github.com/gustavdelius/multispecies_stock_assessment/blob/main/papers/software_docs/gadget3_action_grow.R">gadget3_action_grow.R</a>): 1. <span class="math inline">\(N_{s,a,l,r,t}\)</span>: The <strong>number of individuals</strong> in cell <span class="math inline">\((s, a, l, r)\)</span> at time <span class="math inline">\(t\)</span>. 2. <span class="math inline">\(W_{s,a,l,r,t}\)</span>: The <strong>mean body weight</strong> of individuals in cell <span class="math inline">\((s, a, l, r)\)</span> at time <span class="math inline">\(t\)</span> (which can either follow a fixed length-weight curve <span class="math inline">\(W_l = \alpha_s L_l^{\beta_s}\)</span> or vary dynamically in response to food intake and growth).</p>
+<p>Within each time step <span class="math inline">\(t\)</span>, biological and fishery processes are executed sequentially in a strict order: <span class="math display">\[\text{1. Migration } (\mathbf{M}) \longrightarrow \text{2. Predation \&amp; Fishing } (\mathbf{P}) \longrightarrow \text{3. Somatic Growth \&amp; Maturation } (\mathbf{G}) \longrightarrow \text{4. Ageing } (\mathbf{A}) \longrightarrow \text{5. Spawning \&amp; Recruitment } (\mathbf{R})\]</span></p>
+<hr>
+</section>
+<section id="somatic-growth-and-the-beta-binomial-length-transition-distribution" class="level3">
+<h3 class="anchored" data-anchor-id="somatic-growth-and-the-beta-binomial-length-transition-distribution">3.2.3 Somatic Growth and the Beta-Binomial Length-Transition Distribution</h3>
+<p>In a discrete length-bin model, somatic growth during time step <span class="math inline">\(\Delta t\)</span> must specify: 1. The <strong>mean length increment</strong> <span class="math inline">\(\Delta L_l\)</span> and <strong>mean weight increment</strong> <span class="math inline">\(\Delta W_l\)</span> of fish currently in length bin <span class="math inline">\(l\)</span>, and 2. The <strong>probability distribution</strong> <span class="math inline">\(p(\Delta j \mid l)\)</span> that a fish in length bin <span class="math inline">\(l\)</span> jumps up by <span class="math inline">\(\Delta j \in \{0, 1, \dots, \Delta j_{\max}\}\)</span> length bins during <span class="math inline">\(\Delta t\)</span>.</p>
+<section id="a.-mean-length-weight-increments-gadget3_action_grow.r" class="level4">
+<h4 class="anchored" data-anchor-id="a.-mean-length-weight-increments-gadget3_action_grow.r">A. Mean Length &amp; Weight Increments (<code>gadget3_action_grow.R</code>)</h4>
+<p>Gadget provides two classes of growth equations (<a href="https://github.com/gustavdelius/multispecies_stock_assessment/blob/main/papers/Begley_Howell_2004_Overview_of_Gadget.pdf">Begley_Howell_2004_Overview_of_Gadget.pdf</a>, pp.&nbsp;8–10; <a href="https://github.com/gustavdelius/multispecies_stock_assessment/blob/main/papers/software_docs/gadget3_action_grow.R">gadget3_action_grow.R</a>, lines 4–86):</p>
+<ol type="1">
+<li><p><strong>Consumption-Independent von Bertalanffy Growth (<code>g3a_grow_lengthvbsimple</code> / <code>g3a_grow_weightsimple</code>)</strong>: <span class="math display">\[\Delta L_l = \left(L_{\infty, s} - L_l\right)\left(1 - \exp(-\kappa_s \Delta t)\right)\]</span> <span class="math display">\[\Delta W_l = \alpha_s \left(L_l + \Delta L_l\right)^{\beta_s} - \alpha_s L_l^{\beta_s}\]</span></p></li>
+<li><p><strong>Consumption-Dependent (Two-Way Bioenergetic) Growth (<code>g3a_grow_length_multspec</code> and <code>g3a_grow_weight_weightjones</code>)</strong>: Let <span class="math inline">\(\psi_{s,l,r,t} \in [0, 1]\)</span> be the predator’s realized <strong>feeding level</strong> in length bin <span class="math inline">\(l\)</span> during time step <span class="math inline">\(t\)</span> (ratio of actual biomass consumed to maximum possible consumption <span class="math inline">\(M_{s,l,t}\)</span>; see Section 3.2.4), and let <span class="math inline">\(T_{r,t}\)</span> be ambient temperature.</p>
+<ul>
+<li><strong>MULTSPEC Length &amp; Weight Increment (<code>g3a_grow_length_multspec</code> / <code>g3a_grow_weight_multspec</code>)</strong>: <span class="math display">\[\Delta L_l = \Delta t \cdot p_{0,s} \, L_l^{p_{1,s}} \, \psi_{s,l,r,t} \left(p_{2,s} T_{r,t} + p_{3,s}\right)\]</span> <span class="math display">\[\Delta W_l = \Delta t \cdot q_{0,s} \, W_{s,a,l}^{q_{1,s}} \left(\psi_{s,l,r,t} - q_{2,s}\right)\left(q_{3,s} T_{r,t} + q_{4,s}\right)\]</span> where <span class="math inline">\(q_{2,s}\)</span> is the maintenance feeding level below which fish <strong>lose weight</strong> (<span class="math inline">\(\Delta W_l &lt; 0\)</span>, while <span class="math inline">\(\Delta L_l \ge 0\)</span> since fish skeletons do not shrink!).</li>
+<li><strong>Jones (1976) Bioenergetic Weight Increment (<code>g3a_grow_weight_weightjones</code>)</strong>: <span class="math display">\[\Delta W_l = \frac{\Delta t \left( \frac{C_{s,l,t}}{\Delta t} - r_{0,s} W_{s,a,l}^{r_{1,s}} \exp(r_{2,s} T_{r,t}) \right)}{r_{3,s}}\]</span> Couple to length growth via a condition-factor feedback function <span class="math inline">\(f(\delta W_l)\)</span> that suppresses length growth <span class="math inline">\(\Delta L_l\)</span> whenever actual body weight <span class="math inline">\(W_{s,a,l}\)</span> falls below reference weight <span class="math inline">\(W_{\text{ref}, l} = \alpha_s L_l^{\beta_s}\)</span> (<a href="https://github.com/gustavdelius/multispecies_stock_assessment/blob/main/papers/Begley_Howell_2004_Overview_of_Gadget.pdf">Begley_Howell_2004_Overview_of_Gadget.pdf</a>, p.&nbsp;9; <a href="https://github.com/gustavdelius/multispecies_stock_assessment/blob/main/papers/software_docs/gadget3_action_grow.R">gadget3_action_grow.R</a>, lines 42–71).</li>
+</ul></li>
+</ol>
+</section>
+<section id="b.-the-beta-binomial-length-bin-jump-distribution-g3a_grow_impl_bbinom" class="level4">
+<h4 class="anchored" data-anchor-id="b.-the-beta-binomial-length-bin-jump-distribution-g3a_grow_impl_bbinom">B. The Beta-Binomial Length-Bin Jump Distribution (<code>g3a_grow_impl_bbinom</code>)</h4>
+<p>Once the mean length increment <span class="math inline">\(\Delta L_l\)</span> is computed (and normalized by the bin width <span class="math inline">\(\delta L\)</span> to give mean bin growth <span class="math inline">\(\mu_l = \Delta L_l / \delta L\)</span>), Gadget distributes growing individuals across integer bin jumps <span class="math inline">\(\Delta j \in \{0, 1, \dots, n_{\max}\}\)</span> using a <strong>Beta-Binomial distribution</strong> (<a href="https://github.com/gustavdelius/multispecies_stock_assessment/blob/main/papers/Stefansson_Palsson_1998_Structurally_detailed_statistical_models.pdf">Stefansson_Palsson_1998_Structurally_detailed_statistical_models.pdf</a>; <a href="https://github.com/gustavdelius/multispecies_stock_assessment/blob/main/papers/Taylor_etal_2004_Simple_Gadget_cod_Iceland.pdf">Taylor_etal_2004_Simple_Gadget_cod_Iceland.pdf</a>, Eq. 5; <a href="https://github.com/gustavdelius/multispecies_stock_assessment/blob/main/papers/software_docs/gadget3_action_grow.R">gadget3_action_grow.R</a>, lines 91–133):</p>
+<p>Given: - <span class="math inline">\(n_{\max}\)</span>: Maximum allowed number of length-bin jumps in a single time step <span class="math inline">\(\Delta t\)</span>, - <span class="math inline">\(\mu_l = \frac{\Delta L_l}{\delta L} \in [0, n_{\max}]\)</span>: Expected number of bin jumps, - <span class="math inline">\(\beta_s &gt; 0\)</span>: Single free dispersion parameter controlling variance in individual growth rates,</p>
+<p>define <span class="math inline">\(\alpha_l\)</span> via the mean constraint <span class="math inline">\(\mu_l = \frac{n_{\max} \alpha_l}{\alpha_l + \beta_s}\)</span>: <span class="math display">\[\alpha_l = \frac{\beta_s \, \mu_l}{n_{\max} - \mu_l}\]</span> Then the probability <span class="math inline">\(G_{l, l + \Delta j} = \Pr(\text{Jump} = \Delta j \mid l)\)</span> of growing by <span class="math inline">\(\Delta j \in \{0, 1, \dots, n_{\max}\}\)</span> bins in <span class="math inline">\(\Delta t\)</span> is:</p>
+<p><span class="math display">\[G_{l, l + \Delta j} = \binom{n_{\max}}{\Delta j} \frac{\text{B}(\Delta j + \alpha_l,\; n_{\max} - \Delta j + \beta_s)}{\text{B}(\alpha_l, \beta_s)} = \frac{\Gamma(n_{\max} + 1)}{\Gamma(\Delta j + 1)\Gamma(n_{\max} - \Delta j + 1)} \frac{\Gamma(\alpha_l + \beta_s)}{\Gamma(n_{\max} + \alpha_l + \beta_s)} \frac{\Gamma(\Delta j + \alpha_l)\Gamma(n_{\max} - \Delta j + \beta_s)}{\Gamma(\alpha_l)\Gamma(\beta_s)}\]</span></p>
+<p>In <code>gadget3</code> (<a href="https://github.com/gustavdelius/multispecies_stock_assessment/blob/main/papers/software_docs/gadget3_action_grow.R">gadget3_action_grow.R</a>, lines 105–123), this is evaluated efficiently via an exact forward recurrence relation in <span class="math inline">\(\Delta j\)</span> so that no <code>lgamma</code> calls are needed inside the inner loop, and both cohort numbers <span class="math inline">\(N_{s,a,l'}\)</span> and cell mean weights <span class="math inline">\(W_{s,a,l'}\)</span> are updated cleanly via matrix multiplication: <span class="math display">\[N_{s,a,l',t+\Delta t} = \sum_{\Delta j = 0}^{n_{\max}} G_{l' - \Delta j, l'} \, N_{s,a,l'-\Delta j, t}, \qquad (NW)_{s,a,l',t+\Delta t} = \sum_{\Delta j = 0}^{n_{\max}} G_{l' - \Delta j, l'} \, N_{s,a,l'-\Delta j, t} \left(W_{s,a,l'-\Delta j, t} + \Delta W_{l'-\Delta j, \Delta j}\right)\]</span></p>
+<blockquote class="blockquote">
+<p>[!TIP] <strong>Why the Beta-Binomial Growth Implementation is a Major Lesson for <code>mizer</code></strong>: With <strong>only one extra parameter (<span class="math inline">\(\beta_s\)</span>)</strong> beyond the deterministic growth rate <span class="math inline">\(\Delta L_l\)</span>, <code>g3a_grow_impl_bbinom</code> generates realistic, strictly non-negative, bounded discrete-bin dispersion around the mean growth trajectory, completely eliminating the numerical vs.&nbsp;biological diffusion problem of deterministic first-order PDE schemes while remaining <span class="math inline">\(C^\infty\)</span>-differentiable in TMB!</p>
+</blockquote>
+<hr>
+</section>
+</section>
+<section id="predation-functional-response-and-overconsumption-protection-gadget3_action_predate.r" class="level3">
+<h3 class="anchored" data-anchor-id="predation-functional-response-and-overconsumption-protection-gadget3_action_predate.r">3.2.4 Predation, Functional Response, and Overconsumption Protection (<code>gadget3_action_predate.R</code>)</h3>
+<p>In Gadget, both <strong>commercial/survey fishing fleets</strong> and <strong>biological predators</strong> are unified under a single mathematical abstraction (<code>g3a_predate</code> in <a href="https://github.com/gustavdelius/multispecies_stock_assessment/blob/main/papers/software_docs/gadget3_action_predate.R">gadget3_action_predate.R</a>).</p>
+<p>For a biological predator <span class="math inline">\(p\)</span> in length group <span class="math inline">\(L\)</span> preying on prey stock <span class="math inline">\(i\)</span> in length group <span class="math inline">\(l\)</span> (<a href="https://github.com/gustavdelius/multispecies_stock_assessment/blob/main/papers/Begley_Howell_2004_Overview_of_Gadget.pdf">Begley_Howell_2004_Overview_of_Gadget.pdf</a>, pp.&nbsp;13–15; <a href="https://github.com/gustavdelius/multispecies_stock_assessment/blob/main/papers/Taylor_Stefansson_2004_Gadget_cod_capelin_shrimp.pdf">Taylor_Stefansson_2004_Gadget_cod_capelin_shrimp.pdf</a>, Eq. 7–11; <a href="https://github.com/gustavdelius/multispecies_stock_assessment/blob/main/papers/software_docs/gadget3_action_predate.R">gadget3_action_predate.R</a>, lines 161–244):</p>
+<ol type="1">
+<li><p><strong>Predator-Prey Length Suitability (<span class="math inline">\(S_{p,i}(L, l)\)</span>)</strong>: Gadget offers several parametric suitability functions of predator length <span class="math inline">\(L\)</span> and prey length <span class="math inline">\(l\)</span>, most commonly:</p>
+<ul>
+<li><strong>Andersen &amp; Ursin Log-Ratio Suitability (<code>g3_suitability_andersen</code>)</strong>: <span class="math display">\[S_{p,i}(L, l) = p_0 + p_2 \exp\!\left(-\frac{\left(\ln\frac{L}{l} - p_1\right)^2}{p_3 \text{ (or } p_4\text{)}}\right)\]</span></li>
+<li><strong>Richards / Asymmetric Logistic Suitability (<code>g3_suitability_richards</code>)</strong>: <span class="math display">\[S_{p,i}(L, l) = \left(\frac{p_3}{1 + \exp(-p_0 - p_1 l - p_2 L)}\right)^{1/p_4}\]</span></li>
+</ul></li>
+<li><p><strong>Maximum Possible Consumption (<span class="math inline">\(M_{p,L,t}\)</span>, <code>g3a_predate_maxconsumption</code>)</strong>: The maximum biomass a single predator of length <span class="math inline">\(L\)</span> can consume in time step <span class="math inline">\(\Delta t\)</span> at temperature <span class="math inline">\(T_t\)</span> is: <span class="math display">\[M_{p,L,t} = \Delta t \cdot m_{0,p} \, L^{m_{1,p}} \exp\!\left(m_{2,p} T_t - m_{3,p} T_t^3\right)\]</span></p></li>
+<li><p><strong>Desired Consumption and Holling Type II/III Functional Response (<code>g3a_predate_catchability_predator</code>)</strong>: Let <span class="math inline">\(B_{i,l,t} = N_{i,l,t} W_{i,l,t}\)</span> be the available prey biomass of <span class="math inline">\((i, l)\)</span>, and let the suitability-weighted prey energy/biomass be: <span class="math display">\[E_{p,L,i,l,t} = \left(S_{p,i}(L, l) \, \mathcal{E}_i \, N_{i,l,t} \, W_{i,l,t}\right)^{d_{i}}\]</span> where <span class="math inline">\(d_i = 1\)</span> yields a <strong>Holling Type II</strong> functional response and <span class="math inline">\(d_i &gt; 1\)</span> yields a <strong>Holling Type III (prey-switching)</strong> functional response. The predator’s <strong>feeding level</strong> <span class="math inline">\(\psi_{p,L,t} \in [0, 1]\)</span> is given by the half-saturation parameter <span class="math inline">\(H_p\)</span>: <span class="math display">\[\psi_{p,L,t} = \frac{\sum_{i,l} E_{p,L,i,l,t}}{\sum_{i,l} E_{p,L,i,l,t} + H_p \, \Delta t + E_{\text{other}, p}}\]</span> and the total desired consumption <span class="math inline">\(C^{\text{des}}_{p,L,i,l,t}\)</span> of prey <span class="math inline">\((i, l)\)</span> by all <span class="math inline">\(N_{p,L,t}\)</span> predators in length group <span class="math inline">\(L\)</span> is: <span class="math display">\[C^{\text{des}}_{p,L,i,l,t} = N_{p,L,t} \, M_{p,L,t} \, \psi_{p,L,t} \, \frac{E_{p,L,i,l,t}}{\sum_{k,m} E_{p,L,k,m,t} + E_{\text{other}, p}}\]</span></p></li>
+<li><p><strong>Differentiable Overconsumption Cap and Understocking Penalty</strong>: During optimization, parameter trial values may cause total desired consumption across all predators and fleets <span class="math inline">\(D_{i,l,t} = \sum_{p,L} C^{\text{des}}_{p,L,i,l,t} + \sum_{f} C^{\text{des}}_{f,i,l,t}\)</span> to exceed the available prey biomass <span class="math inline">\(B_{i,l,t} = N_{i,l,t} W_{i,l,t}\)</span>. In <code>gadget3</code> (<a href="https://github.com/gustavdelius/multispecies_stock_assessment/blob/main/papers/software_docs/gadget3_action_predate.R">gadget3_action_predate.R</a>, lines 86–98), total consumption is smoothly capped at <span class="math inline">\(95\%\)</span> of available biomass (<span class="math inline">\(0.95 B_{i,l,t}\)</span>) using a differentiable logistic minimum function (<code>dif_pmin</code>), scaling each predator’s actual consumption down proportionally: <span class="math display">\[C^{\text{act}}_{p,L,i,l,t} = C^{\text{des}}_{p,L,i,l,t} \cdot \text{dif\_pmin}\!\left(1,\; \frac{0.95 \, B_{i,l,t}}{D_{i,l,t}}\right)\]</span> Simultaneously, any “unmet demand” (understocking <span class="math inline">\(U_{i,l,t} = \max(0, D_{i,l,t} - 0.95 B_{i,l,t})\)</span>) adds a smooth quadratic penalty <span class="math inline">\(\ell_{\text{understock}} = w_U \sum_{i,l,t} U_{i,l,t}^p\)</span> to the objective function, guiding the gradient optimizer away from biologically infeasible regions where prey stocks are driven negative.</p></li>
+</ol>
+<hr>
+</section>
+<section id="composite-likelihoods-and-two-stage-iterative-reweighting-in-gadget" class="level3">
+<h3 class="anchored" data-anchor-id="composite-likelihoods-and-two-stage-iterative-reweighting-in-gadget">3.2.5 Composite Likelihoods and Two-Stage Iterative Reweighting in <code>Gadget</code></h3>
+<p>Gadget fits simultaneously to arbitrary combinations of raw, unaggregated observations (<a href="https://github.com/gustavdelius/multispecies_stock_assessment/blob/main/papers/Begley_Howell_2004_Overview_of_Gadget.pdf">Begley_Howell_2004_Overview_of_Gadget.pdf</a>, pp.&nbsp;18–23; <a href="https://github.com/gustavdelius/multispecies_stock_assessment/blob/main/papers/software_docs/gadget3_likelihood_distribution.R">gadget3_likelihood_distribution.R</a>): 1. <strong>Survey Abundance Indices (<code>g3l_distribution_surveyindices_log</code> / <code>linear</code>)</strong>: <span class="math display">\[\ell_{\text{index}} = \sum_{t} \left(\ln I_{t} - \left(\alpha + \beta \ln \hat{I}_{t}\right)\right)^2\]</span> where <span class="math inline">\(\alpha = \ln q\)</span> is log catchability and <span class="math inline">\(\beta\)</span> is either fixed at <span class="math inline">\(1\)</span> (linear proportionality) or estimated (hyperstability/hyperdepletion). 2. <strong>Length-Frequency &amp; Age-Length Compositions (<code>g3l_distribution_sumofsquares</code>, <code>multinomial</code>, <code>mvlogistic</code>)</strong>: - <em>Sum of Squares of Proportions</em>: <span class="math inline">\(\ell_{\text{SS}} = \sum_{t,a,l} \left(\pi_{t,a,l} - \hat{\pi}_{t,a,l}\right)^2\)</span>, where <span class="math inline">\(\pi_{t,a,l} = N^{\text{obs}}_{t,a,l} / \sum_{a',l'} N^{\text{obs}}_{t,a',l'}\)</span>. - <em>Multinomial</em>: <span class="math inline">\(\ell_{\text{mult}} = 2 \sum_{t} \left[\ln\Gamma(N_t + 1) - \sum_{a,l} \ln\Gamma(N^{\text{obs}}_{t,a,l} + 1) + \sum_{a,l} N^{\text{obs}}_{t,a,l} \ln \hat{\pi}_{t,a,l}\right]\)</span>. 3. <strong>Stomach Content Proportions (<code>StomachContent</code> / <code>g3l_distribution_sumofsquares</code>)</strong>: Compares observed prey species/length weight ratios <span class="math inline">\(W^{\text{obs}}_{p,L,i,l,t}\)</span> in predator <span class="math inline">\((p, L)\)</span> stomachs against model-predicted consumption fractions: <span class="math display">\[\hat{W}_{p,L,i,l,t} = \frac{C^{\text{act}}_{p,L,i,l,t}}{\sum_{k,m} C^{\text{act}}_{p,L,k,m,t}}\]</span></p>
+<section id="stefánssons-1998-two-stage-iterative-likelihood-reweighting" class="level4">
+<h4 class="anchored" data-anchor-id="stefánssons-1998-two-stage-iterative-likelihood-reweighting">Stefánsson’s (1998) Two-Stage Iterative Likelihood Reweighting</h4>
+<p>Because a typical Gadget model combines <span class="math inline">\(10\text{--}30\)</span> disparate likelihood components <span class="math inline">\(\ell_c\)</span> (<span class="math inline">\(c = 1, \dots, C\)</span>) with different units and sample sizes, Stefánsson (<a href="https://github.com/gustavdelius/multispecies_stock_assessment/blob/main/papers/Stefansson_Palsson_1998_Structurally_detailed_statistical_models.pdf">Stefansson_Palsson_1998_Structurally_detailed_statistical_models.pdf</a>) and Taylor et al.&nbsp;(<a href="https://github.com/gustavdelius/multispecies_stock_assessment/blob/main/papers/Taylor_etal_2004_Simple_Gadget_cod_Iceland.pdf">Taylor_etal_2004_Simple_Gadget_cod_Iceland.pdf</a>) developed an objective two-stage reweighting procedure (<code>gadget.iterative</code>): 1. <strong>Stage 1 (Independent Component Minima)</strong>: For each likelihood group <span class="math inline">\(g\)</span>, run an optimization assigning a very high weight to group <span class="math inline">\(g\)</span> to determine the minimum achievable residual sum of squares <span class="math inline">\(\ell_g^*\)</span> (representing the intrinsic observation variance <span class="math inline">\(\hat{\sigma}_g^2 = \ell_g^* / \text{df}_g\)</span> of dataset <span class="math inline">\(g\)</span> without model-conflict bias). 2. <strong>Stage 2 (Inverse-Variance Weighting)</strong>: Set the weight <span class="math inline">\(w_g\)</span> of each likelihood component equal to its inverse estimated variance: <span class="math display">\[w_g = \frac{\text{df}_g}{\ell_g^*}\]</span> so that in the final joint optimization <span class="math inline">\(\mathcal{L}_{\text{tot}} = \sum_{g} w_g \ell_g(\boldsymbol{\theta})\)</span>, every well-specified likelihood component has an expected weighted score of <span class="math inline">\(\approx \text{df}_g\)</span> (chi-square degrees of freedom).</p>
+<hr>
+</section>
+</section>
+<section id="case-study-baltic-sea-multispecies-gadget-model-and-ontogenetic-diet-shifts-kulatska-et-al.-2019" class="level3">
+<h3 class="anchored" data-anchor-id="case-study-baltic-sea-multispecies-gadget-model-and-ontogenetic-diet-shifts-kulatska-et-al.-2019">3.2.6 Case Study: Baltic Sea Multispecies <code>Gadget</code> Model and Ontogenetic Diet Shifts (<code>Kulatska et al. 2019</code>)</h3>
+<p>Kulatska, Neuenfeldt, Beier, Elvarsson, Wennhage, Stefánsson &amp; Bartolino (<a href="https://github.com/gustavdelius/multispecies_stock_assessment/blob/main/papers/Kulatska_etal_2019_Gadget_Baltic_cod_diet.pdf">Kulatska_etal_2019_Gadget_Baltic_cod_diet.pdf</a>) constructed a quarterly (1974–2013) age-length multispecies <code>Gadget</code> model (using <code>Rgadget</code> and the Marine Fisheries Database <code>MFDB</code>) for the Baltic Sea (ICES Subdivisions 25–32), providing a template for how benthic and pelagic prey functional groups are parameterized in a length-structured assessment:</p>
+<ol type="1">
+<li><p><strong>Dynamic Fish Stocks vs.&nbsp;Constant-Biomass Invertebrate Pools</strong>: Eastern Baltic cod (<em>Gadus morhua</em>, split into juvenile substock ages 0–1, <span class="math inline">\(4\text{--}35\text{ cm}\)</span> and adult substock ages 2–12+, <span class="math inline">\(10\text{--}120\text{ cm}\)</span> at <span class="math inline">\(1\text{ cm}\)</span> resolution) is modeled as the active predator on two dynamic pelagic clupeid stocks—Central Baltic herring (<em>Clupea harengus</em>, ages 0–10+, <span class="math inline">\(3.5\text{--}32\text{ cm}\)</span>) and Baltic sprat (<em>Sprattus sprattus</em>, ages 0–8+, <span class="math inline">\(3\text{--}17\text{ cm}\)</span>)—plus three constant-biomass benthic/invertebrate prey pools: the benthic isopod <em>Saduria entomon</em> (<span class="math inline">\(0.5\text{--}9\text{ cm}\)</span>), pelagic/hyperbenthic mysids (<em>Mysis mixta</em>, <span class="math inline">\(0.5\text{--}3\text{ cm}\)</span>), and “other food”.</p></li>
+<li><p><strong>Empirical Identification of Ontogenetic Predator Size Classes via Bray–Curtis Clustering</strong>: Rather than choosing arbitrary predator length bins for the stomach likelihood (<code>StomachContent</code>), Kulatska et al.&nbsp;(<a href="https://github.com/gustavdelius/multispecies_stock_assessment/blob/main/papers/Kulatska_etal_2019_Gadget_Baltic_cod_diet.pdf">Kulatska_etal_2019_Gadget_Baltic_cod_diet.pdf</a>, Section 2.3.1, p.&nbsp;341) applied hierarchical cluster analysis with <strong>Bray–Curtis dissimilarity</strong> (<span class="math inline">\(\text{BC} \ge 0.2\)</span> threshold) to <span class="math inline">\(1974\text{--}2013\)</span> EU/ICES Baltic cod stomach records (Quarters 1 and 4, using only digestion stages 1–2 and excluding stage 0 intact prey to eliminate trawl-net feeding!), identifying <strong>five ontogenetic cod diet regimes</strong>: <span class="math display">\[L_{\text{cod}} \in \big\{[16, 25),\; [25, 35),\; [35, 60),\; [60, 80),\; [80, 112]\text{ cm}\big\}\]</span> reflecting the ontogenetic transition from mysids and <em>Saduria</em> (<span class="math inline">\(&lt;25\text{ cm}\)</span>) to sprat (<span class="math inline">\(25\text{--}60\text{ cm}\)</span>) and large herring (<span class="math inline">\(&gt;60\text{ cm}\)</span>).</p></li>
+<li><p><strong>Prey-Specific Suitability Functions (<span class="math inline">\(S(L, l)\)</span>) and Evacuation Ration (<span class="math inline">\(M_L\)</span>)</strong>:</p>
+<ul>
+<li><strong>Size-Structured Prey (Herring, Sprat, and <em>Saduria entomon</em>)</strong>: Modeled via the symmetric Andersen–Ursin logarithmic length-ratio suitability curve (<a href="https://github.com/gustavdelius/multispecies_stock_assessment/blob/main/papers/Kulatska_etal_2019_Gadget_Baltic_cod_diet.pdf">Kulatska_etal_2019_Gadget_Baltic_cod_diet.pdf</a>, Eq. 4, p.&nbsp;340): <span class="math display">\[S_{\text{prey}}(L, l) = p_0 + p_2 \exp\!\left(-\frac{\left(\ln\frac{L}{l} - p_1\right)^2}{p_3}\right)\]</span> yielding optimal prey lengths <span class="math inline">\(l^* = L e^{-p_1}\)</span> equal to <strong><span class="math inline">\(19\%\)</span> of cod length for sprat</strong> and <strong><span class="math inline">\(28\%\)</span> of cod length for herring</strong>.</li>
+<li><strong>Mysids (<em>Mysis mixta</em>)</strong>: Because mysids span a narrow size range (<span class="math inline">\(0.5\text{--}3\text{ cm}\)</span>) eaten primarily by juvenile cod, suitability is parameterized as a decreasing exponential function of predator length <span class="math inline">\(L\)</span> alone: <span class="math display">\[S_{\text{mysid}}(L) = \frac{\gamma}{1 + \exp(-\alpha - \beta L)}\]</span></li>
+<li><strong>Maximum Consumption Rate (<span class="math inline">\(M_L\)</span>)</strong>: Estimated externally from observed stomach content weights <span class="math inline">\(S_k\)</span> (including empty stomachs) via the Jones (1978) evacuation rate model, yielding the quarterly allometric ration: <span class="math display">\[M_L = \Delta t_{\text{days}} \cdot m_0 \, L^{m_1}, \qquad m_0 = 3.167 \times 10^{-4}\text{ kg}\cdot\text{d}^{-1}\cdot\text{cm}^{-m_1},\quad m_1 = 2.66\]</span></li>
+</ul></li>
+<li><p><strong>Diagnosing Regime Shifts and Spatial Mismatch (<code>Kulatska et al. 2019</code>, pp.&nbsp;343–347)</strong>: Optimized across 21 likelihood components using Simulated Annealing <span class="math inline">\(\to\)</span> Hooke &amp; Jeeves <span class="math inline">\(\to\)</span> BFGS with Stefánsson (2003) / Taylor et al.&nbsp;(2007) iterative inverse-variance reweighting, the model accurately captured both ontogenetic diet shifts and interdecadal clupeid switches during <span class="math inline">\(1974\text{--}1988\)</span> (Bray–Curtis dissimilarity <span class="math inline">\(0.08\text{--}0.28\)</span>), but exhibited higher diet residuals in <span class="math inline">\(2007\text{--}2013\)</span> (<span class="math inline">\(\text{BC} = 0.24\text{--}0.52\)</span>). Kulatska et al.&nbsp;showed that this residual pattern was diagnostic of two unmodeled physical processes in the recent Baltic regime: (a) expanding bottom hypoxia decimating benthic <em>Saduria entomon</em> biomass, and (b) <strong>spatial predator–prey mismatch</strong> (Eastern Baltic cod contracting southwestward into ICES SD 25 while sprat and herring shifted northeastward into SD 28–32).</p></li>
+</ol>
+<hr>
+</section>
+</section>
+<section id="single-species-length-based-integrated-assessments-as-a-methodological-bridge" class="level2">
+<h2 class="anchored" data-anchor-id="single-species-length-based-integrated-assessments-as-a-methodological-bridge">3.3 Single-Species Length-Based &amp; Integrated Assessments as a Methodological Bridge</h2>
+<p>Single-species integrated assessment models (<code>MULTIFAN-CL</code>, <code>Stock Synthesis</code> SS3, and pure size-structured models reviewed by <a href="https://github.com/gustavdelius/multispecies_stock_assessment/blob/main/papers/Punt_etal_2016_Estimating_growth_in_size_structured_assessments.pdf">Punt_etal_2016_Estimating_growth_in_size_structured_assessments.pdf</a>) solved several fundamental statistical problems in fitting length-composition data that are directly applicable to size-spectrum models like <code>mizer</code>.</p>
+<section id="multifan-cl-and-fourniers-robustified-length-frequency-likelihood" class="level3">
+<h3 class="anchored" data-anchor-id="multifan-cl-and-fourniers-robustified-length-frequency-likelihood">3.3.1 <code>MULTIFAN-CL</code> and Fournier’s Robustified Length-Frequency Likelihood</h3>
+<p>Developed by David Fournier, John Hampton, and John Sibert (<a href="https://github.com/gustavdelius/multispecies_stock_assessment/blob/main/papers/Fournier_etal_1998_MULTIFAN_CL.pdf">Fournier_etal_1998_MULTIFAN_CL.pdf</a>) for Western and Central Pacific tuna assessments, <strong>MULTIFAN-CL</strong> was the first large-scale ADMB integrated model to estimate age-structured dynamics directly from length-frequency data.</p>
+<ol type="1">
+<li><p><strong>Length-at-Age Mixture Model</strong>: At any time <span class="math inline">\(t\)</span>, the lengths of fish in age class <span class="math inline">\(a \in \{1, \dots, A\}\)</span> are assumed normally distributed with mean <span class="math inline">\(\mu_{a,t}\)</span> (following a von Bertalanffy curve with seasonal oscillations and cohort-specific growth deviations) and standard deviation <span class="math inline">\(\sigma_a\)</span> (scaling linearly with mean length): <span class="math display">\[\sigma_a = \sigma_1 \exp\!\left(\lambda_{\sigma} \left(\frac{\mu_a - \mu_1}{\mu_A - \mu_1}\right)\right)\]</span> Crucially, fishery selectivity <span class="math inline">\(s_{f,a}\)</span> is parameterized as a smooth cubic-spline function of <strong>mean length</strong> <span class="math inline">\(\mu_a\)</span> rather than age (<code>length-dependent selectivity</code>), reducing the number of selectivity parameters and linking cohorts across growth variations.</p></li>
+<li><p><strong>Fournier’s Robustified Normal Likelihood for Length Compositions</strong>: Standard multinomial likelihoods <span class="math inline">\(\sum_l \tilde{P}_l \ln P_l\)</span> are notoriously sensitive to <strong>outliers in the tails</strong> (a single large fish caught in a bin where <span class="math inline">\(\hat{P}_l = 10^{-6}\)</span> creates a massive log-likelihood penalty) and <strong>overdispersion from schooling</strong> (fish of similar sizes school together, so haul length samples have much smaller effective sample size <span class="math inline">\(\tau_t\)</span> than the number of fish measured). Fournier et al.&nbsp;(<a href="https://github.com/gustavdelius/multispecies_stock_assessment/blob/main/papers/Fournier_etal_1998_MULTIFAN_CL.pdf">Fournier_etal_1998_MULTIFAN_CL.pdf</a>, Eq. 3.6) derived the <strong>robustified normal likelihood</strong> for observed length proportions <span class="math inline">\(\tilde{p}_{f,t,l}\)</span> vs.&nbsp;predicted proportions <span class="math inline">\(\hat{p}_{f,t,l}\)</span> across <span class="math inline">\(L\)</span> length bins:</p>
+<p><span class="math display">\[\ln L_{\text{MFCL}} = -\frac{1}{2} \sum_{f,t} \sum_{l=1}^{L} \ln\!\left(2\pi \left(\xi_{f,t,l} + \frac{0.1}{L}\right)\right) + \sum_{f,t} \sum_{l=1}^{L} \ln\!\left[ \exp\!\left(-\frac{\left(\tilde{p}_{f,t,l} - \hat{p}_{f,t,l}\right)^2}{2\left(\xi_{f,t,l} + \frac{0.1}{L}\right) / \tau_{f,t}}\right) + 0.01 \right]\]</span></p>
+<p>where <span class="math inline">\(\xi_{f,t,l} = (1 - \tilde{p}_{f,t,l})\tilde{p}_{f,t,l}\)</span>, <span class="math inline">\(\tau_{f,t} = \min(N_{\text{fish}, f, t}, 1000)\)</span> is the effective sample size, <span class="math inline">\(+ \frac{0.1}{L}\)</span> prevents the variance from vanishing in bins where <span class="math inline">\(\tilde{p}_{f,t,l} \approx 0\)</span> so empty tail bins do not dominate the variance weight, and <span class="math inline">\(+ 0.01\)</span> inside the logarithm <strong>caps the maximum penalty of any single outlier bin at <span class="math inline">\(\ln(0.01) \approx -4.605\)</span></strong> (equivalent to a <span class="math inline">\(3\sigma\)</span> normal residual!).</p></li>
+</ol>
+</section>
+<section id="stock-synthesis-ss3-age-length-kernels-and-growth-morphsplatoons" class="level3">
+<h3 class="anchored" data-anchor-id="stock-synthesis-ss3-age-length-kernels-and-growth-morphsplatoons">3.3.2 <code>Stock Synthesis</code> (<code>SS3</code>): Age-Length Kernels and Growth Morphs/Platoons</h3>
+<p>In <strong>Stock Synthesis</strong> (<a href="https://github.com/gustavdelius/multispecies_stock_assessment/blob/main/papers/Methot_Wetzel_2013_Stock_Synthesis.pdf">Methot_Wetzel_2013_Stock_Synthesis.pdf</a>, pp.&nbsp;86–90), population numbers <span class="math inline">\(N_{t,g,a}\)</span> are tracked by age <span class="math inline">\(a\)</span> and growth morph/platoon <span class="math inline">\(g\)</span>, and mapped at every time step to discrete population length bins <span class="math inline">\(l \in \{1, \dots, n_L\}\)</span> via an <strong>age-length transition matrix</strong> <span class="math inline">\(\varphi_{l, g, a}\)</span>:</p>
+<p><span class="math display">\[\varphi_{l, g, a} = \Phi\!\left(\frac{L_{\max, l} - \tilde{L}_{g,a}}{\sigma_{g,a}}\right) - \Phi\!\left(\frac{L_{\min, l} - \tilde{L}_{g,a}}{\sigma_{g,a}}\right)\]</span></p>
+<p>where <span class="math inline">\(\Phi(\cdot)\)</span> is the standard normal CDF, <span class="math inline">\(\tilde{L}_{g,a}\)</span> is the mean length at exact mid-season age for morph <span class="math inline">\(g\)</span>, and <span class="math inline">\(\sigma_{g,a}\)</span> is its standard deviation. - <strong>Combined Age- and Length-Specific Selectivity</strong>: For fleet <span class="math inline">\(f\)</span> with age selectivity <span class="math inline">\(S^{(A)}_{f,a}\)</span> and length selectivity <span class="math inline">\(S^{(L)}_{f,l}\)</span>, the effective survival and catch-at-age are integrated over the length distribution within each age class (<a href="https://github.com/gustavdelius/multispecies_stock_assessment/blob/main/papers/Methot_Wetzel_2013_Stock_Synthesis.pdf">Methot_Wetzel_2013_Stock_Synthesis.pdf</a>, Eq. A.1.24): <span class="math display">\[F_{t,f,g,a} = E_{t,f} \, S^{(A)}_{f,a} \sum_{l=1}^{n_L} \varphi_{l,g,a} \, S^{(L)}_{f,l}\]</span> - <strong>Capturing Rosa Lee’s Phenomenon via Platoons</strong>: To prevent the assumption that the normal length distribution <span class="math inline">\(\varphi_{l,g,a}\)</span> resets every year regardless of size-selective fishing on the right tail of the cohort, SS3 splits each recruiting cohort into <span class="math inline">\(3\)</span> or <span class="math inline">\(5\)</span> <strong>growth platoons</strong> <span class="math inline">\(g\)</span> (slow, medium-slow, average, medium-fast, fast growers with initial Gaussian weights). Because fast-growing platoons enter the length-selective fishery earlier, they are depleted faster (<span class="math inline">\(F_{t,f,\text{fast},a} &gt; F_{t,f,\text{slow},a}\)</span>), naturally shifting the surviving cohort’s mean length downward!</p>
+</section>
+<section id="pure-size-structured-assessments-and-size-transition-matrices-mathbfx_ll" class="level3">
+<h3 class="anchored" data-anchor-id="pure-size-structured-assessments-and-size-transition-matrices-mathbfx_ll">3.3.3 Pure Size-Structured Assessments and Size-Transition Matrices (<span class="math inline">\(\mathbf{X}_{l,l'}\)</span>)</h3>
+<p>In his comprehensive review of size-structured stock assessments (used worldwide for lobsters, crabs, abalone, scallops, prawns, and tropical finfish), Punt et al.&nbsp;(<a href="https://github.com/gustavdelius/multispecies_stock_assessment/blob/main/papers/Punt_etal_2016_Estimating_growth_in_size_structured_assessments.pdf">Punt_etal_2016_Estimating_growth_in_size_structured_assessments.pdf</a>) formalized the general discrete-time, discrete-size population equation:</p>
+<p><span class="math display">\[\mathbf{N}_{t+1} = \mathbf{X}_t \, \mathbf{S}_t \, \mathbf{N}_t + \mathbf{R}_{t+1}\]</span></p>
+<p>where: - <span class="math inline">\(\mathbf{N}_t = (N_{1,t}, N_{2,t}, \dots, N_{n_L,t})^\top\)</span> is the vector of numbers across <span class="math inline">\(n_L\)</span> size bins, - <span class="math inline">\(\mathbf{S}_t = \text{diag}\!\left(\exp(-Z_{1,t}), \dots, \exp(-Z_{n_L,t})\right)\)</span> is the diagonal survival matrix during time step <span class="math inline">\(t\)</span>, - <span class="math inline">\(\mathbf{X}_t\)</span> is the lower-triangular (since animals do not shrink in length) <strong><span class="math inline">\(n_L \times n_L\)</span> Size-Transition Matrix</strong>, where <span class="math inline">\(X_{l', l}\)</span> is the probability that an individual in size bin <span class="math inline">\(l\)</span> grows into size bin <span class="math inline">\(l' \ge l\)</span> at the end of the time step (<span class="math inline">\(\sum_{l' \ge l} X_{l', l} = 1\)</span>).</p>
+<section id="parameterizing-the-size-transition-matrix-mathbfx_l-l-punt_etal_2016_estimating_growth_in_size_structured_assessments.pdf-eq.-25" class="level4">
+<h4 class="anchored" data-anchor-id="parameterizing-the-size-transition-matrix-mathbfx_l-l-punt_etal_2016_estimating_growth_in_size_structured_assessments.pdf-eq.-25">Parameterizing the Size-Transition Matrix <span class="math inline">\(\mathbf{X}_{l', l}\)</span> (<a href="https://github.com/gustavdelius/multispecies_stock_assessment/blob/main/papers/Punt_etal_2016_Estimating_growth_in_size_structured_assessments.pdf">Punt_etal_2016_Estimating_growth_in_size_structured_assessments.pdf</a>, Eq. 2–5)</h4>
+<p>Instead of estimating <span class="math inline">\(n_L(n_L-1)/2\)</span> free transition probabilities, size-structured assessments model the continuous growth increment <span class="math inline">\(\Delta L = L_{t+1} - L_l \ge 0\)</span> of an individual at midpoint <span class="math inline">\(L_l\)</span> using a <strong>Gamma distribution</strong> (or truncated Normal / Log-normal distribution) with mean increment <span class="math inline">\(\bar{\Delta}_l = (L_\infty - L_l)(1 - e^{-k \Delta t})\)</span> and variance <span class="math inline">\(\sigma^2_{\Delta, l} = \beta_{\Delta} \bar{\Delta}_l\)</span> (so shape <span class="math inline">\(\alpha_l = \bar{\Delta}_l / \beta_{\Delta}\)</span> and scale <span class="math inline">\(\beta_{\Delta}\)</span>):</p>
+<p><span class="math display">\[X_{l', l} = \int_{L_{\min, l'} - L_l}^{L_{\max, l'} - L_l} \frac{\Delta^{\alpha_l - 1} \exp(-\Delta / \beta_{\Delta})}{\Gamma(\alpha_l) \, \beta_{\Delta}^{\alpha_l}} \, d\Delta, \qquad l' \ge l\]</span></p>
+<blockquote class="blockquote">
+<p>[!IMPORTANT] <strong>Critical Insight from Punt et al.&nbsp;(2016) for Fitting <code>mizer</code> to Length Data</strong>: Punt et al.&nbsp;(<a href="https://github.com/gustavdelius/multispecies_stock_assessment/blob/main/papers/Punt_etal_2016_Estimating_growth_in_size_structured_assessments.pdf">Punt_etal_2016_Estimating_growth_in_size_structured_assessments.pdf</a>, pp.&nbsp;50–53) prove via simulation that in any size-structured assessment model, <strong>asymptotic size <span class="math inline">\(L_\infty\)</span> (or growth rate <span class="math inline">\(g(w)\)</span>), natural mortality <span class="math inline">\(M(w)\)</span>, and dome-shaped vs.&nbsp;asymptotic gear selectivity <span class="math inline">\(S_f(w)\)</span> are strongly confounded</strong> when fitted to commercial length compositions alone: - Absence of large fish in the catch can be explained equally well by: (a) slower growth / lower <span class="math inline">\(L_\infty\)</span>, (b) higher predation/natural mortality <span class="math inline">\(M\)</span>, (c) higher fishing mortality <span class="math inline">\(F\)</span>, or (d) dome-shaped selectivity <span class="math inline">\(S_f(w)\)</span>. - <strong>How to break the confounding</strong>: (1) Use scientific trawl survey length distributions with known asymptotic selectivity, (2) include <strong>mean weight-at-age / conditional age-at-length</strong> data where available, or (3) include <strong>stomach content / predator-prey size data</strong> which independently anchors <span class="math inline">\(M2(w)\)</span> and growth!</p>
+</blockquote>
+<hr>
+</section>
+</section>
+<section id="lime-length-based-integrated-mixed-effects-for-non-equilibrium-length-data-rudd-thorson-2018" class="level3">
+<h3 class="anchored" data-anchor-id="lime-length-based-integrated-mixed-effects-for-non-equilibrium-length-data-rudd-thorson-2018">3.3.4 <code>LIME</code>: Length-Based Integrated Mixed Effects for Non-Equilibrium Length Data (<code>Rudd &amp; Thorson 2018</code>)</h3>
+<p>Traditional length-only assessment methods for data-limited stocks—such as Length-Based Spawning Potential Ratio (<code>LB-SPR</code>, Hordyk et al.&nbsp;2015) and mean-length mortality estimators (Beverton &amp; Holt 1956; Gedamke &amp; Hoenig 2006)—assume <strong>strict steady-state equilibrium</strong> (constant recruitment <span class="math inline">\(R_t = R_0\)</span> and constant fishing mortality <span class="math inline">\(F_t = F\)</span>). In reality, recruitment pulses and time-varying <span class="math inline">\(F_t\)</span> distort single-year length compositions, causing severe bias in equilibrium length estimators.</p>
+<p>To relax these equilibrium assumptions while requiring as little as <strong>1 year of length-composition data</strong> plus known basic life-history parameters (<span class="math inline">\(L_\infty, k, t_0, M, L_{m}^{50}, \alpha, \beta, \text{CV}_L\)</span>), Merrill Rudd and James Thorson (<a href="https://github.com/gustavdelius/multispecies_stock_assessment/blob/main/papers/Rudd_Thorson_2018_LIME_length_based_mixed_effects.pdf">Rudd_Thorson_2018_LIME_length_based_mixed_effects.pdf</a>) developed <strong>LIME</strong> (<em>Length-based Integrated Mixed Effects</em>), implemented in <strong>R and TMB</strong>:</p>
+<ol type="1">
+<li><p><strong>Age-Length Transition Matrix (<span class="math inline">\(\varphi_{a,l}\)</span>) and Length-Based Selectivity (<span class="math inline">\(S_l\)</span>)</strong>: Given von Bertalanffy mean length-at-age <span class="math inline">\(L_a = L_\infty\left(1 - e^{-k(a - t_0)}\right)\)</span> and length standard deviation <span class="math inline">\(\sigma_{L,a} = L_a \cdot \text{CV}_L\)</span> (typically <span class="math inline">\(\text{CV}_L = 0.10\)</span>), the probability <span class="math inline">\(\varphi_{a,l}\)</span> of an individual of age <span class="math inline">\(a\)</span> falling into length bin <span class="math inline">\(l\)</span> with bounds <span class="math inline">\([l_{\text{low}}, l_{\text{high}})\)</span> is (<a href="https://github.com/gustavdelius/multispecies_stock_assessment/blob/main/papers/Rudd_Thorson_2018_LIME_length_based_mixed_effects.pdf">Rudd_Thorson_2018_LIME_length_based_mixed_effects.pdf</a>, Table 1, Eq. 5, p.&nbsp;29): <span class="math display">\[\varphi_{a,l} = \begin{cases} \Phi\!\left(\dfrac{l_{\text{high}} - L_a}{\sigma_{L,a}}\right) &amp; l = 1 \\[10pt] \Phi\!\left(\dfrac{l_{\text{high}} - L_a}{\sigma_{L,a}}\right) - \Phi\!\left(\dfrac{l_{\text{low}} - L_a}{\sigma_{L,a}}\right) &amp; 1 &lt; l &lt; n_l \\[10pt] 1 - \Phi\!\left(\dfrac{l_{\text{low}} - L_a}{\sigma_{L,a}}\right) &amp; l = n_l \end{cases}\]</span> Gear selectivity is parameterized as a two-parameter logistic function of length <span class="math inline">\(x_l\)</span> (with parameters <span class="math inline">\(L_s^{50}\)</span> and <span class="math inline">\(L_s^{95}\)</span>) and mapped to age <span class="math inline">\(a\)</span> by integrating across the age-length matrix: <span class="math display">\[S_l = \frac{1}{1 + \exp\!\left(-\dfrac{\ln(19)\left(x_l - L_s^{50}\right)}{L_s^{95} - L_s^{50}}\right)}, \qquad S_a = \sum_{l=1}^{n_l} \varphi_{a,l} \, S_l\]</span></p></li>
+<li><p><strong>Mixed-Effects State-Space Dynamics (Random-Walk <span class="math inline">\(F_t\)</span> and Laplace-Integrated Recruitment <span class="math inline">\(R_t\)</span>)</strong>:</p>
+<ul>
+<li><strong>Autocorrelated Recruitment Random Effects</strong>: Annual recruitment <span class="math inline">\(R_t\)</span> is modeled as a lognormal random effect (with optional <span class="math inline">\(\text{AR}(1)\)</span> autocorrelation <span class="math inline">\(\rho_R\)</span> and TMB epsilon bias-correction; <a href="https://github.com/gustavdelius/multispecies_stock_assessment/blob/main/papers/Rudd_Thorson_2018_LIME_length_based_mixed_effects.pdf">Rudd_Thorson_2018_LIME_length_based_mixed_effects.pdf</a>, Table 2, Eqs. 7, 17–19, p.&nbsp;30): <span class="math display">\[R_t \sim \text{Lognormal}\!\left(\ln R_0 - \frac{\sigma_R^2}{2},\; \sigma_R^2\right)\]</span> where recruitment standard deviation <span class="math inline">\(\sigma_R\)</span> is estimated with a hierarchical lognormal prior centered on the meta-analytic fish average (<span class="math inline">\(\sigma_R \sim \text{Lognormal}(\ln(0.737),\, 0.353^2)\)</span>; Thorson et al.&nbsp;2014).</li>
+<li><strong>Random-Walk Penalty on Fishing Mortality <span class="math inline">\(F_t\)</span></strong>: Annual fishing mortality <span class="math inline">\(F_t\)</span> is estimated as a fixed effect constrained by a first-difference random-walk penalty in log-space (<span class="math inline">\(\sigma_F = 0.20\)</span>): <span class="math display">\[\ln F_t \sim \mathcal{N}\!\left(\ln F_{t-1},\; \sigma_F^2\right)\]</span></li>
+<li><strong>Predicted Catch Length Proportions (<span class="math inline">\(\hat{p}_{t,l}\)</span>)</strong>: Predicted catch-at-age <span class="math inline">\(\hat{C}_{t,a} = \frac{F_t S_a}{M + F_t S_a} N_{t,a}\left(1 - e^{-M - F_t S_a}\right)\)</span> is projected into length bins via <span class="math inline">\(\hat{C}_{t,l} = \sum_{a} \hat{C}_{t,a} \varphi_{a,l}\)</span>, giving predicted length proportions <span class="math inline">\(\hat{p}_{t,l} = \hat{C}_{t,l} / \sum_{l'} \hat{C}_{t,l'}\)</span>.</li>
+</ul></li>
+<li><p><strong>Self-Weighting Dirichlet-Multinomial Length Likelihood and Derived Reference Points</strong>: LIME fits observed catch length counts <span class="math inline">\(\tilde{\pi}_{t,l}\)</span> using the <strong>Dirichlet-Multinomial (DM) likelihood</strong> of Thorson et al.&nbsp;(<a href="https://github.com/gustavdelius/multispecies_stock_assessment/blob/main/papers/Thorson_etal_2017_Dirichlet_multinomial_effective_sample_size.pdf">Thorson_etal_2017_Dirichlet_multinomial_effective_sample_size.pdf</a>; see Chapter 5, Section 5.6.2), estimating the DM linear overdispersion parameter <span class="math inline">\(\theta\)</span> (<code>log_theta</code>) simultaneously with <span class="math inline">\(F_t, L_s^{50}, L_s^{95}, \sigma_R\)</span>, and integrating over the latent recruitment vector <span class="math inline">\(\mathbf{r} = \{R_t\}\)</span> via TMB’s Laplace approximation (<a href="https://github.com/gustavdelius/multispecies_stock_assessment/blob/main/papers/Rudd_Thorson_2018_LIME_length_based_mixed_effects.pdf">Rudd_Thorson_2018_LIME_length_based_mixed_effects.pdf</a>, Table 2, Eqs. 16, 22). From the estimated parameters, LIME computes annual Spawning Potential Ratio: <span class="math display">\[\text{SPR}_t = \frac{\text{SBPR}_t}{\text{SBPR}_0} = \frac{\sum_{a} \text{Mat}_a \, W_a \, N_{F_t, a}}{\sum_{a} \text{Mat}_a \, W_a \, N_{F=0, a}}\]</span> Notice that because <span class="math inline">\(\varphi_{a,l}\)</span> allows cohorts of different ages to overlap in length, LIME can separate a recruitment pulse <span class="math inline">\(\epsilon_{R,t}\)</span> (which creates a mode in juvenile length bins that propagates across years at rate <span class="math inline">\(g(L)\)</span>) from an increase in fishing mortality <span class="math inline">\(F_t\)</span> (which truncates the right tail of the length distribution across all adult cohorts simultaneously)—a key mechanism for dynamic length-based calibration in <code>mizer</code>!</p></li>
+</ol>
+<hr>
+</section>
+</section>
+<section id="discrete-length-structured-multispecies-models-lemans-lemarns-csms-csm" class="level2">
+<h2 class="anchored" data-anchor-id="discrete-length-structured-multispecies-models-lemans-lemarns-csms-csm">3.4 Discrete Length-Structured Multispecies Models (<code>LeMans</code>, <code>LeMaRns</code>, <code>CSMS</code>, <code>CSM</code>)</h2>
+<section id="lemans-and-lemarns-hall-et-al.-2006-thorpe-et-al.-2015-spence-et-al.-2020-2021" class="level3">
+<h3 class="anchored" data-anchor-id="lemans-and-lemarns-hall-et-al.-2006-thorpe-et-al.-2015-spence-et-al.-2020-2021">3.4.1 <code>LeMans</code> and <code>LeMaRns</code> (Hall et al.&nbsp;2006; Thorpe et al.&nbsp;2015; Spence et al.&nbsp;2020, 2021)</h3>
+<p>Originally created by Stephen Hall, Collie, Jennings, Bravington, and Pope (<a href="https://github.com/gustavdelius/multispecies_stock_assessment/blob/main/papers/Hall_etal_2006_Length_based_multispecies_model_LeMans.pdf">Hall_etal_2006_Length_based_multispecies_model_LeMans.pdf</a>) for Georges Bank and adapted to the North Sea by Thorpe et al.&nbsp;(<a href="https://github.com/gustavdelius/multispecies_stock_assessment/blob/main/papers/Thorpe_etal_2015_Uncertainty_multispecies_size_structured_model.pdf">Thorpe_etal_2015_Uncertainty_multispecies_size_structured_model.pdf</a>) and Michael Spence et al.&nbsp;as the R/C++ package <strong><code>LeMaRns</code></strong> (<a href="https://github.com/gustavdelius/multispecies_stock_assessment/blob/main/papers/Spence_etal_2020_LeMaRns_length_based_multispecies.pdf">Spence_etal_2020_LeMaRns_length_based_multispecies.pdf</a>; <a href="https://github.com/gustavdelius/multispecies_stock_assessment/blob/main/papers/Spence_etal_2021_Length_structured_multispecies_model.pdf">Spence_etal_2021_Length_structured_multispecies_model.pdf</a>; <a href="https://github.com/gustavdelius/multispecies_stock_assessment/blob/main/papers/Spence_etal_2021_Quantifying_uncertainty_LeMaRns.pdf">Spence_etal_2021_Quantifying_uncertainty_LeMaRns.pdf</a>), <strong>LeMans</strong> (<em>Length-based Multispecies analysis by numerical simulation</em>) is a discrete-time, discrete-length-bin multispecies model with fixed von Bertalanffy growth and one-way predation mortality feedback.</p>
+<section id="mathematical-equations-of-lemarns-spence_etal_2020_lemarns_length_based_multispecies.pdf-pp.-37" class="level4">
+<h4 class="anchored" data-anchor-id="mathematical-equations-of-lemarns-spence_etal_2020_lemarns_length_based_multispecies.pdf-pp.-37">Mathematical Equations of <code>LeMaRns</code> (<a href="https://github.com/gustavdelius/multispecies_stock_assessment/blob/main/papers/Spence_etal_2020_LeMaRns_length_based_multispecies.pdf">Spence_etal_2020_LeMaRns_length_based_multispecies.pdf</a>, pp.&nbsp;3–7)</h4>
+<p>Let <span class="math inline">\(N_{i,j,t}\)</span> be the number of individuals of species <span class="math inline">\(i \in \{1, \dots, n_s\}\)</span> in length class <span class="math inline">\(j \in \{1, \dots, n_l\}\)</span> with bounds <span class="math inline">\([L_j, L_{j+1})\)</span> and midpoint <span class="math inline">\(\bar{L}_j = (L_j + L_{j+1})/2\)</span>, body mass <span class="math inline">\(W_{i,j} = \alpha_i \bar{L}_j^{\beta_i}\)</span>, and maturity ogive <span class="math inline">\(m_{i,j} = \left(1 + \exp(-\kappa_{m,i}(\bar{L}_j - L_{\text{mat},i}))\right)^{-1}\)</span>.</p>
+<ol type="1">
+<li><p><strong>Reproduction &amp; Recruitment (Step 1)</strong>: Spawning stock biomass is <span class="math inline">\(\text{SSB}_{i,t} = \sum_{j=1}^{n_l} m_{i,j} N_{i,j,t} W_{i,j}\)</span>. At the first time step of each year, recruits <span class="math inline">\(R_{i,t}\)</span> enter the smallest length bin <span class="math inline">\(j = 1\)</span> via a Hockey-Stick, Ricker, Beverton-Holt, or linear stock-recruitment relationship (with optional lognormal process error in <a href="https://github.com/gustavdelius/multispecies_stock_assessment/blob/main/papers/Spence_etal_2021_Length_structured_multispecies_model.pdf">Spence_etal_2021_Length_structured_multispecies_model.pdf</a>): <span class="math display">\[N^{(1)}_{i,1,t} = N_{i,1,t} + R_{i,t}, \qquad N^{(1)}_{i,j,t} = N_{i,j,t} \quad (j &gt; 1)\]</span></p></li>
+<li><p><strong>Mortality: <span class="math inline">\(M1\)</span>, Fishing <span class="math inline">\(F\)</span>, and Predation <span class="math inline">\(M2\)</span> (Step 2)</strong>: Total mortality in time step <span class="math inline">\(\Delta t\)</span> is <span class="math inline">\(Z_{i,j,t} = \Delta t \left(M1_{i,j} + F_{i,j,t} + M2_{i,j,t}\right)\)</span>, so surviving numbers are: <span class="math display">\[N^{(2)}_{i,j,t} = N^{(1)}_{i,j,t} \exp(-Z_{i,j,t})\]</span> where <strong>predation mortality <span class="math inline">\(M2_{i,j,t}\)</span></strong> on prey <span class="math inline">\((i, j)\)</span> by all predators <span class="math inline">\((m, k)\)</span> is governed by a Holling Type II (or Type III) functional response: <span class="math display">\[M2_{i,j,t} = \sum_{m=1}^{n_s} \sum_{k=1}^{n_l} I_{m,k} \, N^{(1)}_{m,k,t} \, \frac{\theta_{m,k,i,j}}{\sum_{a=1}^{n_s} \sum_{b=1}^{n_l} \theta_{m,k,a,b} \, N^{(1)}_{a,b,t} W_{a,b} + W_{\text{other}}}\]</span> Here:</p>
+<ul>
+<li><span class="math inline">\(I_{m,k} = W_{m,k} \left(L_{\infty, m} / \bar{L}_k\right)^{0.4} \cdot \text{ration\_scalar}_m\)</span> is the maximum per-capita consumption rate of predator <span class="math inline">\((m, k)\)</span>,</li>
+<li><span class="math inline">\(\theta_{m,k,i,j} = \tau_{m,i} \cdot \psi_{m,k,i,j} \cdot o_{m,i}\)</span> is the suitability product of taxonomic preference <span class="math inline">\(\tau_{m,i} \in \{0, 1\}\)</span>, spatial overlap <span class="math inline">\(o_{m,i}\)</span>, and Ursin lognormal weight-ratio preference: <span class="math display">\[\psi_{m,k,i,j} = \exp\!\left(-\frac{\left(\log_{10}\!\frac{W_{m,k}}{W_{i,j}} - \eta_m\right)^2}{2\sigma_m^2}\right)\]</span></li>
+</ul></li>
+<li><p><strong>Deterministic Fractional Somatic Growth (Step 3)</strong>: under deterministic von Bertalanffy growth, the time required for an individual of species <span class="math inline">\(i\)</span> to grow from the lower boundary <span class="math inline">\(L_j\)</span> to the upper boundary <span class="math inline">\(L_{j+1}\)</span> of length bin <span class="math inline">\(j\)</span> is: <span class="math display">\[\delta t_{i,j} = \frac{1}{k_i} \ln\!\left(\frac{L_{\infty, i} - L_j}{L_{\infty, i} - L_{j+1}}\right)\]</span> Therefore, in a discrete time step <span class="math inline">\(\Delta t\)</span> (chosen small enough that <span class="math inline">\(\Delta t \le \min_{i,j} \delta t_{i,j}\)</span>, e.g., <span class="math inline">\(\Delta t = 0.1\text{ yr}\)</span>), a fixed fraction <span class="math inline">\(\phi_{i,j}\)</span> of individuals in length bin <span class="math inline">\(j\)</span> advance to length bin <span class="math inline">\(j+1\)</span>: <span class="math display">\[\phi_{i,j} = \frac{\Delta t}{\delta t_{i,j}} = \frac{\Delta t \cdot k_i}{\ln\!\left(\frac{L_{\infty, i} - L_j}{L_{\infty, i} - L_{j+1}}\right)}\]</span> giving the state update: <span class="math display">\[N_{i,j,t+1} = (1 - \phi_{i,j}) N^{(2)}_{i,j,t} + \phi_{i,j-1} N^{(2)}_{i,j-1,t}\]</span> <em>(Note: Mathematically, this update equation is identical to the <strong>explicit first-order upwind finite-difference scheme</strong> of the McKendrick–von Foerster PDE in <code>mizer</code>! Consequently, it exhibits the exact same numerical Courant-Friedrichs-Lewy [CFL] artificial cohort diffusion <span class="math inline">\(\approx \frac{1}{2} g \delta L (1 - \phi)\)</span> analyzed by Datta, Delius &amp; Law 2010).</em></p></li>
+</ol>
+<hr>
+</section>
+</section>
+<section id="csms-and-csm-pope-et-al.-2006-2019-moment-based-reduction-of-length-spectra" class="level3">
+<h3 class="anchored" data-anchor-id="csms-and-csm-pope-et-al.-2006-2019-moment-based-reduction-of-length-spectra">3.4.2 <code>CSMS</code> and <code>CSM</code> (Pope et al.&nbsp;2006, 2019): Moment-Based Reduction of Length Spectra</h3>
+<p>John Pope and colleagues developed two remarkably parsimonious length-based multispecies models to explore multispecies MSY and community structure: 1. <strong>CSMS (Charmingly Simple Multispecies Size-based model; <a href="https://github.com/gustavdelius/multispecies_stock_assessment/blob/main/papers/Pope_etal_2006_CSMS_size_based_community_model.pdf">Pope_etal_2006_CSMS_size_based_community_model.pdf</a>)</strong>: Parameterizes an entire 13-species North Sea fish community using only <strong>15 life-history scaling parameters</strong> (linking von Bertalanffy <span class="math inline">\(k_i = c_k L_{\infty,i}^{-0.31}\)</span>, maturity <span class="math inline">\(L_{\text{mat},i} = c_m L_{\infty,i}\)</span>, Ricker recruitment parameters, and Andersen-Ursin predation solely to each species’ asymptotic length <span class="math inline">\(L_{\infty,i}\)</span>), reproducing the community size spectrum slope and steeper slopes under fishing. 2. <strong>CSM (Charmingly Simple Model; <a href="https://github.com/gustavdelius/multispecies_stock_assessment/blob/main/papers/Pope_etal_2019_Comparing_multispecies_models_North_Sea.pdf">Pope_etal_2019_Comparing_multispecies_models_North_Sea.pdf</a>)</strong>: Instead of tracking 50 discrete length bins per cohort, CSM notes that the log-length distribution of a cohort is approximately Gaussian and therefore <strong>tracks only the 0th through 4th moments</strong> <span class="math inline">\(\left(M_0 = N_{s,a},\; M_1 = \mathbb{E}[\ln L],\; M_2 = \text{Var}(\ln L),\; \dots\right)\)</span> of each cohort’s size distribution! Because the product of a Gaussian cohort log-length density and a Gaussian Ursin log-size preference kernel has an <strong>exact closed-form Gaussian integral</strong>, CSM computes size-based predation mortality <span class="math inline">\(M2_{s,a}\)</span> analytically without any discrete length bins, achieving a <span class="math inline">\(50\times\)</span> speedup over bin-based models.</p>
+
+
+</section>
+</section>
+
+</main> <!-- /main -->
+<script id="quarto-html-after-body" type="application/javascript">
+  window.document.addEventListener("DOMContentLoaded", function (event) {
+    const icon = "";
+    const anchorJS = new window.AnchorJS();
+    anchorJS.options = {
+      placement: 'right',
+      icon: icon
+    };
+    anchorJS.add('.anchored');
+    const isCodeAnnotation = (el) => {
+      for (const clz of el.classList) {
+        if (clz.startsWith('code-annotation-')) {                     
+          return true;
+        }
+      }
+      return false;
+    }
+    const onCopySuccess = function(e) {
+      // button target
+      const button = e.trigger;
+      // don't keep focus
+      button.blur();
+      // flash "checked"
+      button.classList.add('code-copy-button-checked');
+      var currentTitle = button.getAttribute("title");
+      button.setAttribute("title", "Copied!");
+      let tooltip;
+      if (window.bootstrap) {
+        button.setAttribute("data-bs-toggle", "tooltip");
+        button.setAttribute("data-bs-placement", "left");
+        button.setAttribute("data-bs-title", "Copied!");
+        tooltip = new bootstrap.Tooltip(button, 
+          { trigger: "manual", 
+            customClass: "code-copy-button-tooltip",
+            offset: [0, -8]});
+        tooltip.show();    
+      }
+      setTimeout(function() {
+        if (tooltip) {
+          tooltip.hide();
+          button.removeAttribute("data-bs-title");
+          button.removeAttribute("data-bs-toggle");
+          button.removeAttribute("data-bs-placement");
+        }
+        button.setAttribute("title", currentTitle);
+        button.classList.remove('code-copy-button-checked');
+      }, 1000);
+      // clear code selection
+      e.clearSelection();
+    }
+    const getTextToCopy = function(trigger) {
+      const outerScaffold = trigger.parentElement.cloneNode(true);
+      const codeEl = outerScaffold.querySelector('code');
+      for (const childEl of codeEl.children) {
+        if (isCodeAnnotation(childEl)) {
+          childEl.remove();
+        }
+      }
+      return codeEl.innerText;
+    }
+    const clipboard = new window.ClipboardJS('.code-copy-button:not([data-in-quarto-modal])', {
+      text: getTextToCopy
+    });
+    clipboard.on('success', onCopySuccess);
+    if (window.document.getElementById('quarto-embedded-source-code-modal')) {
+      const clipboardModal = new window.ClipboardJS('.code-copy-button[data-in-quarto-modal]', {
+        text: getTextToCopy,
+        container: window.document.getElementById('quarto-embedded-source-code-modal')
+      });
+      clipboardModal.on('success', onCopySuccess);
+    }
+      var localhostRegex = new RegExp(/^(?:http|https):\/\/localhost\:?[0-9]*\//);
+      var mailtoRegex = new RegExp(/^mailto:/);
+        var filterRegex = new RegExp('/' + window.location.host + '/');
+      var isInternal = (href) => {
+          return filterRegex.test(href) || localhostRegex.test(href) || mailtoRegex.test(href);
+      }
+      // Inspect non-navigation links and adorn them if external
+     var links = window.document.querySelectorAll('a[href]:not(.nav-link):not(.navbar-brand):not(.toc-action):not(.sidebar-link):not(.sidebar-item-toggle):not(.pagination-link):not(.no-external):not([aria-hidden]):not(.dropdown-item):not(.quarto-navigation-tool):not(.about-link)');
+      for (var i=0; i<links.length; i++) {
+        const link = links[i];
+        if (!isInternal(link.href)) {
+          // undo the damage that might have been done by quarto-nav.js in the case of
+          // links that we want to consider external
+          if (link.dataset.originalHref !== undefined) {
+            link.href = link.dataset.originalHref;
+          }
+            // target, if specified
+            link.setAttribute("target", "_blank");
+            if (link.getAttribute("rel") === null) {
+              link.setAttribute("rel", "noopener");
+            }
+        }
+      }
+    function tippyHover(el, contentFn, onTriggerFn, onUntriggerFn) {
+      const config = {
+        allowHTML: true,
+        maxWidth: 500,
+        delay: 100,
+        arrow: false,
+        appendTo: function(el) {
+            return el.parentElement;
+        },
+        interactive: true,
+        interactiveBorder: 10,
+        theme: 'quarto',
+        placement: 'bottom-start',
+      };
+      if (contentFn) {
+        config.content = contentFn;
+      }
+      if (onTriggerFn) {
+        config.onTrigger = onTriggerFn;
+      }
+      if (onUntriggerFn) {
+        config.onUntrigger = onUntriggerFn;
+      }
+      window.tippy(el, config); 
+    }
+    const noterefs = window.document.querySelectorAll('a[role="doc-noteref"]');
+    for (var i=0; i<noterefs.length; i++) {
+      const ref = noterefs[i];
+      tippyHover(ref, function() {
+        // use id or data attribute instead here
+        let href = ref.getAttribute('data-footnote-href') || ref.getAttribute('href');
+        try { href = new URL(href).hash; } catch {}
+        const id = href.replace(/^#\/?/, "");
+        const note = window.document.getElementById(id);
+        if (note) {
+          return note.innerHTML;
+        } else {
+          return "";
+        }
+      });
+    }
+    const xrefs = window.document.querySelectorAll('a.quarto-xref');
+    const processXRef = (id, note) => {
+      // Strip column container classes
+      const stripColumnClz = (el) => {
+        el.classList.remove("page-full", "page-columns");
+        if (el.children) {
+          for (const child of el.children) {
+            stripColumnClz(child);
+          }
+        }
+      }
+      stripColumnClz(note)
+      if (id === null || id.startsWith('sec-')) {
+        // Special case sections, only their first couple elements
+        const container = document.createElement("div");
+        if (note.children && note.children.length > 2) {
+          container.appendChild(note.children[0].cloneNode(true));
+          for (let i = 1; i < note.children.length; i++) {
+            const child = note.children[i];
+            if (child.tagName === "P" && child.innerText === "") {
+              continue;
+            } else {
+              container.appendChild(child.cloneNode(true));
+              break;
+            }
+          }
+          if (window.Quarto?.typesetMath) {
+            window.Quarto.typesetMath(container);
+          }
+          return container.innerHTML
+        } else {
+          if (window.Quarto?.typesetMath) {
+            window.Quarto.typesetMath(note);
+          }
+          return note.innerHTML;
+        }
+      } else {
+        // Remove any anchor links if they are present
+        const anchorLink = note.querySelector('a.anchorjs-link');
+        if (anchorLink) {
+          anchorLink.remove();
+        }
+        if (window.Quarto?.typesetMath) {
+          window.Quarto.typesetMath(note);
+        }
+        if (note.classList.contains("callout")) {
+          return note.outerHTML;
+        } else {
+          return note.innerHTML;
+        }
+      }
+    }
+    for (var i=0; i<xrefs.length; i++) {
+      const xref = xrefs[i];
+      tippyHover(xref, undefined, function(instance) {
+        instance.disable();
+        let url = xref.getAttribute('href');
+        let hash = undefined; 
+        if (url.startsWith('#')) {
+          hash = url;
+        } else {
+          try { hash = new URL(url).hash; } catch {}
+        }
+        if (hash) {
+          const id = hash.replace(/^#\/?/, "");
+          const note = window.document.getElementById(id);
+          if (note !== null) {
+            try {
+              const html = processXRef(id, note.cloneNode(true));
+              instance.setContent(html);
+            } finally {
+              instance.enable();
+              instance.show();
+            }
+          } else {
+            // See if we can fetch this
+            fetch(url.split('#')[0])
+            .then(res => res.text())
+            .then(html => {
+              const parser = new DOMParser();
+              const htmlDoc = parser.parseFromString(html, "text/html");
+              const note = htmlDoc.getElementById(id);
+              if (note !== null) {
+                const html = processXRef(id, note);
+                instance.setContent(html);
+              } 
+            }).finally(() => {
+              instance.enable();
+              instance.show();
+            });
+          }
+        } else {
+          // See if we can fetch a full url (with no hash to target)
+          // This is a special case and we should probably do some content thinning / targeting
+          fetch(url)
+          .then(res => res.text())
+          .then(html => {
+            const parser = new DOMParser();
+            const htmlDoc = parser.parseFromString(html, "text/html");
+            const note = htmlDoc.querySelector('main.content');
+            if (note !== null) {
+              // This should only happen for chapter cross references
+              // (since there is no id in the URL)
+              // remove the first header
+              if (note.children.length > 0 && note.children[0].tagName === "HEADER") {
+                note.children[0].remove();
+              }
+              const html = processXRef(null, note);
+              instance.setContent(html);
+            } 
+          }).finally(() => {
+            instance.enable();
+            instance.show();
+          });
+        }
+      }, function(instance) {
+      });
+    }
+        let selectedAnnoteEl;
+        const selectorForAnnotation = ( cell, annotation) => {
+          let cellAttr = 'data-code-cell="' + cell + '"';
+          let lineAttr = 'data-code-annotation="' +  annotation + '"';
+          const selector = 'span[' + cellAttr + '][' + lineAttr + ']';
+          return selector;
+        }
+        const selectCodeLines = (annoteEl) => {
+          const doc = window.document;
+          const targetCell = annoteEl.getAttribute("data-target-cell");
+          const targetAnnotation = annoteEl.getAttribute("data-target-annotation");
+          const annoteSpan = window.document.querySelector(selectorForAnnotation(targetCell, targetAnnotation));
+          const lines = annoteSpan.getAttribute("data-code-lines").split(",");
+          const lineIds = lines.map((line) => {
+            return targetCell + "-" + line;
+          })
+          let top = null;
+          let height = null;
+          let parent = null;
+          if (lineIds.length > 0) {
+              //compute the position of the single el (top and bottom and make a div)
+              const el = window.document.getElementById(lineIds[0]);
+              top = el.offsetTop;
+              height = el.offsetHeight;
+              parent = el.parentElement.parentElement;
+            if (lineIds.length > 1) {
+              const lastEl = window.document.getElementById(lineIds[lineIds.length - 1]);
+              const bottom = lastEl.offsetTop + lastEl.offsetHeight;
+              height = bottom - top;
+            }
+            if (top !== null && height !== null && parent !== null) {
+              // cook up a div (if necessary) and position it 
+              let div = window.document.getElementById("code-annotation-line-highlight");
+              if (div === null) {
+                div = window.document.createElement("div");
+                div.setAttribute("id", "code-annotation-line-highlight");
+                div.style.position = 'absolute';
+                parent.appendChild(div);
+              }
+              div.style.top = top - 2 + "px";
+              div.style.height = height + 4 + "px";
+              div.style.left = 0;
+              let gutterDiv = window.document.getElementById("code-annotation-line-highlight-gutter");
+              if (gutterDiv === null) {
+                gutterDiv = window.document.createElement("div");
+                gutterDiv.setAttribute("id", "code-annotation-line-highlight-gutter");
+                gutterDiv.style.position = 'absolute';
+                const codeCell = window.document.getElementById(targetCell);
+                const gutter = codeCell.querySelector('.code-annotation-gutter');
+                gutter.appendChild(gutterDiv);
+              }
+              gutterDiv.style.top = top - 2 + "px";
+              gutterDiv.style.height = height + 4 + "px";
+            }
+            selectedAnnoteEl = annoteEl;
+          }
+        };
+        const unselectCodeLines = () => {
+          const elementsIds = ["code-annotation-line-highlight", "code-annotation-line-highlight-gutter"];
+          elementsIds.forEach((elId) => {
+            const div = window.document.getElementById(elId);
+            if (div) {
+              div.remove();
+            }
+          });
+          selectedAnnoteEl = undefined;
+        };
+          // Handle positioning of the toggle
+      window.addEventListener(
+        "resize",
+        throttle(() => {
+          elRect = undefined;
+          if (selectedAnnoteEl) {
+            selectCodeLines(selectedAnnoteEl);
+          }
+        }, 10)
+      );
+      function throttle(fn, ms) {
+      let throttle = false;
+      let timer;
+        return (...args) => {
+          if(!throttle) { // first call gets through
+              fn.apply(this, args);
+              throttle = true;
+          } else { // all the others get throttled
+              if(timer) clearTimeout(timer); // cancel #2
+              timer = setTimeout(() => {
+                fn.apply(this, args);
+                timer = throttle = false;
+              }, ms);
+          }
+        };
+      }
+        // Attach click handler to the DT
+        const annoteDls = window.document.querySelectorAll('dt[data-target-cell]');
+        for (const annoteDlNode of annoteDls) {
+          annoteDlNode.addEventListener('click', (event) => {
+            const clickedEl = event.target;
+            if (clickedEl !== selectedAnnoteEl) {
+              unselectCodeLines();
+              const activeEl = window.document.querySelector('dt[data-target-cell].code-annotation-active');
+              if (activeEl) {
+                activeEl.classList.remove('code-annotation-active');
+              }
+              selectCodeLines(clickedEl);
+              clickedEl.classList.add('code-annotation-active');
+            } else {
+              // Unselect the line
+              unselectCodeLines();
+              clickedEl.classList.remove('code-annotation-active');
+            }
+          });
+        }
+    const findCites = (el) => {
+      const parentEl = el.parentElement;
+      if (parentEl) {
+        const cites = parentEl.dataset.cites;
+        if (cites) {
+          return {
+            el,
+            cites: cites.split(' ')
+          };
+        } else {
+          return findCites(el.parentElement)
+        }
+      } else {
+        return undefined;
+      }
+    };
+    var bibliorefs = window.document.querySelectorAll('a[role="doc-biblioref"]');
+    for (var i=0; i<bibliorefs.length; i++) {
+      const ref = bibliorefs[i];
+      const citeInfo = findCites(ref);
+      if (citeInfo) {
+        tippyHover(citeInfo.el, function() {
+          var popup = window.document.createElement('div');
+          citeInfo.cites.forEach(function(cite) {
+            var citeDiv = window.document.createElement('div');
+            citeDiv.classList.add('hanging-indent');
+            citeDiv.classList.add('csl-entry');
+            var biblioDiv = window.document.getElementById('ref-' + cite);
+            if (biblioDiv) {
+              citeDiv.innerHTML = biblioDiv.innerHTML;
+            }
+            popup.appendChild(citeDiv);
+          });
+          return popup.innerHTML;
+        });
+      }
+    }
+  });
+  </script>
+<nav class="page-navigation">
+  <div class="nav-page nav-page-previous">
+      <a href="./02_age_structured_multispecies_models.html" class="pagination-link" aria-label="Chapter 2: Age-Structured Multispecies Stock Assessment Models (`MSVPA`, `SMS`/`smsR`, `MSCAA`/`Hydra`, `CEATTLE`)">
+        <i class="bi bi-arrow-left-short"></i> <span class="nav-page-text"><span class="chapter-title">Chapter 2: Age-Structured Multispecies Stock Assessment Models (<code>MSVPA</code>, <code>SMS</code>/<code>smsR</code>, <code>MSCAA</code>/<code>Hydra</code>, <code>CEATTLE</code>)</span></span>
+      </a>          
+  </div>
+  <div class="nav-page nav-page-next">
+      <a href="./04_size_spectrum_and_food_web_models.html" class="pagination-link" aria-label="Chapter 4: Continuous Size-Spectrum (`mizer`) and State-Space Food-Web Models (`EwE`, `Rpath`, `EcoState`)">
+        <span class="nav-page-text"><span class="chapter-title">Chapter 4: Continuous Size-Spectrum (<code>mizer</code>) and State-Space Food-Web Models (<code>EwE</code>, <code>Rpath</code>, <code>EcoState</code>)</span></span> <i class="bi bi-arrow-right-short"></i>
+      </a>
+  </div>
+</nav>
+</div> <!-- /content -->
+
+
+
+
+<footer class="footer"><div class="nav-footer"><div class="nav-footer-center"><div class="toc-actions d-sm-block d-md-none"><ul><li><a href="https://github.com/gustavdelius/multispecies_stock_assessment/edit/main/03_age_length_and_length_structured_models.md" class="toc-action"><i class="bi bi-github"></i>Edit this page</a></li></ul></div></div></div></footer></body></html>

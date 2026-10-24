@@ -1,0 +1,845 @@
+<!DOCTYPE html>
+<html xmlns="http://www.w3.org/1999/xhtml" lang="en" xml:lang="en"><head>
+
+<meta charset="utf-8">
+<meta name="generator" content="quarto-1.9.37">
+
+<meta name="viewport" content="width=device-width, initial-scale=1.0, user-scalable=yes">
+
+<meta name="description" content="Mathematical and statistical review of multispecies stock assessment methods, stomach content likelihoods, and size-structured assessment software.">
+
+<title>Chapter 5: Stomach Content Data, Gastric Evacuation Physics, and Diet Likelihood Formulations – Multispecies Stock Assessment: Mathematical Methods, Data, and Software</title>
+<style>
+/* Default styles provided by pandoc.
+** See https://pandoc.org/MANUAL.html#variables-for-html for config info.
+*/
+code{white-space: pre-wrap;}
+span.smallcaps{font-variant: small-caps;}
+div.columns{display: flex; gap: min(4vw, 1.5em);}
+div.column{flex: auto; overflow-x: auto;}
+div.hanging-indent{margin-left: 1.5em; text-indent: -1.5em;}
+ul.task-list{list-style: none;}
+ul.task-list li input[type="checkbox"] {
+  width: 0.8em;
+  margin: 0 0.8em 0.2em -1em; /* quarto-specific, see https://github.com/quarto-dev/quarto-cli/issues/4556 */ 
+  vertical-align: middle;
+}
+</style>
+
+
+<script src="site_libs/quarto-nav/quarto-nav.js"></script>
+<script src="site_libs/quarto-nav/headroom.min.js"></script>
+<script src="site_libs/clipboard/clipboard.min.js"></script>
+<script src="site_libs/quarto-search/autocomplete.umd.js"></script>
+<script src="site_libs/quarto-search/fuse.min.js"></script>
+<script src="site_libs/quarto-search/quarto-search.js"></script>
+<meta name="quarto:offset" content="./">
+<link href="./06_statistical_fitting_uncertainty_and_mizer_synthesis.html" rel="next">
+<link href="./04_size_spectrum_and_food_web_models.html" rel="prev">
+<script src="site_libs/quarto-html/quarto.js" type="module"></script>
+<script src="site_libs/quarto-html/tabsets/tabsets.js" type="module"></script>
+<script src="site_libs/quarto-html/popper.min.js"></script>
+<script src="site_libs/quarto-html/tippy.umd.min.js"></script>
+<script src="site_libs/quarto-html/anchor.min.js"></script>
+<link href="site_libs/quarto-html/tippy.css" rel="stylesheet">
+<link href="site_libs/quarto-html/quarto-syntax-highlighting-7f8f88aac4f3542376d5c11b86a4c14d.css" rel="stylesheet" id="quarto-text-highlighting-styles">
+<script src="site_libs/bootstrap/bootstrap.min.js"></script>
+<link href="site_libs/bootstrap/bootstrap-icons.css" rel="stylesheet">
+<link href="site_libs/bootstrap/bootstrap-67e563c3f8baddecfc039ce11a1d00ae.min.css" rel="stylesheet" append-hash="true" id="quarto-bootstrap" data-mode="light">
+<script id="quarto-search-options" type="application/json">{
+  "location": "sidebar",
+  "copy-button": false,
+  "collapse-after": 3,
+  "panel-placement": "start",
+  "type": "textbox",
+  "limit": 50,
+  "keyboard-shortcut": [
+    "f",
+    "/",
+    "s"
+  ],
+  "show-item-context": false,
+  "language": {
+    "search-no-results-text": "No results",
+    "search-matching-documents-text": "matching documents",
+    "search-copy-link-title": "Copy link to search",
+    "search-hide-matches-text": "Hide additional matches",
+    "search-more-match-text": "more match in this document",
+    "search-more-matches-text": "more matches in this document",
+    "search-clear-button-title": "Clear",
+    "search-text-placeholder": "",
+    "search-detached-cancel-button-title": "Cancel",
+    "search-submit-button-title": "Submit",
+    "search-label": "Search"
+  }
+}</script>
+
+  <script src="https://cdnjs.cloudflare.com/polyfill/v3/polyfill.min.js?features=es6"></script>
+  <script defer="" src="https://cdn.jsdelivr.net/npm/mathjax@3/es5/tex-chtml-full.js" type="text/javascript"></script>
+
+<script type="text/javascript">
+const typesetMath = (el) => {
+  if (window.MathJax) {
+    // MathJax Typeset
+    window.MathJax.typeset([el]);
+  } else if (window.katex) {
+    // KaTeX Render
+    var mathElements = el.getElementsByClassName("math");
+    var macros = [];
+    for (var i = 0; i < mathElements.length; i++) {
+      var texText = mathElements[i].firstChild;
+      if (mathElements[i].tagName == "SPAN" && texText && texText.data) {
+        window.katex.render(texText.data, mathElements[i], {
+          displayMode: mathElements[i].classList.contains('display'),
+          throwOnError: false,
+          macros: macros,
+          fleqn: false
+        });
+      }
+    }
+  }
+}
+window.Quarto = {
+  typesetMath
+};
+</script>
+
+</head>
+
+<body class="nav-sidebar floating quarto-light">
+
+<div id="quarto-search-results"></div>
+  <header id="quarto-header" class="headroom fixed-top">
+  <nav class="quarto-secondary-nav">
+    <div class="container-fluid d-flex">
+      <button type="button" class="quarto-btn-toggle btn" data-bs-toggle="collapse" role="button" data-bs-target=".quarto-sidebar-collapse-item" aria-controls="quarto-sidebar" aria-expanded="false" aria-label="Toggle sidebar navigation" onclick="if (window.quartoToggleHeadroom) { window.quartoToggleHeadroom(); }">
+        <i class="bi bi-layout-text-sidebar-reverse"></i>
+      </button>
+        <nav class="quarto-page-breadcrumbs" aria-label="breadcrumb"><ol class="breadcrumb"><li class="breadcrumb-item"><a href="./05_stomach_content_data_and_likelihoods.html"><span class="chapter-title">Chapter 5: Stomach Content Data, Gastric Evacuation Physics, and Diet Likelihood Formulations</span></a></li></ol></nav>
+        <a class="flex-grow-1" role="navigation" data-bs-toggle="collapse" data-bs-target=".quarto-sidebar-collapse-item" aria-controls="quarto-sidebar" aria-expanded="false" aria-label="Toggle sidebar navigation" onclick="if (window.quartoToggleHeadroom) { window.quartoToggleHeadroom(); }">      
+        </a>
+      <button type="button" class="btn quarto-search-button" aria-label="Search" onclick="window.quartoOpenSearch();">
+        <i class="bi bi-search"></i>
+      </button>
+    </div>
+  </nav>
+</header>
+<!-- content -->
+<div id="quarto-content" class="quarto-container page-columns page-rows-contents page-layout-article">
+<!-- sidebar -->
+  <nav id="quarto-sidebar" class="sidebar collapse collapse-horizontal quarto-sidebar-collapse-item sidebar-navigation floating overflow-auto">
+    <div class="pt-lg-2 mt-2 text-left sidebar-header">
+    <div class="sidebar-title mb-0 py-0">
+      <a href="./">Multispecies Stock Assessment: Mathematical Methods, Data, and Software</a> 
+        <div class="sidebar-tools-main">
+    <a href="https://github.com/gustavdelius/multispecies_stock_assessment" title="Source Code" class="quarto-navigation-tool px-1" aria-label="Source Code"><i class="bi bi-github"></i></a>
+</div>
+    </div>
+      </div>
+        <div class="mt-2 flex-shrink-0 align-items-center">
+        <div class="sidebar-search">
+        <div id="quarto-search" class="" title="Search"></div>
+        </div>
+        </div>
+    <div class="sidebar-menu-container"> 
+    <ul class="list-unstyled mt-1">
+        <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="./index.html" class="sidebar-item-text sidebar-link">
+ <span class="menu-text">Mathematical &amp; Statistical Literature Review of Multispecies Stock Assessment Models</span></a>
+  </div>
+</li>
+        <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="./01_taxonomy_and_foundations.html" class="sidebar-item-text sidebar-link"><span class="chapter-title">Chapter 1: Taxonomy and Theoretical Foundations of Multispecies Stock Assessment Models</span></a>
+  </div>
+</li>
+        <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="./02_age_structured_multispecies_models.html" class="sidebar-item-text sidebar-link"><span class="chapter-title">Chapter 2: Age-Structured Multispecies Stock Assessment Models (<code>MSVPA</code>, <code>SMS</code>/<code>smsR</code>, <code>MSCAA</code>/<code>Hydra</code>, <code>CEATTLE</code>)</span></a>
+  </div>
+</li>
+        <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="./03_age_length_and_length_structured_models.html" class="sidebar-item-text sidebar-link"><span class="chapter-title">Chapter 3: Age-Length and Length-Structured Assessment Models (<code>Gadget</code>/<code>gadget3</code>, <code>SS3</code>, <code>MULTIFAN-CL</code>, <code>LeMans</code>/<code>LeMaRns</code>, <code>CSMS</code>/<code>CSM</code>)</span></a>
+  </div>
+</li>
+        <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="./04_size_spectrum_and_food_web_models.html" class="sidebar-item-text sidebar-link"><span class="chapter-title">Chapter 4: Continuous Size-Spectrum (<code>mizer</code>) and State-Space Food-Web Models (<code>EwE</code>, <code>Rpath</code>, <code>EcoState</code>)</span></a>
+  </div>
+</li>
+        <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="./05_stomach_content_data_and_likelihoods.html" class="sidebar-item-text sidebar-link active"><span class="chapter-title">Chapter 5: Stomach Content Data, Gastric Evacuation Physics, and Diet Likelihood Formulations</span></a>
+  </div>
+</li>
+        <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="./06_statistical_fitting_uncertainty_and_mizer_synthesis.html" class="sidebar-item-text sidebar-link"><span class="chapter-title">Chapter 6: Statistical Estimation, Data Weighting, Uncertainty Quantification, and an Architectural Roadmap for Dynamic <code>mizer</code> Stock Assessment</span></a>
+  </div>
+</li>
+    </ul>
+    </div>
+</nav>
+<div id="quarto-sidebar-glass" class="quarto-sidebar-collapse-item" data-bs-toggle="collapse" data-bs-target=".quarto-sidebar-collapse-item"></div>
+<!-- margin-sidebar -->
+    <div id="quarto-margin-sidebar" class="sidebar margin-sidebar">
+        <nav id="TOC" role="doc-toc" class="toc-active">
+    <h2 id="toc-title">Table of contents</h2>
+   
+  <ul>
+  <li><a href="#why-stomach-content-data-cannot-be-treated-as-direct-diet-proportions" id="toc-why-stomach-content-data-cannot-be-treated-as-direct-diet-proportions" class="nav-link active" data-scroll-target="#why-stomach-content-data-cannot-be-treated-as-direct-diet-proportions">5.1 Why Stomach Content Data Cannot Be Treated as Direct Diet Proportions</a></li>
+  <li><a href="#biophysical-modelling-of-gastric-evacuation-andersen-beyer-2005" id="toc-biophysical-modelling-of-gastric-evacuation-andersen-beyer-2005" class="nav-link" data-scroll-target="#biophysical-modelling-of-gastric-evacuation-andersen-beyer-2005">5.2 Biophysical Modelling of Gastric Evacuation (<code>Andersen &amp; Beyer 2005</code>)</a>
+  <ul>
+  <li><a href="#the-square-root-cylinder-evacuation-equation" id="toc-the-square-root-cylinder-evacuation-equation" class="nav-link" data-scroll-target="#the-square-root-cylinder-evacuation-equation">5.2.1 The Square-Root Cylinder Evacuation Equation</a></li>
+  <li><a href="#evacuation-of-individual-prey-items-in-mixed-meals" id="toc-evacuation-of-individual-prey-items-in-mixed-meals" class="nav-link" data-scroll-target="#evacuation-of-individual-prey-items-in-mixed-meals">5.2.2 Evacuation of Individual Prey Items in Mixed Meals</a></li>
+  </ul></li>
+  <li><a href="#the-nonlinear-stomach-pooling-bias-rindorf-lewy-2004" id="toc-the-nonlinear-stomach-pooling-bias-rindorf-lewy-2004" class="nav-link" data-scroll-target="#the-nonlinear-stomach-pooling-bias-rindorf-lewy-2004">5.3 The Nonlinear Stomach-Pooling Bias (<code>Rindorf &amp; Lewy 2004</code>)</a>
+  <ul>
+  <li><a href="#proof-of-jensens-inequality-bias" id="toc-proof-of-jensens-inequality-bias" class="nav-link" data-scroll-target="#proof-of-jensens-inequality-bias">5.3.1 Proof of Jensen’s Inequality Bias</a></li>
+  <li><a href="#second-order-taylor-bias-correction-rindorf-lewy-2004" id="toc-second-order-taylor-bias-correction-rindorf-lewy-2004" class="nav-link" data-scroll-target="#second-order-taylor-bias-correction-rindorf-lewy-2004">5.3.2 Second-Order Taylor Bias Correction (<code>Rindorf &amp; Lewy 2004</code>)</a></li>
+  </ul></li>
+  <li><a href="#prey-condition-differential-digestion-and-dietary-metrics-buckland-et-al.-2017" id="toc-prey-condition-differential-digestion-and-dietary-metrics-buckland-et-al.-2017" class="nav-link" data-scroll-target="#prey-condition-differential-digestion-and-dietary-metrics-buckland-et-al.-2017">5.4 Prey Condition, Differential Digestion, and Dietary Metrics (<code>Buckland et al. 2017</code>)</a>
+  <ul>
+  <li><a href="#biases-revealed-by-prey-condition-grading-buckland-et-al.-2017" id="toc-biases-revealed-by-prey-condition-grading-buckland-et-al.-2017" class="nav-link" data-scroll-target="#biases-revealed-by-prey-condition-grading-buckland-et-al.-2017">5.4.1 Biases Revealed by Prey Condition Grading (<code>Buckland et al. 2017</code>)</a></li>
+  </ul></li>
+  <li><a href="#stomach-content-databases-and-spatiotemporal-raising-pipelines-jacobsen-et-al.-2023" id="toc-stomach-content-databases-and-spatiotemporal-raising-pipelines-jacobsen-et-al.-2023" class="nav-link" data-scroll-target="#stomach-content-databases-and-spatiotemporal-raising-pipelines-jacobsen-et-al.-2023">5.5 Stomach Content Databases and Spatiotemporal Raising Pipelines (<code>Jacobsen et al. 2023</code>)</a>
+  <ul>
+  <li><a href="#major-open-access-stomach-content-databases" id="toc-major-open-access-stomach-content-databases" class="nav-link" data-scroll-target="#major-open-access-stomach-content-databases">5.5.1 Major Open-Access Stomach Content Databases</a></li>
+  <li><a href="#design-based-stratified-raising-fishstomachs-r-package" id="toc-design-based-stratified-raising-fishstomachs-r-package" class="nav-link" data-scroll-target="#design-based-stratified-raising-fishstomachs-r-package">5.5.2 Design-Based Stratified Raising (<code>FishStomachs</code> R Package)</a></li>
+  <li><a href="#model-based-spatiotemporal-standardization-sdmtmb" id="toc-model-based-spatiotemporal-standardization-sdmtmb" class="nav-link" data-scroll-target="#model-based-spatiotemporal-standardization-sdmtmb">5.5.3 Model-Based Spatiotemporal Standardization (<code>sdmTMB</code>)</a></li>
+  </ul></li>
+  <li><a href="#statistical-observation-models-and-likelihoods-for-stomach-content-data" id="toc-statistical-observation-models-and-likelihoods-for-stomach-content-data" class="nav-link" data-scroll-target="#statistical-observation-models-and-likelihoods-for-stomach-content-data">5.6 Statistical Observation Models and Likelihoods for Stomach Content Data</a>
+  <ul>
+  <li><a href="#summary-comparison-of-compositional-diet-likelihoods" id="toc-summary-comparison-of-compositional-diet-likelihoods" class="nav-link" data-scroll-target="#summary-comparison-of-compositional-diet-likelihoods">5.6.1 Summary Comparison of Compositional Diet Likelihoods</a></li>
+  <li><a href="#mathematical-derivation-of-the-compound-dirichlet-multinomial-likelihood-thorson-et-al.-2017" id="toc-mathematical-derivation-of-the-compound-dirichlet-multinomial-likelihood-thorson-et-al.-2017" class="nav-link" data-scroll-target="#mathematical-derivation-of-the-compound-dirichlet-multinomial-likelihood-thorson-et-al.-2017">5.6.2 Mathematical Derivation of the Compound Dirichlet-Multinomial Likelihood (<code>Thorson et al. 2017</code>)</a></li>
+  </ul></li>
+  <li><a href="#fitting-exponential-family-gamma-distributions-to-predatorprey-mass-ratios-morgan-2022" id="toc-fitting-exponential-family-gamma-distributions-to-predatorprey-mass-ratios-morgan-2022" class="nav-link" data-scroll-target="#fitting-exponential-family-gamma-distributions-to-predatorprey-mass-ratios-morgan-2022">5.7 Fitting Exponential Family &amp; Gamma Distributions to Predator–Prey Mass Ratios (<code>Morgan 2022</code>)</a>
+  <ul>
+  <li><a href="#linking-realized-diet-size-distribution-to-the-feeding-kernel-via-the-sheldon-spectrum" id="toc-linking-realized-diet-size-distribution-to-the-feeding-kernel-via-the-sheldon-spectrum" class="nav-link" data-scroll-target="#linking-realized-diet-size-distribution-to-the-feeding-kernel-via-the-sheldon-spectrum">5.7.1 Linking Realized Diet Size Distribution to the Feeding Kernel via the Sheldon Spectrum</a></li>
+  <li><a href="#exact-multiplicative-closure-of-exponential-family-gamma-distributions-morgan-2022-section-4.6" id="toc-exact-multiplicative-closure-of-exponential-family-gamma-distributions-morgan-2022-section-4.6" class="nav-link" data-scroll-target="#exact-multiplicative-closure-of-exponential-family-gamma-distributions-morgan-2022-section-4.6">5.7.2 Exact Multiplicative Closure of Exponential Family &amp; Gamma Distributions (<code>Morgan 2022</code>, Section 4.6)</a></li>
+  </ul></li>
+  </ul>
+<div class="toc-actions"><ul><li><a href="https://github.com/gustavdelius/multispecies_stock_assessment/edit/main/05_stomach_content_data_and_likelihoods.md" class="toc-action"><i class="bi bi-github"></i>Edit this page</a></li></ul></div></nav>
+    </div>
+<!-- main -->
+<main class="content" id="quarto-document-content">
+
+<header id="title-block-header" class="quarto-title-block default">
+<div class="quarto-title">
+<h1 class="title"><span class="chapter-title">Chapter 5: Stomach Content Data, Gastric Evacuation Physics, and Diet Likelihood Formulations</span></h1>
+</div>
+
+
+
+<div class="quarto-title-meta">
+
+    
+  
+    
+  </div>
+  
+
+
+</header>
+
+
+<blockquote class="blockquote">
+<p><strong>Navigation</strong>: <a href="./index.html">README (Index &amp; Bibliography)</a> | <a href="./01_taxonomy_and_foundations.html">Chapter 1: Taxonomy &amp; Foundations</a> | <a href="./02_age_structured_multispecies_models.html">Chapter 2: Age-Structured Models</a> | <a href="./03_age_length_and_length_structured_models.html">Chapter 3: Age-Length &amp; Length-Structured Models</a> | <a href="./04_size_spectrum_and_food_web_models.html">Chapter 4: Size-Spectrum &amp; Food-Web Models</a> | <strong>Chapter 5</strong> | <a href="./06_statistical_fitting_uncertainty_and_mizer_synthesis.html">Chapter 6: Fitting, Uncertainty &amp; <code>mizer</code> Roadmap</a></p>
+</blockquote>
+<hr>
+<section id="why-stomach-content-data-cannot-be-treated-as-direct-diet-proportions" class="level2">
+<h2 class="anchored" data-anchor-id="why-stomach-content-data-cannot-be-treated-as-direct-diet-proportions">5.1 Why Stomach Content Data Cannot Be Treated as Direct Diet Proportions</h2>
+<p>A common pitfall when calibrating ecological models is to treat the wet weight <span class="math inline">\(S_{i,k}\)</span> of prey <span class="math inline">\(i\)</span> observed inside stomach <span class="math inline">\(k\)</span> as a direct measure of the predator’s consumption rate <span class="math inline">\(C_i\)</span>. In reality, what is observed inside a sampled fish stomach is the <strong>standing stock of partially digested prey</strong>, which is related to the <strong>ingestion flux (consumption rate)</strong> only through the physics of <strong>gastric evacuation</strong> and <strong>spatial sampling design</strong> (<a href="https://github.com/gustavdelius/multispecies_stock_assessment/blob/main/papers/Rindorf_Lewy_2004_Bias_stomach_content_consumption.pdf">Rindorf_Lewy_2004_Bias_stomach_content_consumption.pdf</a>; <a href="https://github.com/gustavdelius/multispecies_stock_assessment/blob/main/papers/Andersen_Beyer_2005_Gastric_evacuation_modelling.pdf">Andersen_Beyer_2005_Gastric_evacuation_modelling.pdf</a>; <a href="https://github.com/gustavdelius/multispecies_stock_assessment/blob/main/papers/Buckland_etal_2017_Standardising_stomach_content_analysis.pdf">Buckland_etal_2017_Standardising_stomach_content_analysis.pdf</a>; <a href="https://github.com/gustavdelius/multispecies_stock_assessment/blob/main/papers/Jacobsen_etal_2023_Stomach_content_databases_study.pdf">Jacobsen_etal_2023_Stomach_content_databases_study.pdf</a>):</p>
+<p><span class="math display">\[\text{Ingestion Rate } C_i(t) \xrightarrow{\text{Digestion / Evacuation Rate } \frac{dS_i}{dt}} \text{True Stomach Content } S_i(t) \xrightarrow{\text{Trawl Survey \&amp; Lab Protocol}} \text{Observed Stomach Data}\]</span></p>
+<hr>
+</section>
+<section id="biophysical-modelling-of-gastric-evacuation-andersen-beyer-2005" class="level2">
+<h2 class="anchored" data-anchor-id="biophysical-modelling-of-gastric-evacuation-andersen-beyer-2005">5.2 Biophysical Modelling of Gastric Evacuation (<code>Andersen &amp; Beyer 2005</code>)</h2>
+<section id="the-square-root-cylinder-evacuation-equation" class="level3">
+<h3 class="anchored" data-anchor-id="the-square-root-cylinder-evacuation-equation">5.2.1 The Square-Root Cylinder Evacuation Equation</h3>
+<p>Through extensive laboratory feeding experiments on gadoids and other predatory fishes, Andersen &amp; Beyer (<a href="https://github.com/gustavdelius/multispecies_stock_assessment/blob/main/papers/Andersen_Beyer_2005_Gastric_evacuation_modelling.pdf">Andersen_Beyer_2005_Gastric_evacuation_modelling.pdf</a>) established the mechanistic <strong>cylinder model of gastric evacuation</strong>.</p>
+<p>Because digestive enzymes and hydrochloric acid are secreted by the stomach mucosa and act only on the <strong>outer surface area</strong> of the food bolus in the stomach (modeled as a cylinder of fixed length <span class="math inline">\(l_s \propto L_{\text{pred}}\)</span> and radius <span class="math inline">\(r\)</span>, where volume/mass is <span class="math inline">\(S \propto l_s r^2\)</span> and surface area is <span class="math inline">\(A_s \propto l_s r \propto S^{0.5}\)</span>), the instantaneous gastric evacuation rate (GER) of total stomach mass <span class="math inline">\(S(t)\)</span> (in <span class="math inline">\(\text{g} \cdot \text{h}^{-1}\)</span>) follows a power law with exponent <span class="math inline">\(\alpha = 0.5\)</span> (<a href="https://github.com/gustavdelius/multispecies_stock_assessment/blob/main/papers/Andersen_Beyer_2005_Gastric_evacuation_modelling.pdf">Andersen_Beyer_2005_Gastric_evacuation_modelling.pdf</a>, Eq. 1–3):</p>
+<p><span class="math display">\[\frac{dS(t)}{dt} = -\rho \, S(t)^{\alpha}, \qquad \alpha \approx 0.5\]</span></p>
+<p>where the rate parameter <span class="math inline">\(\rho\)</span> scales with predator total length <span class="math inline">\(L\)</span> (cm), ambient water temperature <span class="math inline">\(T\)</span> (<span class="math inline">\(^\circ\text{C}\)</span>), and meal energy density <span class="math inline">\(E\)</span> (<span class="math inline">\(\text{kJ} \cdot \text{g}^{-1}\)</span> wet weight):</p>
+<p><span class="math display">\[\rho(L, T, E) = \rho_0 \, L^{\lambda} \, \exp(\delta T) \, E^{-\mu}\]</span></p>
+<p>Typical empirical values for North Sea and Baltic piscivores (cod, whiting, saithe; <a href="https://github.com/gustavdelius/multispecies_stock_assessment/blob/main/papers/Andersen_Beyer_2005_Gastric_evacuation_modelling.pdf">Andersen_Beyer_2005_Gastric_evacuation_modelling.pdf</a>, Table 1) are: - Surface-to-volume exponent: <span class="math inline">\(\alpha = 0.50\)</span>, - Predator length scaling: <span class="math inline">\(\lambda \approx 1.30\text{--}1.44\)</span> (since <span class="math inline">\(\lambda + 3\alpha \approx 2.8\text{--}2.95\)</span>, matching the allometric scaling of maximum consumption <span class="math inline">\(W^{0.75\text{--}0.8}\)</span>), - Temperature coefficient: <span class="math inline">\(\delta \approx 0.08\text{--}0.10\text{ }^\circ\text{C}^{-1}\)</span>, - Prey energy-density resistance exponent: <span class="math inline">\(\mu \approx 0.85\text{--}0.90\)</span> (lipid-rich, high-energy prey such as herring or sprat [<span class="math inline">\(E \approx 6\text{--}9\text{ kJ}\cdot\text{g}^{-1}\)</span>] are evacuated significantly more slowly in wet weight per hour than lean fish or crustaceans [<span class="math inline">\(E \approx 3.5\text{--}4.5\text{ kJ}\cdot\text{g}^{-1}\)</span>], so <strong>rate of energy delivery</strong> <span class="math inline">\(E \cdot |dS/dt| \propto E^{1-\mu} \approx E^{0.12}\)</span> is nearly invariant across prey types!).</p>
+</section>
+<section id="evacuation-of-individual-prey-items-in-mixed-meals" class="level3">
+<h3 class="anchored" data-anchor-id="evacuation-of-individual-prey-items-in-mixed-meals">5.2.2 Evacuation of Individual Prey Items in Mixed Meals</h3>
+<p>When a predator stomach contains <span class="math inline">\(K\)</span> distinct prey items/categories with individual wet masses <span class="math inline">\(S_1, S_2, \dots, S_K\)</span> and total stomach mass <span class="math inline">\(S_{\text{tot}} = \sum_{k=1}^K S_k\)</span>, the evacuation rate of prey category <span class="math inline">\(i\)</span> is proportional to its mass share <span class="math inline">\(S_i / S_{\text{tot}}\)</span> in the cylinder multiplied by the total evacuation rate (<a href="https://github.com/gustavdelius/multispecies_stock_assessment/blob/main/papers/Andersen_Beyer_2005_Gastric_evacuation_modelling.pdf">Andersen_Beyer_2005_Gastric_evacuation_modelling.pdf</a>, Eq. 6; <a href="https://github.com/gustavdelius/multispecies_stock_assessment/blob/main/papers/Rindorf_Lewy_2004_Bias_stomach_content_consumption.pdf">Rindorf_Lewy_2004_Bias_stomach_content_consumption.pdf</a>, Eq. 2):</p>
+<p><span class="math display">\[\text{GER}_i = -\frac{dS_i}{dt} = \rho_i \left(\frac{S_i}{S_{\text{tot}}}\right) S_{\text{tot}}^{\alpha} = \rho_i \, S_i \, S_{\text{tot}}^{\alpha - 1}\]</span></p>
+<p>where <span class="math inline">\(\rho_i = \rho_0 L^\lambda e^{\delta T} E_i^{-\mu}\)</span> accounts for the specific energy density and cuticle/exoskeleton resistance of prey <span class="math inline">\(i\)</span>.</p>
+<hr>
+</section>
+</section>
+<section id="the-nonlinear-stomach-pooling-bias-rindorf-lewy-2004" class="level2">
+<h2 class="anchored" data-anchor-id="the-nonlinear-stomach-pooling-bias-rindorf-lewy-2004">5.3 The Nonlinear Stomach-Pooling Bias (<code>Rindorf &amp; Lewy 2004</code>)</h2>
+<p>In over a century of stomach sampling (including the 1981 and 1991 ICES North Sea Stomach Sampling Projects), stomachs of predators of the same species and length class caught in the same trawl haul were <strong>physically pooled in a bucket aboard ship</strong> to save laboratory processing time, and only the <strong>mean stomach content weight</strong> <span class="math inline">\(\bar{S}_i = \frac{1}{n} \sum_{k=1}^n S_{i,k}\)</span> across the <span class="math inline">\(n\)</span> sampled predators (including empty stomachs) was recorded (<a href="https://github.com/gustavdelius/multispecies_stock_assessment/blob/main/papers/Rindorf_Lewy_2004_Bias_stomach_content_consumption.pdf">Rindorf_Lewy_2004_Bias_stomach_content_consumption.pdf</a>).</p>
+<section id="proof-of-jensens-inequality-bias" class="level3">
+<h3 class="anchored" data-anchor-id="proof-of-jensens-inequality-bias">5.3.1 Proof of Jensen’s Inequality Bias</h3>
+<p>Over a stationary feeding period of duration <span class="math inline">\(D\)</span>, the true mean population consumption rate <span class="math inline">\(\bar{C}_i\)</span> per predator is the expectation of the individual evacuation rate across all individual stomachs <span class="math inline">\(k \in \{1, \dots, n\}\)</span>:</p>
+<p><span class="math display">\[\bar{C}_{\text{true}, i} = D \cdot \mathbb{E}\!\left[ \rho_i \, S_{i,k} \, S_{\text{tot}, k}^{\alpha - 1} \right] = \frac{D}{n} \sum_{k=1}^{n} \rho_i \, S_{i,k} \, S_{\text{tot}, k}^{\alpha - 1}\]</span></p>
+<p>However, when stomachs are pooled prior to calculation, only the sample means <span class="math inline">\(\bar{S}_i = \frac{1}{n}\sum_{k=1}^n S_{i,k}\)</span> and <span class="math inline">\(\bar{S}_{\text{tot}} = \frac{1}{n}\sum_{k=1}^n S_{\text{tot},k}\)</span> are known, and the naive pooled estimator is:</p>
+<p><span class="math display">\[\hat{C}_{\text{pooled}, i} = D \, \rho_i \, \bar{S}_i \, \bar{S}_{\text{tot}}^{\alpha - 1}\]</span></p>
+<p>For total consumption (<span class="math inline">\(S_i = S_{\text{tot}}\)</span>), <span class="math inline">\(\bar{C}_{\text{true}} = D \rho \, \mathbb{E}[S_{\text{tot}}^\alpha]\)</span> whereas <span class="math inline">\(\hat{C}_{\text{pooled}} = D \rho \, (\mathbb{E}[S_{\text{tot}}])^\alpha\)</span>. Because <span class="math inline">\(f(S) = S^\alpha\)</span> is a <strong>strictly concave function</strong> for <span class="math inline">\(0 &lt; \alpha &lt; 1\)</span> (<span class="math inline">\(\alpha \approx 0.5\)</span>), <strong>Jensen’s Inequality</strong> guarantees that:</p>
+<p><span class="math display">\[\mathbb{E}\!\left[S_{\text{tot}}^{\alpha}\right] &lt; \Big(\mathbb{E}[S_{\text{tot}}]\Big)^{\alpha} \implies \hat{C}_{\text{pooled}} &gt; \bar{C}_{\text{true}}\]</span></p>
+<p>Rindorf &amp; Lewy (<a href="https://github.com/gustavdelius/multispecies_stock_assessment/blob/main/papers/Rindorf_Lewy_2004_Bias_stomach_content_consumption.pdf">Rindorf_Lewy_2004_Bias_stomach_content_consumption.pdf</a>) demonstrated analytically and via bootstrap simulations on individual cod stomachs that: 1. <strong>Total Consumption Overestimation</strong>: Because individual fish stomachs are highly skewed (many empty or near-empty stomachs, and a few stomachs with recently ingested large fish), applying <span class="math inline">\(\bar{S}_{\text{tot}}^{0.5}\)</span> to pooled haul averages <strong>overestimates total food consumption by <span class="math inline">\(25\%\)</span> to <span class="math inline">\(&gt;100\%\)</span></strong>! 2. <strong>Prey-Composition Bias Toward Large-Meal Piscivory</strong>: When a predator occasionally eats a large fish prey item <span class="math inline">\(A\)</span> (high <span class="math inline">\(S_{\text{tot}, k}\)</span>, so <span class="math inline">\(S_{\text{tot}, k}^{\alpha - 1} = S_{\text{tot}, k}^{-0.5}\)</span> is small) and frequently eats small benthic invertebrate meals <span class="math inline">\(B\)</span> (low <span class="math inline">\(S_{\text{tot}, k}\)</span>, so <span class="math inline">\(S_{\text{tot}, k}^{-0.5}\)</span> is large), the naive pooled formula <span class="math inline">\(\hat{C}_{\text{pooled}, i} \propto \bar{S}_i \bar{S}_{\text{tot}}^{-0.5}\)</span> applies the <strong>same</strong> average total stomach weight <span class="math inline">\(\bar{S}_{\text{tot}}^{-0.5}\)</span> to both prey types. This <strong>overestimates the diet share of large fish prey</strong> and <strong>underestimates the diet share of small invertebrate prey</strong> (<a href="https://github.com/gustavdelius/multispecies_stock_assessment/blob/main/papers/Rindorf_Lewy_2004_Bias_stomach_content_consumption.pdf">Rindorf_Lewy_2004_Bias_stomach_content_consumption.pdf</a>, pp.&nbsp;2491–2494)!</p>
+</section>
+<section id="second-order-taylor-bias-correction-rindorf-lewy-2004" class="level3">
+<h3 class="anchored" data-anchor-id="second-order-taylor-bias-correction-rindorf-lewy-2004">5.3.2 Second-Order Taylor Bias Correction (<code>Rindorf &amp; Lewy 2004</code>)</h3>
+<p>When individual stomachs cannot be analyzed separately, Rindorf &amp; Lewy (<a href="https://github.com/gustavdelius/multispecies_stock_assessment/blob/main/papers/Rindorf_Lewy_2004_Bias_stomach_content_consumption.pdf">Rindorf_Lewy_2004_Bias_stomach_content_consumption.pdf</a>, Eq. 11–14) derived a second-order Taylor series correction for total consumption among non-empty stomachs (where <span class="math inline">\(p_+\)</span> is the proportion of non-empty stomachs in the sample and <span class="math inline">\(\text{CV}_+\)</span> is the coefficient of variation of stomach content weight among feeding fish):</p>
+<p><span class="math display">\[\bar{C}_{\text{corrected}} \approx D \, \rho \, p_{+}^{1 - \alpha} \, \bar{S}_{\text{tot}}^{\alpha} \left[ 1 + \frac{\alpha(\alpha - 1)}{2} \text{CV}_{+}^2 \right]\]</span></p>
+<p>For <span class="math inline">\(\alpha = 0.5\)</span>, <span class="math inline">\(\frac{\alpha(\alpha - 1)}{2} = -\frac{1}{8} = -0.125\)</span>, reducing the pooling bias by more than an order of magnitude when <span class="math inline">\(p_+\)</span> (fraction of non-empty stomachs) is recorded.</p>
+<hr>
+</section>
+</section>
+<section id="prey-condition-differential-digestion-and-dietary-metrics-buckland-et-al.-2017" class="level2">
+<h2 class="anchored" data-anchor-id="prey-condition-differential-digestion-and-dietary-metrics-buckland-et-al.-2017">5.4 Prey Condition, Differential Digestion, and Dietary Metrics (<code>Buckland et al. 2017</code>)</h2>
+<p>In empirical stomach content analysis, prey are quantified using one or more of four standard metrics (<a href="https://github.com/gustavdelius/multispecies_stock_assessment/blob/main/papers/Buckland_etal_2017_Standardising_stomach_content_analysis.pdf">Buckland_etal_2017_Standardising_stomach_content_analysis.pdf</a>, Table 1): 1. <strong>Gravimetric (<span class="math inline">\(\%W\)</span>)</strong>: Wet or dry mass of prey category <span class="math inline">\(i\)</span> as a percentage of total stomach content mass. 2. <strong>Volumetric (<span class="math inline">\(\%V\)</span>)</strong>: Displaced volume, grid area, or visual points of prey <span class="math inline">\(i\)</span> as a percentage of total volume. 3. <strong>Numerical (<span class="math inline">\(\%N\)</span>)</strong>: Count of prey individuals of category <span class="math inline">\(i\)</span> as a percentage of total counted prey items. 4. <strong>Frequency of Occurrence (<span class="math inline">\(\%F_i\)</span>)</strong>: Percentage of sampled non-empty stomachs in which prey category <span class="math inline">\(i\)</span> is present (binary presence/absence per stomach).</p>
+<section id="biases-revealed-by-prey-condition-grading-buckland-et-al.-2017" class="level3">
+<h3 class="anchored" data-anchor-id="biases-revealed-by-prey-condition-grading-buckland-et-al.-2017">5.4.1 Biases Revealed by Prey Condition Grading (<code>Buckland et al. 2017</code>)</h3>
+<p>By grading stomach contents across <strong>7 digestion states</strong> (from State 1 = intact freshly ingested prey to State 6 = isolated hard parts/otoliths/chaetae and State 7 = unidentifiable organic mush and mucus; <a href="https://github.com/gustavdelius/multispecies_stock_assessment/blob/main/papers/Buckland_etal_2017_Standardising_stomach_content_analysis.pdf">Buckland_etal_2017_Standardising_stomach_content_analysis.pdf</a>, Table A1), Buckland et al.&nbsp;demonstrated that: - <strong>Unidentifiable Matter &amp; Mucus Adhesion</strong>: Unidentifiable organic tissue and stomach mucus were present in <span class="math inline">\(33\text{--}77\%\)</span> of stomachs and physically adhered to small prey in <span class="math inline">\(&gt;61\%\)</span> of stomachs, making direct separation for <span class="math inline">\(\%W\)</span> and <span class="math inline">\(\%V\)</span> imprecise. - <strong>Differential Retention of Hard Parts</strong>: Soft-bodied prey (polychaetes, small teleost larvae, nematodes) digest rapidly into unidentifiable mush, whereas crustacean carapaces, bivalve shells, and large teleost otoliths persist in stomachs for days. Raw <span class="math inline">\(\%W\)</span> of partially digested remains can either severely underestimate teleost importance (if only a tiny otolith remains) or overestimate shelled prey (if indigestible shells are weighed). - <strong>Prey Weight Reconstruction vs.&nbsp;Digested Stomach Weight</strong>: - For size-preference estimation (e.g., fitting the <code>mizer</code> or <code>SMS</code> predation kernel <span class="math inline">\(\phi(w_{\text{pred}} / w_{\text{prey}})\)</span>), one requires the <strong>fresh ingested body weight <span class="math inline">\(w_{\text{prey}}\)</span></strong> of the prey at the moment of capture, which must be reconstructed from intact prey lengths or otolith/carapace allometric regressions (<span class="math inline">\(w_{\text{prey}} = a L_{\text{otolith}}^b\)</span>). - Conversely, for evacuation-rate calculation (<code>SMS</code> / <code>FishStomachs</code>), one requires the <strong>actual digested wet mass <span class="math inline">\(S_i\)</span> currently in the stomach</strong> to plug into <span class="math inline">\(\rho_i S_i S_{\text{tot}}^{\alpha - 1}\)</span>! Recording <em>both</em> digested mass <span class="math inline">\(S_i\)</span> and reconstructed ingested size/mass <span class="math inline">\(w_{\text{prey}}\)</span> (as in the ICES and DAPSTOM databases) is therefore essential. - <strong>Robustness of Hierarchical <span class="math inline">\(\%F\)</span></strong>: When comparing across studies with variable digestion states, <code>%F</code> (reported in a nested taxonomic hierarchy from Class <span class="math inline">\(\to\)</span> Order <span class="math inline">\(\to\)</span> Family <span class="math inline">\(\to\)</span> Genus <span class="math inline">\(\to\)</span> Species; <a href="https://github.com/gustavdelius/multispecies_stock_assessment/blob/main/papers/Buckland_etal_2017_Standardising_stomach_content_analysis.pdf">Buckland_etal_2017_Standardising_stomach_content_analysis.pdf</a>, Table B1) is invariant to mucus/evaporation weight distortion and partial fragmentation.</p>
+<hr>
+</section>
+</section>
+<section id="stomach-content-databases-and-spatiotemporal-raising-pipelines-jacobsen-et-al.-2023" class="level2">
+<h2 class="anchored" data-anchor-id="stomach-content-databases-and-spatiotemporal-raising-pipelines-jacobsen-et-al.-2023">5.5 Stomach Content Databases and Spatiotemporal Raising Pipelines (<code>Jacobsen et al. 2023</code>)</h2>
+<section id="major-open-access-stomach-content-databases" class="level3">
+<h3 class="anchored" data-anchor-id="major-open-access-stomach-content-databases">5.5.1 Major Open-Access Stomach Content Databases</h3>
+<p>Two primary databases underpin North Atlantic and European multispecies stock assessments (<a href="https://github.com/gustavdelius/multispecies_stock_assessment/blob/main/papers/Jacobsen_etal_2023_Stomach_content_databases_study.pdf">Jacobsen_etal_2023_Stomach_content_databases_study.pdf</a>): 1. <strong>ICES Stomach Content Database</strong> (<code>stomachdata.ices.dk</code>): Contains <span class="math inline">\(&gt;800,000\)</span> prey records from the North Sea (1981 &amp; 1991 “Years of the Stomach” plus IBTS collections), Baltic Sea (cod and flounder stomachs 1963–2021+), and Barents/Celtic Seas. Organized into four normalized relational tables linked by <code>tblUploadID</code> / <code>tblHaulID</code> / <code>tblPredatorID</code> (<a href="https://github.com/gustavdelius/multispecies_stock_assessment/blob/main/papers/Jacobsen_etal_2023_Stomach_content_databases_study.pdf">Jacobsen_etal_2023_Stomach_content_databases_study.pdf</a>, pp.&nbsp;13–17): - <code>File_Information (FI)</code>: Upload metadata, country, institute, evacuation parameters. - <code>Haul_Information (HH)</code>: ICES survey, gear, ship, haul duration, latitude/longitude, ICES statistical rectangle, bottom depth, bottom temperature <span class="math inline">\(T\)</span>, year, month, time of day. - <code>Predator_Information (PI)</code>: Predator species (<code>AphiaID</code>), predator length class <span class="math inline">\(L\)</span>, individual or pooled sample flag, number of feeding stomachs <span class="math inline">\(n_+\)</span>, number of regurgitated stomachs <span class="math inline">\(n_{\text{reg}}\)</span>, number of empty stomachs <span class="math inline">\(n_0\)</span>, mean predator weight. - <code>Prey_Information (PP)</code>: Prey species (<code>AphiaID</code>), digestion stage, prey length class <span class="math inline">\(l\)</span>, prey count <span class="math inline">\(N_{\text{prey}}\)</span>, total observed wet weight <span class="math inline">\(S_i\)</span> in stomach, and gravimetric method. 2. <strong>CEFAS <code>DAPSTOM</code> Database</strong> (Pinnegar 2014, 2019; <a href="https://github.com/gustavdelius/multispecies_stock_assessment/blob/main/papers/Jacobsen_etal_2023_Stomach_content_databases_study.pdf">Jacobsen_etal_2023_Stomach_content_databases_study.pdf</a>, pp.&nbsp;10–12; <a href="https://github.com/gustavdelius/multispecies_stock_assessment/blob/main/papers/Morgan_2022_Fitting_distributions_stomach_contents_mizer.pdf">Morgan_2022_Fitting_distributions_stomach_contents_mizer.pdf</a>): Contains <span class="math inline">\(&gt;225,000\)</span> stomach records from 1836 to 2016 across Northwest European shelf seas, providing individual predator-prey length and mass ratios (PPMR) across a 180-year historical baseline.</p>
+<hr>
+</section>
+<section id="design-based-stratified-raising-fishstomachs-r-package" class="level3">
+<h3 class="anchored" data-anchor-id="design-based-stratified-raising-fishstomachs-r-package">5.5.2 Design-Based Stratified Raising (<code>FishStomachs</code> R Package)</h3>
+<p>Because research vessels sample a fixed number of stomachs per length class per haul (e.g., at most 5 cod per 5-cm length bin per haul) rather than sampling proportionally to true predator density in the sea, simple arithmetic averages across all sampled stomachs are <strong>spatially biased</strong> toward areas with low predator density.</p>
+<p>The ICES standard raising pipeline—implemented in Morten Vinther’s <strong><code>FishStomachs</code></strong> R package (<a href="https://github.com/gustavdelius/multispecies_stock_assessment/blob/main/papers/Jacobsen_etal_2023_Stomach_content_databases_study.pdf">Jacobsen_etal_2023_Stomach_content_databases_study.pdf</a>, pp.&nbsp;34–38)—raises individual/haul stomach observations to the population level in three hierarchical steps: 1. <strong>Step 1 (Regurgitation Correction &amp; Evacuation Conversion at Haul Level <span class="math inline">\(h\)</span>)</strong>: Within each haul <span class="math inline">\(h\)</span> and predator length class <span class="math inline">\(L\)</span>, regurgitated stomachs (<span class="math inline">\(n_{\text{reg}, h, L}\)</span>) are assumed to have had the same mean diet as feeding stomachs (<span class="math inline">\(n_{+, h, L}\)</span>), so observed weights are scaled by <span class="math inline">\(\frac{n_{+,h,L} + n_{\text{reg},h,L}}{n_{+,h,L} \left(n_{+,h,L} + n_{\text{reg},h,L} + n_{0,h,L}\right)}\)</span> and converted from stomach mass <span class="math inline">\(S_{i,h,L}\)</span> to evacuated ration rate <span class="math inline">\(R_{i,h,L}\)</span> using the Andersen &amp; Beyer (2005) cylinder equation and Rindorf &amp; Lewy (2004) pooling bias correction. 2. <strong>Step 2 (Haul-to-Rectangle Raising via √Stomachs or CPUE)</strong>: Within each ICES statistical rectangle <span class="math inline">\(r\)</span>, haul rations <span class="math inline">\(R_{i,h,L}\)</span> are weighted by <span class="math inline">\(\sqrt{n_{\text{stom}, h, L}}\)</span> (or haul predator CPUE) to obtain the rectangle mean ration <span class="math inline">\(R_{i,r,L} = \frac{\sum_{h \in r} w_{h,L} R_{i,h,L}}{\sum_{h \in r} w_{h,L}}\)</span>. 3. <strong>Step 3 (Rectangle-to-Stock Raising via Predator Survey Abundance <span class="math inline">\(I_{r,L}\)</span>)</strong>: Across all rectangles <span class="math inline">\(r \in \mathcal{R}\)</span> in the stock assessment area, rectangle rations are weighted by the <strong>survey abundance index <span class="math inline">\(I_{r,L}\)</span> of predators of length <span class="math inline">\(L\)</span> in rectangle <span class="math inline">\(r\)</span></strong>: <span class="math display">\[\bar{R}_{\text{pop}, i, L} = \frac{\sum_{r \in \mathcal{R}} I_{r, L} \, R_{i, r, L}}{\sum_{r \in \mathcal{R}} I_{r, L}}, \qquad \hat{W}_{\text{pop}, i, L} = \frac{\bar{R}_{\text{pop}, i, L}}{\sum_{k} \bar{R}_{\text{pop}, k, L}}\]</span></p>
+<hr>
+</section>
+<section id="model-based-spatiotemporal-standardization-sdmtmb" class="level3">
+<h3 class="anchored" data-anchor-id="model-based-spatiotemporal-standardization-sdmtmb">5.5.3 Model-Based Spatiotemporal Standardization (<code>sdmTMB</code>)</h3>
+<p>When stomach sampling is patchy in space and time (missing ICES rectangles in certain quarters/years), design-based raising suffers from missing-stratum bias. Jacobsen et al.&nbsp;(<a href="https://github.com/gustavdelius/multispecies_stock_assessment/blob/main/papers/Jacobsen_etal_2023_Stomach_content_databases_study.pdf">Jacobsen_etal_2023_Stomach_content_databases_study.pdf</a>, pp.&nbsp;26–33) developed a <strong>model-based spatiotemporal standardization workflow</strong> using <strong><code>sdmTMB</code></strong> (Anderson et al.&nbsp;2022): 1. Define the <strong>Feeding Ratio (FR)</strong> of prey <span class="math inline">\(i\)</span> in individual predator <span class="math inline">\(k\)</span> of length <span class="math inline">\(L_k\)</span> at spatial coordinates <span class="math inline">\(\mathbf{s}_k\)</span> and year-quarter <span class="math inline">\(t\)</span> as: <span class="math display">\[\text{FR}_{i,k} = \frac{S_{i,k}}{W_{\text{pred}, k}}\]</span> 2. Fit a spatial/spatiotemporal Generalized Linear Mixed Model (GLMM) with a <strong>Tweedie</strong> distribution (power variance <span class="math inline">\(V(\mu) = \phi \mu^p\)</span> with <span class="math inline">\(1 &lt; p &lt; 2\)</span>, which naturally models continuous positive ratios with a point mass at exact zero <span class="math inline">\(\text{FR}_{i,k} = 0\)</span>!) and log link: <span class="math display">\[\mathbb{E}[\text{FR}_{i,k}] = \mu_{i,k}, \qquad \ln \mu_{i,k} = \mathbf{X}_k \boldsymbol{\beta} + s(L_k) + \omega_i(\mathbf{s}_k) + \epsilon_i(\mathbf{s}_k, t)\]</span> where <span class="math inline">\(s(L_k)\)</span> is a smooth spline of predator length, <span class="math inline">\(\omega_i(\mathbf{s}) \sim \text{MVN}(\mathbf{0}, \boldsymbol{\Sigma}_\omega)\)</span> is a time-invariant spatial Gaussian Markov Random Field (GMRF) approximated via SPDE on a finite-element mesh, and <span class="math inline">\(\epsilon_i(\mathbf{s}, t)\)</span> is a spatiotemporal random field. 3. Predict <span class="math inline">\(\hat{\mu}_{i}(\mathbf{s}_g, L, t)\)</span> across a fine spatial prediction grid <span class="math inline">\(g \in \mathcal{G}\)</span>, weight by spatially predicted predator density <span class="math inline">\(\hat{D}_{\text{pred}}(\mathbf{s}_g, L, t)\)</span> (also estimated via <code>sdmTMB</code> on trawl survey catches), and normalize across prey types <span class="math inline">\(i\)</span> to obtain spatially unbiased population diet proportions and their standard errors!</p>
+<hr>
+</section>
+</section>
+<section id="statistical-observation-models-and-likelihoods-for-stomach-content-data" class="level2">
+<h2 class="anchored" data-anchor-id="statistical-observation-models-and-likelihoods-for-stomach-content-data">5.6 Statistical Observation Models and Likelihoods for Stomach Content Data</h2>
+<p>Once population-level diet proportions <span class="math inline">\(\mathbf{W}_{U} = (W_{1,U}, \dots, W_{K,U})^\top\)</span> (satisfying <span class="math inline">\(\sum_{k=1}^K W_{k,U} = 1\)</span>) or individual predator-prey mass ratios (PPMR) are prepared for predator stratum <span class="math inline">\(U = (A, L, y, q)\)</span>, how should they enter the stock assessment objective function?</p>
+<section id="summary-comparison-of-compositional-diet-likelihoods" class="level3">
+<h3 class="anchored" data-anchor-id="summary-comparison-of-compositional-diet-likelihoods">5.6.1 Summary Comparison of Compositional Diet Likelihoods</h3>
+<table class="caption-top table">
+<thead>
+<tr class="header">
+<th style="text-align: left;">Likelihood Distribution</th>
+<th style="text-align: left;">Data Support</th>
+<th style="text-align: left;">Log-Likelihood <span class="math inline">\(\ln L(\mathbf{W}_U \mid \hat{\mathbf{p}}_U, \theta)\)</span></th>
+<th style="text-align: left;">Variance Structure <span class="math inline">\(\text{Var}(W_k)\)</span></th>
+<th style="text-align: left;">Handling of Zeros (<span class="math inline">\(W_k = 0\)</span>)</th>
+<th style="text-align: left;">Used In</th>
+</tr>
+</thead>
+<tbody>
+<tr class="odd">
+<td style="text-align: left;"><strong>1. Multinomial</strong></td>
+<td style="text-align: left;">Proportions <span class="math inline">\(\mathbf{W}_U \in [0,1]^K\)</span> scaled by sample size <span class="math inline">\(N_U\)</span></td>
+<td style="text-align: left;"><span class="math inline">\(N_U \sum_{k=1}^K W_{k,U} \ln \hat{p}_{k,U} + \text{const}\)</span></td>
+<td style="text-align: left;"><span class="math inline">\(\frac{\hat{p}_k(1-\hat{p}_k)}{N_U}\)</span> (Fixed by <span class="math inline">\(N_U\)</span>; no free dispersion parameter)</td>
+<td style="text-align: left;"><strong>Natural</strong>: <span class="math inline">\(W_{k,U} = 0\)</span> simply contributes <span class="math inline">\(0 \cdot \ln \hat{p}_{k,U} = 0\)</span>!</td>
+<td style="text-align: left;"><code>MSCAA</code>, <code>CEATTLE</code>, <code>Gadget</code>, <code>SMS</code> (Option A)</td>
+</tr>
+<tr class="even">
+<td style="text-align: left;"><strong>2. Dirichlet</strong></td>
+<td style="text-align: left;">Strictly positive simplex <span class="math inline">\(W_{k,U} \in (0, 1)\)</span>, <span class="math inline">\(\sum_k W_{k,U} = 1\)</span></td>
+<td style="text-align: left;"><span class="math inline">\(\ln\Gamma(v_U) - \sum_{k=1}^K \ln\Gamma(v_U \hat{p}_{k,U}) + \sum_{k=1}^K (v_U \hat{p}_{k,U} - 1)\ln W_{k,U}\)</span></td>
+<td style="text-align: left;"><span class="math inline">\(\frac{\hat{p}_k(1-\hat{p}_k)}{v_U + 1}\)</span> (Estimable precision <span class="math inline">\(v_U = N_U/\theta - 1\)</span>)</td>
+<td style="text-align: left;"><strong>Undefined at <span class="math inline">\(W_k = 0\)</span></strong> (<span class="math inline">\(\ln 0 = -\infty\)</span>); requires pooling zero bins or tail compression</td>
+<td style="text-align: left;"><code>SMS</code> (Default), <code>EcoState</code>, <code>MSCAA</code></td>
+</tr>
+<tr class="odd">
+<td style="text-align: left;"><strong>3. Dirichlet-Multinomial (DM)</strong></td>
+<td style="text-align: left;">Count vector <span class="math inline">\(N_U \mathbf{W}_U\)</span> with overdispersion <span class="math inline">\(\beta = \theta N_U\)</span></td>
+<td style="text-align: left;"><span class="math inline">\(\ln\Gamma(N_U+1) + \ln\Gamma(\beta) - \ln\Gamma(N_U+\beta) + \sum_{k=1}^K \left[\ln\frac{\Gamma(N_U W_k + \beta \hat{p}_k)}{\Gamma(N_U W_k + 1)\Gamma(\beta \hat{p}_k)}\right]\)</span></td>
+<td style="text-align: left;"><span class="math inline">\(\frac{\hat{p}_k(1-\hat{p}_k)}{N_U} \left(\frac{N_U + \beta}{1 + \beta}\right)\)</span> (Linear or saturating parameterization; <a href="https://github.com/gustavdelius/multispecies_stock_assessment/blob/main/papers/Thorson_etal_2017_Dirichlet_multinomial_effective_sample_size.pdf">Thorson_etal_2017_Dirichlet_multinomial_effective_sample_size.pdf</a>)</td>
+<td style="text-align: left;"><strong>Natural</strong>: Exact handling of <span class="math inline">\(W_{k,U} = 0\)</span> AND estimable overdispersion <span class="math inline">\(\theta\)</span>!</td>
+<td style="text-align: left;"><code>SS3</code>, <code>LIME</code>, <code>WHAM</code>, modern <code>Rceattle</code></td>
+</tr>
+<tr class="even">
+<td style="text-align: left;"><strong>4. Additive Logistic-Normal (Aitchison)</strong></td>
+<td style="text-align: left;">Log-ratios <span class="math inline">\(y_k = \ln(W_k / W_K) \in \mathbb{R}^{K-1}\)</span></td>
+<td style="text-align: left;"><span class="math inline">\(-\frac{1}{2}\ln|2\pi\boldsymbol{\Sigma}_U| - \frac{1}{2}(\mathbf{y}_U - \hat{\boldsymbol{\mu}}_U)^\top \boldsymbol{\Sigma}_U^{-1} (\mathbf{y}_U - \hat{\boldsymbol{\mu}}_U) - \sum_{k=1}^K \ln W_{k,U}\)</span></td>
+<td style="text-align: left;">Arbitrary <span class="math inline">\((K-1)\times(K-1)\)</span> covariance <span class="math inline">\(\boldsymbol{\Sigma}_U\)</span> (allows positive/negative correlations!)</td>
+<td style="text-align: left;">Requires zero replacement or censored Tobit normal integration</td>
+<td style="text-align: left;"><code>SAM</code> (compositions), <code>gadget3</code> (<code>mvlogistic</code>)</td>
+</tr>
+</tbody>
+</table>
+</section>
+<section id="mathematical-derivation-of-the-compound-dirichlet-multinomial-likelihood-thorson-et-al.-2017" class="level3">
+<h3 class="anchored" data-anchor-id="mathematical-derivation-of-the-compound-dirichlet-multinomial-likelihood-thorson-et-al.-2017">5.6.2 Mathematical Derivation of the Compound Dirichlet-Multinomial Likelihood (<code>Thorson et al. 2017</code>)</h3>
+<p>Because compositional observations in both age/length sampling and stomach content analysis exhibit strong <strong>overdispersion</strong> relative to a pure multinomial draw of nominal sample size <span class="math inline">\(n\)</span>, Thorson, Johnson, Methot &amp; Taylor (<a href="https://github.com/gustavdelius/multispecies_stock_assessment/blob/main/papers/Thorson_etal_2017_Dirichlet_multinomial_effective_sample_size.pdf">Thorson_etal_2017_Dirichlet_multinomial_effective_sample_size.pdf</a>) derived a model-based compound <strong>Dirichlet-Multinomial (DM)</strong> likelihood that estimates effective sample size <span class="math inline">\(n_{\text{eff}}\)</span> simultaneously with all stock assessment parameters.</p>
+<ol type="1">
+<li><p><strong>Hierarchical Compound Integral Formulation</strong>: Let <span class="math inline">\(\mathbf{p} = (p_1, \dots, p_A)\)</span> denote the assessment model’s expected proportion vector across <span class="math inline">\(A\)</span> categories (<span class="math inline">\(\sum_{a=1}^A p_a = 1\)</span>), and suppose that due to <strong>process error</strong> (unmodeled spatial/temporal variation in cohort availability or predator foraging) or <strong>clustered sampling</strong> (schooling of fish within trawl hauls), the true local proportion vector <span class="math inline">\(\boldsymbol{\mu} = (\mu_1, \dots, \mu_A)\)</span> encountered during sampling is drawn from a Dirichlet distribution with expectation <span class="math inline">\(\mathbf{p}\)</span> and concentration sum <span class="math inline">\(\beta = \sum_{a=1}^A \beta p_a &gt; 0\)</span>, followed by a multinomial sample of size <span class="math inline">\(n\)</span> yielding observed proportions <span class="math inline">\(\tilde{\boldsymbol{\pi}} = (\tilde{\pi}_1, \dots, \tilde{\pi}_A)\)</span> (<a href="https://github.com/gustavdelius/multispecies_stock_assessment/blob/main/papers/Thorson_etal_2017_Dirichlet_multinomial_effective_sample_size.pdf">Thorson_etal_2017_Dirichlet_multinomial_effective_sample_size.pdf</a>, Eqs. 2–5, p.&nbsp;86):</p>
+<p><span class="math display">\[\Pr(\tilde{\boldsymbol{\pi}} \mid \mathbf{p}, n, \beta) = \int \text{Multinomial}(n\tilde{\boldsymbol{\pi}} \mid \boldsymbol{\mu}, n) \, \text{Dirichlet}(\boldsymbol{\mu} \mid \beta \mathbf{p}) \, d\boldsymbol{\mu}\]</span></p>
+<p>Evaluating this Dirichlet integral analytically yields the closed-form <strong>Dirichlet-Multinomial log-likelihood</strong>:</p>
+<p><span class="math display">\[\ln f_{\text{DM}}(\tilde{\boldsymbol{\pi}} \mid \mathbf{p}, n, \beta) = \ln\Gamma(n + 1) - \sum_{a=1}^{A} \ln\Gamma(n\tilde{\pi}_a + 1) + \ln\Gamma(\beta) - \ln\Gamma(n + \beta) + \sum_{a=1}^{A} \Big[\ln\Gamma(n\tilde{\pi}_a + \beta p_a) - \ln\Gamma(\beta p_a)\Big]\]</span></p>
+<p>Notice that when <span class="math inline">\(\tilde{\pi}_a = 0\)</span>, the term inside the final sum is <span class="math inline">\(\ln\Gamma(\beta p_a) - \ln\Gamma(\beta p_a) = 0\)</span>, so <strong>exact observed zeros require no ad hoc constant addition or bin pooling</strong>!</p></li>
+<li><p><strong>Two Parameterizations of Effective Sample Size (<span class="math inline">\(n_{\text{eff}}\)</span>)</strong>: The marginal variance of an observed proportion <span class="math inline">\(\tilde{\pi}_a\)</span> under the DM distribution is <span class="math inline">\(\text{Var}(\tilde{\pi}_a) = \frac{p_a(1 - p_a)}{n}\left(\frac{n + \beta}{1 + \beta}\right)\)</span>. Equating this to the equivalent multinomial variance <span class="math inline">\(\frac{p_a(1 - p_a)}{n_{\text{eff}}}\)</span> yields <span class="math inline">\(n_{\text{eff}} = \frac{n + n\beta}{n + \beta}\)</span>. Thorson et al.&nbsp;(<a href="https://github.com/gustavdelius/multispecies_stock_assessment/blob/main/papers/Thorson_etal_2017_Dirichlet_multinomial_effective_sample_size.pdf">Thorson_etal_2017_Dirichlet_multinomial_effective_sample_size.pdf</a>, Eqs. 9–12, p.&nbsp;86) introduced two distinct parameterizations of how <span class="math inline">\(n_{\text{eff}}\)</span> scales with input sample size <span class="math inline">\(n_y\)</span> across years:</p>
+<ul>
+<li><strong>Parameterization #1 (Linear Scaling, <span class="math inline">\(\beta_y = \theta n_y\)</span>, Default)</strong>: <span class="math display">\[n_{\text{eff}, y} = \frac{1 + \theta n_y}{1 + \theta} = \frac{1}{1 + \theta} + n_y \left(\frac{\theta}{1 + \theta}\right)\]</span> As <span class="math inline">\(\theta \to \infty\)</span>, <span class="math inline">\(n_{\text{eff}, y} \to n_y\)</span> (recovering the unweighted multinomial); for small <span class="math inline">\(\theta\)</span> and large <span class="math inline">\(n_y\)</span>, <span class="math inline">\(\frac{\theta}{1 + \theta} \in (0, 1)\)</span> acts directly as a <strong>multiplicative data-weighting factor</strong> <span class="math inline">\(\lambda\)</span> (analogous to McAllister–Ianelli or Francis <code>TA1.8</code> reweighting), suitable when overdispersion arises from <strong>clustered/schooling sampling</strong>.</li>
+<li><strong>Parameterization #2 (Saturating Scaling, <span class="math inline">\(\beta_y = \beta\)</span> constant)</strong>: <span class="math display">\[n_{\text{eff}, y} = \frac{n_y + n_y \beta}{n_y + \beta} \xrightarrow{n_y \gg \beta} 1 + \beta\]</span> Here <span class="math inline">\(n_{\text{eff}, y}\)</span> increases linearly with <span class="math inline">\(n_y\)</span> at small sample sizes (<span class="math inline">\(n_y \ll \beta\)</span>) but <strong>asymptotes at an upper ceiling <span class="math inline">\(1 + \beta\)</span></strong> as <span class="math inline">\(n_y \to \infty\)</span>, which is theoretically exact when overdispersion arises from <strong>process error / model misspecification</strong> in selectivity or availability (because measuring infinitely many fish in year <span class="math inline">\(y\)</span> cannot reduce year-specific process error <span class="math inline">\(\text{Var}(\mu_a) = \frac{p_a(1-p_a)}{1+\beta}\)</span>!).</li>
+</ul></li>
+</ol>
+<blockquote class="blockquote">
+<p>[!TIP] <strong>Choosing Between Dirichlet, Dirichlet-Multinomial, and Logistic-Normal for Multispecies Assessments</strong>: While the <strong>Dirichlet</strong> distribution (used in <code>SMS</code> and <code>EcoState</code>) works well for aggregated species-level diet shares where all modeled prey are present (<span class="math inline">\(W_{k,U} &gt; 0\)</span>), when diet data are disaggregated simultaneously by <strong>prey species AND prey size bins</strong> (as required for <code>Gadget</code> or dynamic <code>mizer</code>), many <span class="math inline">\((i, l)\)</span> prey bins have observed <span class="math inline">\(W_{k,U} = 0\)</span>. In that regime, the <strong>Dirichlet-Multinomial (<a href="https://github.com/gustavdelius/multispecies_stock_assessment/blob/main/papers/Thorson_etal_2017_Dirichlet_multinomial_effective_sample_size.pdf">Thorson_etal_2017_Dirichlet_multinomial_effective_sample_size.pdf</a>)</strong> is strictly superior to the plain Dirichlet because <span class="math inline">\(W_{k,U} = 0\)</span> is in the natural support of the distribution while still estimating <span class="math inline">\(\theta_{\text{stom}}\)</span> via maximum likelihood. Note, however, that both Dirichlet and DM imply strictly negative correlations <span class="math inline">\(\text{Corr}(\tilde{\pi}_a, \tilde{\pi}_{a'}) &lt; 0\)</span> between bins; if positive correlations between adjacent length bins are strong, the <strong>Logistic-Normal</strong> or <strong>Tweedie spatial GLMM</strong> (<code>sdmTMB</code>) should be used.</p>
+</blockquote>
+<hr>
+</section>
+</section>
+<section id="fitting-exponential-family-gamma-distributions-to-predatorprey-mass-ratios-morgan-2022" class="level2">
+<h2 class="anchored" data-anchor-id="fitting-exponential-family-gamma-distributions-to-predatorprey-mass-ratios-morgan-2022">5.7 Fitting Exponential Family &amp; Gamma Distributions to Predator–Prey Mass Ratios (<code>Morgan 2022</code>)</h2>
+<p>For continuous size-spectrum models like <code>mizer</code>, stomach content data provide a second, uniquely powerful source of information beyond species diet shares: the <strong>empirical distribution of individual Predator–Prey Mass Ratios (PPMR)</strong>, <span class="math inline">\(\text{PPMR} = w_{\text{pred}} / w_{\text{prey}}\)</span>.</p>
+<p>In his University of York dissertation analyzing <span class="math inline">\(&gt;300,000\)</span> stomach records from the combined CEFAS <code>DAPSTOM</code> and ICES databases, Owain Morgan (<a href="https://github.com/gustavdelius/multispecies_stock_assessment/blob/main/papers/Morgan_2022_Fitting_distributions_stomach_contents_mizer.pdf">Morgan_2022_Fitting_distributions_stomach_contents_mizer.pdf</a>) derived an elegant analytical link between <strong>realized stomach log-PPMR distributions</strong> and the <strong>intrinsic <code>mizer</code> feeding kernel <span class="math inline">\(\varphi_{w'}(w)\)</span></strong> using the multiplicative closure properties of the exponential family.</p>
+<section id="linking-realized-diet-size-distribution-to-the-feeding-kernel-via-the-sheldon-spectrum" class="level3">
+<h3 class="anchored" data-anchor-id="linking-realized-diet-size-distribution-to-the-feeding-kernel-via-the-sheldon-spectrum">5.7.1 Linking Realized Diet Size Distribution to the Feeding Kernel via the Sheldon Spectrum</h3>
+<p>Let <span class="math inline">\(w'\)</span> denote the body mass of the predator and <span class="math inline">\(w\)</span> denote the body mass of an individual prey item in its stomach, so the logarithmic predator-prey mass ratio is: <span class="math display">\[x = \ln\!\left(\frac{w'}{w}\right) \iff w = w' e^{-x}\]</span></p>
+<p>In <code>mizer</code>, the realized number density <span class="math inline">\(I_{w'}(w)\)</span> of prey of weight <span class="math inline">\(w\)</span> consumed by a predator of weight <span class="math inline">\(w'\)</span> is proportional to the product of the predator’s intrinsic <strong>feeding preference kernel</strong> <span class="math inline">\(\varphi_{w'}(w) = \phi(w'/w) = \phi(e^x)\)</span> and the <strong>ambient prey abundance spectrum</strong> <span class="math inline">\(N(w)\)</span> in the sea (<a href="https://github.com/gustavdelius/multispecies_stock_assessment/blob/main/papers/Morgan_2022_Fitting_distributions_stomach_contents_mizer.pdf">Morgan_2022_Fitting_distributions_stomach_contents_mizer.pdf</a>, Eq. 1):</p>
+<p><span class="math display">\[I_{w'}(w) \propto \varphi_{w'}(w) \, N(w)\]</span></p>
+<p>By the Sheldon spectrum power law (<a href="https://github.com/gustavdelius/multispecies_stock_assessment/blob/main/papers/Morgan_2022_Fitting_distributions_stomach_contents_mizer.pdf">Morgan_2022_Fitting_distributions_stomach_contents_mizer.pdf</a>, Eq. 2), background marine abundance density scales as <span class="math inline">\(N(w) = n_0 w^{-\lambda}\)</span> (with <span class="math inline">\(\lambda \approx 2\)</span> for number density per unit weight, or <span class="math inline">\(w N(w) \propto w^{1-\lambda} = w^{-1}\)</span> per logarithmic weight bin <span class="math inline">\(dx = -dw/w\)</span>). Substituting <span class="math inline">\(w = w' e^{-x}\)</span> into <span class="math inline">\(N(w)\)</span> gives:</p>
+<p><span class="math display">\[N(w' e^{-x}) = n_0 (w')^{-\lambda} \exp(\lambda x)\]</span></p>
+<p>Therefore, in terms of the log-PPMR variable <span class="math inline">\(x = \ln(w'/w)\)</span>, the <strong>realized stomach log-PPMR probability density</strong> <span class="math inline">\(f_{\text{real}}(x)\)</span> and the <strong>intrinsic feeding preference kernel</strong> <span class="math inline">\(\phi(x)\)</span> are related by an <strong>exponential tilt factor</strong> <span class="math inline">\(e^{\tilde{\lambda} x}\)</span> (where <span class="math inline">\(\tilde{\lambda} = \lambda - 1 \approx 1\)</span> for number counts in log-bins, or <span class="math inline">\(\tilde{\lambda} = \lambda - 2 \approx 0\)</span> for biomass shares in log-bins):</p>
+<p><span class="math display">\[f_{\text{real}}(x) \propto \phi(x) \, \exp(\tilde{\lambda} x) \iff \phi(x) \propto f_{\text{real}}(x) \, \exp(-\tilde{\lambda} x)\]</span></p>
+</section>
+<section id="exact-multiplicative-closure-of-exponential-family-gamma-distributions-morgan-2022-section-4.6" class="level3">
+<h3 class="anchored" data-anchor-id="exact-multiplicative-closure-of-exponential-family-gamma-distributions-morgan-2022-section-4.6">5.7.2 Exact Multiplicative Closure of Exponential Family &amp; Gamma Distributions (<code>Morgan 2022</code>, Section 4.6)</h3>
+<p>Morgan (<a href="https://github.com/gustavdelius/multispecies_stock_assessment/blob/main/papers/Morgan_2022_Fitting_distributions_stomach_contents_mizer.pdf">Morgan_2022_Fitting_distributions_stomach_contents_mizer.pdf</a>, pp.&nbsp;7–9) showed that if the realized log-PPMR <span class="math inline">\(X = \ln(w'/w) &gt; 0\)</span> follows any distribution in the natural <strong>Exponential Family</strong> with sufficient statistic vector <span class="math inline">\(T(x)\)</span> containing <span class="math inline">\(x\)</span>: <span class="math display">\[f_{\text{real}}(x \mid \boldsymbol{\eta}) = h(x) \exp\!\left(\boldsymbol{\eta}^\top T(x) - A(\boldsymbol{\eta})\right)\]</span> then multiplying by the Sheldon abundance correction <span class="math inline">\(\exp(-\tilde{\lambda} x)\)</span> simply shifts the canonical parameter corresponding to <span class="math inline">\(x\)</span> by <span class="math inline">\(-\tilde{\lambda}\)</span>, keeping the intrinsic feeding kernel <span class="math inline">\(\phi(x)\)</span> within the <strong>exact same parametric distribution family</strong>!</p>
+<p>Specifically: 1. <strong>Normal Distribution on <span class="math inline">\(x = \ln(w'/w)\)</span> (Lognormal on <span class="math inline">\(w'/w\)</span>, as in standard <code>mizer</code>)</strong>: If <span class="math inline">\(f_{\text{real}}(x) = \mathcal{N}(x \mid \mu_{\text{real}}, \sigma^2)\)</span>, then multiplying by <span class="math inline">\(e^{-\tilde{\lambda} x}\)</span> yields another Normal distribution with the <strong>same variance <span class="math inline">\(\sigma^2\)</span></strong> and a shifted mean: <span class="math display">\[\phi(x) = \mathcal{N}\!\left(x \;\middle|\; \mu_{\text{pref}} = \mu_{\text{real}} - \tilde{\lambda} \sigma^2,\; \sigma^2\right)\]</span> 2. <strong>Gamma Distribution on <span class="math inline">\(x = \ln(w'/w)\)</span> (<code>Morgan 2022</code>, Eq. 19–24)</strong>: Because empirical log-PPMR distributions in <code>DAPSTOM</code> and ICES stomachs are positively supported (<span class="math inline">\(x = \ln(w'/w) &gt; 0\)</span>, since predators rarely eat prey heavier than themselves) and right-skewed (sharp gape-limitation cutoff at small <span class="math inline">\(x \approx 2\text{--}3\)</span>, long tail toward small benthic/planktonic prey at large <span class="math inline">\(x \approx 10\text{--}15\)</span>), Morgan (2022) fitted a <strong>Gamma distribution</strong> to <span class="math inline">\(x = \ln(w'/w)\)</span>: <span class="math display">\[f^{\Gamma}_{\alpha, \beta}(x) = \frac{\beta^\alpha}{\Gamma(\alpha)} x^{\alpha - 1} e^{-\beta x}, \qquad x &gt; 0\]</span> When multiplied by <span class="math inline">\(e^{-\tilde{\lambda} x}\)</span>, the Gamma density satisfies the exact algebraic identity (<a href="https://github.com/gustavdelius/multispecies_stock_assessment/blob/main/papers/Morgan_2022_Fitting_distributions_stomach_contents_mizer.pdf">Morgan_2022_Fitting_distributions_stomach_contents_mizer.pdf</a>, Eq. 24): <span class="math display">\[e^{-\tilde{\lambda} x} f^{\Gamma}_{\alpha, \beta}(x) = \left(\frac{\beta}{\beta + \tilde{\lambda}}\right)^\alpha f^{\Gamma}_{\alpha,\; \beta + \tilde{\lambda}}(x)\]</span> Thus, if the observed log-PPMR in stomachs is <span class="math inline">\(\text{Gamma}(\hat{\alpha}, \hat{\beta})\)</span> (with empirical estimates across North Sea cod, haddock, whiting, plaice, and sole clustering around <span class="math inline">\(\hat{\alpha} \approx 6.8\text{--}12.3\)</span>, <span class="math inline">\(\hat{\beta} \approx 1.15\text{--}1.85\)</span>; <a href="https://github.com/gustavdelius/multispecies_stock_assessment/blob/main/papers/Morgan_2022_Fitting_distributions_stomach_contents_mizer.pdf">Morgan_2022_Fitting_distributions_stomach_contents_mizer.pdf</a>, Table 1), the underlying <code>mizer</code> feeding kernel is analytically a <strong><span class="math inline">\(\text{Gamma}(\hat{\alpha},\; \hat{\beta} + \tilde{\lambda})\)</span></strong> distribution on <span class="math inline">\(\ln(w'/w)\)</span>!</p>
+
+
+</section>
+</section>
+
+</main> <!-- /main -->
+<script id="quarto-html-after-body" type="application/javascript">
+  window.document.addEventListener("DOMContentLoaded", function (event) {
+    const icon = "";
+    const anchorJS = new window.AnchorJS();
+    anchorJS.options = {
+      placement: 'right',
+      icon: icon
+    };
+    anchorJS.add('.anchored');
+    const isCodeAnnotation = (el) => {
+      for (const clz of el.classList) {
+        if (clz.startsWith('code-annotation-')) {                     
+          return true;
+        }
+      }
+      return false;
+    }
+    const onCopySuccess = function(e) {
+      // button target
+      const button = e.trigger;
+      // don't keep focus
+      button.blur();
+      // flash "checked"
+      button.classList.add('code-copy-button-checked');
+      var currentTitle = button.getAttribute("title");
+      button.setAttribute("title", "Copied!");
+      let tooltip;
+      if (window.bootstrap) {
+        button.setAttribute("data-bs-toggle", "tooltip");
+        button.setAttribute("data-bs-placement", "left");
+        button.setAttribute("data-bs-title", "Copied!");
+        tooltip = new bootstrap.Tooltip(button, 
+          { trigger: "manual", 
+            customClass: "code-copy-button-tooltip",
+            offset: [0, -8]});
+        tooltip.show();    
+      }
+      setTimeout(function() {
+        if (tooltip) {
+          tooltip.hide();
+          button.removeAttribute("data-bs-title");
+          button.removeAttribute("data-bs-toggle");
+          button.removeAttribute("data-bs-placement");
+        }
+        button.setAttribute("title", currentTitle);
+        button.classList.remove('code-copy-button-checked');
+      }, 1000);
+      // clear code selection
+      e.clearSelection();
+    }
+    const getTextToCopy = function(trigger) {
+      const outerScaffold = trigger.parentElement.cloneNode(true);
+      const codeEl = outerScaffold.querySelector('code');
+      for (const childEl of codeEl.children) {
+        if (isCodeAnnotation(childEl)) {
+          childEl.remove();
+        }
+      }
+      return codeEl.innerText;
+    }
+    const clipboard = new window.ClipboardJS('.code-copy-button:not([data-in-quarto-modal])', {
+      text: getTextToCopy
+    });
+    clipboard.on('success', onCopySuccess);
+    if (window.document.getElementById('quarto-embedded-source-code-modal')) {
+      const clipboardModal = new window.ClipboardJS('.code-copy-button[data-in-quarto-modal]', {
+        text: getTextToCopy,
+        container: window.document.getElementById('quarto-embedded-source-code-modal')
+      });
+      clipboardModal.on('success', onCopySuccess);
+    }
+      var localhostRegex = new RegExp(/^(?:http|https):\/\/localhost\:?[0-9]*\//);
+      var mailtoRegex = new RegExp(/^mailto:/);
+        var filterRegex = new RegExp('/' + window.location.host + '/');
+      var isInternal = (href) => {
+          return filterRegex.test(href) || localhostRegex.test(href) || mailtoRegex.test(href);
+      }
+      // Inspect non-navigation links and adorn them if external
+     var links = window.document.querySelectorAll('a[href]:not(.nav-link):not(.navbar-brand):not(.toc-action):not(.sidebar-link):not(.sidebar-item-toggle):not(.pagination-link):not(.no-external):not([aria-hidden]):not(.dropdown-item):not(.quarto-navigation-tool):not(.about-link)');
+      for (var i=0; i<links.length; i++) {
+        const link = links[i];
+        if (!isInternal(link.href)) {
+          // undo the damage that might have been done by quarto-nav.js in the case of
+          // links that we want to consider external
+          if (link.dataset.originalHref !== undefined) {
+            link.href = link.dataset.originalHref;
+          }
+            // target, if specified
+            link.setAttribute("target", "_blank");
+            if (link.getAttribute("rel") === null) {
+              link.setAttribute("rel", "noopener");
+            }
+        }
+      }
+    function tippyHover(el, contentFn, onTriggerFn, onUntriggerFn) {
+      const config = {
+        allowHTML: true,
+        maxWidth: 500,
+        delay: 100,
+        arrow: false,
+        appendTo: function(el) {
+            return el.parentElement;
+        },
+        interactive: true,
+        interactiveBorder: 10,
+        theme: 'quarto',
+        placement: 'bottom-start',
+      };
+      if (contentFn) {
+        config.content = contentFn;
+      }
+      if (onTriggerFn) {
+        config.onTrigger = onTriggerFn;
+      }
+      if (onUntriggerFn) {
+        config.onUntrigger = onUntriggerFn;
+      }
+      window.tippy(el, config); 
+    }
+    const noterefs = window.document.querySelectorAll('a[role="doc-noteref"]');
+    for (var i=0; i<noterefs.length; i++) {
+      const ref = noterefs[i];
+      tippyHover(ref, function() {
+        // use id or data attribute instead here
+        let href = ref.getAttribute('data-footnote-href') || ref.getAttribute('href');
+        try { href = new URL(href).hash; } catch {}
+        const id = href.replace(/^#\/?/, "");
+        const note = window.document.getElementById(id);
+        if (note) {
+          return note.innerHTML;
+        } else {
+          return "";
+        }
+      });
+    }
+    const xrefs = window.document.querySelectorAll('a.quarto-xref');
+    const processXRef = (id, note) => {
+      // Strip column container classes
+      const stripColumnClz = (el) => {
+        el.classList.remove("page-full", "page-columns");
+        if (el.children) {
+          for (const child of el.children) {
+            stripColumnClz(child);
+          }
+        }
+      }
+      stripColumnClz(note)
+      if (id === null || id.startsWith('sec-')) {
+        // Special case sections, only their first couple elements
+        const container = document.createElement("div");
+        if (note.children && note.children.length > 2) {
+          container.appendChild(note.children[0].cloneNode(true));
+          for (let i = 1; i < note.children.length; i++) {
+            const child = note.children[i];
+            if (child.tagName === "P" && child.innerText === "") {
+              continue;
+            } else {
+              container.appendChild(child.cloneNode(true));
+              break;
+            }
+          }
+          if (window.Quarto?.typesetMath) {
+            window.Quarto.typesetMath(container);
+          }
+          return container.innerHTML
+        } else {
+          if (window.Quarto?.typesetMath) {
+            window.Quarto.typesetMath(note);
+          }
+          return note.innerHTML;
+        }
+      } else {
+        // Remove any anchor links if they are present
+        const anchorLink = note.querySelector('a.anchorjs-link');
+        if (anchorLink) {
+          anchorLink.remove();
+        }
+        if (window.Quarto?.typesetMath) {
+          window.Quarto.typesetMath(note);
+        }
+        if (note.classList.contains("callout")) {
+          return note.outerHTML;
+        } else {
+          return note.innerHTML;
+        }
+      }
+    }
+    for (var i=0; i<xrefs.length; i++) {
+      const xref = xrefs[i];
+      tippyHover(xref, undefined, function(instance) {
+        instance.disable();
+        let url = xref.getAttribute('href');
+        let hash = undefined; 
+        if (url.startsWith('#')) {
+          hash = url;
+        } else {
+          try { hash = new URL(url).hash; } catch {}
+        }
+        if (hash) {
+          const id = hash.replace(/^#\/?/, "");
+          const note = window.document.getElementById(id);
+          if (note !== null) {
+            try {
+              const html = processXRef(id, note.cloneNode(true));
+              instance.setContent(html);
+            } finally {
+              instance.enable();
+              instance.show();
+            }
+          } else {
+            // See if we can fetch this
+            fetch(url.split('#')[0])
+            .then(res => res.text())
+            .then(html => {
+              const parser = new DOMParser();
+              const htmlDoc = parser.parseFromString(html, "text/html");
+              const note = htmlDoc.getElementById(id);
+              if (note !== null) {
+                const html = processXRef(id, note);
+                instance.setContent(html);
+              } 
+            }).finally(() => {
+              instance.enable();
+              instance.show();
+            });
+          }
+        } else {
+          // See if we can fetch a full url (with no hash to target)
+          // This is a special case and we should probably do some content thinning / targeting
+          fetch(url)
+          .then(res => res.text())
+          .then(html => {
+            const parser = new DOMParser();
+            const htmlDoc = parser.parseFromString(html, "text/html");
+            const note = htmlDoc.querySelector('main.content');
+            if (note !== null) {
+              // This should only happen for chapter cross references
+              // (since there is no id in the URL)
+              // remove the first header
+              if (note.children.length > 0 && note.children[0].tagName === "HEADER") {
+                note.children[0].remove();
+              }
+              const html = processXRef(null, note);
+              instance.setContent(html);
+            } 
+          }).finally(() => {
+            instance.enable();
+            instance.show();
+          });
+        }
+      }, function(instance) {
+      });
+    }
+        let selectedAnnoteEl;
+        const selectorForAnnotation = ( cell, annotation) => {
+          let cellAttr = 'data-code-cell="' + cell + '"';
+          let lineAttr = 'data-code-annotation="' +  annotation + '"';
+          const selector = 'span[' + cellAttr + '][' + lineAttr + ']';
+          return selector;
+        }
+        const selectCodeLines = (annoteEl) => {
+          const doc = window.document;
+          const targetCell = annoteEl.getAttribute("data-target-cell");
+          const targetAnnotation = annoteEl.getAttribute("data-target-annotation");
+          const annoteSpan = window.document.querySelector(selectorForAnnotation(targetCell, targetAnnotation));
+          const lines = annoteSpan.getAttribute("data-code-lines").split(",");
+          const lineIds = lines.map((line) => {
+            return targetCell + "-" + line;
+          })
+          let top = null;
+          let height = null;
+          let parent = null;
+          if (lineIds.length > 0) {
+              //compute the position of the single el (top and bottom and make a div)
+              const el = window.document.getElementById(lineIds[0]);
+              top = el.offsetTop;
+              height = el.offsetHeight;
+              parent = el.parentElement.parentElement;
+            if (lineIds.length > 1) {
+              const lastEl = window.document.getElementById(lineIds[lineIds.length - 1]);
+              const bottom = lastEl.offsetTop + lastEl.offsetHeight;
+              height = bottom - top;
+            }
+            if (top !== null && height !== null && parent !== null) {
+              // cook up a div (if necessary) and position it 
+              let div = window.document.getElementById("code-annotation-line-highlight");
+              if (div === null) {
+                div = window.document.createElement("div");
+                div.setAttribute("id", "code-annotation-line-highlight");
+                div.style.position = 'absolute';
+                parent.appendChild(div);
+              }
+              div.style.top = top - 2 + "px";
+              div.style.height = height + 4 + "px";
+              div.style.left = 0;
+              let gutterDiv = window.document.getElementById("code-annotation-line-highlight-gutter");
+              if (gutterDiv === null) {
+                gutterDiv = window.document.createElement("div");
+                gutterDiv.setAttribute("id", "code-annotation-line-highlight-gutter");
+                gutterDiv.style.position = 'absolute';
+                const codeCell = window.document.getElementById(targetCell);
+                const gutter = codeCell.querySelector('.code-annotation-gutter');
+                gutter.appendChild(gutterDiv);
+              }
+              gutterDiv.style.top = top - 2 + "px";
+              gutterDiv.style.height = height + 4 + "px";
+            }
+            selectedAnnoteEl = annoteEl;
+          }
+        };
+        const unselectCodeLines = () => {
+          const elementsIds = ["code-annotation-line-highlight", "code-annotation-line-highlight-gutter"];
+          elementsIds.forEach((elId) => {
+            const div = window.document.getElementById(elId);
+            if (div) {
+              div.remove();
+            }
+          });
+          selectedAnnoteEl = undefined;
+        };
+          // Handle positioning of the toggle
+      window.addEventListener(
+        "resize",
+        throttle(() => {
+          elRect = undefined;
+          if (selectedAnnoteEl) {
+            selectCodeLines(selectedAnnoteEl);
+          }
+        }, 10)
+      );
+      function throttle(fn, ms) {
+      let throttle = false;
+      let timer;
+        return (...args) => {
+          if(!throttle) { // first call gets through
+              fn.apply(this, args);
+              throttle = true;
+          } else { // all the others get throttled
+              if(timer) clearTimeout(timer); // cancel #2
+              timer = setTimeout(() => {
+                fn.apply(this, args);
+                timer = throttle = false;
+              }, ms);
+          }
+        };
+      }
+        // Attach click handler to the DT
+        const annoteDls = window.document.querySelectorAll('dt[data-target-cell]');
+        for (const annoteDlNode of annoteDls) {
+          annoteDlNode.addEventListener('click', (event) => {
+            const clickedEl = event.target;
+            if (clickedEl !== selectedAnnoteEl) {
+              unselectCodeLines();
+              const activeEl = window.document.querySelector('dt[data-target-cell].code-annotation-active');
+              if (activeEl) {
+                activeEl.classList.remove('code-annotation-active');
+              }
+              selectCodeLines(clickedEl);
+              clickedEl.classList.add('code-annotation-active');
+            } else {
+              // Unselect the line
+              unselectCodeLines();
+              clickedEl.classList.remove('code-annotation-active');
+            }
+          });
+        }
+    const findCites = (el) => {
+      const parentEl = el.parentElement;
+      if (parentEl) {
+        const cites = parentEl.dataset.cites;
+        if (cites) {
+          return {
+            el,
+            cites: cites.split(' ')
+          };
+        } else {
+          return findCites(el.parentElement)
+        }
+      } else {
+        return undefined;
+      }
+    };
+    var bibliorefs = window.document.querySelectorAll('a[role="doc-biblioref"]');
+    for (var i=0; i<bibliorefs.length; i++) {
+      const ref = bibliorefs[i];
+      const citeInfo = findCites(ref);
+      if (citeInfo) {
+        tippyHover(citeInfo.el, function() {
+          var popup = window.document.createElement('div');
+          citeInfo.cites.forEach(function(cite) {
+            var citeDiv = window.document.createElement('div');
+            citeDiv.classList.add('hanging-indent');
+            citeDiv.classList.add('csl-entry');
+            var biblioDiv = window.document.getElementById('ref-' + cite);
+            if (biblioDiv) {
+              citeDiv.innerHTML = biblioDiv.innerHTML;
+            }
+            popup.appendChild(citeDiv);
+          });
+          return popup.innerHTML;
+        });
+      }
+    }
+  });
+  </script>
+<nav class="page-navigation">
+  <div class="nav-page nav-page-previous">
+      <a href="./04_size_spectrum_and_food_web_models.html" class="pagination-link" aria-label="Chapter 4: Continuous Size-Spectrum (`mizer`) and State-Space Food-Web Models (`EwE`, `Rpath`, `EcoState`)">
+        <i class="bi bi-arrow-left-short"></i> <span class="nav-page-text"><span class="chapter-title">Chapter 4: Continuous Size-Spectrum (<code>mizer</code>) and State-Space Food-Web Models (<code>EwE</code>, <code>Rpath</code>, <code>EcoState</code>)</span></span>
+      </a>          
+  </div>
+  <div class="nav-page nav-page-next">
+      <a href="./06_statistical_fitting_uncertainty_and_mizer_synthesis.html" class="pagination-link" aria-label="Chapter 6: Statistical Estimation, Data Weighting, Uncertainty Quantification, and an Architectural Roadmap for Dynamic `mizer` Stock Assessment">
+        <span class="nav-page-text"><span class="chapter-title">Chapter 6: Statistical Estimation, Data Weighting, Uncertainty Quantification, and an Architectural Roadmap for Dynamic <code>mizer</code> Stock Assessment</span></span> <i class="bi bi-arrow-right-short"></i>
+      </a>
+  </div>
+</nav>
+</div> <!-- /content -->
+
+
+
+
+<footer class="footer"><div class="nav-footer"><div class="nav-footer-center"><div class="toc-actions d-sm-block d-md-none"><ul><li><a href="https://github.com/gustavdelius/multispecies_stock_assessment/edit/main/05_stomach_content_data_and_likelihoods.md" class="toc-action"><i class="bi bi-github"></i>Edit this page</a></li></ul></div></div></div></footer></body></html>

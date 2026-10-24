@@ -1,0 +1,16 @@
+# Quarto temporary files
+/.quarto/
+
+# R / RStudio temporary files
+.Rhistory
+.Rapp.history
+.RData
+.Ruserdata
+.Rproj.user/
+*_cache/
+/cache/
+*.utf8.md
+*.knit.md
+.Renviron
+
+**/*.quarto_ipynb
