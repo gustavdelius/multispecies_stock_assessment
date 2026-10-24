@@ -1,9 +1,5 @@
 # Chapter 5: Stomach Content Data, Gastric Evacuation Physics, and Diet Likelihood Formulations
 
-> **Navigation**: [Overview](index.md) | [Chapter 1: Taxonomy & Foundations](01_taxonomy_and_foundations.md) | [Chapter 2: Age-Structured Models](02_age_structured_multispecies_models.md) | [Chapter 3: Age-Length & Length-Structured Models](03_age_length_and_length_structured_models.md) | [Chapter 4: Size-Spectrum & Food-Web Models](04_size_spectrum_and_food_web_models.md) | **Chapter 5** | [Chapter 6: Fitting, Uncertainty & `mizer` Roadmap](06_statistical_fitting_uncertainty_and_mizer_synthesis.md) | [References](references.md)
-
----
-
 ## 5.1 Why Stomach Content Data Cannot Be Treated as Direct Diet Proportions
 
 A common pitfall when calibrating ecological models is to treat the wet weight $S_{i,k}$ of prey $i$ observed inside stomach $k$ as a direct measure of the predator's consumption rate $C_i$. In reality, what is observed inside a sampled fish stomach is the **standing stock of partially digested prey**, which is related to the **ingestion flux (consumption rate)** only through the physics of **gastric evacuation** and **spatial sampling design** [@rindorf2004; @andersen_beyer2005; @buckland2017; @jacobsen2023]:
@@ -70,9 +66,9 @@ For $\alpha = 0.5$, $\frac{\alpha(\alpha - 1)}{2} = -\frac{1}{8} = -0.125$, redu
 
 ---
 
-## 5.4 Prey Condition, Differential Digestion, and Dietary Metrics (Buckland et al. 2017)
+## 5.4 Prey Condition, Differential Digestion, and Dietary Metrics (Hyslop 1980; Buckland et al. 2017)
 
-In empirical stomach content analysis, prey are quantified using one or more of four standard metrics [@buckland2017, Table 1]:
+In empirical stomach content analysis, prey are quantified using one or more of four standard metrics [@hyslop1980; @buckland2017, Table 1]:
 1. **Gravimetric ($\%W$)**: Wet or dry mass of prey category $i$ as a percentage of total stomach content mass.
 2. **Volumetric ($\%V$)**: Displaced volume, grid area, or visual points of prey $i$ as a percentage of total volume.
 3. **Numerical ($\%N$)**: Count of prey individuals of category $i$ as a percentage of total counted prey items.
@@ -92,8 +88,8 @@ By grading stomach contents across **7 digestion states** (from State 1 = intact
 ## 5.5 Stomach Content Databases and Spatiotemporal Raising Pipelines (Jacobsen et al. 2023)
 
 ### 5.5.1 Major Open-Access Stomach Content Databases
-Two primary databases underpin North Atlantic and European multispecies stock assessments [@jacobsen2023]:
-1. **ICES Stomach Content Database** (`stomachdata.ices.dk`):
+Two primary databases underpin North Atlantic and European multispecies stock assessments [@ices2010stomach; @jacobsen2023], complemented by global predator–prey body-size compilations [@barnes2008; @barnes2010]:
+1. **ICES Stomach Content Database** (`stomachdata.ices.dk`; @ices2010stomach):
    Contains $>800,000$ prey records from the North Sea (1981 & 1991 "Years of the Stomach" plus IBTS collections), Baltic Sea (cod and flounder stomachs 1963–2021+), and Barents/Celtic Seas. Organized into four normalized relational tables linked by `tblUploadID` / `tblHaulID` / `tblPredatorID` [@jacobsen2023, pp. 13--17]:
    - `File_Information (FI)`: Upload metadata, country, institute, evacuation parameters.
    - `Haul_Information (HH)`: ICES survey, gear, ship, haul duration, latitude/longitude, ICES statistical rectangle, bottom depth, bottom temperature $T$, year, month, time of day.

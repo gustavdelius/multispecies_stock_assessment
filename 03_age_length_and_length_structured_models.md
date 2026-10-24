@@ -1,9 +1,5 @@
 # Chapter 3: Age-Length and Length-Structured Assessment Models (`Gadget`/`gadget3`, `SS3`, `MULTIFAN-CL`, `LeMans`/`LeMaRns`, `CSMS`/`CSM`)
 
-> **Navigation**: [Overview](index.md) | [Chapter 1: Taxonomy & Foundations](01_taxonomy_and_foundations.md) | [Chapter 2: Age-Structured Models](02_age_structured_multispecies_models.md) | **Chapter 3** | [Chapter 4: Size-Spectrum & Food-Web Models](04_size_spectrum_and_food_web_models.md) | [Chapter 5: Stomach Content Data & Likelihoods](05_stomach_content_data_and_likelihoods.md) | [Chapter 6: Fitting, Uncertainty & `mizer` Roadmap](06_statistical_fitting_uncertainty_and_mizer_synthesis.md) | [References](references.md)
-
----
-
 ## 3.1 Why Track Length in Addition to (or Instead of) Age?
 
 In marine ecosystems, nearly every ecological and fishery interaction—gape-limited predation, trawl mesh selection, gillnet dome-shaped selectivity, metabolic rate, and fecundity—is a direct physical function of **body size (length $L$ or weight $W$)** rather than chronological age $a$ [@stefansson1998; @punt2016]. Purely age-structured models (`MSVPA`, `SMS`, `CEATTLE`) suffer from three structural limitations when size-dependent processes are strong:
@@ -16,11 +12,11 @@ In marine ecosystems, nearly every ecological and fishery interaction—gape-lim
 ## 3.2 `Gadget` (`Gadget2` and `gadget3`): Statistical Age-Length-Structured Multispecies Framework
 
 ### 3.2.1 Lineage and Architecture
-**Gadget** (*Globally Applicable Area Disaggregated General Ecosystem Toolbox*) evolved from two Nordic multispecies research models of the late 1980s and 1990s [@stefansson1998; @begley2004overview]:
+**Gadget** (*Globally Applicable Area Disaggregated General Ecosystem Toolbox*) evolved from two Nordic multispecies research models of the late 1980s and 1990s [@stefansson1998; @begley2004overview], synthesized under the EU `dst2` project [@stefansson2003; @stefansson2004dst2; @begley2004guide; @begley2004overview]:
 - **MULTSPEC** [@bogstad1997, IMR Norway]: An area-, age-, and length-structured model of Barents Sea cod, capelin, herring, harp seals, and minke whales.
-- **BORMICON** (*Boreal Migration and Consumption model*; @stefansson_palsson1997, MRI Iceland): A statistical multi-area age-length assessment model of Icelandic cod, capelin, and northern shrimp (*Pandalus borealis*) [@taylor2004shrimp; @taylor2004cod].
+- **BORMICON** (*Boreal Migration and Consumption model*; @stefansson_palsson1997, MRI Iceland): A statistical multi-area age-length assessment model of Icelandic cod, capelin, and northern shrimp (*Pandalus borealis*) [@taylor2004shrimp; @taylor2004cod; @taylor2007].
 
-Originally written in C++ (`Gadget2`, @begley2004guide) and optimized via Hooke & Jeeves pattern search, Simulated Annealing, and BFGS, the framework has recently been re-engineered as **`gadget3` (`g3`)** [@lentz_gadget3; @ices2021], which compiles modular R model definitions (`g3a_grow_*`, `g3a_predate_*`, `g3l_distribution_*`) directly into **TMB C++ templates with exact automatic differentiation**.
+Originally written in C++ (`Gadget2`, @begley2004guide) and optimized via Hooke & Jeeves pattern search, Simulated Annealing, and BFGS, with applications ranging from Icelandic cod–capelin–shrimp interactions [@taylor2004shrimp; @taylor2004cod; @taylor2007] and Mediterranean hake [@bartolino2011] to Eastern Baltic cod ontogenetic diet shifts [@kulatska2019], the framework has recently been re-engineered as **`gadget3` (`g3`)** [@lentz_gadget3; @ices2021], which compiles modular R model definitions (`g3a_grow_*`, `g3a_predate_*`, `g3l_distribution_*`) directly into **TMB C++ templates with exact automatic differentiation**.
 
 ### 3.2.2 State-Space Tensor ($N_{s,a,l,r,t}$ and $W_{s,a,l,r,t}$)
 Gadget tracks sub-stocks $s$ (which may represent species, sex, or immature vs. mature life stages, e.g., immature hake vs. mature hake in @bartolino2011) across discrete time steps $t$ (typically monthly or quarterly, $\Delta t = 1/12$ or $1/4\text{ yr}$), spatial areas $r$, discrete ages $a \in \{a_{\min}, \dots, a_{\max}\}$, and discrete length bins $l \in \{1, \dots, n_L\}$ with bin boundaries $[L_{\min, l}, L_{\max, l})$ and midpoint $L_l$.
@@ -160,7 +156,7 @@ Because a typical Gadget model combines $10\text{--}30$ disparate likelihood com
 
 ## 3.3 Single-Species Length-Based & Integrated Assessments as a Methodological Bridge
 
-Single-species integrated assessment models (`MULTIFAN-CL`, `Stock Synthesis` SS3, and pure size-structured models reviewed by @punt2016) solved several fundamental statistical problems in fitting length-composition data that are directly applicable to size-spectrum models like `mizer`.
+Building on classical cohort and yield theory [@beverton_holt1956; @beverton_holt1957; @cadima2003; @lart2022], single-species integrated assessment models (`MULTIFAN-CL` [@fournier1998], `Stock Synthesis` `SS3` [@methot2013], Reviewed by @maunder2013), size-transition matrix assessments [@punt2016], and non-equilibrium length-based mixed-effects models (`LIME` [@rudd2018]) solved several fundamental statistical problems in fitting length-composition data that are directly applicable to size-spectrum models like `mizer`.
 
 ### 3.3.1 `MULTIFAN-CL` and Fournier's Robustified Length-Frequency Likelihood
 Developed by David Fournier, John Hampton, and John Sibert [@fournier1998] for Western and Central Pacific tuna assessments, **MULTIFAN-CL** was the first large-scale ADMB integrated model to estimate age-structured dynamics directly from length-frequency data.
@@ -240,8 +236,8 @@ To relax these equilibrium assumptions while requiring as little as **1 year of 
 
 ## 3.4 Discrete Length-Structured Multispecies Models (`LeMans`, `LeMaRns`, `CSMS`, `CSM`)
 
-### 3.4.1 `LeMans` and `LeMaRns` (Hall et al. 2006; Thorpe et al. 2015; Spence et al. 2020, 2021)
-Originally created by Stephen Hall, Collie, Jennings, Bravington, and Pope [@hall2006] for Georges Bank and adapted to the North Sea by @thorpe2015 and Michael Spence et al. as the R/C++ package **`LeMaRns`** [@spence2020; @spence2021advice; @spence2021uncertainty], **LeMans** (*Length-based Multispecies analysis by numerical simulation*) is a discrete-time, discrete-length-bin multispecies model with fixed von Bertalanffy growth and one-way predation mortality feedback.
+### 3.4.1 `LeMans` and `LeMaRns` (Hall et al. 2006; Rochet et al. 2011; Thorpe et al. 2015; Spence et al. 2020, 2021)
+Originally created by Stephen Hall, Collie, Jennings, Bravington, and Pope [@hall2006] for Georges Bank, extended to evaluate selective fishing across size-based models [@rochet2011], and adapted to the North Sea by @thorpe2015 and Michael Spence et al. as the R/C++ package **`LeMaRns`** [@spence2020; @spence2021advice; @spence2021uncertainty], **LeMans** (*Length-based Multispecies analysis by numerical simulation*) is a discrete-time, discrete-length-bin multispecies model with fixed von Bertalanffy growth and one-way predation mortality feedback.
 
 #### Mathematical Equations of `LeMaRns` [@spence2020, pp. 3--7]
 Let $N_{i,j,t}$ be the number of individuals of species $i \in \{1, \dots, n_s\}$ in length class $j \in \{1, \dots, n_l\}$ with bounds $[L_j, L_{j+1})$ and midpoint $\bar{L}_j = (L_j + L_{j+1})/2$, body mass $W_{i,j} = \alpha_i \bar{L}_j^{\beta_i}$, and maturity ogive $m_{i,j} = \left(1 + \exp(-\kappa_{m,i}(\bar{L}_j - L_{\text{mat},i}))\right)^{-1}$.
@@ -272,7 +268,7 @@ Let $N_{i,j,t}$ be the number of individuals of species $i \in \{1, \dots, n_s\}
 ---
 
 ### 3.4.2 `CSMS` and `CSM` (Pope et al. 2006, 2019): Moment-Based Reduction of Length Spectra
-John Pope and colleagues developed two remarkably parsimonious length-based multispecies models to explore multispecies MSY and community structure:
+John Pope and colleagues [@pope2006; @gislason2010; @pope2019] developed two remarkably parsimonious length-based multispecies models to explore multispecies MSY and community structure:
 1. **CSMS (Charmingly Simple Multispecies Size-based model; @pope2006)**:
    Parameterizes an entire 13-species North Sea fish community using only **15 life-history scaling parameters** (linking von Bertalanffy $k_i = c_k L_{\infty,i}^{-0.31}$, maturity $L_{\text{mat},i} = c_m L_{\infty,i}$, Ricker recruitment parameters, and Andersen-Ursin predation solely to each species' asymptotic length $L_{\infty,i}$), reproducing the community size spectrum slope and steeper slopes under fishing.
 2. **CSM (Charmingly Simple Model; @pope2019)**:

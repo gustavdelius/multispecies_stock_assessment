@@ -1,9 +1,5 @@
 # Chapter 6: Statistical Estimation, Data Weighting, Uncertainty Quantification, and an Architectural Roadmap for Dynamic `mizer` Stock Assessment
 
-> **Navigation**: [Overview](index.md) | [Chapter 1: Taxonomy & Foundations](01_taxonomy_and_foundations.md) | [Chapter 2: Age-Structured Models](02_age_structured_multispecies_models.md) | [Chapter 3: Age-Length & Length-Structured Models](03_age_length_and_length_structured_models.md) | [Chapter 4: Size-Spectrum & Food-Web Models](04_size_spectrum_and_food_web_models.md) | [Chapter 5: Stomach Content Data & Likelihoods](05_stomach_content_data_and_likelihoods.md) | **Chapter 6** | [References](references.md)
-
----
-
 ## 6.1 Master Comparative Synthesis Across Multispecies Stock Assessment Model Families
 
 | Feature / Dimension | `MSVPA` / `MSFOR` | `SMS` / `smsR` | `MSCAA` / `Hydra` | `CEATTLE` / `Rceattle` | `Gadget2` / `gadget3` | `LeMans` / `LeMaRns` | `EwE` / `Rpath` / `EcoState` | `mizer` (Standard & Jump-Growth) |

@@ -1,12 +1,8 @@
 # Chapter 1: Taxonomy and Theoretical Foundations of Multispecies Stock Assessment Models
 
-> **Navigation**: [Overview](index.md) | **Chapter 1** | [Chapter 2: Age-Structured Models](02_age_structured_multispecies_models.md) | [Chapter 3: Age-Length & Length-Structured Models](03_age_length_and_length_structured_models.md) | [Chapter 4: Size-Spectrum & Food-Web Models](04_size_spectrum_and_food_web_models.md) | [Chapter 5: Stomach Content Data & Likelihoods](05_stomach_content_data_and_likelihoods.md) | [Chapter 6: Fitting, Uncertainty & `mizer` Roadmap](06_statistical_fitting_uncertainty_and_mizer_synthesis.md) | [References](references.md)
-
----
-
 ## 1.1 Introduction: From Single-Species to Multispecies Tactical Assessment
 
-Traditional fisheries stock assessment relies on the single-species paradigm, in which each exploited population is modeled in isolation from its biological community. In single-species Virtual Population Analysis (VPA), Statistical Catch-at-Age (SCAA), or integrated assessment models such as Stock Synthesis [@methot2013] and SAM [@nielsen2014], all non-fishing mortality is aggregated into a single natural mortality rate $M_{s,a,t}$ that is frequently assumed constant across time and often across ages. Somatic growth (weight-at-age $w_{s,a,t}$) and maturity ogives ($\text{Mat}_{s,a,t}$) are typically entered as empirical covariates rather than state variables coupled to prey availability.
+Traditional fisheries stock assessment relies on the single-species paradigm [@beverton_holt1957; @cadima2003; @lart2022], in which each exploited population is modeled in isolation from its biological community. In single-species Virtual Population Analysis (VPA), Statistical Catch-at-Age (SCAA), or integrated assessment models such as Stock Synthesis [@methot2013] and SAM [@nielsen2014], all non-fishing mortality is aggregated into a single natural mortality rate $M_{s,a,t}$ that is frequently assumed constant across time and often across ages (or scaled empirically with body size and life-history parameters; @gislason2010). Somatic growth (weight-at-age $w_{s,a,t}$) and maturity ogives ($\text{Mat}_{s,a,t}$) are typically entered as empirical covariates rather than state variables coupled to prey availability.
 
 Decades of empirical and modeling work in the North Sea, Baltic Sea, Barents Sea, Iceland, Bering Sea, and Georges Bank have demonstrated that this single-species simplification breaks down in strongly interacting fish communities:
 1. **Non-Stationary Predation Mortality ($M2$)**: Predation mortality inflicted by piscivorous fish, marine mammals, and seabirds typically exceeds fishing mortality $F$ on juvenile age classes and forage fish, and varies by orders of magnitude as predator biomasses fluctuate [@lewy2004; @trijoulet2019]. Ignoring time-varying $M2$ biases historical stock-recruitment relationships, reference points ($F_{\text{MSY}}$, $B_{\text{lim}}$), and short-term catch forecasts [@ices2023].
@@ -147,7 +143,7 @@ flowchart TD
 
 ## 1.5 Community-Level Dynamics and the Multispecies Jacobian Matrix
 
-When comparing multispecies stock assessment models across these structural paradigms, @pope2006, @pope2019, and @jacobsen2016 introduced two unifying analytical diagnostics:
+When comparing multispecies stock assessment models across these structural paradigms [@tsou_collie2001; @aydin2005; @jacobsen2016; @spence2018; @pope2019], @pope2006, @pope2019, and @jacobsen2016 introduced two unifying analytical diagnostics:
 
 ### 1.5.1 The Yield Vector and Jacobian Interaction Matrix ($\mathbf{J}$)
 Let $\mathbf{F} = (F_1, F_2, \dots, F_S)^\top$ be the vector of long-term fishing mortality rates across $S$ species, and let $\mathbf{Y}(\mathbf{F}) = (Y_1, Y_2, \dots, Y_S)^\top$ and $\mathbf{SSB}(\mathbf{F}) = (\text{SSB}_1, \dots, \text{SSB}_S)^\top$ be the resulting equilibrium yield and spawning stock biomass vectors. Near a reference fishing vector $\mathbf{F}_0$, the response of the multispecies community is characterized by the **Jacobian matrix** [@pope2019, p. 5]:
