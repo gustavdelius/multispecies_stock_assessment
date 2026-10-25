@@ -3,9 +3,9 @@
 ## Continuous Multispecies Size-Spectrum Models (`mizer`)
 
 ### Theoretical Lineage and Core Philosophy
-Size-spectrum theory originated from the empirical discovery by @sheldon1972 and @sheldon1977 that pelagic marine biomass is approximately constant across logarithmic body-mass bins ($B(w) dw \propto w^0 d(\ln w) \implies N(w) \propto w^{-2}$), and from the continuous mass-balance and pelagic ecosystem derivations of @platt1977, @silvert_platt1978, @benoit_rochet2004, @andersen_beyer2006, and @cuesta2018.
+Size-spectrum theory originated from the empirical discovery by [@sheldon1972] and [@sheldon1977] that pelagic marine biomass is approximately constant across logarithmic body-mass bins ($B(w) dw \propto w^0 d(\ln w) \implies N(w) \propto w^{-2}$), and from the continuous mass-balance and pelagic ecosystem derivations of [@platt1977], [@silvert_platt1978], [@benoit_rochet2004], [@andersen_beyer2006], and [@cuesta2018].
 
-In a landmark synthesis, @hartvig2011 and @scott2014 resolved species identity within the continuous size spectrum to create the **`mizer`** framework (*Multi-species size-spectrum ecological modelling in R*; applied to North Sea reference points by @blanchard2014 and reviewed comprehensively by @andersen2016, @andersen2019, @andersen2020, and @pennino2025).
+In a landmark synthesis, [@hartvig2011] and [@scott2014] resolved species identity within the continuous size spectrum to create the **`mizer`** framework (*Multi-species size-spectrum ecological modelling in R*; applied to North Sea reference points by [@blanchard2014] and reviewed comprehensively by [@andersen2016], [@andersen2019], [@andersen2020], and [@pennino2025]).
 
 Unlike age-structured models where somatic growth and natural mortality are external inputs, in `mizer` **both individual somatic growth $g_i(w,t)$ and predation mortality $\mu_{p,i}(w,t)$ emerge dynamically from individual-level foraging and strict conservation of mass/energy**.
 
@@ -102,14 +102,14 @@ $$N_{i,j}^{t+\Delta t} = \frac{N_{i,j}^t + \frac{\Delta t}{\Delta w_j} g_{i,j-1}
 In the standard McKendrick–von Foerster PDE $\partial_t N + \partial_w (g N) = -\mu N$, somatic growth is treated as a purely deterministic continuous drift $dw/dt = g(w, t)$. Consequently:
 1. **No Intrinsic Cohort Broadening**: All individuals born at the same instant $t_0$ at egg weight $w_0$ travel along the exact same characteristic trajectory $w(t)$ with zero variance in size-at-age! If recruitment is pulsed seasonally (or fluctuates interannually as in real stock assessments), a narrow delta-function pulse at $w_0$ remains an unrealistically sharp spike (broadened only by **numerical discretization error** $\propto \Delta w_j$ of the upwind scheme!).
 2. **Grid-Dependent Numerical Diffusion**: In `mizer`'s first-order upwind scheme, changing the number of weight bins $n_w$ or time step $\Delta t$ alters the numerical diffusivity $D_{\text{num}} \approx \frac{1}{2} g \Delta w$, which artificially changes how recruitment pulses smear across length compositions!
-3. **Deterministic Instability of the Community Size Spectrum**: Without growth dispersion or an external stock-recruitment clamp, the continuous McKendrick–von Foerster PDE exhibits traveling-wave instabilities (cohort cycles) for realistic predator-prey mass ratios ($\beta \sim 100$; @datta2011).
+3. **Deterministic Instability of the Community Size Spectrum**: Without growth dispersion or an external stock-recruitment clamp, the continuous McKendrick–von Foerster PDE exhibits traveling-wave instabilities (cohort cycles) for realistic predator-prey mass ratios ($\beta \sim 100$; [@datta2011]).
 
 ### Derivation of the Jump-Growth Equation (Datta, Delius & Law 2010)
-@datta2010 resolved this fundamental limitation from first principles by observing that fish do not grow by absorbing a continuous fluid: they grow by **discrete stochastic jumps** $\Delta w = \alpha w_p$ each time they capture and assimilate a discrete prey organism of body mass $w_p$.
+[@datta2010] resolved this fundamental limitation from first principles by observing that fish do not grow by absorbing a continuous fluid: they grow by **discrete stochastic jumps** $\Delta w = \alpha w_p$ each time they capture and assimilate a discrete prey organism of body mass $w_p$.
 
 Starting from the exact Markov **Master Equation** for discrete prey-capture events in continuous time [@datta2010, Eq. 5]:
 $$\frac{\partial N_i(w,t)}{\partial t} = \int dw_p \Big[ \text{Transition in from } (w - \alpha_i w_p) - \text{Transition out from } w \Big] - \mu_i(w,t) N_i(w,t)$$
-and performing a second-order **Kramers–Moyal Taylor expansion** in the prey mass increment $\alpha_i w_p \ll w$, @datta2010 derived the **Jump-Growth Fokker–Planck (Advection–Diffusion–Reaction) PDE**:
+and performing a second-order **Kramers–Moyal Taylor expansion** in the prey mass increment $\alpha_i w_p \ll w$, [@datta2010] derived the **Jump-Growth Fokker–Planck (Advection–Diffusion–Reaction) PDE**:
 
 $$\frac{\partial N_i(w, t)}{\partial t} + \frac{\partial \left(g_i(w, t) N_i(w, t)\right)}{\partial w} = \frac{1}{2} \frac{\partial^2 \left(d_i(w, t) N_i(w, t)\right)}{\partial w^2} - \mu_i(w, t) N_i(w, t)$$
 
@@ -131,7 +131,7 @@ where:
 
 In standard fisheries models (including standard `mizer`, `SMS`, `Gadget`, and `LeMaRns`), population abundance is stabilized externally by imposing an ad-hoc **Beverton–Holt or Ricker stock-recruitment relationship (SRR)** at the boundary $w_0$, with one or two free species-specific parameters ($R_{\max, i}$ or steepness $h_i$) that have little direct physiological basis and strongly dictate MSY predictions.
 
-@canales2020 demonstrated that in a size-spectrum model with linear density-independent reproduction ($R_{\text{dd}, i} = R_{\text{di}, i}$, i.e., $R_{\max, i} \to \infty$), **three endogenous biological mechanisms** naturally regulate population abundance and coexistence without any ad-hoc SRR:
+[@canales2020] demonstrated that in a size-spectrum model with linear density-independent reproduction ($R_{\text{dd}, i} = R_{\text{di}, i}$, i.e., $R_{\max, i} \to \infty$), **three endogenous biological mechanisms** naturally regulate population abundance and coexistence without any ad-hoc SRR:
 1. **Density-Dependent Somatic Growth via Prey Competition**: When a species' abundance increases, it depletes its prey size range, lowering its feeding level $f_i(w, t)$ and slowing juvenile growth $g_i(w, t)$. Because juveniles spend longer in small vulnerable size classes ($w < w_{\text{mat}, i}$) while experiencing predation mortality $\mu_{p,i}(w, t)$, cumulative survival to maturity $\exp\!\left(-\int_{w_0}^{w_{\text{mat}}} \frac{\mu_i(w)}{g_i(w)} dw\right)$ drops sharply!
 2. **Early-Life Predation and Cannibalism**: Extending the predation kernel to planktonic/larval stages and accounting for intra- and inter-specific predation on larvae creates a self-regulating mortality bottleneck.
 3. **Reproductive Allometry ($m_i > n_i$)**: When reproductive investment scales steeper with body mass than metabolic intake (matching empirical BOFFFF—Big Old Fat Fecund Female—observations), truncating the adult size structure via fishing directly reduces per-biomass egg output without needing an SRR curve.
@@ -140,7 +140,7 @@ In standard fisheries models (including standard `mizer`, `SMS`, `Gadget`, and `
 
 ## Mass-Balance, Foraging Arena, and State-Space Food-Web Models (`Ecopath`, `Ecosim`, `Rpath`, `EcoState`)
 
-While size-spectrum models resolve continuous body mass, the most widely applied whole-ecosystem modeling framework in marine science is **Ecopath with Ecosim (EwE)**—originating with @polovina1984 and @christensen1992, extended dynamically and spatially via Foraging Arena Theory in `Ecosim` and `Ecospace` by @walters1997, @walters1999, @christensen2004, @christensen2005guide, and @christensen2024ewe, critically evaluated by @plaganyi2004, and automated via stepwise fitting by @scott2016—along with its reproducible R implementation **`Rpath`** [@lucey2020] and its recent TMB state-space stock assessment reformulation **`EcoState`** [@thorson2024].
+While size-spectrum models resolve continuous body mass, the most widely applied whole-ecosystem modeling framework in marine science is **Ecopath with Ecosim (EwE)**—originating with [@polovina1984] and [@christensen1992], extended dynamically and spatially via Foraging Arena Theory in `Ecosim` and `Ecospace` by [@walters1997], [@walters1999], [@christensen2004], [@christensen2005guide], and [@christensen2024ewe], critically evaluated by [@plaganyi2004], and automated via stepwise fitting by [@scott2016]—along with its reproducible R implementation **`Rpath`** [@lucey2020] and its recent TMB state-space stock assessment reformulation **`EcoState`** [@thorson2024].
 
 ### `Ecopath`: Static Mass Balance at Reference Equilibrium
 `Ecopath` partitions the ecosystem into $i \in \{1, \dots, n\}$ functional groups (which may be single species, multi-species guilds, or juvenile/adult life stanzas). At a reference equilibrium period, production of group $i$ equals the sum of all mortality and export fluxes [@christensen2004, Eq. 1; @lucey2020, Eq. 1]:
@@ -157,15 +157,15 @@ For each group $i$, three of the four core parameters $\{B_i, (P/B)_i, (Q/B)_i, 
 ---
 
 ### `Ecosim` and Walters' Foraging Arena Theory
-When `Ecopath` is projected dynamically through time as a system of coupled ODEs (`Ecosim`; @walters1997):
+When `Ecopath` is projected dynamically through time as a system of coupled ODEs (`Ecosim`; [@walters1997]):
 
 $$\frac{dB_i}{dt} = g_i \sum_{j} Q_{ji}(t) - \sum_{k} Q_{ik}(t) + I_i - \left(M0_i + F_i(t) + e_i\right) B_i(t)$$
 
 where $g_i = (P/Q)_i$ is net growth efficiency, a critical question arises: how should the consumption flux $Q_{ij}(t)$ of prey $i$ by predator $j$ depend on $B_i(t)$ and $B_j(t)$?
 
-@walters1997 showed that if one uses standard mass-action Lotka–Volterra ($Q_{ij} = a_{ij} B_i B_j$) or standard Holling Type II in a complex 30-species food web, **the ecosystem rapidly collapses via Gause competitive exclusion or violent predator-prey limit cycles**.
+[@walters1997] showed that if one uses standard mass-action Lotka–Volterra ($Q_{ij} = a_{ij} B_i B_j$) or standard Holling Type II in a complex 30-species food web, **the ecosystem rapidly collapses via Gause competitive exclusion or violent predator-prey limit cycles**.
 
-To resolve this, @walters1997 formulated **Foraging Arena Theory**: at any given moment, total prey biomass $B_i$ is partitioned with respect to predator $j$ into an **invulnerable (refuge/sheltered/un-overlapping) state** $B_i - V_{ij}$ and a small **vulnerable foraging arena state** $V_{ij}$, with behavioural/spatial exchange rate $v_{ij}$ between them:
+To resolve this, [@walters1997] formulated **Foraging Arena Theory**: at any given moment, total prey biomass $B_i$ is partitioned with respect to predator $j$ into an **invulnerable (refuge/sheltered/un-overlapping) state** $B_i - V_{ij}$ and a small **vulnerable foraging arena state** $V_{ij}$, with behavioural/spatial exchange rate $v_{ij}$ between them:
 
 $$\frac{dV_{ij}}{dt} = v_{ij}\left(B_i - V_{ij}\right) - v'_{ij} V_{ij} - a_{ij} V_{ij} B_j$$
 
@@ -180,7 +180,7 @@ $$Q_{ij}(t) = Q_{ij,0} \, \frac{X_{ij}}{X_{ij} - 1 + \frac{B_j(t)}{B_{j,0}}} \, 
 - **Low Vulnerability ($X_{ij} \to 1$, "Bottom-Up / Donor Control")**: As $X_{ij} \to 1$, $Q_{ij}(t) \to Q_{ij,0} \frac{B_i(t)}{B_{i,0}}$ is **independent of predator biomass $B_j(t)$**! Doubling predator abundance $B_j$ simply means twice as many predators compete for the same trickle of prey entering the foraging arena, halving per-capita predator intake and preventing top-down prey extermination.
 - **High Vulnerability ($X_{ij} \to \infty$, "Top-Down / Lotka–Volterra Control")**: As $X_{ij} \to \infty$, $Q_{ij}(t) \to Q_{ij,0} \frac{B_i(t)}{B_{i,0}} \frac{B_j(t)}{B_{j,0}}$ recovers mass-action top-down predation.
 
-*(For critique of EwE's delay-difference multi-stanza assumptions and vulnerability overfitting when many $X_{ij}$ are tuned to short time series, see @plaganyi2004 and the stepwise AIC fitting protocol of @scott2016).*
+*(For critique of EwE's delay-difference multi-stanza assumptions and vulnerability overfitting when many $X_{ij}$ are tuned to short time series, see [@plaganyi2004] and the stepwise AIC fitting protocol of [@scott2016]).*
 
 ---
 

@@ -12,7 +12,7 @@
 | **Stomach / Diet Likelihood** | Exact empirical iterative matching | **Dirichlet** (with $V_U = \theta / N_{\text{haul}}$) or Multinomial | Multinomial, Dirichlet, or Lognormal | Multinomial or Dirichlet | Weighted Sum of Squares or Multinomial on length-prey ratios | History Matching / SMC implausibility | Fixed Ecopath $DC_{ij,0}$ (`EwE`) or **Dirichlet** (`EcoState`) | Steady-state calibration or **Gamma/Normal log-PPMR** [@morgan2022] |
 | **Catch & Survey Likelihoods** | Exact catch (no error) | Lognormal $C_{s,a,y,q}$ & Lognormal CPUE $I_{f,s,a,y}$ | Lognormal total catch/index + Multinomial age comps | Lognormal catch/index + Multinomial/DM age/length comps | Weighted composite likelihoods (`g3l_distribution_*`) | History Matching + SMC against survey biomass | SSQ (`Ecosim`) or Lognormal state-space (`EcoState`) | Steady-state yield/biomass SSQ or GA/MCMC [@zhang2015] |
 | **Software / AD Engine** | Fortran / R | **ADMB** (`SMS`) & **TMB** (`smsR`) | **ADMB** / **TMB** | **TMB** (`Rceattle`) | C++ (`Gadget2`) & **TMB/R** (`gadget3`) | R / Rcpp (`LeMaRns`) | C#/.NET (`EwE`), R (`Rpath`), **TMB** (`EcoState`) | R / Rcpp (`mizer`) |
-| **Key Reference** | @helgason_gislason1979; @livingston1983 | @lewy2004 | @kinzey2009; @vankirk2010; @curti2013; @trijoulet2019 | @holsman2016; @adams2022 | @stefansson1998; @begley2004overview; @kulatska2019 | @spence2020 | @walters1997; @thorson2024 | @scott2014; @pennino2025 |
+| **Key Reference** | [@helgason_gislason1979; @livingston1983] | [@lewy2004] | [@kinzey2009; @vankirk2010; @curti2013; @trijoulet2019] | [@holsman2016; @adams2022] | [@stefansson1998; @begley2004overview; @kulatska2019] | [@spence2020] | [@walters1997; @thorson2024] | [@scott2014; @pennino2025] |
 
 ---
 
@@ -30,7 +30,7 @@ Because fish school by size and because any process model has slight misspecific
 Let $O_{l,y}$ and $E_{l,y}$ denote the observed and model-expected proportions in length (or age) bin $l \in \{1, \dots, n_L\}$ with midpoint $x_l$ in year $y \in \{1, \dots, n_Y\}$, with initial nominal sample size $N_{y}$.
 
 1. **McAllister & Ianelli (1997) Harmonic Mean Weighting**:
-   Estimates the effective sample size $\hat{N}_{y} = \frac{\sum_{l} E_{l,y}(1 - E_{l,y})}{\sum_{l} (O_{l,y} - E_{l,y})^2}$ for each year and sets the dataset multiplier $w_{\text{MI}}$ using the harmonic mean across years (used in `MSCAA` [@curti2013] and `Rceattle` [@adams2022]; see @mcallister_ianelli1997).
+   Estimates the effective sample size $\hat{N}_{y} = \frac{\sum_{l} E_{l,y}(1 - E_{l,y})}{\sum_{l} (O_{l,y} - E_{l,y})^2}$ for each year and sets the dataset multiplier $w_{\text{MI}}$ using the harmonic mean across years (used in `MSCAA` [@curti2013] and `Rceattle` [@adams2022]; see [@mcallister_ianelli1997]).
    - *Critique [@francis2011, pp. 1128--1131]*: Assumes residuals across bins $l$ within the same year $y$ are uncorrelated. When residuals are positively correlated across adjacent length bins (the norm when growth or selectivity varies), McAllister–Ianelli **dramatically overweights** the composition data!
 
 2. **Francis (2011) Method `TA1.8` (Mean-Length / Mean-Age Residual Variance)**:
@@ -43,7 +43,7 @@ Let $O_{l,y}$ and $E_{l,y}$ denote the observed and model-expected proportions i
    $$N_{\text{eff}, y} = \frac{1 + \theta N_y}{1 + \theta}$$
    or saturating at $1 + \beta$:
    $$N_{\text{eff}, y} = \frac{N_y + N_y \beta}{N_y + \beta}$$
-   In a 4,500-replicate simulation study and Pacific hake application, @thorson2017 proved that simultaneous DM estimation eliminates the severe bias of unweighted multinomial likelihoods, matches the accuracy and precision of iterative McAllister–Ianelli tuning for $M$, $\ln R_0$, and spawning output, and propagates data-weighting uncertainty directly into the joint Hessian and MCMC posterior!
+   In a 4,500-replicate simulation study and Pacific hake application, [@thorson2017] proved that simultaneous DM estimation eliminates the severe bias of unweighted multinomial likelihoods, matches the accuracy and precision of iterative McAllister–Ianelli tuning for $M$, $\ln R_0$, and spawning output, and propagates data-weighting uncertainty directly into the joint Hessian and MCMC posterior!
 
 ---
 
@@ -80,16 +80,16 @@ When models are implemented as black-box simulation packages without automatic d
    - **Sequential Monte Carlo (SMC)**: Propagates a particle cloud $\left\{\boldsymbol{\theta}^{(p)}\right\}_{p=1}^P$ through sequential annealing or time-series filtering steps using Normalizing Flows / Metropolis-Hastings rejuvenation moves.
 
 3. **Bayesian Multi-Model Ensembles (Spence et al. 2018)**:
-   Instead of selecting a single "winner" model via AIC, @spence2018 constructed a hierarchical Bayesian ensemble linking five distinct multispecies simulators (`EcoPath with Ecosim`, `LeMans`, `mizer`, `SMS`, and single-species assessments) as biased noisy realizations around a latent **true ecosystem trajectory** $\boldsymbol{\mu}_t$, decomposing structural discrepancy into shared vs. simulator-specific discrepancy processes.
+   Instead of selecting a single "winner" model via AIC, [@spence2018] constructed a hierarchical Bayesian ensemble linking five distinct multispecies simulators (`EcoPath with Ecosim`, `LeMans`, `mizer`, `SMS`, and single-species assessments) as biased noisy realizations around a latent **true ecosystem trajectory** $\boldsymbol{\mu}_t$, decomposing structural discrepancy into shared vs. simulator-specific discrepancy processes.
 
 ---
 
 ## Architectural Blueprint for Next-Generation Statistical Dynamic Stock Assessment in `mizer`
 
-In their 10-year review of `mizer`, @pennino2025 [Section *"Challenges and Future Directions"*, p. 9] identify the central barrier preventing `mizer` from being used as a routine tactical stock assessment tool:
+In their 10-year review of `mizer`, [@pennino2025, Section *"Challenges and Future Directions"*, p. 9] identify the central barrier preventing `mizer` from being used as a routine tactical stock assessment tool:
 > *"First, there is a lack of a standardized optimization routine for parameter estimation and uncertainty quantification... Second, `mizer` models are typically calibrated to a time-averaged steady state rather than fitted dynamically to time series of catches, survey indices, and size compositions."*
 
-Drawing together the mathematical lessons from **`SMS`** (@sec-age-structured), **`Gadget`/`gadget3`**, **`MULTIFAN-CL`/`SS3`**, and @punt2016 (@sec-length-structured), **`EcoState`** (@sec-size-spectrum), and **stomach content likelihoods** (@sec-stomach-data), we can synthesize a concrete, five-pillar architectural roadmap for transforming `mizer` into a **differentiable, state-space statistical multispecies stock assessment model** (`mizer-TMB` / `mizer-RTMB`).
+Drawing together the mathematical lessons from **`SMS`** (@sec-age-structured), **`Gadget`/`gadget3`**, **`MULTIFAN-CL`/`SS3`**, and [@punt2016] (@sec-length-structured), **`EcoState`** (@sec-size-spectrum), and **stomach content likelihoods** (@sec-stomach-data), we can synthesize a concrete, five-pillar architectural roadmap for transforming `mizer` into a **differentiable, state-space statistical multispecies stock assessment model** (`mizer-TMB` / `mizer-RTMB`).
 
 ```mermaid
 flowchart TD
@@ -121,7 +121,7 @@ When `mizer` is projected dynamically with interannual recruitment fluctuations 
 
   $$\frac{\partial N_i}{\partial t} + \frac{\partial (g_i N_i)}{\partial w} - \frac{1}{2} \frac{\partial^2 \left(\psi_{\text{disp}, i} \, d_i(w,t) \, N_i\right)}{\partial w^2} = -\mu_i(w,t) N_i$$
 
-  where $d_i(w,t)$ is the mechanistic second moment of prey mass intake, optionally scaled by a species-specific dispersion multiplier $\psi_{\text{disp}, i} \ge 1$ (analogous to Gadget's Beta-Binomial dispersion parameter $\beta_s$ in `g3a_grow_impl_bbinom`; @lentz_gadget3) to account for genetic growth variation and patchy foraging.
+  where $d_i(w,t)$ is the mechanistic second moment of prey mass intake, optionally scaled by a species-specific dispersion multiplier $\psi_{\text{disp}, i} \ge 1$ (analogous to Gadget's Beta-Binomial dispersion parameter $\beta_s$ in `g3a_grow_impl_bbinom`; [@lentz_gadget3]) to account for genetic growth variation and patchy foraging.
 - **Computational Cost**: Discretizing the second derivative $\partial_w^2 (d_i N_i)$ changes the implicit linear system per species per time step from **lower-bidiagonal** to **tridiagonal**, which is still solved in exact **$O(n_w)$ operations** via the Thomas algorithm (`solve_tridiag`) and is $100\%$ differentiable in `TMB` / `RTMB`!
 
 ---
@@ -148,7 +148,7 @@ Following `SAM` [@nielsen2014] and `EcoState` [@thorson2024], introduce three co
 ---
 
 ### Pillar 4: Observation Operators and Joint Statistical Likelihood Function
-To avoid the parameter confounding identified by @punt2016, dynamic `mizer` should be fitted simultaneously to four orthogonal empirical data streams:
+To avoid the parameter confounding identified by [@punt2016], dynamic `mizer` should be fitted simultaneously to four orthogonal empirical data streams:
 
 1. **Survey Biomass / Abundance Indices ($I_{f,i,y}$, Lognormal Likelihood)**:
    Given survey selectivity $S^{\text{surv}}_{f,i}(w)$ and catchability $Q^{\text{surv}}_{f,i}$:
@@ -165,8 +165,8 @@ To avoid the parameter confounding identified by @punt2016, dynamic `mizer` shou
 4. **Stomach Content Diet Shares & Log-PPMR Distributions (Dirichlet-Multinomial + Gamma Likelihood)**:
    For predator $(i, w')$ in year-quarter $t$, the model-predicted mass share of prey species $j$ in prey weight bin $[w_{p,m}, w_{p,m+1})$ in the diet is:
    $$\hat{W}_{i,w', j, m, t} = \frac{\gamma_i(w') \, \theta_{ij} \int_{w_{p,m}}^{w_{p,m+1}} \phi_i(w' / w_p) \, N_j(w_p, t) \, w_p \, dw_p}{E_i(w', t)}$$
-   - **Taxonomic Diet Shares**: Fit evacuated, CPUE-weighted (or `sdmTMB`-standardized; @jacobsen2023) stomach weight proportions against $\hat{W}_{i,w',j,m,t}$ using the **SMS Dirichlet** [@lewy2004] or **Dirichlet-Multinomial** [@thorson2017] likelihood, which directly identifies the interaction matrix $\theta_{ij}$!
-   - **Predator–Prey Size Kernel Parameters ($\beta_i, \sigma_i$ or Gamma $\alpha_i, \beta_i$)**: Fit the observed log-PPMR distribution $x = \ln(w'/w_p)$ using the **Exponential Family / Gamma likelihood** of @morgan2022.
+   - **Taxonomic Diet Shares**: Fit evacuated, CPUE-weighted (or `sdmTMB`-standardized; [@jacobsen2023]) stomach weight proportions against $\hat{W}_{i,w',j,m,t}$ using the **SMS Dirichlet** [@lewy2004] or **Dirichlet-Multinomial** [@thorson2017] likelihood, which directly identifies the interaction matrix $\theta_{ij}$!
+   - **Predator–Prey Size Kernel Parameters ($\beta_i, \sigma_i$ or Gamma $\alpha_i, \beta_i$)**: Fit the observed log-PPMR distribution $x = \ln(w'/w_p)$ using the **Exponential Family / Gamma likelihood** of [@morgan2022].
 
 ---
 

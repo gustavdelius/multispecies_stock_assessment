@@ -12,7 +12,7 @@ flowchart LR
 ```
 
 ### Models of Intermediate Complexity for Ecosystem Assessments (MICE)
-@plaganyi2014 and @collie2016 formalized the concept of **MICE** (Models of Intermediate Complexity for Ecosystem assessments) as the "sweet spot" for tactical fisheries management. As model complexity increases, **structural bias** (from omitting trophic interactions) decreases, whereas **parameter estimation uncertainty** (from fitting hundreds of poorly identified interaction rates to noisy data) increases rapidly [@collie2016, Fig. 1].
+[@plaganyi2014] and [@collie2016] formalized the concept of **MICE** (Models of Intermediate Complexity for Ecosystem assessments) as the "sweet spot" for tactical fisheries management. As model complexity increases, **structural bias** (from omitting trophic interactions) decreases, whereas **parameter estimation uncertainty** (from fitting hundreds of poorly identified interaction rates to noisy data) increases rapidly [@collie2016, Fig. 1].
 
 A model qualifies as a tactical multispecies assessment or MICE when it satisfies four operational criteria [@plaganyi2014; @karp2023]:
 1. **Context-Driven Taxonomic Scope**: It models only the core interacting species (typically $3\text{--}12$ commercial predator and prey stocks plus $1\text{--}3$ aggregated "other food" or resource pools) responsible for the majority of predation mortality and fishery yield.
@@ -40,7 +40,7 @@ Every multispecies stock assessment model can be positioned along three fundamen
 
 ### Axis 2: Direction of Trophic Feedback (One-Way vs. Two-Way Coupling)
 
-A critical distinction in multispecies stock assessment—emphasized by @stefansson1998 and @andersen2016—is whether trophic interactions operate **one-way (top-down only)** or **two-way (top-down predation mortality + bottom-up bioenergetic growth/reproduction)**:
+A critical distinction in multispecies stock assessment—emphasized by [@stefansson1998] and [@andersen2016]—is whether trophic interactions operate **one-way (top-down only)** or **two-way (top-down predation mortality + bottom-up bioenergetic growth/reproduction)**:
 
 1. **One-Way Trophic Feedback ("Predation-Only" / Fixed-Ration Models)**:
    - Used in `MSVPA`, `SMS`, `LeMans`/`LeMaRns`, and standard modes of `MSCAA`/`Hydra`.
@@ -68,28 +68,28 @@ A critical distinction in multispecies stock assessment—emphasized by @stefans
 
 Virtually all modern size- and age-structured multispecies models—including **MSVPA**, **SMS**, **Gadget**, **LeMans/LeMaRns**, **CSMS**, and **`mizer`**—trace their mathematical lineage to the landmark monograph by K. P. Andersen and Erik Ursin [-@andersen_ursin1977], *"A Multispecies Extension to the Beverton and Holt Theory of Fishing, with Accounts of Phosphorus Circulation and Primary Production"*, Ursin's [-@ursin1973] empirical analysis of prey size preferences in cod and dab, and Patricia Livingston's [-@livingston1983] mathematical evaluation and sensitivity analysis of the Andersen–Ursin equations for North Pacific fisheries.
 
-Because @andersen_ursin1977 is the shared ancestor of both statistical multispecies assessments (`SMS`, `MSCAA`, `CEATTLE`) and continuous size-spectrum models (`mizer`), examining its exact differential equations and parameter sensitivities—as documented by @livingston1983 [pp. 2--11, Table 1]—clarifies how these two branches diverged.
+Because [@andersen_ursin1977] is the shared ancestor of both statistical multispecies assessments (`SMS`, `MSCAA`, `CEATTLE`) and continuous size-spectrum models (`mizer`), examining its exact differential equations and parameter sensitivities—as documented by [@livingston1983, pp. 2--11, Table 1]—clarifies how these two branches diverged.
 
 ### Core Coupled Differential Equations of Andersen & Ursin (1977)
-@andersen_ursin1977 extended the three basic @beverton_holt1957 differential equations for individual body weight $w_i(t)$, cohort abundance $N_i(t)$, and fishery yield $Y_i(t)$ of computational entity $i$ (a species-age group) [@livingston1983, Eqs. 1--8]:
+[@andersen_ursin1977] extended the three basic [@beverton_holt1957] differential equations for individual body weight $w_i(t)$, cohort abundance $N_i(t)$, and fishery yield $Y_i(t)$ of computational entity $i$ (a species-age group) [@livingston1983, Eqs. 1--8]:
 
 1. **Bioenergetic Pütter / Generalized von Bertalanffy Somatic Growth**:
    The rate of food consumption $\frac{dR_i}{dt}$ by an individual of entity $i$ with body mass $w_i$ is proportional to its allometric absorbing surface $w_i^m$ and its dimensionless **feeding level** $f_i \in [0, 1]$ (capped in the full model at a critical feeding level $f_c = 0.44$):
    $$\frac{dR_i}{dt} = f_i \, h_i \, w_i^m \qquad (0 \le f_i \le f_c \le 1)$$
-   Only a fraction $v_i = (1 - \alpha)\beta$ of consumed food is net-assimilated into tissue, where $\beta = 0.80$ is the digested fraction of food and $\alpha = 0.40$ is the fraction of digested energy lost in specific dynamic action / energy transfer costs (so $v_i = 0.48$ universally; @livingston1983 [Table 1, p. 11]). Subtracting fasting metabolic catabolism $k_i w_i^n$ gives the individual weight ODE:
+   Only a fraction $v_i = (1 - \alpha)\beta$ of consumed food is net-assimilated into tissue, where $\beta = 0.80$ is the digested fraction of food and $\alpha = 0.40$ is the fraction of digested energy lost in specific dynamic action / energy transfer costs (so $v_i = 0.48$ universally; [@livingston1983, Table 1, p. 11]). Subtracting fasting metabolic catabolism $k_i w_i^n$ gives the individual weight ODE:
    $$\frac{dw_i}{dt} = v_i \frac{dR_i}{dt} - k_i w_i^n = (1 - \alpha)\beta \, f_i \, h_i \, w_i^m - k_i w_i^n$$
-   where @andersen_ursin1977 estimated universal exponents $m = 0.56$ (or $m = 2/3$ in the simplified skeleton model) and $n = 0.83$ (or $n = 1$ in the skeleton model) across 81 fish species [@ursin1967].
+   where [@andersen_ursin1977] estimated universal exponents $m = 0.56$ (or $m = 2/3$ in the simplified skeleton model) and $n = 0.83$ (or $n = 1$ in the skeleton model) across 81 fish species [@ursin1967].
 
 2. **Ursin's (1973) Lognormal Size-Preference Kernel and Suitability ($G_{ij}$)**:
-   Analyzing thousands of stomach records of cod (*Gadus morhua*) and dab (*Limanda limanda*), @ursin1973 [Eq. 2] demonstrated that predator $i$ of weight $w_i$ evaluates a potential prey item $j$ of weight $w_j$ according to a symmetric Gaussian distribution on the logarithmic predator-prey mass ratio $\ln(w_i / w_j)$:
+   Analyzing thousands of stomach records of cod (*Gadus morhua*) and dab (*Limanda limanda*), [@ursin1973, Eq. 2] demonstrated that predator $i$ of weight $w_i$ evaluates a potential prey item $j$ of weight $w_j$ according to a symmetric Gaussian distribution on the logarithmic predator-prey mass ratio $\ln(w_i / w_j)$:
    $$g_{ij}(w_i, w_j) = \exp\!\left( -\frac{\left(\ln\frac{w_i}{w_j} - \eta_i\right)^2}{2\sigma_i^2} \right)$$
-   where $\eta_i$ is the preferred log predator-prey weight ratio ("a prey twice the preferred size is as acceptable as a prey half the preferred size"; @livingston1983 [p. 3, Fig. 1]) and $\sigma_i$ is the standard deviation of diet breadth. Multiplying by species-specific behavioral/habitat vulnerability $\rho_{ij} \in (0, 1]$ gives total suitability:
+   where $\eta_i$ is the preferred log predator-prey weight ratio ("a prey twice the preferred size is as acceptable as a prey half the preferred size"; [@livingston1983, p. 3, Fig. 1]) and $\sigma_i$ is the standard deviation of diet breadth. Multiplying by species-specific behavioral/habitat vulnerability $\rho_{ij} \in (0, 1]$ gives total suitability:
    $$G_{ij} = \rho_{ij} \, g_{ij}(w_i, w_j)$$
 
 3. **Available Food ($\Psi_i$), Search Volume ($q_i w_i^r$), and Feeding Level ($f_i$)**:
    Total suitable food biomass encountered by predator $i$ is $\Psi_i = \sum_j \Psi_{ij} = \sum_j G_{ij} w_j N_j$. The feeding level $f_i$ follows a Holling Type II saturation curve [@livingston1983, Eqs. 5--6]:
    $$f_i = \frac{\Psi_i}{\Psi_i + Q_i}, \qquad Q_i = \frac{V \text{ (or } A\text{)}}{q_i \, w_i^r}$$
-   where $V$ (pelagic water volume) or $A$ (demersal seabed area) scales the half-saturation food biomass $Q_i$, $r = 0.15$ is the universal search rate exponent, and $q_i$ is the search rate coefficient ($23\text{ m}^3\text{ g}^{-(1+r)}$ for pelagic habitat or $0.53\text{ m}^2\text{ g}^{-(1+r)}$ for demersal habitat; @livingston1983 [Table 1, p. 10]).
+   where $V$ (pelagic water volume) or $A$ (demersal seabed area) scales the half-saturation food biomass $Q_i$, $r = 0.15$ is the universal search rate exponent, and $q_i$ is the search rate coefficient ($23\text{ m}^3\text{ g}^{-(1+r)}$ for pelagic habitat or $0.53\text{ m}^2\text{ g}^{-(1+r)}$ for demersal habitat; [@livingston1983, Table 1, p. 10]).
 
 4. **Cohort Mortality Partitioning ($F_i$, $\hat{M}_i$, $M2_i$) and Discrete Spawning**:
    Cohort numbers $N_i(t)$ decay according to [@livingston1983, Eqs. 2A, 8]:
@@ -124,14 +124,14 @@ flowchart TD
    - This brilliant simplification made $G_{ij}/\Phi_j$ **directly observable in stomach content data** (since stomach content weight proportions after evacuation correction estimate $D_{ij}$), launching the entire MSVPA and SMS assessment tradition. However, the price paid was the loss of dynamic growth feedback ($dw/dt$).
 
 2. **The `mizer` Reformulation [@hartvig2011; @scott2014]**:
-   - Thirty-four years after @andersen_ursin1977, @hartvig2011 restored the full bioenergetic growth and reproduction equations of Andersen & Ursin within a continuous McKendrick–von Foerster PDE framework, replacing the arbitrary species-specific half-saturation constants $Q_j(w_j)$ with a mechanistic **volumetric search rate** $\gamma_j(w_j) = \gamma_j w_j^q$.
+   - Thirty-four years after [@andersen_ursin1977], [@hartvig2011] restored the full bioenergetic growth and reproduction equations of Andersen & Ursin within a continuous McKendrick–von Foerster PDE framework, replacing the arbitrary species-specific half-saturation constants $Q_j(w_j)$ with a mechanistic **volumetric search rate** $\gamma_j(w_j) = \gamma_j w_j^q$.
    - In `mizer`, the encounter rate of food is $E_j(w_j) = \gamma_j(w_j) \Phi_j(w_j)$, which implies an emergent half-saturation food density $Q_j(w_j) = \frac{h_j w_j^n}{\gamma_j w_j^q}$. All life-history parameters scale allometrically with individual weight $w$ and asymptotic species size $W_{\infty, j}$, reducing the parameter space from hundreds of cohort-specific constants to a compact set of scaling exponents and species traits.
 
 ---
 
 ## Community-Level Dynamics and the Multispecies Jacobian Matrix
 
-When comparing multispecies stock assessment models across these structural paradigms [@tsou_collie2001; @aydin2005; @jacobsen2016; @spence2018; @pope2019], @pope2006, @pope2019, and @jacobsen2016 introduced two unifying analytical diagnostics:
+When comparing multispecies stock assessment models across these structural paradigms [@tsou_collie2001; @aydin2005; @jacobsen2016; @spence2018; @pope2019], [@pope2006], [@pope2019], and [@jacobsen2016] introduced two unifying analytical diagnostics:
 
 ### The Yield Vector and Jacobian Interaction Matrix ($\mathbf{J}$)
 Let $\mathbf{F} = (F_1, F_2, \dots, F_S)^\top$ be the vector of long-term fishing mortality rates across $S$ species, and let $\mathbf{Y}(\mathbf{F}) = (Y_1, Y_2, \dots, Y_S)^\top$ and $\mathbf{SSB}(\mathbf{F}) = (\text{SSB}_1, \dots, \text{SSB}_S)^\top$ be the resulting equilibrium yield and spawning stock biomass vectors. Near a reference fishing vector $\mathbf{F}_0$, the response of the multispecies community is characterized by the **Jacobian matrix** [@pope2019, p. 5]:
@@ -144,7 +144,7 @@ $$J_{ik} = \left.\frac{\partial \ln \text{SSB}_i}{\partial F_k}\right|_{\mathbf{
   - In **two-way bioenergetic models** (`mizer`, `Gadget`, `Ecosim`), $J_{\text{pred}, \text{prey}} < 0$ because fishing down forage fish reduces predator feeding level $f_{\text{pred}}$, slowing predator somatic growth $g_{\text{pred}}$ and lowering reproductive output $R_{p,\text{pred}}$.
 
 ### Quadratic Approximation of Total Multispecies Yield
-@pope2006 and @pope2019 showed that across widely different multispecies models of the North Sea (`SMS`, `Gadget`, `EwE`, `LeMans`, `mizer`, `CSMS`, `CSM`), the equilibrium yield of species $i$ as a function of the fishing mortality vector $\mathbf{F}$ is well approximated by a coupled quadratic form (a multispecies generalization of the Schaefer surplus production parabola):
+[@pope2006] and [@pope2019] showed that across widely different multispecies models of the North Sea (`SMS`, `Gadget`, `EwE`, `LeMans`, `mizer`, `CSMS`, `CSM`), the equilibrium yield of species $i$ as a function of the fishing mortality vector $\mathbf{F}$ is well approximated by a coupled quadratic form (a multispecies generalization of the Schaefer surplus production parabola):
 
 $$Y_i(\mathbf{F}) \approx a_i F_i + \sum_{k=1}^{S} b_{ik} F_i F_k$$
 
