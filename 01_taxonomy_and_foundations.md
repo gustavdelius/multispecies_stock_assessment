@@ -5,10 +5,10 @@
 Fisheries ecosystem models span a wide continuum of structural complexity, taxonomic resolution, and statistical rigor [@plaganyi2014; @collie2016; @karp2023]:
 
 ```mermaid
-flowchart LR
-    A["<b>Single-Species Assessments</b><br/>(SAM, SS3, MULTIFAN-CL)<br/>High statistical rigor<br/>Zero trophic coupling"] --> B["<b>Extended Single-Species (ESAM)</b><br/>Predator index covariates<br/>on M or Q"]
-    B --> C["<b>Tactical Multispecies / MICE</b><br/>(SMS, CEATTLE, Gadget, Hydra,<br/>EcoState, Dynamic mizer)<br/>Formal likelihood fitting<br/>Focused food web (3–15 spp.)"]
-    C --> D["<b>Whole-Ecosystem / End-to-End</b><br/>(EwE, Atlantis, OSMOSE)<br/>30–100+ functional groups<br/>Strategic / MSE focus<br/>Limited formal parameter estimation"]
+flowchart TD
+    A["<b>Single-Species Assessments</b> (SAM, SS3, MULTIFAN-CL)<br/>High statistical rigor · Zero trophic coupling"] --> B["<b>Extended Single-Species (ESAM)</b><br/>Predator index covariates on M or Q"]
+    B --> C["<b>Tactical Multispecies / MICE</b> (SMS, CEATTLE, Gadget, Hydra, EcoState, Dynamic mizer)<br/>Formal likelihood fitting · Focused food web (3–15 spp.)"]
+    C --> D["<b>Whole-Ecosystem / End-to-End</b> (EwE, Atlantis, OSMOSE)<br/>30–100+ functional groups · Strategic / MSE focus · Limited formal parameter estimation"]
 ```
 
 ### Models of Intermediate Complexity for Ecosystem Assessments (MICE)
@@ -28,13 +28,38 @@ Every multispecies stock assessment model can be positioned along three fundamen
 
 ### Axis 1: Individual State Space (Age vs. Length vs. Continuous Body Mass)
 
-| State Space | State Variable | Governing Dynamical Equation | Representative Models | Primary Strengths & Limitations |
-| :--- | :--- | :--- | :--- | :--- |
-| **1. Biomass Pool / Multi-Stanza** | $B_{i}(t)$ | Coupled system of ordinary differential equations (ODEs): $\frac{dB_i}{dt} = g_i \sum_j Q_{ij} - \sum_k Q_{ki} - (M0_i + F_i) B_i$ | `Ecopath with Ecosim` [@walters1997], `Rpath` [@lucey2020], `EcoState` [@thorson2024] | Fast; low state dimension; captures whole-food-web energy flow; cannot directly fit length/age compositions without multi-stanza delay-difference approximations. |
-| **2. Discrete Age-Structured** | $N_{i,a,t}$ | Difference equation along cohort diagonals: $N_{i,a+1,t+1} = N_{i,a,t} \exp(-Z_{i,a,t})$ with empirical weight-at-age $w_{i,a,t}$ | `MSVPA`/`MSFOR`, `SMS` [@lewy2004], `MSCAA`/`Hydra`, `CEATTLE` | Directly compatible with single-species age-based assessments; simple cohort tracking; requires aging data (otoliths); size-based predation must be mapped through fixed $w_{i,a,t}$ or age-length keys. |
-| **3. Joint Age-Length Structured** | $N_{i,a,l,t}$ and $W_{i,a,l,t}$ | Advection-dispersion across length bins within each discrete age class: $\mathbf{N}_{i,a,t+\Delta t} = \mathbf{G}_{i,a,t} \mathbf{S}_{i,a,t} \mathbf{N}_{i,a,t}$ | `MULTSPEC`, `BORMICON`, `Gadget2`, `gadget3` [@stefansson1998; @begley2004overview] | Separates chronological age from physical size; resolves size-selective mortality effects on mean length-at-age; computationally intensive due to $(s \times a \times l \times r)$ state tensor. |
-| **4. Discrete Length-Structured (Age-Free)** | $N_{i,l,t}$ | Matrix projection across length bins: $\mathbf{N}_{i,t+1} = \mathbf{X}_i \mathbf{S}_{i,t} \mathbf{N}_{i,t} + \mathbf{R}_{i,t}$ | `LeMans` [@hall2006], `LeMaRns` [@spence2020], `CSMS` [@pope2006] | Requires no otolith aging; matches survey length-frequency data directly; deterministic fractional bin transition ($\phi_{i,l}$) introduces numerical cohort diffusion unless stochastic transition matrix $\mathbf{X}_{l,l'}$ is used. |
-| **5. Continuous Body-Mass Spectrum** | $N_i(w,t)$ ($\text{numbers}\cdot\text{g}^{-1}$) | McKendrick–von Foerster PDE (or Fokker-Planck Jump-Growth PDE): $\frac{\partial N_i}{\partial t} + \frac{\partial (g_i N_i)}{\partial w} = \frac{1}{2}\frac{\partial^2 (d_i N_i)}{\partial w^2} - \mu_i N_i$ | `mizer` [@hartvig2011; @scott2014; @datta2010] | Mechanistic mass and energy conservation from plankton to top predators; emergent growth, maturity, and mortality; requires PDE discretization and diffusion treatment to track cohorts dynamically. |
+| State Space | State Variable | Representative Models |
+| :--- | :--- | :--- |
+| **1. Biomass Pool / Multi-Stanza** | $B_{i}(t)$ | `Ecopath with Ecosim` [@walters1997], `Rpath` [@lucey2020], `EcoState` [@thorson2024] |
+| **2. Discrete Age-Structured** | $N_{i,a,t}$ | `MSVPA`/`MSFOR`, `SMS` [@lewy2004], `MSCAA`/`Hydra`, `CEATTLE` |
+| **3. Joint Age-Length Structured** | $N_{i,a,l,t},\; W_{i,a,l,t}$ | `MULTSPEC`, `BORMICON`, `Gadget2`, `gadget3` [@stefansson1998; @begley2004overview] |
+| **4. Discrete Length-Structured (Age-Free)** | $N_{i,l,t}$ | `LeMans` [@hall2006], `LeMaRns` [@spence2020], `CSMS` [@pope2006] |
+| **5. Continuous Body-Mass Spectrum** | $N_i(w,t)$ ($\text{numbers}\cdot\text{g}^{-1}$) | `mizer` [@hartvig2011; @scott2014; @datta2010] |
+
+1. **Biomass Pool / Multi-Stanza ($B_i(t)$)**:
+   - *Governing Dynamical Equation*: Coupled system of ordinary differential equations (ODEs):
+     $$\frac{dB_i}{dt} = g_i \sum_j Q_{ij} - \sum_k Q_{ki} - (M0_i + F_i) B_i$$
+   - *Strengths & Limitations*: Fast; low state dimension; captures whole-food-web energy flow; cannot directly fit length or age compositions without multi-stanza delay-difference approximations.
+
+2. **Discrete Age-Structured ($N_{i,a,t}$)**:
+   - *Governing Dynamical Equation*: Difference equation along cohort diagonals with empirical weight-at-age $w_{i,a,t}$:
+     $$N_{i,a+1,t+1} = N_{i,a,t} \exp(-Z_{i,a,t})$$
+   - *Strengths & Limitations*: Directly compatible with single-species age-based assessments; simple cohort tracking; requires aging data (otoliths); size-based predation must be mapped through fixed $w_{i,a,t}$ or age-length keys.
+
+3. **Joint Age-Length Structured ($N_{i,a,l,t}$ and $W_{i,a,l,t}$)**:
+   - *Governing Dynamical Equation*: Advection-dispersion across length bins within each discrete age class:
+     $$\mathbf{N}_{i,a,t+\Delta t} = \mathbf{G}_{i,a,t} \mathbf{S}_{i,a,t} \mathbf{N}_{i,a,t}$$
+   - *Strengths & Limitations*: Separates chronological age from physical size; resolves size-selective mortality effects on mean length-at-age; computationally intensive due to the $(s \times a \times l \times r)$ state tensor.
+
+4. **Discrete Length-Structured / Age-Free ($N_{i,l,t}$)**:
+   - *Governing Dynamical Equation*: Matrix projection across length bins:
+     $$\mathbf{N}_{i,t+1} = \mathbf{X}_i \mathbf{S}_{i,t} \mathbf{N}_{i,t} + \mathbf{R}_{i,t}$$
+   - *Strengths & Limitations*: Requires no otolith aging; matches survey length-frequency data directly; deterministic fractional bin transition ($\phi_{i,l}$) introduces numerical cohort diffusion unless a stochastic transition matrix $\mathbf{X}_{l,l'}$ is used.
+
+5. **Continuous Body-Mass Spectrum ($N_i(w,t)$, $\text{numbers}\cdot\text{g}^{-1}$)**:
+   - *Governing Dynamical Equation*: McKendrick–von Foerster PDE (or Fokker–Planck Jump-Growth PDE):
+     $$\frac{\partial N_i}{\partial t} + \frac{\partial (g_i N_i)}{\partial w} = \frac{1}{2}\frac{\partial^2 (d_i N_i)}{\partial w^2} - \mu_i N_i$$
+   - *Strengths & Limitations*: Mechanistic mass and energy conservation from plankton to top predators; emergent growth, maturity, and mortality; requires PDE discretization and diffusion treatment to track cohorts dynamically.
 
 ---
 
