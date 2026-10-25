@@ -2,7 +2,7 @@
 
 ## Overview of the Age-Structured Multispecies Family
 
-Age-structured multispecies models are direct extensions of single-species Virtual Population Analysis (VPA) and Statistical Catch-at-Age (SCAA) models. They partition total instantaneous mortality $Z_{s,a,y,q}$ of species $s$, age class $a$, year $y$, and season/quarter $q$ into three additive components (first formalized by @helgason_gislason1979 and @pope1979):
+Age-structured multispecies models are direct extensions of single-species Virtual Population Analysis (VPA) and Statistical Catch-at-Age (SCAA) models. They partition total instantaneous mortality $Z_{s,a,y,q}$ of species $s$, age class $a$, year $y$, and season/quarter $q$ into three additive components (first formalized by [@helgason_gislason1979] and [@pope1979]):
 
 $$Z_{s,a,y,q} = F_{s,a,y,q} + M1_{s,a,q} + M2_{s,a,y,q}$$
 
@@ -14,17 +14,17 @@ where:
 Because these models track discrete age cohorts $(s, a)$ rather than continuous body size, individual body weight $w_{s,a,y,q}$ and length $l_{s,a,y,q}$ are typically treated as known empirical inputs (measured from port and survey sampling), or mapped via pre-computed age-length keys ($\text{ALK}_{s,a,l,y,q}$).
 
 Four major model lineages define this family:
-- **Foundations and `MSVPA`**: @ursin1967, @ursin1973, and @andersen_ursin1977 established the size-based bioenergetic and prey-suitability equations, evaluated for North Pacific stocks by @livingston1983 and simplified into operational `MSVPA` by @helgason_gislason1979, @pope1979, and @sparre1980.
-- **Stochastic Multispecies Model (`SMS` / `smsR`)**: @lewy2004 formulated the seasonal age-length statistical multispecies model and Dirichlet stomach-content likelihood used in ICES key runs [@ices2021; @ices2023].
-- **North American Statistical Catch-at-Age (`MSASA` / `MSCAA` / `Hydra`)**: @jurado_molina2005, @kinzey2009, @vankirk2010, @curti2013, and @trijoulet2019 developed and tested forward-projecting multispecies catch-at-age models across alternative predator functional responses and diet observation error regimes.
-- **Climate-Enhanced Multispecies Assessment (`CEATTLE` / `Rceattle`)**: @holsman_aydin2015, @holsman2016, and @adams2022 coupled temperature-dependent von Bertalanffy growth [@essington2001] and Wisconsin bioenergetics [@kitchell1977; @thornton_lessem1978] with age-structured stock assessment and multispecies biological reference points.
+- **Foundations and `MSVPA`**: [@ursin1967], [@ursin1973], and [@andersen_ursin1977] established the size-based bioenergetic and prey-suitability equations, evaluated for North Pacific stocks by [@livingston1983] and simplified into operational `MSVPA` by [@helgason_gislason1979], [@pope1979], and [@sparre1980].
+- **Stochastic Multispecies Model (`SMS` / `smsR`)**: [@lewy2004] formulated the seasonal age-length statistical multispecies model and Dirichlet stomach-content likelihood used in ICES key runs [@ices2021; @ices2023].
+- **North American Statistical Catch-at-Age (`MSASA` / `MSCAA` / `Hydra`)**: [@jurado_molina2005], [@kinzey2009], [@vankirk2010], [@curti2013], and [@trijoulet2019] developed and tested forward-projecting multispecies catch-at-age models across alternative predator functional responses and diet observation error regimes.
+- **Climate-Enhanced Multispecies Assessment (`CEATTLE` / `Rceattle`)**: [@holsman_aydin2015], [@holsman2016], and [@adams2022] coupled temperature-dependent von Bertalanffy growth [@essington2001] and Wisconsin bioenergetics [@kitchell1977; @thornton_lessem1978] with age-structured stock assessment and multispecies biological reference points.
 
 ---
 
 ## Multispecies Virtual Population Analysis (`MSVPA`) and `MSFOR`
 
 ### Historical Development
-Developed simultaneously by @helgason_gislason1979 and @pope1979 following the @andersen_ursin1977 monograph, **MSVPA** was the standard operational multispecies model of the ICES Multispecies Working Group (MSWG) throughout the 1980s and 1990s, motivating the massive 1981 and 1991 ICES "Years of the Stomach" sampling programs in the North Sea [@stefansson1998; @lewy2004]. **MSFOR** is its forward-projection counterpart used to evaluate management scenarios given recruitment assumptions.
+Developed simultaneously by [@helgason_gislason1979] and [@pope1979] following the [@andersen_ursin1977] monograph, **MSVPA** was the standard operational multispecies model of the ICES Multispecies Working Group (MSWG) throughout the 1980s and 1990s, motivating the massive 1981 and 1991 ICES "Years of the Stomach" sampling programs in the North Sea [@stefansson1998; @lewy2004]. **MSFOR** is its forward-projection counterpart used to evaluate management scenarios given recruitment assumptions.
 
 ### Mathematical Formulation of MSVPA
 Within each quarter $q \in \{1, 2, 3, 4\}$ of year $y$, cohort abundance $N_{i,a,y,q}$ of prey species $i$, age $a$ decays exponentially:
@@ -57,7 +57,7 @@ In classic MSVPA, suitability $S_{i,a,j,b,q}$ is not parameterized as a smooth f
 5. **Iterate**: Repeat Steps 2–4 until $\max |M2^{(m)} - M2^{(m-1)}| < \epsilon$.
 
 ### Limitations of MSVPA
-As analyzed by @stefansson1998 and @lewy2004:
+As analyzed by [@stefansson1998] and [@lewy2004]:
 - **No Observation Error**: MSVPA treats commercial catch-at-age and stomach content proportions as exact deterministic quantities. Sampling noise in rare stomach items propagates directly into suitability $S_{i,a,j,b,q}$.
 - **Over-Parameterization of Suitability**: Estimating a free suitability parameter for every $(i, a, j, b, q)$ combination requires thousands of parameters and leaves zero degrees of freedom for prey age classes not observed in a particular predator age's stomachs.
 - **No Uncertainty Estimates**: Because there is no statistical likelihood function, MSVPA cannot produce confidence intervals on $M2$, SSB, or recruitment, nor can it perform formal hypothesis testing (e.g., AIC/LRT between functional responses).
@@ -66,14 +66,14 @@ As analyzed by @stefansson1998 and @lewy2004:
 
 ## The Stochastic Multispecies Model (`SMS` and `smsR`)
 
-To overcome the deterministic limitations of MSVPA, Peter Lewy and Morten Vinther at DTU Aqua developed **SMS** (Stochastic Multispecies Model; @lewy2004), implemented in **ADMB** (Auto Differentiation Model Builder) and recently ported to **TMB/R** as `smsR` (Nis Sand Jacobsen et al.; @ices2021; @ices2023).
+To overcome the deterministic limitations of MSVPA, Peter Lewy and Morten Vinther at DTU Aqua developed **SMS** (Stochastic Multispecies Model; [@lewy2004]), implemented in **ADMB** (Auto Differentiation Model Builder) and recently ported to **TMB/R** as `smsR` (Nis Sand Jacobsen et al.; [@ices2021; @ices2023]).
 
 SMS is the flagship operational multispecies stock assessment model in ICES, providing the official time-varying natural mortality matrices ($M = M1 + M2$) used in single-species stock assessments (e.g., `SAM` and `SS3`) for the North Sea and Baltic Sea [@ices2023].
 
 ### State-Space Indexing and Population Dynamics
 SMS is a forward-projecting, seasonal (typically quarterly, $q \in \{1, 2, 3, 4\}$), age-structured statistical catch-at-age model. In addition to tracked dynamic VPA species (which can act as both predators and prey), SMS includes **"other predators"** (e.g., seabirds, grey seals, harbour porpoises, horse mackerel, hake) whose abundance time series $N_{A,a,y,q}$ are entered as known external covariates, and an **"other food"** biomass pool $B_{\text{OF}}$ [@lewy2004, p. 7].
 
-Following the notation of @lewy2004:
+Following the notation of [@lewy2004]:
 - Let $(A, a)$ denote a predator species $A$ of age (or size class) $a$, with mean weight $w_{A,a,y,q}$.
 - Let $(B, b)$ denote a prey species $B$ of age (or size class) $b$, with mean weight $w_{B,b,y,q}$.
 
@@ -107,7 +107,7 @@ $$S(B, b, A, a, y, q) = \text{vul}(B, A) \times \text{size}(B, b, A, a, y, q) \t
 
 1. **Species Vulnerability ($\text{vul}(B, A)$)**: Time-invariant parameter measuring the behavioral/morphological vulnerability of prey species $B$ to predator species $A$ (with $\text{vul}(\text{Other Food}, A) \equiv 1$ as the reference baseline).
 2. **Spatial/Seasonal Overlap ($\text{overlap}(B, A, q)$)**: Parameter representing the spatial co-occurrence of prey $B$ and predator $A$ in season $q$ (fixed to $1$ in seasons with full overlap, estimated in seasons with migratory separation).
-3. **Asymmetric Lognormal Size Preference ($\text{size}(B, b, A, a, y, q)$)**: Following @andersen_ursin1977, SMS models size preference as a Gaussian (or asymmetric split-Gaussian) function of the log predator-to-prey weight ratio $\xi = \ln\!\left(\frac{w_{A,a,y,q}}{w_{B,b,y,q}}\right)$, restricted to the physiologically feasible range $[\xi_{\min, A}, \xi_{\max, A}]$ [@lewy2004, Eq. 6]:
+3. **Asymmetric Lognormal Size Preference ($\text{size}(B, b, A, a, y, q)$)**: Following [@andersen_ursin1977], SMS models size preference as a Gaussian (or asymmetric split-Gaussian) function of the log predator-to-prey weight ratio $\xi = \ln\!\left(\frac{w_{A,a,y,q}}{w_{B,b,y,q}}\right)$, restricted to the physiologically feasible range $[\xi_{\min, A}, \xi_{\max, A}]$ [@lewy2004, Eq. 6]:
 
 $$\text{size}(B, b, A, a, y, q) = \begin{cases} \exp\!\left(-\dfrac{\left(\ln\frac{w_{A,a}}{w_{B,b}} - \eta_A\right)^2}{2\sigma_{1,A}^2}\right) & \text{if } \xi_{\min,A} \le \ln\frac{w_{A,a}}{w_{B,b}} \le \eta_A \\[12pt] \exp\!\left(-\dfrac{\left(\ln\frac{w_{A,a}}{w_{B,b}} - \eta_A\right)^2}{2\sigma_{2,A}^2}\right) & \text{if } \eta_A < \ln\frac{w_{A,a}}{w_{B,b}} \le \xi_{\max,A} \\[10pt] 0 & \text{otherwise} \end{cases}$$
 
@@ -158,14 +158,14 @@ $$-\ln L_{\text{CPUE}} = \frac{1}{2} \sum_{f,s,a,y} \left[ \ln\!\left(2\pi \sigm
 #### 3. Stomach Content Composition Likelihood (Dirichlet vs. Multinomial)
 Let $U = (A, a, y, q)$ index a specific predator-age-year-quarter sampling stratum, and let $k \in \{1, \dots, K_U\}$ index the $K_U$ prey entities $(B, b)$ (plus "other food") observed in that predator's diet, with observed weight proportions $\mathbf{W}_U = (W_{1,U}, \dots, W_{K_U,U})$ satisfying $\sum_{k=1}^{K_U} W_{k,U} = 1$, and model expectations $\hat{p}_{k,U} = \hat{W}(k, U)$.
 
-@lewy2004 [pp. 11--14] derived two alternative likelihood formulations for continuous stomach weight proportions:
+[@lewy2004, pp. 11--14] derived two alternative likelihood formulations for continuous stomach weight proportions:
 
 - **Option A: Multinomial Approximation on Effective Prey Counts**
   Defining an effective number of independent prey observations $N_{\text{stom}, U}$ (e.g., number of stomachs or hauls sampled), $N_{\text{stom}, U} \mathbf{W}_U$ is treated as a multinomial vector with log-likelihood kernel:
   $$\ln L_{\text{stom, Mult}} = \sum_{U} N_{\text{stom}, U} \sum_{k=1}^{K_U} W_{k,U} \ln \hat{p}_{k,U}$$
 
 - **Option B: Exact Dirichlet Distribution (Default in SMS)**
-  Because $W_{k,U} \in (0, 1)$ is a continuous biomass proportion rather than a discrete integer count, @lewy2004 [Eqs. 19--24] modeled $\mathbf{W}_U$ using a **Dirichlet distribution** with concentration parameters $\alpha_{k,U} = v_U \hat{p}_{k,U}$ and total precision sum $v_U = \sum_{k=1}^{K_U} \alpha_{k,U}$:
+  Because $W_{k,U} \in (0, 1)$ is a continuous biomass proportion rather than a discrete integer count, [@lewy2004, Eqs. 19--24] modeled $\mathbf{W}_U$ using a **Dirichlet distribution** with concentration parameters $\alpha_{k,U} = v_U \hat{p}_{k,U}$ and total precision sum $v_U = \sum_{k=1}^{K_U} \alpha_{k,U}$:
 
   $$f_{\text{Dir}}(\mathbf{W}_U \mid v_U \hat{\mathbf{p}}_U) = \frac{\Gamma(v_U)}{\prod_{k=1}^{K_U} \Gamma(v_U \hat{p}_{k,U})} \prod_{k=1}^{K_U} W_{k,U}^{v_U \hat{p}_{k,U} - 1}$$
 
@@ -179,15 +179,15 @@ Let $U = (A, a, y, q)$ index a specific predator-age-year-quarter sampling strat
 
 ## Statistical Multispecies Catch-at-Age (`MSASA`, `MSCAA`, and `Hydra`)
 
-In North America (particularly NOAA AFSC for the Aleutian Islands, Gulf of Alaska, and Bering Sea, and NOAA NEFSC for Georges Bank and the Gulf of Maine), a family of **Multispecies Statistical Catch-at-Age (`MSASA` / `MSCAA`)** models was developed in ADMB and TMB by @kinzey2009, @vankirk2010, @curti2013, Gaichas et al. (`Hydra` MSE operating model), and evaluated in simulation studies by @trijoulet2019.
+In North America (particularly NOAA AFSC for the Aleutian Islands, Gulf of Alaska, and Bering Sea, and NOAA NEFSC for Georges Bank and the Gulf of Maine), a family of **Multispecies Statistical Catch-at-Age (`MSASA` / `MSCAA`)** models was developed in ADMB and TMB by [@kinzey2009], [@vankirk2010], [@curti2013], Gaichas et al. (`Hydra` MSE operating model), and evaluated in simulation studies by [@trijoulet2019].
 
 ### Kinzey & Punt (2009): Aleutian Islands Age–Length Hybrid `MSCAA` and the Seven Predator Functional Responses
-@kinzey2009 developed a foundational integrated multispecies statistical catch-at-age framework in ADMB and applied it to the Aleutian Islands (1960–2003) for walleye pollock (*Theragra chalcogramma*, ages 0–15+, $1\text{--}80\text{ cm}$ in $5\text{ cm}$ bins), Atka mackerel (*Pleurogrammus monopterygius*, ages 0–15+, $1\text{--}65\text{ cm}$), and Pacific cod (*Gadus macrocephalus*, ages 0–12+, $1\text{--}120\text{ cm}$, harvested by 3 fleets: trawl, pot, and longline).
+[@kinzey2009] developed a foundational integrated multispecies statistical catch-at-age framework in ADMB and applied it to the Aleutian Islands (1960–2003) for walleye pollock (*Theragra chalcogramma*, ages 0–15+, $1\text{--}80\text{ cm}$ in $5\text{ cm}$ bins), Atka mackerel (*Pleurogrammus monopterygius*, ages 0–15+, $1\text{--}65\text{ cm}$), and Pacific cod (*Gadus macrocephalus*, ages 0–12+, $1\text{--}120\text{ cm}$, harvested by 3 fleets: trawl, pot, and longline).
 
 1. **Predation Mortality ($P_{k,a,y}$), Gamma Length-Ratio Selectivity ($\gamma^{r,u}_{k,a}$), and Age–Length Transition Mapping ($\chi^{r,u,l}$)**:
    Total mortality on prey species $k$, age $a$ in year $y$ is $Z_{k,a,y} = \sum_f F^f_{k,a,y} + P_{k,a,y} + M_k$, where predation mortality $P_{k,a,y}$ inflicted by all predator species $r$ and predator ages $u$ is [@kinzey2009, Eqs. 6--7, p. 77]:
    $$P_{k,a,y} = \sum_{r,u} V^{r,u}_{k,a,y}, \qquad V^{r,u}_{k,a,y} = N_{r,u,y} \, \phi^{r,u}_{k,a,y} \, \gamma^{r,u}_{k,a}$$
-   Instead of a symmetric lognormal weight-ratio kernel, @kinzey2009 [Eq. 18, p. 80] parameterize predator $(r, u)$ size selectivity $\gamma^{r,u}_{k,a} \in (0, 1]$ for prey $(k, a)$ as a **skewed Gamma function of the log predator-to-prey expected length ratio** $G^{r,u}_{k,a} = \ln(\bar{L}_{r,u} / \bar{L}_{k,a})$, normalized to equal $1$ at its mode $\tilde{G}^r = (\alpha^r - 1)\beta^r$:
+   Instead of a symmetric lognormal weight-ratio kernel, [@kinzey2009, Eq. 18, p. 80] parameterize predator $(r, u)$ size selectivity $\gamma^{r,u}_{k,a} \in (0, 1]$ for prey $(k, a)$ as a **skewed Gamma function of the log predator-to-prey expected length ratio** $G^{r,u}_{k,a} = \ln(\bar{L}_{r,u} / \bar{L}_{k,a})$, normalized to equal $1$ at its mode $\tilde{G}^r = (\alpha^r - 1)\beta^r$:
    $$\gamma^{r,u}_{k,a} = \left(\frac{G^{r,u}_{k,a}}{\tilde{G}^r}\right)^{\alpha^r - 1} \exp\!\left[-\frac{G^{r,u}_{k,a} - \tilde{G}^r}{\beta^r}\right], \qquad \tilde{G}^r = (\alpha^r - 1)\beta^r$$
    The total number of prey $(k, a)$ eaten by predator $(r, u)$ in year $y$ follows the Baranov predation equation:
    $$E^{r,u}_{k,a,y} = \frac{V^{r,u}_{k,a,y}}{Z_{k,a,y}} N_{k,a,y} \left(1 - e^{-Z_{k,a,y}}\right)$$
@@ -199,10 +199,10 @@ In North America (particularly NOAA AFSC for the Aleutian Islands, Gulf of Alask
      $$Q^{r,u}_{k,y} = \begin{cases} \sum_{a=0}^{A_{L,k}} E^{r,u}_{k,a,y} w_{k,a} & \text{modeled prey } k \\[6pt] Q^r_0 \left(1 - e^{-\phi^{r,u}_o N_{r,u,y}}\right) & \text{"other" prey} \end{cases}, \qquad Q^{r,l}_{k,y} = \sum_u Q^{r,u}_{k,y} \chi^{r,u,l}, \qquad \tilde{Q}^{r,l}_{k,y} = \frac{Q^{r,l}_{k,y}}{\sum_{k'} Q^{r,l}_{k',y}}$$
    - **Predicted vs. Bioenergetic Daily Ration ($\hat{\Omega}^{r,u}_y$, fitted in likelihood $L_5$)**:
      $$\hat{\Omega}^{r,u}_y = \frac{\sum_k Q^{r,u}_{k,y}}{365 \, N_{r,u,y} e^{-Z_{r,u,y}/2}}, \qquad L_5 = \sum_{r,u} \frac{\left(\Omega^{r,u} - \bar{\hat{\Omega}}^{r,u}\right)^2}{2\sigma_d^2}$$
-     where $\Omega^{r,u} = \frac{1}{365}\frac{K^r}{A^r}(w^{r,u})^{d^r}(w^{r,\infty})^{d^r - 1}$ is the @essington2001 bioenergetic daily ration!
+     where $\Omega^{r,u} = \frac{1}{365}\frac{K^r}{A^r}(w^{r,u})^{d^r}(w^{r,\infty})^{d^r - 1}$ is the [@essington2001] bioenergetic daily ration!
 
 2. **Unified Equilibrium-Normalized Parameterization of Seven Functional Responses (Table 1, p. 79)**:
-   To compare prey-dependent and predator-dependent functional responses on an equal footing, @kinzey2009 [Eqs. 15--17 & Table 1] define the predator age-effect $\theta^{r,u} = 1 + \frac{\omega^r \tilde{\omega}^r}{u + \tilde{\omega}^r}$ and normalize available prey abundance $\Phi^{r,u}_y$ and competing predator abundance $\Psi^{k,a}_y$ **relative to their unfished equilibrium values in year $y_P = 1960$**:
+   To compare prey-dependent and predator-dependent functional responses on an equal footing, [@kinzey2009, Eqs. 15--17 & Table 1] define the predator age-effect $\theta^{r,u} = 1 + \frac{\omega^r \tilde{\omega}^r}{u + \tilde{\omega}^r}$ and normalize available prey abundance $\Phi^{r,u}_y$ and competing predator abundance $\Psi^{k,a}_y$ **relative to their unfished equilibrium values in year $y_P = 1960$**:
    $$\Phi^{r,u}_y = \frac{\sum_{k,a} N_{k,a,y} \gamma^{r,u}_{k,a}}{\sum_{k,a} N_{k,a,y_P} \gamma^{r,u}_{k,a}}, \qquad \Psi^{k,a}_y = \frac{\sum_{r,u} N_{r,u,y} \gamma^{r,u}_{k,a}}{\sum_{r,u} N_{r,u,y_P} \gamma^{r,u}_{k,a}}$$
    Because $\Phi^{r,u}_{y_P} = \Psi^{k,a}_{y_P} = 1$ at unfished equilibrium, all seven functional responses for $\phi^{r,u}_{k,a,y}$ share the exact same unfished baseline $\phi^{r,u}_{k,a,y_P} = v^r_k \theta^{r,u}$:
 
@@ -223,12 +223,12 @@ In North America (particularly NOAA AFSC for the Aleutian Islands, Gulf of Alask
 ---
 
 ### Van Kirk et al. (2010): Gulf of Alaska `MSASA` and Simultaneity vs. Identifiability
-@vankirk2010 constructed an ADMB-based **Multispecies Age-Structured Assessment (`MSASA`)** model for three strongly interacting species in the Gulf of Alaska (1981–2001): walleye pollock (*Theragra chalcogramma*, ages 1–10+), Pacific cod (*Gadus macrocephalus*, ages 1–12+), and arrowtooth flounder (*Atheresthes stomias*, ages 1–15+), fitted to commercial catch, NMFS triennial bottom-trawl survey data, and $2,704$ predator stomachs from the AFSC REEM database.
+[@vankirk2010] constructed an ADMB-based **Multispecies Age-Structured Assessment (`MSASA`)** model for three strongly interacting species in the Gulf of Alaska (1981–2001): walleye pollock (*Theragra chalcogramma*, ages 1–10+), Pacific cod (*Gadus macrocephalus*, ages 1–12+), and arrowtooth flounder (*Atheresthes stomias*, ages 1–15+), fitted to commercial catch, NMFS triennial bottom-trawl survey data, and $2,704$ predator stomachs from the AFSC REEM database.
 
 1. **Predation Mortality ($P_{i,a,t}$) and Beginning-of-Year Approximation**:
    Total mortality is $Z_{i,a,t} = M^r_{i,a,t} + F_{i,a,t} + P_{i,a,t}$. Because true instantaneous predation mortality $P^{\text{inst}}_{i,a,t} = \frac{1}{\bar{B}_{i,a,t}}\sum_j \sum_b I_{j,b} \bar{N}_{j,b,t} \frac{\varphi_{i,a,j,b,t}}{\varphi_{j,b,t}}$ is implicitly recursive in $\bar{N}_{i,a,t}$ and $\bar{B}_{i,a,t}$, `MSASA` uses the explicit beginning-of-year abundance approximation [@vankirk2010, Eqs. 1--6]:
    $$P_{i,a,t} = \frac{1}{B_{i,a,t}} \sum_{j} \sum_{b} I_{j,b} \, N_{j,b,t} \, \frac{\varphi_{i,a,j,b,t}}{\varphi_{j,b,t}}$$
-   where $I_{j,b}$ ($\text{kg} \cdot \text{yr}^{-1}$) is the annual predator ration derived from @essington2001 / @aydin2005 von Bertalanffy bioenergetics, and available prey biomass is:
+   where $I_{j,b}$ ($\text{kg} \cdot \text{yr}^{-1}$) is the annual predator ration derived from [@essington2001] / [@aydin2005] von Bertalanffy bioenergetics, and available prey biomass is:
    $$\varphi_{i,a,j,b,t} = \nu_{i,a,j,b} \, B_{i,a,t}, \qquad \varphi_{j,b,t} = B_{\text{oth}} + \sum_{i} \sum_{a} \nu_{i,a,j,b,t} \, B_{i,a,t}$$
    with constant non-modeled prey biomass $B_{\text{oth}} = e^{15}$ ($\nu_{\text{oth}} \equiv 1$) and Andersen–Ursin suitability:
    $$\nu_{i,a,j,b} = \rho_{i,j} \, g_{i,a,j,b}, \qquad g_{i,a,j,b} = \exp\!\left[-\frac{1}{2\sigma_j^2}\left(\ln\frac{w_{j,b}}{w_{i,a}} - \eta_j\right)^2\right]$$
@@ -245,10 +245,10 @@ In North America (particularly NOAA AFSC for the Aleutian Islands, Gulf of Alask
 ---
 
 ### Curti et al. (2013): Georges Bank `MSCAA`, Ecosystem Biomass Closure, and Monte Carlo Error Propagation
-@curti2013 developed an ADMB `MSCAA` model for Georges Bank (1978–2007) covering Atlantic cod (*Gadus morhua*), silver hake (*Merluccius bilinearis*), and Atlantic herring (*Clupea harengus*), introducing three important methodological refinements:
+[@curti2013] developed an ADMB `MSCAA` model for Georges Bank (1978–2007) covering Atlantic cod (*Gadus morhua*), silver hake (*Merluccius bilinearis*), and Atlantic herring (*Clupea harengus*), introducing three important methodological refinements:
 
 1. **Sparre (1980) Stationary Total Ecosystem Biomass Closure**:
-   Instead of assuming a constant biomass of "other food" $B_{\text{other}}$, @curti2013 [Eqs. 6--10] followed @sparre1980 and @tsou_collie2001 in assuming a stationary **total ecosystem biomass** $\text{EB} = 15 \times 10^6\text{ metric tons}$ (and tested $\text{EB} = 7.34 \times 10^6\text{ t}$ from @rochet2011 in a sensitivity analysis), so that non-modeled "other food" varies dynamically each year as the complement of modeled fish biomass:
+   Instead of assuming a constant biomass of "other food" $B_{\text{other}}$, [@curti2013, Eqs. 6--10] followed [@sparre1980] and [@tsou_collie2001] in assuming a stationary **total ecosystem biomass** $\text{EB} = 15 \times 10^6\text{ metric tons}$ (and tested $\text{EB} = 7.34 \times 10^6\text{ t}$ from [@rochet2011] in a sensitivity analysis), so that non-modeled "other food" varies dynamically each year as the complement of modeled fish biomass:
    $$B_{\text{other}, t} = \text{EB} - \sum_{i} \sum_{a} B_{i,a,t}$$
    Suitabilities $v_{i,a,j,b,t} = \rho_{i,j} g_{i,a,j,b,t}$ (with $v_{\text{other}} = \rho_{\text{other}} g_{\text{other}} = 1$) are normalized across all prey categories for each predator $(j, b)$:
    $$\tilde{v}_{i,a,j,b,t} = \frac{v_{i,a,j,b,t}}{\sum_{k}\sum_{c} v_{k,c,j,b,t} + v_{\text{other}}}, \qquad \phi_{i,a,j,b,t} = \tilde{v}_{i,a,j,b,t} B_{i,a,t}, \qquad \phi_{j,b,t} = \tilde{v}_{\text{other}} B_{\text{other}, t} + \sum_{k,c} \phi_{k,c,j,b,t}$$
@@ -277,7 +277,7 @@ In North America (particularly NOAA AFSC for the Aleutian Islands, Gulf of Alask
 ---
 
 ### Alternative Functional Responses in `MSCAA` and `Hydra`
-Whereas SMS uses the fixed-ration Andersen–Ursin equation (which corresponds to a Holling Type II functional response in the limit where total consumption rate $R_{A,a}$ is held constant by adjusting "other food"), @kinzey2009 and Gaichas et al. (`Hydra`) formulated `MSCAA` to allow explicit comparison of **alternative functional response forms** for the per-predator consumption rate $I_{i,a,j,b,t}$ of prey $(i, a)$ by predator $(j, b)$:
+Whereas SMS uses the fixed-ration Andersen–Ursin equation (which corresponds to a Holling Type II functional response in the limit where total consumption rate $R_{A,a}$ is held constant by adjusting "other food"), [@kinzey2009] and Gaichas et al. (`Hydra`) formulated `MSCAA` to allow explicit comparison of **alternative functional response forms** for the per-predator consumption rate $I_{i,a,j,b,t}$ of prey $(i, a)$ by predator $(j, b)$:
 
 Let $\tilde{B}_{i,a,j,b,t} = S_{i,a,j,b} \, \bar{N}_{i,a,t} \, w_{i,a,t}$ be the suitable prey biomass of $(i, a)$ for predator $(j, b)$, and let $\Phi_{j,b,t} = \sum_{k,c} \tilde{B}_{k,c,j,b,t} + S_{\text{OF},j,b} B_{\text{OF}}$ be total suitable food.
 
@@ -290,12 +290,12 @@ Let $\tilde{B}_{i,a,j,b,t} = S_{i,a,j,b} \, \bar{N}_{i,a,t} \, w_{i,a,t}$ be the
    $$M2_{i,a,t} = \sum_{j,b} \frac{R_{j,b,t} \, \bar{N}_{j,b,t} \, S_{i,a,j,b} \, \left(\bar{N}_{i,a,t} w_{i,a,t}\right)^{\theta_j - 1}}{\sum_{k,c} S_{k,c,j,b} \left(\bar{N}_{k,c,t} w_{k,c,t}\right)^{\theta_j} + \left(S_{\text{OF},j,b} B_{\text{OF}}\right)^{\theta_j}}$$
    When $\theta_j = 2$, rare prey experience disproportionately low predation mortality ($M2_{i,a,t} \to 0$ as $B_{i,a,t} \to 0$), providing an automatic stabilizing refuge at low stock size.
 4. **Predator Interference & Pre-emption (Beddington–DeAngelis / Crowley–Martin)**:
-   Adds a predator-abundance interference term $\gamma_{j} \bar{N}_{j,b,t}$ (additively as in Type IV or multiplicatively as in Type V of @kinzey2009) to the denominator of the functional response:
+   Adds a predator-abundance interference term $\gamma_{j} \bar{N}_{j,b,t}$ (additively as in Type IV or multiplicatively as in Type V of [@kinzey2009]) to the denominator of the functional response:
    $$M2_{i,a,t} = \sum_{j,b} \frac{R_{j,b,t} \, \bar{N}_{j,b,t} \, S_{i,a,j,b}}{\Phi_{j,b,t} + H_{j,b}\left(1 + \gamma_j \bar{N}_{j,b,t}\right)}$$
    This dampens top-down control when predator abundance spikes, mimicking the behavioral foraging-arena limitation of Ecosim [@walters1997].
 
 ### Simulation-Estimation Findings (Trijoulet et al. 2019)
-Using a self-test and cross-test simulation framework in the TMB-based multispecies model `ms-keyrun` / `MSCAA`, @trijoulet2019 demonstrated that:
+Using a self-test and cross-test simulation framework in the TMB-based multispecies model `ms-keyrun` / `MSCAA`, [@trijoulet2019] demonstrated that:
 - Ignoring trophic interactions (fitting single-species SCAA with constant $M$ to data generated from a multispecies food web) produces severe, systematic biases in SSB ($>30\%$), recruitment ($>50\%$), and $F_{\text{MSY}}$ reference points for both forage fish and cannibalistic predators.
 - Even when diet composition data are noisy (effective sample size $N_{\text{stom}} = 20\text{--}50$), `MSCAA` models accurately recover the temporal trajectory of $M2_{i,a,t}$ and eliminate the retrospective bias seen in constant-$M$ single-species assessments.
 
@@ -305,10 +305,10 @@ Using a self-test and cross-test simulation framework in the TMB-based multispec
 
 Developed by Kirstin Holsman, Jim Ianelli, Kerim Aydin, André Punt, Grant Adams, and colleagues at NOAA AFSC and the University of Washington [@holsman2016; @adams2022; @ices2021; @ices2023], **CEATTLE** (*Climate-Enhanced, Age-based model with Temperature-specific Trophic Linkages and Energetics*) and its open-source TMB/R package **`Rceattle`** represent the state-of-the-art in integrating **temperature-dependent growth, Wisconsin bioenergetics, and multispecies harvest control rules** into an age-structured statistical stock assessment.
 
-Originally built in ADMB for the Eastern Bering Sea complex—walleye pollock (*Gadus chalcogrammus*, ages 1–12), Pacific cod (*Gadus macrocephalus*, ages 1–12), and arrowtooth flounder (*Atheresthes stomias*, ages 1–21, sex-structured)—and subsequently ported to TMB (`Rceattle`) and expanded to the Gulf of Alaska (adding Pacific halibut *Hippoglossus stenolepis*; @adams2022), California Current, and Baltic Sea, `CEATTLE` is used operationally by the North Pacific Fishery Management Council (NPFMC).
+Originally built in ADMB for the Eastern Bering Sea complex—walleye pollock (*Gadus chalcogrammus*, ages 1–12), Pacific cod (*Gadus macrocephalus*, ages 1–12), and arrowtooth flounder (*Atheresthes stomias*, ages 1–21, sex-structured)—and subsequently ported to TMB (`Rceattle`) and expanded to the Gulf of Alaska (adding Pacific halibut *Hippoglossus stenolepis*; [@adams2022]), California Current, and Baltic Sea, `CEATTLE` is used operationally by the North Pacific Fishery Management Council (NPFMC).
 
 ### Temperature-Dependent Generalized von Bertalanffy Growth (Holsman et al. 2016)
-Unlike standard age-structured models that treat weight-at-age $W_{ij,y}$ solely as an empirical look-up table, @holsman2016 [Eqs. 1--2 & Table 1 Eqs. T1.10a--c, pp. 12--14, 50] derived a **temperature-dependent generalized von Bertalanffy growth function (VBGF)** based on @essington2001 and @holsman_aydin2015, fitted to $21,388$ pollock, $14,362$ Pacific cod, and $772$ arrowtooth flounder otolith weight-at-age records:
+Unlike standard age-structured models that treat weight-at-age $W_{ij,y}$ solely as an empirical look-up table, [@holsman2016, Eqs. 1--2 & Table 1 Eqs. T1.10a--c, pp. 12--14, 50] derived a **temperature-dependent generalized von Bertalanffy growth function (VBGF)** based on [@essington2001] and [@holsman_aydin2015], fitted to $21,388$ pollock, $14,362$ Pacific cod, and $772$ arrowtooth flounder otolith weight-at-age records:
 
 $$W_{ij,y} = W_{\infty, iy} \left(1 - \exp\!\left(-K_i \left(1 - d_{i,y}\right)\left(j - t_{0,i}\right)\right)\right)^{\frac{1}{1 - d_{i,y}}} e^{\varepsilon}, \qquad \varepsilon \sim \mathcal{N}\!\left(0, \sigma_{d,i}^2\right)$$
 
@@ -328,26 +328,26 @@ $$\delta_{pa,y} = \hat{\varphi}_p \, \alpha_\delta \, W_{pa,y}^{(1 + \beta_\delt
 where:
 - $\hat{\varphi}_p$ is the annual relative foraging rate ($\text{d}\cdot\text{yr}^{-1}$ scalar),
 - $\alpha_\delta$ and $\beta_\delta < 0$ are the intercept and allometric slope of maximum specific consumption ($\beta_\delta = -0.460$ for pollock, $-0.122$ for cod, $-0.245$ for arrowtooth flounder; Table 3, p. 53),
-- $f(T_y)_p$ is the @kitchell1977 **dome-shaped temperature scaling algorithm**:
+- $f(T_y)_p$ is the [@kitchell1977] **dome-shaped temperature scaling algorithm**:
    $$f(T_y)_p = V^X \exp\!\left(X (1 - V)\right)$$
    with:
    $$V = \frac{T^{\text{cm}}_p - T_y}{T^{\text{cm}}_p - T^{\text{co}}_p}, \qquad X = \frac{Z^2 \left(1 + \left(1 + 40/Y\right)^{0.5}\right)^2}{400}$$
    $$Z = \ln(Q^c_p)\left(T^{\text{cm}}_p - T^{\text{co}}_p\right), \qquad Y = \ln(Q^c_p)\left(T^{\text{cm}}_p - T^{\text{co}}_p + 2\right)$$
-   where $T^{\text{co}}_p$ is the physiological optimum consumption temperature ($10.0^\circ\text{C}$ for pollock, $13.7^\circ\text{C}$ for cod, $19.6^\circ\text{C}$ for arrowtooth), $T^{\text{cm}}_p$ is the maximum lethal physiological temperature ($15.0^\circ\text{C}$, $21.0^\circ\text{C}$, $34.13^\circ\text{C}$), and $Q^c_p$ is the $Q_{10}$ thermal slope ($2.60, 2.41, 2.18$). (`Rceattle` also supports the @thornton_lessem1978 two-logistic thermal curve and energy-density caloric scaling $\mathcal{E}_{\text{pred}} / \sum \hat{W} \mathcal{E}_{\text{prey}}$).
+   where $T^{\text{co}}_p$ is the physiological optimum consumption temperature ($10.0^\circ\text{C}$ for pollock, $13.7^\circ\text{C}$ for cod, $19.6^\circ\text{C}$ for arrowtooth), $T^{\text{cm}}_p$ is the maximum lethal physiological temperature ($15.0^\circ\text{C}$, $21.0^\circ\text{C}$, $34.13^\circ\text{C}$), and $Q^c_p$ is the $Q_{10}$ thermal slope ($2.60, 2.41, 2.18$). (`Rceattle` also supports the [@thornton_lessem1978] two-logistic thermal curve and energy-density caloric scaling $\mathcal{E}_{\text{pred}} / \sum \hat{W} \mathcal{E}_{\text{prey}}$).
 
 ### Predation Mortality ($M2_{ij,y}$) and Analytical/Iterative Suitability ($\bar{S}_{paij}$)
-Following @jurado_molina2005, `CEATTLE` expresses predation mortality $M2_{ij,y}$ on prey species $i$, age $j$ in year $y$ as a Holling Type II functional response where suitability $\bar{S}_{paij} \in [0, 1]$ of modeled prey $(i, j)$ and suitability $1 - \sum_{ij} \bar{S}_{paij}$ of "other prey" $B^{\text{other}}_p$ sum to unity [@holsman2016, Table 2, Eqs. T2.1--T2.3, p. 52]:
+Following [@jurado_molina2005], `CEATTLE` expresses predation mortality $M2_{ij,y}$ on prey species $i$, age $j$ in year $y$ as a Holling Type II functional response where suitability $\bar{S}_{paij} \in [0, 1]$ of modeled prey $(i, j)$ and suitability $1 - \sum_{ij} \bar{S}_{paij}$ of "other prey" $B^{\text{other}}_p$ sum to unity [@holsman2016, Table 2, Eqs. T2.1--T2.3, p. 52]:
 
 $$M2_{ij,y} = \sum_{p} \sum_{a} \left( \frac{N_{pa,y} \, \delta_{pa,y} \, \bar{S}_{paij}}{\sum_{i,j} \left(\bar{S}_{paij} B_{ij,y}\right) + B^{\text{other}}_p \left(1 - \sum_{i,j} \bar{S}_{paij}\right)} \right)$$
 
-Instead of adding thousands of noisy diet cells to the likelihood, @holsman2016 and @adams2022 calculate $\bar{S}_{paij}$ analytically from observed gravimetric stomach proportions $U_{paij,y}$ (converted from length-based stomach samples to age-based proportions using annual empirical age-length transition matrices $\text{ALK}_y$) and model-estimated biomasses $B_{ij,y}$:
+Instead of adding thousands of noisy diet cells to the likelihood, [@holsman2016] and [@adams2022] calculate $\bar{S}_{paij}$ analytically from observed gravimetric stomach proportions $U_{paij,y}$ (converted from length-based stomach samples to age-based proportions using annual empirical age-length transition matrices $\text{ALK}_y$) and model-estimated biomasses $B_{ij,y}$:
 
 $$\bar{S}_{paij} = \frac{1}{n_y} \sum_{y} \left( \frac{\dfrac{\bar{U}_{paij}}{B_{ij,y}}}{\sum_{i,j} \left(\dfrac{\bar{U}_{paij}}{B_{ij,y}}\right) + \dfrac{1 - \sum_{i,j} \bar{U}_{paij}}{B^{\text{other}}_p}} \right)$$
 
-In `Rceattle` [@adams2022, Section 2.4, p. 4], the single-species assessment models are first optimized (tuning McAllister–Ianelli effective sample sizes for age/length compositions; @mcallister_ianelli1997), and then the multispecies model is iteratively re-optimized, updating $\bar{S}_{paij}$ at each outer step until convergence (which occurs in **3 iterations**).
+In `Rceattle` [@adams2022, Section 2.4, p. 4], the single-species assessment models are first optimized (tuning McAllister–Ianelli effective sample sizes for age/length compositions; [@mcallister_ianelli1997]), and then the multispecies model is iteratively re-optimized, updating $\bar{S}_{paij}$ at each outer step until convergence (which occurs in **3 iterations**).
 
 ### Multispecies Biological Reference Points (MBRPs) and Harvest Control Rules (Holsman et al. 2016)
-A major contribution of @holsman2016 [Section 2.3 & Table 5, pp. 15--20, 57] is the rigorous mathematical formalization of **12 Multispecies Biological Reference Point (MBRP) harvest scenarios** under NPFMC Tier 3 control rules (where target Acceptable Biological Catch proxy biomass is $\overline{\text{SSB}}_{F,i} = 0.40 \, \overline{\text{SSB}}_{0,i}$ and the minimum MSY biomass limit is $B_{\text{MSY}, i} = 0.35 \, \overline{\text{SSB}}_{0,i}$):
+A major contribution of [@holsman2016, Section 2.3 & Table 5, pp. 15--20, 57] is the rigorous mathematical formalization of **12 Multispecies Biological Reference Point (MBRP) harvest scenarios** under NPFMC Tier 3 control rules (where target Acceptable Biological Catch proxy biomass is $\overline{\text{SSB}}_{F,i} = 0.40 \, \overline{\text{SSB}}_{0,i}$ and the minimum MSY biomass limit is $B_{\text{MSY}, i} = 0.35 \, \overline{\text{SSB}}_{0,i}$):
 
 1. **Non-Uniqueness of "Unfished Biomass" ($\overline{\text{SSB}}_{0,i}$) and Fishing-Order Dependence (Scenarios 1.1–1.4)**:
    - Under **Scenario 1.1**, $\overline{\text{SSB}}_{0,i}$ is defined by setting $F_i = 0$ for **all species simultaneously**:
@@ -367,9 +367,9 @@ A major contribution of @holsman2016 [Section 2.3 & Table 5, pp. 15--20, 57] is 
 ---
 
 ### Gulf of Alaska `Rceattle` Ensemble and Hybrid "Predators-as-Fleets" Scaling (Adams et al. 2022)
-In adapting `Rceattle` (implemented in TMB with recruitment and initial cohort deviations treated as Laplace-integrated random effects) to the Gulf of Alaska for pollock, Pacific cod, arrowtooth flounder, and Pacific halibut (*Hippoglossus stenolepis*), @adams2022 addressed a universal practical problem in multispecies assessment: **how to include an important apex predator (Pacific halibut) whose stock assessment is conducted externally on a coastwide spatial scale** (by the International Pacific Halibut Commission, IPHC, using a 4-model Stock Synthesis ensemble).
+In adapting `Rceattle` (implemented in TMB with recruitment and initial cohort deviations treated as Laplace-integrated random effects) to the Gulf of Alaska for pollock, Pacific cod, arrowtooth flounder, and Pacific halibut (*Hippoglossus stenolepis*), [@adams2022] addressed a universal practical problem in multispecies assessment: **how to include an important apex predator (Pacific halibut) whose stock assessment is conducted externally on a coastwide spatial scale** (by the International Pacific Halibut Commission, IPHC, using a 4-model Stock Synthesis ensemble).
 
-@adams2022 evaluated 16 model configurations across 3 time-series durations ($1977\text{--}2018$, $1993\text{--}2018$, $1996\text{--}2018$) grouped into 4 ensemble averages:
+[@adams2022] evaluated 16 model configurations across 3 time-series durations ($1977\text{--}2018$, $1993\text{--}2018$, $1996\text{--}2018$) grouped into 4 ensemble averages:
 1. **Ensemble Avg 1 (Single-Species)** vs. **Ensemble Avg 2 (3-Species MS without Halibut)**: Including predation by arrowtooth flounder (the dominant predator in the GOA), cod, and pollock increased average estimated pollock total biomass by **$2.03\text{--}2.21\times$** and pollock SSB by **$1.70\text{--}1.84\times$** relative to single-species models.
 2. **Ensemble Avg 3 (Fixed External Predator Abundance)**: Inputs sex-specific mid-year halibut numbers-at-age directly from each of the 4 IPHC Stock Synthesis ensemble models (scaled by the proportion of age-5+ halibut survey biomass in IPHC Regulatory Areas 3A & 3B) without fitting halibut data in the `Rceattle` likelihood.
 3. **Ensemble Avg 4 (Relative Predator Survey Index with Estimated Scaling $\tilde{q}_i$)**: Inputs relative halibut abundance-at-age from the IPHC setline survey multiplied by a freely estimated scaling parameter $\tilde{q}_{\text{halibut}}$.
