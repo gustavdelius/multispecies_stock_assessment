@@ -18,81 +18,81 @@ Let $N_i(w, t)$ ($\text{numbers} \cdot \text{g}^{-1} \cdot \text{m}^{-3}$ or tot
 #### 1. Governing McKendrick–von Foerster Conservation PDE
 The time evolution of $N_i(w, t)$ is governed by the first-order hyperbolic continuity (advection-reaction) equation [@hartvig2011, Eq. 1; @scott2014, Eq. 3.1]:
 
-$$\frac{\partial N_i(w, t)}{\partial t} + \frac{\partial \left(g_i(w, t) N_i(w, t)\right)}{\partial w} = -\mu_i(w, t) N_i(w, t)$$
+$$\frac{\partial N_i(w, t)}{\partial t} + \frac{\partial \left(g_i(w, t) N_i(w, t)\right)}{\partial w} = -\mu_i(w, t) N_i(w, t)$$ {#eq-mizer-mckendrick-von-foerster}
 
 coupled to the **boundary condition (recruitment flux)** at egg weight $w_0$:
 
-$$g_i(w_0, t) N_i(w_0, t) = R_{\text{dd}, i}(t)$$
+$$g_i(w_0, t) N_i(w_0, t) = R_{\text{dd}, i}(t)$$ {#eq-mizer-larval-boundary-condition}
 
 #### 2. Volumetric Search Rate, Predation Kernel, and Encounter Rate ($E_i(w,t)$)
 A predator of species $i$ and mass $w$ searches a water volume at allometric rate $\gamma_i(w) = \gamma_i w^q$ ($q \approx 0.8$). Its size preference for prey of mass $w_p$ is described by a **predation kernel** $\phi_i(w / w_p)$, most commonly the Andersen–Ursin lognormal kernel [@scott2014, Eq. 3.4]:
 
-$$\phi_i\!\left(\frac{w}{w_p}\right) = \exp\!\left( -\frac{\left(\ln\!\left(\frac{w}{\beta_i w_p}\right)\right)^2}{2\sigma_i^2} \right)$$
+$$\phi_i\!\left(\frac{w}{w_p}\right) = \exp\!\left( -\frac{\left(\ln\!\left(\frac{w}{\beta_i w_p}\right)\right)^2}{2\sigma_i^2} \right)$$ {#eq-mizer-predation-kernel}
 
 (or a power-law / box / double-logistic kernel). Given the species interaction (spatial overlap / vulnerability) matrix $\theta_{ij} \in [0, 1]$, the **total biomass of suitable prey encountered per unit time** $E_i(w, t)$ by predator $(i, w)$ is:
 
-$$E_i(w, t) = \gamma_i(w) \int \phi_i\!\left(\frac{w}{w_p}\right) \left[ \theta_{iR} N_R(w_p, t) + \sum_{j=1}^{S} \theta_{ij} N_j(w_p, t) \right] w_p \, dw_p$$
+$$E_i(w, t) = \gamma_i(w) \int \phi_i\!\left(\frac{w}{w_p}\right) \left[ \theta_{iR} N_R(w_p, t) + \sum_{j=1}^{S} \theta_{ij} N_j(w_p, t) \right] w_p \, dw_p$$ {#eq-mizer-encountered-food}
 
 #### 3. Feeding Level ($f_i(w,t)$) and Holling Type II Satiation
 Given physiological maximum intake rate $I_{\max, i}(w) = h_i w^n$ ($n \approx 0.67\text{--}0.75$), the dimensionless **feeding level** $f_i(w, t) \in [0, 1)$ follows a Holling Type II functional response:
 
-$$f_i(w, t) = \frac{E_i(w, t)}{E_i(w, t) + h_i w^n}$$
+$$f_i(w, t) = \frac{E_i(w, t)}{E_i(w, t) + h_i w^n}$$ {#eq-mizer-feeding-level}
 
 Thus actual biomass consumption per predator per unit time is $C_i(w, t) = f_i(w, t) h_i w^n$.
 
 #### 4. Bioenergetic Allocation, Somatic Growth ($g_i(w,t)$), and Reproduction ($R_{p,i}(t)$)
 Assimilated energy is a fraction $\alpha_i \in (0, 1)$ of ingested food ($\alpha_i \approx 0.6$), from which standard metabolic maintenance $k_{s,i} w^p$ ($p \approx 0.7\text{--}1.0$) is subtracted to give net available energy $E_{\text{avail}, i}(w, t)$:
 
-$$E_{\text{avail}, i}(w, t) = \alpha_i \, f_i(w, t) \, h_i w^n - k_{s,i} w^p$$
+$$E_{\text{avail}, i}(w, t) = \alpha_i \, f_i(w, t) \, h_i w^n - k_{s,i} w^p$$ {#eq-mizer-available-energy}
 
 A size-dependent maturation ogive $\psi_i(w)$ (transitioning from $0$ to $1$ around maturation weight $w_{\text{mat}, i}$ and scaling with $\left(w / w_{\max, i}\right)^{1-n}$ or $1 - (w/w_{\max,i})^{p-n}$ so growth ceases at $w_{\max, i}$) partitions net positive energy between **somatic growth** $g_i(w, t)$ and **gonadal reproduction** $E_{r,i}(w, t)$:
 
-$$g_i(w, t) = \max\!\Big(0,\; E_{\text{avail}, i}(w, t)\Big) \Big(1 - \psi_i(w)\Big)$$
+$$g_i(w, t) = \max\!\Big(0,\; E_{\text{avail}, i}(w, t)\Big) \Big(1 - \psi_i(w)\Big)$$ {#eq-mizer-somatic-growth}
 
-$$\psi_i(w) = \left[1 + \left(\frac{w}{w_{\text{mat}, i}}\right)^{-U}\right]^{-1} \left(\frac{w}{w_{\max, i}}\right)^{1 - n}$$
+$$\psi_i(w) = \left[1 + \left(\frac{w}{w_{\text{mat}, i}}\right)^{-U}\right]^{-1} \left(\frac{w}{w_{\max, i}}\right)^{1 - n}$$ {#eq-mizer-maturation-fraction}
 
 The **density-independent physiological egg production rate** $R_{\text{di}, i}(t)$ ($\text{eggs} \cdot \text{yr}^{-1}$) is obtained by integrating reproductive energy over all sizes, multiplying by reproductive efficiency $\epsilon_{\text{rep}, i}$ and female fraction $1/2$, and dividing by egg weight $w_0$:
 
-$$R_{\text{di}, i}(t) = \frac{\epsilon_{\text{rep}, i}}{2 w_0} \int_{w_0}^{w_{\max, i}} N_i(w, t) \max\!\Big(0,\; E_{\text{avail}, i}(w, t)\Big) \psi_i(w) \, dw$$
+$$R_{\text{di}, i}(t) = \frac{\epsilon_{\text{rep}, i}}{2 w_0} \int_{w_0}^{w_{\max, i}} N_i(w, t) \max\!\Big(0,\; E_{\text{avail}, i}(w, t)\Big) \psi_i(w) \, dw$$ {#eq-mizer-reproduction-di}
 
 In standard `mizer`, external density dependence at the larval stage (e.g., limited larval habitat or unmodeled larval mortality) is represented by passing $R_{\text{di}, i}(t)$ through a **Beverton–Holt stock-recruitment function** with maximum recruitment cap $R_{\max, i}$:
 
-$$R_{\text{dd}, i}(t) = \frac{R_{\max, i} \, R_{\text{di}, i}(t)}{R_{\text{di}, i}(t) + R_{\max, i}}$$
+$$R_{\text{dd}, i}(t) = \frac{R_{\max, i} \, R_{\text{di}, i}(t)}{R_{\text{di}, i}(t) + R_{\max, i}}$$ {#eq-mizer-recruitment-dd}
 
 #### 5. Total Mortality ($\mu_i(w,t)$): Background, Predation, Starvation, and Fishing
 Total instantaneous mortality $\mu_i(w, t)$ is the sum of four mechanistic components:
 
-$$\mu_i(w, t) = \mu_{0, i}(w) + \mu_{p, i}(w, t) + \mu_{s, i}(w, t) + F_i(w, t)$$
+$$\mu_i(w, t) = \mu_{0, i}(w) + \mu_{p, i}(w, t) + \mu_{s, i}(w, t) + F_i(w, t)$$ {#eq-mizer-mortality-total}
 
 1. **Background / Senescence Mortality**: $\mu_{0, i}(w) = \mu_{0, i} w_{\max, i}^{n - 1}$ (allometrically scaled with $w_{\max,i}$).
 2. **Endogenous Predation Mortality ($\mu_{p, i}(w_p, t) \equiv M2$)**: By strict mass balance, every gram of prey $(j, w_p)$ eaten by predators $(i, w)$ must appear as mortality on $(j, w_p)$ [@scott2014, Eq. 3.11]:
 
-   $$\mu_{p, j}(w_p, t) = \sum_{i=1}^{S} \theta_{ij} \int_{w_0}^{w_{\max, i}} \phi_i\!\left(\frac{w}{w_p}\right) \Big(1 - f_i(w, t)\Big) \gamma_i(w) \, N_i(w, t) \, dw$$
+   $$\mu_{p, j}(w_p, t) = \sum_{i=1}^{S} \theta_{ij} \int_{w_0}^{w_{\max, i}} \phi_i\!\left(\frac{w}{w_p}\right) \Big(1 - f_i(w, t)\Big) \gamma_i(w) \, N_i(w, t) \, dw$$ {#eq-mizer-predation-mortality}
 
    *(Notice the identity $\frac{f_i(w) h_i w^n}{E_i(w)} = 1 - f_i(w)$: when a predator is satiated [$f_i(w) \to 1$], its per-unit-prey clearance rate $(1 - f_i)\gamma_i(w)$ drops toward zero!)*
 3. **Starvation Mortality ($\mu_{s, i}(w, t)$)**: Whenever available assimilated energy falls below metabolic maintenance ($E_{\text{avail}, i}(w, t) < 0$), individuals suffer starvation mortality proportional to the energy deficit divided by lipid energy stores $\xi_{\text{store}} w$ [@scott2014, Eq. 3.12]:
 
-   $$\mu_{s, i}(w, t) = \begin{cases} \dfrac{-E_{\text{avail}, i}(w, t)}{\xi_{\text{store}} w} & \text{if } E_{\text{avail}, i}(w, t) < 0 \\[8pt] 0 & \text{otherwise} \end{cases}$$
+   $$\mu_{s, i}(w, t) = \begin{cases} \dfrac{-E_{\text{avail}, i}(w, t)}{\xi_{\text{store}} w} & \text{if } E_{\text{avail}, i}(w, t) < 0 \\[8pt] 0 & \text{otherwise} \end{cases}$$ {#eq-mizer-starvation-mortality}
 
 4. **Fishing Mortality ($F_i(w, t)$)**: Summed over fishing gears/fleets $f$ with size selectivity $S_{f,i}(w)$, catchability $Q_{f,i}$, and fishing effort $E_{f}(t)$:
 
-   $$F_i(w, t) = \sum_{f} S_{f, i}(w) \, Q_{f, i} \, E_{f}(t)$$
+   $$F_i(w, t) = \sum_{f} S_{f, i}(w) \, Q_{f, i} \, E_{f}(t)$$ {#eq-mizer-fishing-mortality}
 
    generating total fishery yield in weight $Y_{f,i}(t) = \int_{w_0}^{w_{\max,i}} F_{f,i}(w, t) \, w \, N_i(w, t) \, dw$.
 
 #### 6. Resource Spectrum Dynamics ($N_R(w,t)$)
 The background plankton/benthos spectrum $N_R(w, t)$ evolves via semi-chemostat (or logistic) renewal at rate $r_R(w) = r_0 w^{n-1}$ toward carrying capacity $\kappa_R(w) = \kappa w^{-\lambda}$ ($\lambda \approx 2 + q - n \approx 2.05$):
 
-$$\frac{\partial N_R(w, t)}{\partial t} = r_R(w) \Big(\kappa_R(w) - N_R(w, t)\Big) - \mu_{p, R}(w, t) N_R(w, t)$$
+$$\frac{\partial N_R(w, t)}{\partial t} = r_R(w) \Big(\kappa_R(w) - N_R(w, t)\Big) - \mu_{p, R}(w, t) N_R(w, t)$$ {#eq-mizer-resource-chemostat}
 
 #### 7. Semi-Implicit Upwind Finite-Difference Discretization in `mizer`
 On a logarithmically spaced weight grid $w_j = w_0 \cdot 10^{(j-1)\Delta x}$ with bin widths $\Delta w_j = w_{j+1} - w_j$, `mizer` solves the McKendrick–von Foerster PDE over time step $\Delta t$ by evaluating encounter $E_i$, feeding level $f_i$, growth $g_{i,j}^t$, and mortality $\mu_{i,j}^t$ explicitly at time $t$ (using Fast Fourier Transform [FFT] convolution on the log-weight grid for the integrals $E_i$ and $\mu_{p,i}$ when kernels are shift-invariant in $\ln(w/w_p)$), and then advancing $N_{i,j}^{t+\Delta t}$ via a **first-order upwind, backward-Euler (semi-implicit) scheme** [@scott2014, Appendix A]:
 
-$$\frac{N_{i,j}^{t+\Delta t} - N_{i,j}^t}{\Delta t} + \frac{g_{i,j}^t N_{i,j}^{t+\Delta t} - g_{i,j-1}^t N_{i,j-1}^{t+\Delta t}}{\Delta w_j} = -\mu_{i,j}^t N_{i,j}^{t+\Delta t}$$
+$$\frac{N_{i,j}^{t+\Delta t} - N_{i,j}^t}{\Delta t} + \frac{g_{i,j}^t N_{i,j}^{t+\Delta t} - g_{i,j-1}^t N_{i,j-1}^{t+\Delta t}}{\Delta w_j} = -\mu_{i,j}^t N_{i,j}^{t+\Delta t}$$ {#eq-mizer-semi-implicit-scheme}
 
 Solving for $N_{i,j}^{t+\Delta t}$ gives a lower-bidiagonal linear system solved in $O(n_w)$ forward substitution:
 
-$$N_{i,j}^{t+\Delta t} = \frac{N_{i,j}^t + \frac{\Delta t}{\Delta w_j} g_{i,j-1}^t N_{i,j-1}^{t+\Delta t}}{1 + \Delta t \left(\frac{g_{i,j}^t}{\Delta w_j} + \mu_{i,j}^t\right)}$$
+$$N_{i,j}^{t+\Delta t} = \frac{N_{i,j}^t + \frac{\Delta t}{\Delta w_j} g_{i,j-1}^t N_{i,j-1}^{t+\Delta t}}{1 + \Delta t \left(\frac{g_{i,j}^t}{\Delta w_j} + \mu_{i,j}^t\right)}$$ {#eq-mizer-upwind-update}
 
 ---
 
@@ -108,16 +108,16 @@ In the standard McKendrick–von Foerster PDE $\partial_t N + \partial_w (g N) =
 [@datta2010] resolved this fundamental limitation from first principles by observing that fish do not grow by absorbing a continuous fluid: they grow by **discrete stochastic jumps** $\Delta w = \alpha w_p$ each time they capture and assimilate a discrete prey organism of body mass $w_p$.
 
 Starting from the exact Markov **Master Equation** for discrete prey-capture events in continuous time [@datta2010, Eq. 5]:
-$$\frac{\partial N_i(w,t)}{\partial t} = \int dw_p \Big[ \text{Transition in from } (w - \alpha_i w_p) - \text{Transition out from } w \Big] - \mu_i(w,t) N_i(w,t)$$
+$$\frac{\partial N_i(w,t)}{\partial t} = \int dw_p \Big[ \text{Transition in from } (w - \alpha_i w_p) - \text{Transition out from } w \Big] - \mu_i(w,t) N_i(w,t)$$ {#eq-datta-master-equation}
 and performing a second-order **Kramers–Moyal Taylor expansion** in the prey mass increment $\alpha_i w_p \ll w$, [@datta2010] derived the **Jump-Growth Fokker–Planck (Advection–Diffusion–Reaction) PDE**:
 
-$$\frac{\partial N_i(w, t)}{\partial t} + \frac{\partial \left(g_i(w, t) N_i(w, t)\right)}{\partial w} = \frac{1}{2} \frac{\partial^2 \left(d_i(w, t) N_i(w, t)\right)}{\partial w^2} - \mu_i(w, t) N_i(w, t)$$
+$$\frac{\partial N_i(w, t)}{\partial t} + \frac{\partial \left(g_i(w, t) N_i(w, t)\right)}{\partial w} = \frac{1}{2} \frac{\partial^2 \left(d_i(w, t) N_i(w, t)\right)}{\partial w^2} - \mu_i(w, t) N_i(w, t)$$ {#eq-datta-advection-diffusion}
 
 where:
 - The **first-order drift (mean somatic growth rate)** $g_i(w, t)$ is the first moment of assimilated prey mass:
-  $$g_i(w, t) = \alpha_i \Big(1 - \psi_i(w)\Big) \Big(1 - f_i(w, t)\Big) \gamma_i(w) \int \phi_i\!\left(\frac{w}{w_p}\right) N_c(w_p, t) \, \mathbf{w_p} \, dw_p - k_{s,i} w^p \Big(1 - \psi_i(w)\Big)$$
+  $$g_i(w, t) = \alpha_i \Big(1 - \psi_i(w)\Big) \Big(1 - f_i(w, t)\Big) \gamma_i(w) \int \phi_i\!\left(\frac{w}{w_p}\right) N_c(w_p, t) \, \mathbf{w_p} \, dw_p - k_{s,i} w^p \Big(1 - \psi_i(w)\Big)$$ {#eq-datta-drift-growth}
 - The **second-order macro-diffusion (growth variance) coefficient** $d_i(w, t)$ is the **second moment** of assimilated prey mass [@datta2010, Eq. 9]:
-  $$d_i(w, t) = \alpha_i^2 \Big(1 - \psi_i(w)\Big)^2 \Big(1 - f_i(w, t)\Big) \gamma_i(w) \int \phi_i\!\left(\frac{w}{w_p}\right) N_c(w_p, t) \, \mathbf{w_p^2} \, dw_p$$
+  $$d_i(w, t) = \alpha_i^2 \Big(1 - \psi_i(w)\Big)^2 \Big(1 - f_i(w, t)\Big) \gamma_i(w) \int \phi_i\!\left(\frac{w}{w_p}\right) N_c(w_p, t) \, \mathbf{w_p^2} \, dw_p$$ {#eq-datta-diffusion-dispersion}
 
 > [!IMPORTANT]
 > **Mathematical & Practical Significance of the Jump-Growth Diffusion Term $d_i(w,t)$**:
@@ -145,7 +145,7 @@ While size-spectrum models resolve continuous body mass, the most widely applied
 ### `Ecopath`: Static Mass Balance at Reference Equilibrium
 `Ecopath` partitions the ecosystem into $i \in \{1, \dots, n\}$ functional groups (which may be single species, multi-species guilds, or juvenile/adult life stanzas). At a reference equilibrium period, production of group $i$ equals the sum of all mortality and export fluxes [@christensen2004, Eq. 1; @lucey2020, Eq. 1]:
 
-$$B_i \left(\frac{P}{B}\right)_i \cdot EE_i = Y_i + E_i + BA_i + \sum_{j=1}^{n} B_j \left(\frac{Q}{B}\right)_j DC_{ij}$$
+$$B_i \left(\frac{P}{B}\right)_i \cdot EE_i = Y_i + E_i + BA_i + \sum_{j=1}^{n} B_j \left(\frac{Q}{B}\right)_j DC_{ij}$$ {#eq-ecopath-mass-balance}
 
 where:
 - $B_i$ is biomass, $(P/B)_i = Z_i$ is the production-to-biomass ratio (total mortality rate under equilibrium), and $(Q/B)_j$ is the consumption-to-biomass ratio of predator $j$,
@@ -159,23 +159,25 @@ For each group $i$, three of the four core parameters $\{B_i, (P/B)_i, (Q/B)_i, 
 ### `Ecosim` and Walters' Foraging Arena Theory
 When `Ecopath` is projected dynamically through time as a system of coupled ODEs (`Ecosim`; [@walters1997]):
 
-$$\frac{dB_i}{dt} = g_i \sum_{j} Q_{ji}(t) - \sum_{k} Q_{ik}(t) + I_i - \left(M0_i + F_i(t) + e_i\right) B_i(t)$$
+$$\frac{dB_i}{dt} = g_i \sum_{j} Q_{ji}(t) - \sum_{k} Q_{ik}(t) + I_i - \left(M0_i + F_i(t) + e_i\right) B_i(t)$$ {#eq-ecosim-biomass-ode}
 
 where $g_i = (P/Q)_i$ is net growth efficiency, a critical question arises: how should the consumption flux $Q_{ij}(t)$ of prey $i$ by predator $j$ depend on $B_i(t)$ and $B_j(t)$?
 
-[@walters1997] showed that if one uses standard mass-action Lotka–Volterra ($Q_{ij} = a_{ij} B_i B_j$) or standard Holling Type II in a complex 30-species food web, **the ecosystem rapidly collapses via Gause competitive exclusion or violent predator-prey limit cycles**.
+::: {.callout-important title="Theoretical Necessity of Foraging Arena Refugia"}
+[@walters1997] showed that if standard mass-action Lotka–Volterra ($Q_{ij} = a_{ij} B_i B_j$) or standard Holling Type II is used in a complex 30-species food web, **the ecosystem rapidly collapses via Gause competitive exclusion or violent predator-prey limit cycles**. Foraging Arena Theory resolves this by creating behavioral or spatial refugia for prey.
+:::
 
 To resolve this, [@walters1997] formulated **Foraging Arena Theory**: at any given moment, total prey biomass $B_i$ is partitioned with respect to predator $j$ into an **invulnerable (refuge/sheltered/un-overlapping) state** $B_i - V_{ij}$ and a small **vulnerable foraging arena state** $V_{ij}$, with behavioural/spatial exchange rate $v_{ij}$ between them:
 
-$$\frac{dV_{ij}}{dt} = v_{ij}\left(B_i - V_{ij}\right) - v'_{ij} V_{ij} - a_{ij} V_{ij} B_j$$
+$$\frac{dV_{ij}}{dt} = v_{ij}\left(B_i - V_{ij}\right) - v'_{ij} V_{ij} - a_{ij} V_{ij} B_j$$ {#eq-foraging-arena-vulnerable-dynamics}
 
 Assuming the behavioral exchange $V_{ij}$ equilibrates rapidly relative to annual population changes ($dV_{ij}/dt \approx 0$, with $v'_{ij} = v_{ij}$), solving for $V_{ij}$ yields the **Foraging Arena Functional Response** [@walters1997, Eq. 4; @christensen2004, Eq. 5; @thorson2024, Eq. 4]:
 
-$$Q_{ij}(t) = a_{ij} V_{ij}(t) B_j(t) = \frac{a_{ij} \, v_{ij} \, B_i(t) \, B_j(t)}{2 v_{ij} + a_{ij} B_j(t)}$$
+$$Q_{ij}(t) = a_{ij} V_{ij}(t) B_j(t) = \frac{a_{ij} \, v_{ij} \, B_i(t) \, B_j(t)}{2 v_{ij} + a_{ij} B_j(t)}$$ {#eq-foraging-arena-consumption}
 
 Calibrating to the Ecopath baseline $Q_{ij,0} = B_{j,0} (Q/B)_{j,0} DC_{ij,0}$ at reference biomasses $(B_{i,0}, B_{j,0})$ eliminates $a_{ij}$ in favor of a single dimensionless **vulnerability multiplier** $X_{ij} = \frac{v_{ij} B_{i,0}}{Q_{ij,0}} \in (1, \infty)$ (default $X_{ij} = 2$):
 
-$$Q_{ij}(t) = Q_{ij,0} \, \frac{X_{ij}}{X_{ij} - 1 + \frac{B_j(t)}{B_{j,0}}} \, \frac{B_i(t)}{B_{i,0}}$$
+$$Q_{ij}(t) = Q_{ij,0} \, \frac{X_{ij}}{X_{ij} - 1 + \frac{B_j(t)}{B_{j,0}}} \, \frac{B_i(t)}{B_{i,0}}$$ {#eq-ecosim-functional-response}
 
 - **Low Vulnerability ($X_{ij} \to 1$, "Bottom-Up / Donor Control")**: As $X_{ij} \to 1$, $Q_{ij}(t) \to Q_{ij,0} \frac{B_i(t)}{B_{i,0}}$ is **independent of predator biomass $B_j(t)$**! Doubling predator abundance $B_j$ simply means twice as many predators compete for the same trickle of prey entering the foraging arena, halving per-capita predator intake and preventing top-down prey extermination.
 - **High Vulnerability ($X_{ij} \to \infty$, "Top-Down / Lotka–Volterra Control")**: As $X_{ij} \to \infty$, $Q_{ij}(t) \to Q_{ij,0} \frac{B_i(t)}{B_{i,0}} \frac{B_j(t)}{B_{j,0}}$ recovers mass-action top-down predation.
@@ -189,7 +191,7 @@ Historically, EwE was fitted by shooting (deterministic trajectory matching) wit
 
 1. **Continuous-Time ODE with Annual Process Errors $\epsilon_{i,t}$**:
    Within each year $t \in \{t_0, \dots, T\}$, biomass $B_i(s)$ evolves over $s \in [t, t+1]$ via the Ecosim Foraging Arena ODE augmented with an estimated annual unexplained process-error rate $\epsilon_{i,t}$ [@thorson2024, Eq. 5]:
-   $$\frac{dB_i(s)}{ds} = g_i \sum_j Q_{ji}(s) - \sum_k Q_{ik}(s) - \Big(M0_i + F_{i,t} - \epsilon_{i,t}\Big) B_i(s)$$
+   $$\frac{dB_i(s)}{ds} = g_i \sum_j Q_{ji}(s) - \sum_k Q_{ik}(s) - \Big(M0_i + F_{i,t} - \epsilon_{i,t}\Big) B_i(s)$$ {#eq-ecostate-subannual-ode}
    integrated numerically in TMB using a differentiable Runge–Kutta / Adams–Bashforth ODE solver (`odeint`), where $\epsilon_{i,t} \sim \mathcal{N}(0, \sigma^2_{\text{proc}, i})$ are random effects marginalized via the **Laplace approximation**.
 2. **Simultaneous Joint Likelihood Across All Data Streams**:
    `EcoState` estimates Ecopath baseline parameters ($\ln B_{i,0}, EE_i, DC_{ij,0}$), Ecosim vulnerabilities $\ln(X_{ij}-1)$, fishing mortalities $\ln F_{i,t}$, and process error variances $\sigma_{\text{proc},i}$ simultaneously by fitting to:
