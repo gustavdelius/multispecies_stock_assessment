@@ -94,6 +94,7 @@ div.csl-indent {
     "search-label": "Search"
   }
 }</script>
+<style>html{ scroll-behavior: smooth; }</style>
 
   <script src="https://cdnjs.cloudflare.com/polyfill/v3/polyfill.min.js?features=es6"></script>
   <script defer="" src="https://cdn.jsdelivr.net/npm/mathjax@3/es5/tex-chtml-full.js" type="text/javascript"></script>
@@ -154,6 +155,7 @@ window.Quarto = {
       <a href="./">Multispecies Stock Assessment: Mathematical Methods, Data, and Software</a> 
         <div class="sidebar-tools-main">
     <a href="https://github.com/gustavdelius/multispecies_stock_assessment" title="Source Code" class="quarto-navigation-tool px-1" aria-label="Source Code"><i class="bi bi-github"></i></a>
+    <a href="./Multispecies-Stock-Assessment--Mathematical-Methods,-Data,-and-Software.pdf" title="Download PDF" class="quarto-navigation-tool px-1" aria-label="Download PDF"><i class="bi bi-file-pdf"></i></a>
 </div>
     </div>
       </div>
@@ -231,7 +233,12 @@ window.Quarto = {
   <li><a href="#parameter-estimation-and-uncertainty-quantification-engines" id="toc-parameter-estimation-and-uncertainty-quantification-engines" class="nav-link" data-scroll-target="#parameter-estimation-and-uncertainty-quantification-engines"><span class="header-section-number">6.3</span> Parameter Estimation and Uncertainty Quantification Engines</a>
   <ul>
   <li><a href="#frequentist-empirical-bayes-state-space-estimation-in-tmb-kristensen-et-al.-2016" id="toc-frequentist-empirical-bayes-state-space-estimation-in-tmb-kristensen-et-al.-2016" class="nav-link" data-scroll-target="#frequentist-empirical-bayes-state-space-estimation-in-tmb-kristensen-et-al.-2016"><span class="header-section-number">6.3.1</span> Frequentist / Empirical Bayes State-Space Estimation in <code>TMB</code> (Kristensen et al.&nbsp;2016)</a></li>
-  <li><a href="#bayesian-evolutionary-and-ensemble-approaches-zhang-et-al.-2015-2016-spence-et-al.-2016-2018-2021" id="toc-bayesian-evolutionary-and-ensemble-approaches-zhang-et-al.-2015-2016-spence-et-al.-2016-2018-2021" class="nav-link" data-scroll-target="#bayesian-evolutionary-and-ensemble-approaches-zhang-et-al.-2015-2016-spence-et-al.-2016-2018-2021"><span class="header-section-number">6.3.2</span> Bayesian, Evolutionary, and Ensemble Approaches (Zhang et al.&nbsp;2015, 2016; Spence et al.&nbsp;2016, 2018, 2021)</a></li>
+  <li><a href="#bayesian-evolutionary-and-ensemble-approaches-zhang-et-al.-2015-2016-spence-et-al.-2016-2018-2021" id="toc-bayesian-evolutionary-and-ensemble-approaches-zhang-et-al.-2015-2016-spence-et-al.-2016-2018-2021" class="nav-link" data-scroll-target="#bayesian-evolutionary-and-ensemble-approaches-zhang-et-al.-2015-2016-spence-et-al.-2016-2018-2021"><span class="header-section-number">6.3.2</span> Bayesian, Evolutionary, and Ensemble Approaches (Zhang et al.&nbsp;2015, 2016; Spence et al.&nbsp;2016, 2018, 2021)</a>
+  <ul class="collapse">
+  <li><a href="#two-step-genetic-algorithm-parallel-tempering-mcmc-zhang-et-al.-2015-2016" id="toc-two-step-genetic-algorithm-parallel-tempering-mcmc-zhang-et-al.-2015-2016" class="nav-link" data-scroll-target="#two-step-genetic-algorithm-parallel-tempering-mcmc-zhang-et-al.-2015-2016">Two-Step Genetic Algorithm + Parallel Tempering MCMC (Zhang et al.&nbsp;2015, 2016)</a></li>
+  <li><a href="#history-matching-sequential-monte-carlo-spence-et-al.-2016-2021" id="toc-history-matching-sequential-monte-carlo-spence-et-al.-2016-2021" class="nav-link" data-scroll-target="#history-matching-sequential-monte-carlo-spence-et-al.-2016-2021">History Matching + Sequential Monte Carlo (Spence et al.&nbsp;2016, 2021)</a></li>
+  <li><a href="#bayesian-multi-model-ensembles-spence-et-al.-2018" id="toc-bayesian-multi-model-ensembles-spence-et-al.-2018" class="nav-link" data-scroll-target="#bayesian-multi-model-ensembles-spence-et-al.-2018">Bayesian Multi-Model Ensembles (Spence et al.&nbsp;2018)</a></li>
+  </ul></li>
   </ul></li>
   <li><a href="#architectural-blueprint-for-next-generation-statistical-dynamic-stock-assessment-in-mizer" id="toc-architectural-blueprint-for-next-generation-statistical-dynamic-stock-assessment-in-mizer" class="nav-link" data-scroll-target="#architectural-blueprint-for-next-generation-statistical-dynamic-stock-assessment-in-mizer"><span class="header-section-number">6.4</span> Architectural Blueprint for Next-Generation Statistical Dynamic Stock Assessment in <code>mizer</code></a>
   <ul>
@@ -268,6 +275,13 @@ window.Quarto = {
 
 <section id="master-comparative-synthesis-across-multispecies-stock-assessment-model-families" class="level2" data-number="6.1">
 <h2 data-number="6.1" class="anchored" data-anchor-id="master-comparative-synthesis-across-multispecies-stock-assessment-model-families"><span class="header-section-number">6.1</span> Master Comparative Synthesis Across Multispecies Stock Assessment Model Families</h2>
+<p>A comprehensive architectural comparison across the eight multispecies stock assessment model families is presented in <a href="#tbl-master-synthesis" class="quarto-xref">Table&nbsp;<span>6.1</span></a>:</p>
+<div id="tbl-master-synthesis" class="quarto-float quarto-figure quarto-figure-center anchored">
+<figure class="quarto-float quarto-float-tbl figure">
+<figcaption class="quarto-float-caption-top quarto-float-caption quarto-float-tbl" id="tbl-master-synthesis-caption-0ceaefa1-69ba-4598-a22c-09a6ac19f8ca">
+Table&nbsp;6.1: Comprehensive Comparative Synthesis of Multispecies Stock Assessment Model Frameworks
+</figcaption>
+<div aria-describedby="tbl-master-synthesis-caption-0ceaefa1-69ba-4598-a22c-09a6ac19f8ca">
 <table class="caption-top table">
 <colgroup>
 <col style="width: 11%">
@@ -395,6 +409,9 @@ window.Quarto = {
 </tr>
 </tbody>
 </table>
+</div>
+</figure>
+</div>
 <hr>
 </section>
 <section id="data-weighting-and-likelihood-conflict-in-integrated-multispecies-assessments-francis-2011-maunder-punt-2013-thorson-et-al.-2017" class="level2" data-number="6.2">
@@ -402,7 +419,23 @@ window.Quarto = {
 <p>When fitting an integrated single-species or multispecies model simultaneously to <strong>abundance indices</strong> (<span class="math inline">\(I_{f,y}\)</span>), <strong>catch biomass</strong> (<span class="math inline">\(Y_{f,y}\)</span>), <strong>length/age compositions</strong> (<span class="math inline">\(\mathbf{P}_{f,y}\)</span>), and <strong>stomach content compositions</strong> (<span class="math inline">\(\mathbf{W}_{A,L,y,q}\)</span>), the most critical statistical hazard is <strong>likelihood conflict and compositional domination</strong> <span class="citation" data-cites="francis2011 maunder2013 thorson2017">(<a href="references.html#ref-francis2011" role="doc-biblioref">Francis 2011</a>; <a href="references.html#ref-maunder2013" role="doc-biblioref">Maunder and Punt 2013</a>; <a href="references.html#ref-thorson2017" role="doc-biblioref">Thorson et al. 2017</a>)</span>.</p>
 <section id="why-unadjusted-composition-likelihoods-destroy-abundance-fits-francis-principle-1" class="level3" data-number="6.2.1">
 <h3 data-number="6.2.1" class="anchored" data-anchor-id="why-unadjusted-composition-likelihoods-destroy-abundance-fits-francis-principle-1"><span class="header-section-number">6.2.1</span> Why Unadjusted Composition Likelihoods Destroy Abundance Fits (“Francis Principle 1”)</h3>
-<p>Suppose a survey measures <span class="math inline">\(10,000\)</span> fish lengths across <span class="math inline">\(50\)</span> length bins each year, while also providing <span class="math inline">\(1\)</span> annual biomass index point <span class="math inline">\(I_y\)</span> per year. If the nominal number of fish measured (<span class="math inline">\(N_y = 10,000\)</span>) is plugged into a Multinomial likelihood <span class="math inline">\(\sum_y N_y \sum_l P_{l,y} \ln \hat{P}_{l,y}\)</span>, the composition likelihood will have <span class="math inline">\(1000\times\)</span> larger gradient and curvature than the lognormal survey index likelihood <span class="math inline">\(\frac{1}{2\sigma_I^2}(\ln I_y - \ln \hat{I}_y)^2\)</span>. Because fish school by size and because any process model has slight misspecifications in selectivity or growth, positive correlations among bins within a year mean the true <strong>effective sample size</strong> <span class="math inline">\(N_{\text{eff}, y}\)</span> is typically <span class="math inline">\(20\text{--}200\)</span> (closer to the number of <strong>trawl hauls</strong>, not the number of individual fish!). If <span class="math inline">\(N_y\)</span> is not downweighted, the optimizer will distort recruitment <span class="math inline">\(R_y\)</span>, fishing mortality <span class="math inline">\(F_y\)</span>, and biomass trends <span class="math inline">\(\hat{B}_y\)</span> just to chase noise in the length compositions, violating <strong>Francis’s First Principle</strong> <span class="citation" data-cites="francis2011">(<a href="references.html#ref-francis2011" role="doc-biblioref">Francis 2011, 1125</a>)</span>: &gt; <em>“Do not let other data stop the model from fitting abundance data well.”</em></p>
+<p>Suppose a survey measures <span class="math inline">\(10,000\)</span> fish lengths across <span class="math inline">\(50\)</span> length bins each year, while also providing <span class="math inline">\(1\)</span> annual biomass index point <span class="math inline">\(I_y\)</span> per year. If the nominal number of fish measured (<span class="math inline">\(N_y = 10,000\)</span>) is plugged into a Multinomial likelihood <span class="math inline">\(\sum_y N_y \sum_l P_{l,y} \ln \hat{P}_{l,y}\)</span>, the composition likelihood will have <span class="math inline">\(1000\times\)</span> larger gradient and curvature than the lognormal survey index likelihood <span class="math inline">\(\frac{1}{2\sigma_I^2}(\ln I_y - \ln \hat{I}_y)^2\)</span>.</p>
+<div class="callout callout-style-default callout-important callout-titled" title="Francis's First Principle of Data Weighting">
+<div class="callout-header d-flex align-content-center">
+<div class="callout-icon-container">
+<i class="callout-icon"></i>
+</div>
+<div class="callout-title-container flex-fill">
+<span class="screen-reader-only">Important</span>Francis’s First Principle of Data Weighting
+</div>
+</div>
+<div class="callout-body-container callout-body">
+<p>Because fish school by size and models have minor selectivity misspecifications, positive correlations among bins within a year mean the true <strong>effective sample size</strong> <span class="math inline">\(N_{\text{eff}, y}\)</span> is typically <span class="math inline">\(20\text{--}200\)</span> (closer to the number of <strong>trawl hauls</strong>, not individual fish!). If nominal sample size <span class="math inline">\(N_y \sim 10,000\)</span> is not downweighted, the optimizer will distort recruitment <span class="math inline">\(R_y\)</span>, fishing mortality <span class="math inline">\(F_y\)</span>, and biomass trends <span class="math inline">\(\hat{B}_y\)</span> just to chase noise in length compositions, violating <strong>Francis’s First Principle</strong> <span class="citation" data-cites="francis2011">(<a href="references.html#ref-francis2011" role="doc-biblioref">Francis 2011, 1125</a>)</span>:</p>
+<blockquote class="blockquote">
+<p><em>“Do not let other data stop the model from fitting abundance data well.”</em></p>
+</blockquote>
+</div>
+</div>
 </section>
 <section id="three-standard-data-weighting-algorithms-for-compositional-data" class="level3" data-number="6.2.2">
 <h3 data-number="6.2.2" class="anchored" data-anchor-id="three-standard-data-weighting-algorithms-for-compositional-data"><span class="header-section-number">6.2.2</span> Three Standard Data-Weighting Algorithms for Compositional Data</h3>
@@ -437,20 +470,39 @@ window.Quarto = {
 <section id="bayesian-evolutionary-and-ensemble-approaches-zhang-et-al.-2015-2016-spence-et-al.-2016-2018-2021" class="level3" data-number="6.3.2">
 <h3 data-number="6.3.2" class="anchored" data-anchor-id="bayesian-evolutionary-and-ensemble-approaches-zhang-et-al.-2015-2016-spence-et-al.-2016-2018-2021"><span class="header-section-number">6.3.2</span> Bayesian, Evolutionary, and Ensemble Approaches (Zhang et al.&nbsp;2015, 2016; Spence et al.&nbsp;2016, 2018, 2021)</h3>
 <p>When models are implemented as black-box simulation packages without automatic differentiation (or when likelihood surfaces are rugged and multimodal), researchers have developed four complementary calibration and uncertainty frameworks for <code>mizer</code> and <code>LeMaRns</code>:</p>
-<ol type="1">
-<li><strong>Two-Step Genetic Algorithm + Parallel Tempering MCMC (Zhang et al.&nbsp;2015, 2016)</strong>: In calibrating a multispecies <code>mizer</code> model to data-poor and data-rich ecosystems <span class="citation" data-cites="zhang2015 zhang2016">(<a href="references.html#ref-zhang2015" role="doc-biblioref">Zhang et al. 2015</a>, <a href="references.html#ref-zhang2016" role="doc-biblioref">2016</a>)</span>, Zhang et al.&nbsp;found that standard gradient descent or single-chain Metropolis–Hastings gets trapped in local modes where one or more species go extinct during spin-up. They introduced a two-stage global optimizer:
+<section id="two-step-genetic-algorithm-parallel-tempering-mcmc-zhang-et-al.-2015-2016" class="level4">
+<h4 class="anchored" data-anchor-id="two-step-genetic-algorithm-parallel-tempering-mcmc-zhang-et-al.-2015-2016">Two-Step Genetic Algorithm + Parallel Tempering MCMC (Zhang et al.&nbsp;2015, 2016)</h4>
+<div class="callout callout-style-default callout-tip callout-titled" title="Global Optimization Strategy for mizer Spin-Up">
+<div class="callout-header d-flex align-content-center">
+<div class="callout-icon-container">
+<i class="callout-icon"></i>
+</div>
+<div class="callout-title-container flex-fill">
+<span class="screen-reader-only">Tip</span>Global Optimization Strategy for mizer Spin-Up
+</div>
+</div>
+<div class="callout-body-container callout-body">
+<p>In calibrating a multispecies <code>mizer</code> model to data-poor and data-rich ecosystems <span class="citation" data-cites="zhang2015 zhang2016">(<a href="references.html#ref-zhang2015" role="doc-biblioref">Zhang et al. 2015</a>, <a href="references.html#ref-zhang2016" role="doc-biblioref">2016</a>)</span>, Zhang et al.&nbsp;found that standard gradient descent or single-chain Metropolis–Hastings gets trapped in local modes where one or more species go extinct during spin-up. They introduced a two-stage global optimizer:</p>
 <ul>
 <li><em>Stage 1</em>: A parallel <strong>Real-Coded Genetic Algorithm (GA)</strong> searches the high-dimensional parameter space <span class="math inline">\((\ln R_{\max, i}, \kappa, q_{f,i}, F_i)\)</span> using a survival penalty for extinct species to locate the global basin of attraction.</li>
 <li><em>Stage 2</em>: <strong>Parallel Tempering MCMC</strong> (running multiple interacting Markov chains at temperatures <span class="math inline">\(T_1 = 1 &lt; T_2 &lt; \dots &lt; T_M\)</span>) samples the posterior distribution across multimodal ridges.</li>
-</ul></li>
-<li><strong>History Matching + Sequential Monte Carlo (Spence et al.&nbsp;2016, 2021)</strong>: To calibrate <code>mizer</code> <span class="citation" data-cites="spence2016">(<a href="references.html#ref-spence2016" role="doc-biblioref">Spence et al. 2016</a>)</span> and <code>LeMaRns</code> <span class="citation" data-cites="spence2021uncertainty">(<a href="references.html#ref-spence2021uncertainty" role="doc-biblioref">Spence, Thorpe, et al. 2021</a>)</span> to North Sea time series while explicitly accounting for <strong>structural model discrepancy</strong> <span class="math inline">\(\boldsymbol{\eta}_{\text{disc}}\)</span> (the difference between the true ocean and the best possible parameterization of the model), Spence et al.&nbsp;combined:
+</ul>
+</div>
+</div>
+</section>
+<section id="history-matching-sequential-monte-carlo-spence-et-al.-2016-2021" class="level4">
+<h4 class="anchored" data-anchor-id="history-matching-sequential-monte-carlo-spence-et-al.-2016-2021">History Matching + Sequential Monte Carlo (Spence et al.&nbsp;2016, 2021)</h4>
+<p>To calibrate <code>mizer</code> <span class="citation" data-cites="spence2016">(<a href="references.html#ref-spence2016" role="doc-biblioref">Spence et al. 2016</a>)</span> and <code>LeMaRns</code> <span class="citation" data-cites="spence2021uncertainty">(<a href="references.html#ref-spence2021uncertainty" role="doc-biblioref">Spence, Thorpe, et al. 2021</a>)</span> to North Sea time series while explicitly accounting for <strong>structural model discrepancy</strong> <span class="math inline">\(\boldsymbol{\eta}_{\text{disc}}\)</span> (the difference between the true ocean and the best possible parameterization of the model), Spence et al.&nbsp;combined:</p>
 <ul>
 <li><strong>History Matching</strong>: Defines an <strong>implausibility measure</strong> <span class="math inline">\(I_k(\boldsymbol{\theta})\)</span> for summary statistic <span class="math inline">\(k\)</span>: <span id="eq-abc-distance-metric"><span class="math display">\[I_k(\boldsymbol{\theta}) = \frac{\left|y^{\text{obs}}_k - \mathbb{E}[f_k(\boldsymbol{\theta})]\right|}{\sqrt{\text{Var}(y^{\text{obs}}_k) + \text{Var}(f_k(\boldsymbol{\theta})) + \text{Var}(\eta_{\text{disc}, k})}} \tag{6.5}\]</span></span> and rules out any parameter vector <span class="math inline">\(\boldsymbol{\theta}\)</span> where <span class="math inline">\(\max_k I_k(\boldsymbol{\theta}) &gt; 3\)</span> (by Pukelsheim’s <span class="math inline">\(3\sigma\)</span> rule), rapidly shrinking the feasible space before running full time-series likelihood evaluations.</li>
 <li><strong>Sequential Monte Carlo (SMC)</strong>: Propagates a particle cloud <span class="math inline">\(\left\{\boldsymbol{\theta}^{(p)}\right\}_{p=1}^P\)</span> through sequential annealing or time-series filtering steps using Normalizing Flows / Metropolis-Hastings rejuvenation moves.</li>
-</ul></li>
-<li><strong>Bayesian Multi-Model Ensembles (Spence et al.&nbsp;2018)</strong>: Instead of selecting a single “winner” model via AIC, <span class="citation" data-cites="spence2018">(<a href="references.html#ref-spence2018" role="doc-biblioref">Spence et al. 2018</a>)</span> constructed a hierarchical Bayesian ensemble linking five distinct multispecies simulators (<code>EcoPath with Ecosim</code>, <code>LeMans</code>, <code>mizer</code>, <code>SMS</code>, and single-species assessments) as biased noisy realizations around a latent <strong>true ecosystem trajectory</strong> <span class="math inline">\(\boldsymbol{\mu}_t\)</span>, decomposing structural discrepancy into shared vs.&nbsp;simulator-specific discrepancy processes.</li>
-</ol>
+</ul>
+</section>
+<section id="bayesian-multi-model-ensembles-spence-et-al.-2018" class="level4">
+<h4 class="anchored" data-anchor-id="bayesian-multi-model-ensembles-spence-et-al.-2018">Bayesian Multi-Model Ensembles (Spence et al.&nbsp;2018)</h4>
+<p>Instead of selecting a single “winner” model via AIC, <span class="citation" data-cites="spence2018">(<a href="references.html#ref-spence2018" role="doc-biblioref">Spence et al. 2018</a>)</span> constructed a hierarchical Bayesian ensemble linking five distinct multispecies simulators (<code>EcoPath with Ecosim</code>, <code>LeMans</code>, <code>mizer</code>, <code>SMS</code>, and single-species assessments) as biased noisy realizations around a latent <strong>true ecosystem trajectory</strong> <span class="math inline">\(\boldsymbol{\mu}_t\)</span>, decomposing structural discrepancy into shared vs.&nbsp;simulator-specific discrepancy processes.</p>
 <hr>
+</section>
 </section>
 </section>
 <section id="architectural-blueprint-for-next-generation-statistical-dynamic-stock-assessment-in-mizer" class="level2" data-number="6.4">
@@ -1302,5 +1354,6 @@ Zhang, Chongliang, Yong Chen, Katherine Thompson, and Yiping Ren. 2016. <span>�
 
 
 
-<footer class="footer"><div class="nav-footer"><div class="nav-footer-center"><div class="toc-actions d-sm-block d-md-none"><ul><li><a href="https://github.com/gustavdelius/multispecies_stock_assessment/edit/main/06_statistical_fitting_uncertainty_and_mizer_synthesis.md" class="toc-action"><i class="bi bi-github"></i>Edit this page</a></li></ul></div></div></div></footer><script src="site_libs/quarto-contrib/quarto-diagram/mermaid-init.js"></script>
+<footer class="footer"><div class="nav-footer"><div class="nav-footer-center"><div class="toc-actions d-sm-block d-md-none"><ul><li><a href="https://github.com/gustavdelius/multispecies_stock_assessment/edit/main/06_statistical_fitting_uncertainty_and_mizer_synthesis.md" class="toc-action"><i class="bi bi-github"></i>Edit this page</a></li></ul></div></div></div></footer><script src="site_libs/quarto-html/zenscroll-min.js"></script>
+<script src="site_libs/quarto-contrib/quarto-diagram/mermaid-init.js"></script>
 </body></html>

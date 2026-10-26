@@ -163,7 +163,9 @@ $$\frac{dB_i}{dt} = g_i \sum_{j} Q_{ji}(t) - \sum_{k} Q_{ik}(t) + I_i - \left(M0
 
 where $g_i = (P/Q)_i$ is net growth efficiency, a critical question arises: how should the consumption flux $Q_{ij}(t)$ of prey $i$ by predator $j$ depend on $B_i(t)$ and $B_j(t)$?
 
-[@walters1997] showed that if one uses standard mass-action Lotka–Volterra ($Q_{ij} = a_{ij} B_i B_j$) or standard Holling Type II in a complex 30-species food web, **the ecosystem rapidly collapses via Gause competitive exclusion or violent predator-prey limit cycles**.
+::: {.callout-important title="Theoretical Necessity of Foraging Arena Refugia"}
+[@walters1997] showed that if standard mass-action Lotka–Volterra ($Q_{ij} = a_{ij} B_i B_j$) or standard Holling Type II is used in a complex 30-species food web, **the ecosystem rapidly collapses via Gause competitive exclusion or violent predator-prey limit cycles**. Foraging Arena Theory resolves this by creating behavioral or spatial refugia for prey.
+:::
 
 To resolve this, [@walters1997] formulated **Foraging Arena Theory**: at any given moment, total prey biomass $B_i$ is partitioned with respect to predator $j$ into an **invulnerable (refuge/sheltered/un-overlapping) state** $B_i - V_{ij}$ and a small **vulnerable foraging arena state** $V_{ij}$, with behavioural/spatial exchange rate $v_{ij}$ between them:
 

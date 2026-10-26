@@ -94,6 +94,7 @@ div.csl-indent {
     "search-label": "Search"
   }
 }</script>
+<style>html{ scroll-behavior: smooth; }</style>
 
   <script src="https://cdnjs.cloudflare.com/polyfill/v3/polyfill.min.js?features=es6"></script>
   <script defer="" src="https://cdn.jsdelivr.net/npm/mathjax@3/es5/tex-chtml-full.js" type="text/javascript"></script>
@@ -154,6 +155,7 @@ window.Quarto = {
       <a href="./">Multispecies Stock Assessment: Mathematical Methods, Data, and Software</a> 
         <div class="sidebar-tools-main">
     <a href="https://github.com/gustavdelius/multispecies_stock_assessment" title="Source Code" class="quarto-navigation-tool px-1" aria-label="Source Code"><i class="bi bi-github"></i></a>
+    <a href="./Multispecies-Stock-Assessment--Mathematical-Methods,-Data,-and-Software.pdf" title="Download PDF" class="quarto-navigation-tool px-1" aria-label="Download PDF"><i class="bi bi-file-pdf"></i></a>
 </div>
     </div>
       </div>
@@ -229,14 +231,22 @@ window.Quarto = {
   <li><a href="#fundamental-axes-of-structural-classification" id="toc-fundamental-axes-of-structural-classification" class="nav-link" data-scroll-target="#fundamental-axes-of-structural-classification"><span class="header-section-number">1.2</span> Fundamental Axes of Structural Classification</a>
   <ul>
   <li><a href="#axis-1-individual-state-space-age-vs.-length-vs.-continuous-body-mass" id="toc-axis-1-individual-state-space-age-vs.-length-vs.-continuous-body-mass" class="nav-link" data-scroll-target="#axis-1-individual-state-space-age-vs.-length-vs.-continuous-body-mass"><span class="header-section-number">1.2.1</span> Axis 1: Individual State Space (Age vs.&nbsp;Length vs.&nbsp;Continuous Body Mass)</a></li>
-  <li><a href="#axis-2-direction-of-trophic-feedback-one-way-vs.-two-way-coupling" id="toc-axis-2-direction-of-trophic-feedback-one-way-vs.-two-way-coupling" class="nav-link" data-scroll-target="#axis-2-direction-of-trophic-feedback-one-way-vs.-two-way-coupling"><span class="header-section-number">1.2.2</span> Axis 2: Direction of Trophic Feedback (One-Way vs.&nbsp;Two-Way Coupling)</a></li>
+  <li><a href="#axis-2-direction-of-trophic-feedback-one-way-vs.-two-way-coupling" id="toc-axis-2-direction-of-trophic-feedback-one-way-vs.-two-way-coupling" class="nav-link" data-scroll-target="#axis-2-direction-of-trophic-feedback-one-way-vs.-two-way-coupling"><span class="header-section-number">1.2.2</span> Axis 2: Direction of Trophic Feedback (One-Way vs.&nbsp;Two-Way Coupling)</a>
+  <ul class="collapse">
+  <li><a href="#one-way-trophic-feedback-predation-only-fixed-ration-models" id="toc-one-way-trophic-feedback-predation-only-fixed-ration-models" class="nav-link" data-scroll-target="#one-way-trophic-feedback-predation-only-fixed-ration-models">One-Way Trophic Feedback (“Predation-Only” / Fixed-Ration Models)</a></li>
+  <li><a href="#two-way-trophic-feedback-bioenergetic-size-spectrum-models" id="toc-two-way-trophic-feedback-bioenergetic-size-spectrum-models" class="nav-link" data-scroll-target="#two-way-trophic-feedback-bioenergetic-size-spectrum-models">Two-Way Trophic Feedback (“Bioenergetic / Size-Spectrum” Models)</a></li>
+  </ul></li>
   <li><a href="#axis-3-calibration-paradigm-deterministic-vpa-vs.-pattern-orientedhistory-matching-vs.-integrated-statistical-likelihood" id="toc-axis-3-calibration-paradigm-deterministic-vpa-vs.-pattern-orientedhistory-matching-vs.-integrated-statistical-likelihood" class="nav-link" data-scroll-target="#axis-3-calibration-paradigm-deterministic-vpa-vs.-pattern-orientedhistory-matching-vs.-integrated-statistical-likelihood"><span class="header-section-number">1.2.3</span> Axis 3: Calibration Paradigm (Deterministic VPA vs.&nbsp;Pattern-Oriented/History Matching vs.&nbsp;Integrated Statistical Likelihood)</a></li>
   </ul></li>
   <li><a href="#the-andersen-ursin-1977-theoretical-foundation-and-livingstons-1983-evaluation" id="toc-the-andersen-ursin-1977-theoretical-foundation-and-livingstons-1983-evaluation" class="nav-link" data-scroll-target="#the-andersen-ursin-1977-theoretical-foundation-and-livingstons-1983-evaluation"><span class="header-section-number">1.3</span> The Andersen &amp; Ursin (1977) Theoretical Foundation and Livingston’s (1983) Evaluation</a>
   <ul>
   <li><a href="#core-coupled-differential-equations-of-andersen-ursin-1977" id="toc-core-coupled-differential-equations-of-andersen-ursin-1977" class="nav-link" data-scroll-target="#core-coupled-differential-equations-of-andersen-ursin-1977"><span class="header-section-number">1.3.1</span> Core Coupled Differential Equations of Andersen &amp; Ursin (1977)</a></li>
   <li><a href="#nonlinear-parameter-sensitivity-of-the-andersenursin-system-livingston-1983" id="toc-nonlinear-parameter-sensitivity-of-the-andersenursin-system-livingston-1983" class="nav-link" data-scroll-target="#nonlinear-parameter-sensitivity-of-the-andersenursin-system-livingston-1983"><span class="header-section-number">1.3.2</span> Nonlinear Parameter Sensitivity of the Andersen–Ursin System (Livingston 1983)</a></li>
-  <li><a href="#the-fundamental-divergence-how-smsmsvpa-vs.-mizer-simplified-andersen-ursin-1977" id="toc-the-fundamental-divergence-how-smsmsvpa-vs.-mizer-simplified-andersen-ursin-1977" class="nav-link" data-scroll-target="#the-fundamental-divergence-how-smsmsvpa-vs.-mizer-simplified-andersen-ursin-1977"><span class="header-section-number">1.3.3</span> The Fundamental Divergence: How <code>SMS</code>/<code>MSVPA</code> vs.&nbsp;<code>mizer</code> Simplified Andersen &amp; Ursin (1977)</a></li>
+  <li><a href="#the-fundamental-divergence-how-smsmsvpa-vs.-mizer-simplified-andersen-ursin-1977" id="toc-the-fundamental-divergence-how-smsmsvpa-vs.-mizer-simplified-andersen-ursin-1977" class="nav-link" data-scroll-target="#the-fundamental-divergence-how-smsmsvpa-vs.-mizer-simplified-andersen-ursin-1977"><span class="header-section-number">1.3.3</span> The Fundamental Divergence: How <code>SMS</code>/<code>MSVPA</code> vs.&nbsp;<code>mizer</code> Simplified Andersen &amp; Ursin (1977)</a>
+  <ul class="collapse">
+  <li><a href="#the-msvpa-sms-simplification-helgason_gislason1979-pope1979-lewy2004" id="toc-the-msvpa-sms-simplification-helgason_gislason1979-pope1979-lewy2004" class="nav-link" data-scroll-target="#the-msvpa-sms-simplification-helgason_gislason1979-pope1979-lewy2004">The MSVPA / SMS Simplification <span class="citation" data-cites="helgason_gislason1979 pope1979 lewy2004">(Helgason and Gislason 1979; Pope 1979; Lewy and Vinther 2004)</span></a></li>
+  <li><a href="#the-mizer-reformulation-hartvig2011-scott2014" id="toc-the-mizer-reformulation-hartvig2011-scott2014" class="nav-link" data-scroll-target="#the-mizer-reformulation-hartvig2011-scott2014">The <code>mizer</code> Reformulation <span class="citation" data-cites="hartvig2011 scott2014">(Hartvig et al. 2011; Scott et al. 2014)</span></a></li>
+  </ul></li>
   </ul></li>
   <li><a href="#community-level-dynamics-and-the-multispecies-jacobian-matrix" id="toc-community-level-dynamics-and-the-multispecies-jacobian-matrix" class="nav-link" data-scroll-target="#community-level-dynamics-and-the-multispecies-jacobian-matrix"><span class="header-section-number">1.4</span> Community-Level Dynamics and the Multispecies Jacobian Matrix</a>
   <ul>
@@ -300,9 +310,15 @@ window.Quarto = {
 </section>
 <section id="fundamental-axes-of-structural-classification" class="level2" data-number="1.2">
 <h2 data-number="1.2" class="anchored" data-anchor-id="fundamental-axes-of-structural-classification"><span class="header-section-number">1.2</span> Fundamental Axes of Structural Classification</h2>
-<p>Every multispecies stock assessment model can be positioned along three fundamental mathematical axes <span class="citation" data-cites="stefansson1998 andersen2016 pennino2025">(<a href="references.html#ref-stefansson1998" role="doc-biblioref">Stefánsson and Pálsson 1998</a>; <a href="references.html#ref-andersen2016" role="doc-biblioref">Andersen et al. 2016</a>; <a href="references.html#ref-pennino2025" role="doc-biblioref">Pennino et al. 2025</a>)</span>:</p>
+<p>Every multispecies stock assessment model can be positioned along three fundamental mathematical axes <span class="citation" data-cites="stefansson1998 andersen2016 pennino2025">(<a href="references.html#ref-stefansson1998" role="doc-biblioref">Stefánsson and Pálsson 1998</a>; <a href="references.html#ref-andersen2016" role="doc-biblioref">Andersen et al. 2016</a>; <a href="references.html#ref-pennino2025" role="doc-biblioref">Pennino et al. 2025</a>)</span> (see <a href="#tbl-state-space-taxonomy" class="quarto-xref">Table&nbsp;<span>1.1</span></a>):</p>
 <section id="axis-1-individual-state-space-age-vs.-length-vs.-continuous-body-mass" class="level3" data-number="1.2.1">
 <h3 data-number="1.2.1" class="anchored" data-anchor-id="axis-1-individual-state-space-age-vs.-length-vs.-continuous-body-mass"><span class="header-section-number">1.2.1</span> Axis 1: Individual State Space (Age vs.&nbsp;Length vs.&nbsp;Continuous Body Mass)</h3>
+<div id="tbl-state-space-taxonomy" class="quarto-float quarto-figure quarto-figure-center anchored">
+<figure class="quarto-float quarto-float-tbl figure">
+<figcaption class="quarto-float-caption-top quarto-float-caption quarto-float-tbl" id="tbl-state-space-taxonomy-caption-0ceaefa1-69ba-4598-a22c-09a6ac19f8ca">
+Table&nbsp;1.1: Primary State-Space Representations in Multispecies Fisheries Assessment
+</figcaption>
+<div aria-describedby="tbl-state-space-taxonomy-caption-0ceaefa1-69ba-4598-a22c-09a6ac19f8ca">
 <table class="caption-top table">
 <colgroup>
 <col style="width: 33%">
@@ -344,11 +360,15 @@ window.Quarto = {
 </tr>
 </tbody>
 </table>
+</div>
+</figure>
+</div>
 <ol type="1">
 <li><strong>Biomass Pool / Multi-Stanza (<span class="math inline">\(B_i(t)\)</span>)</strong>:
 <ul>
-<li><em>Governing Dynamical Equation</em>: Coupled system of ordinary differential equations (ODEs): <span id="eq-biomass-pool-dynamics"><span class="math display">\[\frac{dB_i}{dt} = g_i \sum_j Q_{ij} - \sum_k Q_{ki} - (M0_i + F_i) B_i \tag{1.1}\]</span></span></li>
-<li><em>Strengths &amp; Limitations</em>: Fast; low state dimension; captures whole-food-web energy flow; cannot directly fit length or age compositions without multi-stanza delay-difference approximations.</li>
+<li><p><em>Governing Dynamical Equation</em>: Coupled system of ordinary differential equations (ODEs):</p>
+<p><span id="eq-biomass-pool-dynamics"><span class="math display">\[\frac{dB_i}{dt} = g_i \sum_j Q_{ij} - \sum_k Q_{ki} - (M0_i + F_i) B_i \tag{1.1}\]</span></span></p></li>
+<li><p><em>Strengths &amp; Limitations</em>: Fast; low state dimension; captures whole-food-web energy flow; cannot directly fit length or age compositions without multi-stanza delay-difference approximations.</p></li>
 </ul></li>
 <li><strong>Discrete Age-Structured (<span class="math inline">\(N_{i,a,t}\)</span>)</strong>:
 <ul>
@@ -376,21 +396,32 @@ window.Quarto = {
 <section id="axis-2-direction-of-trophic-feedback-one-way-vs.-two-way-coupling" class="level3" data-number="1.2.2">
 <h3 data-number="1.2.2" class="anchored" data-anchor-id="axis-2-direction-of-trophic-feedback-one-way-vs.-two-way-coupling"><span class="header-section-number">1.2.2</span> Axis 2: Direction of Trophic Feedback (One-Way vs.&nbsp;Two-Way Coupling)</h3>
 <p>A critical distinction in multispecies stock assessment—emphasized by <span class="citation" data-cites="stefansson1998">(<a href="references.html#ref-stefansson1998" role="doc-biblioref">Stefánsson and Pálsson 1998</a>)</span> and <span class="citation" data-cites="andersen2016">(<a href="references.html#ref-andersen2016" role="doc-biblioref">Andersen et al. 2016</a>)</span>—is whether trophic interactions operate <strong>one-way (top-down only)</strong> or <strong>two-way (top-down predation mortality + bottom-up bioenergetic growth/reproduction)</strong>:</p>
-<ol type="1">
-<li><strong>One-Way Trophic Feedback (“Predation-Only” / Fixed-Ration Models)</strong>:
-<ul>
-<li>Used in <code>MSVPA</code>, <code>SMS</code>, <code>LeMans</code>/<code>LeMaRns</code>, and standard modes of <code>MSCAA</code>/<code>Hydra</code>.</li>
-<li>Predator abundance determines the predation mortality rate <span class="math inline">\(M2\)</span> experienced by prey: <span id="eq-one-way-trophic-feedback"><span class="math display">\[\text{Predator Abundance } N_{\text{pred}} \implies \text{Prey Mortality } M2_{\text{prey}} \tag{1.6}\]</span></span></li>
-<li>However, <strong>predator somatic growth rate, weight-at-age <span class="math inline">\(w_{a,t}\)</span>, and per-capita total food consumption rate <span class="math inline">\(R_{a,t}\)</span> are independent of prey abundance</strong>. Even if all modeled fish prey collapse, predators maintain their prescribed ration <span class="math inline">\(R_{a,t}\)</span> (implicitly compensating by consuming an inexhaustible “other food” pool <span class="math inline">\(B_{\text{other}}\)</span>) and follow fixed growth curves.</li>
-<li><em>Consequence</em>: In forward projections under high forage-fish fishing mortality, one-way models predict that piscivores suffer <strong>zero loss of growth or reproductive output</strong> when their prey are fished down <span class="citation" data-cites="jacobsen2016 pope2019">(<a href="references.html#ref-jacobsen2016" role="doc-biblioref">Jacobsen et al. 2016</a>; <a href="references.html#ref-pope2019" role="doc-biblioref">Pope et al. 2019</a>)</span>.</li>
-</ul></li>
-<li><strong>Two-Way Trophic Feedback (“Bioenergetic / Size-Spectrum” Models)</strong>:
+<section id="one-way-trophic-feedback-predation-only-fixed-ration-models" class="level4">
+<h4 class="anchored" data-anchor-id="one-way-trophic-feedback-predation-only-fixed-ration-models">One-Way Trophic Feedback (“Predation-Only” / Fixed-Ration Models)</h4>
+<p>Used in <code>MSVPA</code>, <code>SMS</code>, <code>LeMans</code>/<code>LeMaRns</code>, and standard modes of <code>MSCAA</code>/<code>Hydra</code>. Predator abundance determines the predation mortality rate <span class="math inline">\(M2\)</span> experienced by prey: <span id="eq-one-way-trophic-feedback"><span class="math display">\[\text{Predator Abundance } N_{\text{pred}} \implies \text{Prey Mortality } M2_{\text{prey}} \tag{1.6}\]</span></span></p>
+<p>However, <strong>predator somatic growth rate, weight-at-age <span class="math inline">\(w_{a,t}\)</span>, and per-capita total food consumption rate <span class="math inline">\(R_{a,t}\)</span> are independent of prey abundance</strong>. Even if all modeled fish prey collapse, predators maintain their prescribed ration <span class="math inline">\(R_{a,t}\)</span> (implicitly compensating by consuming an inexhaustible “other food” pool <span class="math inline">\(B_{\text{other}}\)</span>) and follow fixed growth curves.</p>
+<div class="callout callout-style-default callout-warning callout-titled" title="Management Consequence of One-Way Coupling">
+<div class="callout-header d-flex align-content-center">
+<div class="callout-icon-container">
+<i class="callout-icon"></i>
+</div>
+<div class="callout-title-container flex-fill">
+<span class="screen-reader-only">Warning</span>Management Consequence of One-Way Coupling
+</div>
+</div>
+<div class="callout-body-container callout-body">
+In forward projections under high forage-fish fishing mortality, one-way (predation-only) models predict that piscivores suffer <strong>zero loss of somatic growth or reproductive output</strong> when their prey are fished down <span class="citation" data-cites="jacobsen2016 pope2019">(<a href="references.html#ref-jacobsen2016" role="doc-biblioref">Jacobsen et al. 2016</a>; <a href="references.html#ref-pope2019" role="doc-biblioref">Pope et al. 2019</a>)</span>.
+</div>
+</div>
+</section>
+<section id="two-way-trophic-feedback-bioenergetic-size-spectrum-models" class="level4">
+<h4 class="anchored" data-anchor-id="two-way-trophic-feedback-bioenergetic-size-spectrum-models">Two-Way Trophic Feedback (“Bioenergetic / Size-Spectrum” Models)</h4>
 <ul>
 <li>Used in <code>mizer</code>, <code>MULTSPEC</code>/<code>Gadget</code> (when configured with <code>g3a_grow_length_multspec</code> or <code>g3a_grow_weight_weightjones</code>), bioenergetic <code>CEATTLE</code>, and <code>Ecosim</code>/<code>EcoState</code>.</li>
 <li>Every predation event simultaneously removes biomass from the prey cohort (<span class="math inline">\(M2_{\text{prey}}\)</span>) <strong>and</strong> supplies assimilable energy to the predator cohort, driving somatic growth <span class="math inline">\(g_{\text{pred}}\)</span>, energy reserves/condition <span class="math inline">\(W_{\text{pred}}\)</span>, egg production <span class="math inline">\(R_{p,\text{pred}}\)</span>, and (when energy intake falls below metabolic maintenance) starvation mortality <span class="math inline">\(\mu_{s,\text{pred}}\)</span>: <span id="eq-two-way-trophic-feedback"><span class="math display">\[\text{Prey Abundance } N_{\text{prey}} \Longleftrightarrow \begin{cases} \text{Top-Down: Predation Mortality } M2_{\text{prey}} \\ \text{Bottom-Up: Predator Growth } g_{\text{pred}}, \text{ Reproduction } R_{p,\text{pred}}, \text{ Starvation } \mu_{s,\text{pred}} \end{cases} \tag{1.7}\]</span></span></li>
-</ul></li>
-</ol>
+</ul>
 <hr>
+</section>
 </section>
 <section id="axis-3-calibration-paradigm-deterministic-vpa-vs.-pattern-orientedhistory-matching-vs.-integrated-statistical-likelihood" class="level3" data-number="1.2.3">
 <h3 data-number="1.2.3" class="anchored" data-anchor-id="axis-3-calibration-paradigm-deterministic-vpa-vs.-pattern-orientedhistory-matching-vs.-integrated-statistical-likelihood"><span class="header-section-number">1.2.3</span> Axis 3: Calibration Paradigm (Deterministic VPA vs.&nbsp;Pattern-Oriented/History Matching vs.&nbsp;Integrated Statistical Likelihood)</h3>
@@ -442,21 +473,31 @@ window.Quarto = {
 </div>
 </div>
 </div>
-<ol type="1">
-<li><strong>The MSVPA / SMS Simplification <span class="citation" data-cites="helgason_gislason1979 pope1979 lewy2004">(<a href="references.html#ref-helgason_gislason1979" role="doc-biblioref">Helgason and Gislason 1979</a>; <a href="references.html#ref-pope1979" role="doc-biblioref">Pope 1979</a>; <a href="references.html#ref-lewy2004" role="doc-biblioref">Lewy and Vinther 2004</a>)</span></strong>:
-<ul>
-<li>In the late 1970s, the ICES Multispecies Working Group realized that Andersen &amp; Ursin’s full 83-ODE system had too many unknown bioenergetic parameters to estimate directly from fisheries data, <strong>unless</strong> one assumed that feeding level <span class="math inline">\(f_j\)</span> (and thus total consumption rate <span class="math inline">\(R_j(w_j) = f_j h_j w_j^n\)</span> and somatic growth <span class="math inline">\(w_{a,t}\)</span>) was known externally from gastric evacuation studies and commercial weight-at-age sampling.</li>
-<li>Under this assumption, the fraction of predator <span class="math inline">\(j\)</span>’s diet consisting of prey <span class="math inline">\((i, w_i)\)</span> is simply the ratio of suitable prey biomass to total suitable food: <span id="eq-andersen-ursin-diet-proportion"><span class="math display">\[\text{Diet Proportion } D_{ij} = \frac{G_{ij} B_i}{\Phi_j} \tag{1.16}\]</span></span></li>
-<li>Consequently, the instantaneous predation mortality rate <span class="math inline">\(M2_i\)</span> on prey <span class="math inline">\(i\)</span> simplifies to: <span id="eq-andersen-ursin-msvpa-m2"><span class="math display">\[M2_i = \sum_{j} \frac{\bar{N}_j \, R_j \, G_{ij}}{\Phi_j} \tag{1.17}\]</span></span></li>
-<li>This brilliant simplification made <span class="math inline">\(G_{ij}/\Phi_j\)</span> <strong>directly observable in stomach content data</strong> (since stomach content weight proportions after evacuation correction estimate <span class="math inline">\(D_{ij}\)</span>), launching the entire MSVPA and SMS assessment tradition. However, the price paid was the loss of dynamic growth feedback (<span class="math inline">\(dw/dt\)</span>).</li>
-</ul></li>
-<li><strong>The <code>mizer</code> Reformulation <span class="citation" data-cites="hartvig2011 scott2014">(<a href="references.html#ref-hartvig2011" role="doc-biblioref">Hartvig et al. 2011</a>; <a href="references.html#ref-scott2014" role="doc-biblioref">Scott et al. 2014</a>)</span></strong>:
-<ul>
-<li>Thirty-four years after <span class="citation" data-cites="andersen_ursin1977">(<a href="references.html#ref-andersen_ursin1977" role="doc-biblioref">Andersen and Ursin 1977</a>)</span>, <span class="citation" data-cites="hartvig2011">(<a href="references.html#ref-hartvig2011" role="doc-biblioref">Hartvig et al. 2011</a>)</span> restored the full bioenergetic growth and reproduction equations of Andersen &amp; Ursin within a continuous McKendrick–von Foerster PDE framework, replacing the arbitrary species-specific half-saturation constants <span class="math inline">\(Q_j(w_j)\)</span> with a mechanistic <strong>volumetric search rate</strong> <span class="math inline">\(\gamma_j(w_j) = \gamma_j w_j^q\)</span>.</li>
-<li>In <code>mizer</code>, the encounter rate of food is <span class="math inline">\(E_j(w_j) = \gamma_j(w_j) \Phi_j(w_j)\)</span>, which implies an emergent half-saturation food density <span class="math inline">\(Q_j(w_j) = \frac{h_j w_j^n}{\gamma_j w_j^q}\)</span>. All life-history parameters scale allometrically with individual weight <span class="math inline">\(w\)</span> and asymptotic species size <span class="math inline">\(W_{\infty, j}\)</span>, reducing the parameter space from hundreds of cohort-specific constants to a compact set of scaling exponents and species traits.</li>
-</ul></li>
-</ol>
+<section id="the-msvpa-sms-simplification-helgason_gislason1979-pope1979-lewy2004" class="level4">
+<h4 class="anchored" data-anchor-id="the-msvpa-sms-simplification-helgason_gislason1979-pope1979-lewy2004">The MSVPA / SMS Simplification <span class="citation" data-cites="helgason_gislason1979 pope1979 lewy2004">(<a href="references.html#ref-helgason_gislason1979" role="doc-biblioref">Helgason and Gislason 1979</a>; <a href="references.html#ref-pope1979" role="doc-biblioref">Pope 1979</a>; <a href="references.html#ref-lewy2004" role="doc-biblioref">Lewy and Vinther 2004</a>)</span></h4>
+<p>In the late 1970s, the ICES Multispecies Working Group realized that Andersen &amp; Ursin’s full 83-ODE system had too many unknown bioenergetic parameters to estimate directly from fisheries data, <strong>unless</strong> one assumed that feeding level <span class="math inline">\(f_j\)</span> (and thus total consumption rate <span class="math inline">\(R_j(w_j) = f_j h_j w_j^n\)</span> and somatic growth <span class="math inline">\(w_{a,t}\)</span>) was known externally from gastric evacuation studies and commercial weight-at-age sampling.</p>
+<p>Under this assumption, the fraction of predator <span class="math inline">\(j\)</span>’s diet consisting of prey <span class="math inline">\((i, w_i)\)</span> is simply the ratio of suitable prey biomass to total suitable food: <span id="eq-andersen-ursin-diet-proportion"><span class="math display">\[\text{Diet Proportion } D_{ij} = \frac{G_{ij} B_i}{\Phi_j} \tag{1.16}\]</span></span></p>
+<p>Consequently, the instantaneous predation mortality rate <span class="math inline">\(M2_i\)</span> on prey <span class="math inline">\(i\)</span> simplifies to: <span id="eq-andersen-ursin-msvpa-m2"><span class="math display">\[M2_i = \sum_{j} \frac{\bar{N}_j \, R_j \, G_{ij}}{\Phi_j} \tag{1.17}\]</span></span></p>
+<div class="callout callout-style-default callout-note callout-titled" title="Key Historical Insight: The MSVPA Simplification">
+<div class="callout-header d-flex align-content-center">
+<div class="callout-icon-container">
+<i class="callout-icon"></i>
+</div>
+<div class="callout-title-container flex-fill">
+<span class="screen-reader-only">Note</span>Key Historical Insight: The MSVPA Simplification
+</div>
+</div>
+<div class="callout-body-container callout-body">
+This simplification made <span class="math inline">\(G_{ij}/\Phi_j\)</span> <strong>directly observable in stomach content data</strong> (since stomach content weight proportions after evacuation correction estimate <span class="math inline">\(D_{ij}\)</span>), launching the entire MSVPA and SMS assessment tradition. However, the price paid was the loss of dynamic somatic growth feedback (<span class="math inline">\(dw/dt\)</span>).
+</div>
+</div>
+</section>
+<section id="the-mizer-reformulation-hartvig2011-scott2014" class="level4">
+<h4 class="anchored" data-anchor-id="the-mizer-reformulation-hartvig2011-scott2014">The <code>mizer</code> Reformulation <span class="citation" data-cites="hartvig2011 scott2014">(<a href="references.html#ref-hartvig2011" role="doc-biblioref">Hartvig et al. 2011</a>; <a href="references.html#ref-scott2014" role="doc-biblioref">Scott et al. 2014</a>)</span></h4>
+<p>Thirty-four years after <span class="citation" data-cites="andersen_ursin1977">(<a href="references.html#ref-andersen_ursin1977" role="doc-biblioref">Andersen and Ursin 1977</a>)</span>, <span class="citation" data-cites="hartvig2011">(<a href="references.html#ref-hartvig2011" role="doc-biblioref">Hartvig et al. 2011</a>)</span> restored the full bioenergetic growth and reproduction equations of Andersen &amp; Ursin within a continuous McKendrick–von Foerster PDE framework, replacing the arbitrary species-specific half-saturation constants <span class="math inline">\(Q_j(w_j)\)</span> with a mechanistic <strong>volumetric search rate</strong> <span class="math inline">\(\gamma_j(w_j) = \gamma_j w_j^q\)</span>.</p>
+<p>In <code>mizer</code>, the encounter rate of food is <span class="math inline">\(E_j(w_j) = \gamma_j(w_j) \Phi_j(w_j)\)</span>, which implies an emergent half-saturation food density <span class="math inline">\(Q_j(w_j) = \frac{h_j w_j^n}{\gamma_j w_j^q}\)</span>. All life-history parameters scale allometrically with individual weight <span class="math inline">\(w\)</span> and asymptotic species size <span class="math inline">\(W_{\infty, j}\)</span>, reducing the parameter space from hundreds of cohort-specific constants to a compact set of scaling exponents and species traits.</p>
 <hr>
+</section>
 </section>
 </section>
 <section id="community-level-dynamics-and-the-multispecies-jacobian-matrix" class="level2" data-number="1.4">
@@ -1243,5 +1284,6 @@ Zhang, Chongliang, Yong Chen, Katherine Thompson, and Yiping Ren. 2016. <span>�
 
 
 
-<footer class="footer"><div class="nav-footer"><div class="nav-footer-center"><div class="toc-actions d-sm-block d-md-none"><ul><li><a href="https://github.com/gustavdelius/multispecies_stock_assessment/edit/main/01_taxonomy_and_foundations.md" class="toc-action"><i class="bi bi-github"></i>Edit this page</a></li></ul></div></div></div></footer><script src="site_libs/quarto-contrib/quarto-diagram/mermaid-init.js"></script>
+<footer class="footer"><div class="nav-footer"><div class="nav-footer-center"><div class="toc-actions d-sm-block d-md-none"><ul><li><a href="https://github.com/gustavdelius/multispecies_stock_assessment/edit/main/01_taxonomy_and_foundations.md" class="toc-action"><i class="bi bi-github"></i>Edit this page</a></li></ul></div></div></div></footer><script src="site_libs/quarto-html/zenscroll-min.js"></script>
+<script src="site_libs/quarto-contrib/quarto-diagram/mermaid-init.js"></script>
 </body></html>

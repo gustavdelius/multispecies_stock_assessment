@@ -20,6 +20,7 @@ book:
   repo-url: https://github.com/gustavdelius/multispecies_stock_assessment
   repo-branch: main
   repo-actions: edit
+  downloads: [pdf]
   chapters:
     - index.md
     - 01_taxonomy_and_foundations.md
@@ -42,9 +43,31 @@ format:
   html:
     theme: cosmo
     code-fold: true
+    code-copy: hover
     link-external-newwindow: true
     fig-width: 6
     fig-height: 4
+    smooth-scroll: true
+    back-to-top-navigation: true
+    citation-hover: true
+    html-math-method:
+      method: mathjax
+      macros:
+        Eavail: "E_{\\text{avail}}"
+        Rdd: "R_{\\text{dd}}"
+        Rdi: "R_{\\text{di}}"
+        Neff: "n_{\\text{eff}}"
+        SSB: "\\text{SSB}"
+        GER: "\\text{GER}"
+        FR: "\\text{FR}"
+  pdf:
+    output-file: "multispecies_stock_assessment.pdf"
+    documentclass: scrreprt
+    pdf-engine: lualatex
+    toc: true
+    toc-depth: 3
+    number-sections: true
+    papersize: a4
 
 toc: true
 toc-depth: 4
@@ -52,3 +75,7 @@ number-depth: 3
 number-sections: true
 crossref:
   eq-prefix: Eq.
+  sec-prefix: Section
+  tbl-prefix: Table
+  fig-prefix: Figure
+

@@ -24,7 +24,7 @@ A model qualifies as a tactical multispecies assessment or MICE when it satisfie
 
 ## Fundamental Axes of Structural Classification
 
-Every multispecies stock assessment model can be positioned along three fundamental mathematical axes [@stefansson1998; @andersen2016; @pennino2025]:
+Every multispecies stock assessment model can be positioned along three fundamental mathematical axes [@stefansson1998; @andersen2016; @pennino2025] (see @tbl-state-space-taxonomy):
 
 ### Axis 1: Individual State Space (Age vs. Length vs. Continuous Body Mass)
 
@@ -36,8 +36,11 @@ Every multispecies stock assessment model can be positioned along three fundamen
 | **4. Discrete Length-Structured (Age-Free)** | $N_{i,l,t}$ | `LeMans` [@hall2006], `LeMaRns` [@spence2020], `CSMS` [@pope2006] |
 | **5. Continuous Body-Mass Spectrum** | $N_i(w,t)$ ($\text{numbers}\cdot\text{g}^{-1}$) | `mizer` [@hartvig2011; @scott2014; @datta2010] |
 
+: Primary State-Space Representations in Multispecies Fisheries Assessment {#tbl-state-space-taxonomy}
+
 1. **Biomass Pool / Multi-Stanza ($B_i(t)$)**:
    - *Governing Dynamical Equation*: Coupled system of ordinary differential equations (ODEs):
+
      $$\frac{dB_i}{dt} = g_i \sum_j Q_{ij} - \sum_k Q_{ki} - (M0_i + F_i) B_i$$ {#eq-biomass-pool-dynamics}
    - *Strengths & Limitations*: Fast; low state dimension; captures whole-food-web energy flow; cannot directly fit length or age compositions without multi-stanza delay-difference approximations.
 
@@ -67,14 +70,17 @@ Every multispecies stock assessment model can be positioned along three fundamen
 
 A critical distinction in multispecies stock assessment—emphasized by [@stefansson1998] and [@andersen2016]—is whether trophic interactions operate **one-way (top-down only)** or **two-way (top-down predation mortality + bottom-up bioenergetic growth/reproduction)**:
 
-1. **One-Way Trophic Feedback ("Predation-Only" / Fixed-Ration Models)**:
-   - Used in `MSVPA`, `SMS`, `LeMans`/`LeMaRns`, and standard modes of `MSCAA`/`Hydra`.
-   - Predator abundance determines the predation mortality rate $M2$ experienced by prey:
-     $$\text{Predator Abundance } N_{\text{pred}} \implies \text{Prey Mortality } M2_{\text{prey}}$$ {#eq-one-way-trophic-feedback}
-   - However, **predator somatic growth rate, weight-at-age $w_{a,t}$, and per-capita total food consumption rate $R_{a,t}$ are independent of prey abundance**. Even if all modeled fish prey collapse, predators maintain their prescribed ration $R_{a,t}$ (implicitly compensating by consuming an inexhaustible "other food" pool $B_{\text{other}}$) and follow fixed growth curves.
-   - *Consequence*: In forward projections under high forage-fish fishing mortality, one-way models predict that piscivores suffer **zero loss of growth or reproductive output** when their prey are fished down [@jacobsen2016; @pope2019].
+#### One-Way Trophic Feedback ("Predation-Only" / Fixed-Ration Models)
+Used in `MSVPA`, `SMS`, `LeMans`/`LeMaRns`, and standard modes of `MSCAA`/`Hydra`. Predator abundance determines the predation mortality rate $M2$ experienced by prey:
+$$\text{Predator Abundance } N_{\text{pred}} \implies \text{Prey Mortality } M2_{\text{prey}}$$ {#eq-one-way-trophic-feedback}
 
-2. **Two-Way Trophic Feedback ("Bioenergetic / Size-Spectrum" Models)**:
+However, **predator somatic growth rate, weight-at-age $w_{a,t}$, and per-capita total food consumption rate $R_{a,t}$ are independent of prey abundance**. Even if all modeled fish prey collapse, predators maintain their prescribed ration $R_{a,t}$ (implicitly compensating by consuming an inexhaustible "other food" pool $B_{\text{other}}$) and follow fixed growth curves.
+
+::: {.callout-warning title="Management Consequence of One-Way Coupling"}
+In forward projections under high forage-fish fishing mortality, one-way (predation-only) models predict that piscivores suffer **zero loss of somatic growth or reproductive output** when their prey are fished down [@jacobsen2016; @pope2019].
+:::
+
+#### Two-Way Trophic Feedback ("Bioenergetic / Size-Spectrum" Models)
    - Used in `mizer`, `MULTSPEC`/`Gadget` (when configured with `g3a_grow_length_multspec` or `g3a_grow_weight_weightjones`), bioenergetic `CEATTLE`, and `Ecosim`/`EcoState`.
    - Every predation event simultaneously removes biomass from the prey cohort ($M2_{\text{prey}}$) **and** supplies assimilable energy to the predator cohort, driving somatic growth $g_{\text{pred}}$, energy reserves/condition $W_{\text{pred}}$, egg production $R_{p,\text{pred}}$, and (when energy intake falls below metabolic maintenance) starvation mortality $\mu_{s,\text{pred}}$:
      $$\text{Prey Abundance } N_{\text{prey}} \Longleftrightarrow \begin{cases} \text{Top-Down: Predation Mortality } M2_{\text{prey}} \\ \text{Bottom-Up: Predator Growth } g_{\text{pred}}, \text{ Reproduction } R_{p,\text{pred}}, \text{ Starvation } \mu_{s,\text{pred}} \end{cases}$$ {#eq-two-way-trophic-feedback}
@@ -140,17 +146,23 @@ flowchart TD
     AU -->|"<b>Simplification 2: Hartvig, Andersen & Beyer (2011)</b><br/>Continuous size-spectrum PDE<br/>Volumetric search rate γ<sub>j</sub> w<sub>j</sub><sup>q</sup><br/>Dynamic growth g<sub>j</sub>(w) & reproduction R<sub>p,j</sub>"| MIZER["<b>mizer (Scott et al. 2014)</b><br/>Full two-way bioenergetic feedback<br/>Emergent growth, maturity & M2<br/>Historically lacked time-series likelihoods"]
 ```
 
-1. **The MSVPA / SMS Simplification [@helgason_gislason1979; @pope1979; @lewy2004]**:
-   - In the late 1970s, the ICES Multispecies Working Group realized that Andersen & Ursin's full 83-ODE system had too many unknown bioenergetic parameters to estimate directly from fisheries data, **unless** one assumed that feeding level $f_j$ (and thus total consumption rate $R_j(w_j) = f_j h_j w_j^n$ and somatic growth $w_{a,t}$) was known externally from gastric evacuation studies and commercial weight-at-age sampling.
-   - Under this assumption, the fraction of predator $j$'s diet consisting of prey $(i, w_i)$ is simply the ratio of suitable prey biomass to total suitable food:
-     $$\text{Diet Proportion } D_{ij} = \frac{G_{ij} B_i}{\Phi_j}$$ {#eq-andersen-ursin-diet-proportion}
-   - Consequently, the instantaneous predation mortality rate $M2_i$ on prey $i$ simplifies to:
-     $$M2_i = \sum_{j} \frac{\bar{N}_j \, R_j \, G_{ij}}{\Phi_j}$$ {#eq-andersen-ursin-msvpa-m2}
-   - This brilliant simplification made $G_{ij}/\Phi_j$ **directly observable in stomach content data** (since stomach content weight proportions after evacuation correction estimate $D_{ij}$), launching the entire MSVPA and SMS assessment tradition. However, the price paid was the loss of dynamic growth feedback ($dw/dt$).
+#### The MSVPA / SMS Simplification [@helgason_gislason1979; @pope1979; @lewy2004]
+In the late 1970s, the ICES Multispecies Working Group realized that Andersen & Ursin's full 83-ODE system had too many unknown bioenergetic parameters to estimate directly from fisheries data, **unless** one assumed that feeding level $f_j$ (and thus total consumption rate $R_j(w_j) = f_j h_j w_j^n$ and somatic growth $w_{a,t}$) was known externally from gastric evacuation studies and commercial weight-at-age sampling.
 
-2. **The `mizer` Reformulation [@hartvig2011; @scott2014]**:
-   - Thirty-four years after [@andersen_ursin1977], [@hartvig2011] restored the full bioenergetic growth and reproduction equations of Andersen & Ursin within a continuous McKendrick–von Foerster PDE framework, replacing the arbitrary species-specific half-saturation constants $Q_j(w_j)$ with a mechanistic **volumetric search rate** $\gamma_j(w_j) = \gamma_j w_j^q$.
-   - In `mizer`, the encounter rate of food is $E_j(w_j) = \gamma_j(w_j) \Phi_j(w_j)$, which implies an emergent half-saturation food density $Q_j(w_j) = \frac{h_j w_j^n}{\gamma_j w_j^q}$. All life-history parameters scale allometrically with individual weight $w$ and asymptotic species size $W_{\infty, j}$, reducing the parameter space from hundreds of cohort-specific constants to a compact set of scaling exponents and species traits.
+Under this assumption, the fraction of predator $j$'s diet consisting of prey $(i, w_i)$ is simply the ratio of suitable prey biomass to total suitable food:
+$$\text{Diet Proportion } D_{ij} = \frac{G_{ij} B_i}{\Phi_j}$$ {#eq-andersen-ursin-diet-proportion}
+
+Consequently, the instantaneous predation mortality rate $M2_i$ on prey $i$ simplifies to:
+$$M2_i = \sum_{j} \frac{\bar{N}_j \, R_j \, G_{ij}}{\Phi_j}$$ {#eq-andersen-ursin-msvpa-m2}
+
+::: {.callout-note title="Key Historical Insight: The MSVPA Simplification"}
+This simplification made $G_{ij}/\Phi_j$ **directly observable in stomach content data** (since stomach content weight proportions after evacuation correction estimate $D_{ij}$), launching the entire MSVPA and SMS assessment tradition. However, the price paid was the loss of dynamic somatic growth feedback ($dw/dt$).
+:::
+
+#### The `mizer` Reformulation [@hartvig2011; @scott2014]
+Thirty-four years after [@andersen_ursin1977], [@hartvig2011] restored the full bioenergetic growth and reproduction equations of Andersen & Ursin within a continuous McKendrick–von Foerster PDE framework, replacing the arbitrary species-specific half-saturation constants $Q_j(w_j)$ with a mechanistic **volumetric search rate** $\gamma_j(w_j) = \gamma_j w_j^q$.
+
+In `mizer`, the encounter rate of food is $E_j(w_j) = \gamma_j(w_j) \Phi_j(w_j)$, which implies an emergent half-saturation food density $Q_j(w_j) = \frac{h_j w_j^n}{\gamma_j w_j^q}$. All life-history parameters scale allometrically with individual weight $w$ and asymptotic species size $W_{\infty, j}$, reducing the parameter space from hundreds of cohort-specific constants to a compact set of scaling exponents and species traits.
 
 ---
 

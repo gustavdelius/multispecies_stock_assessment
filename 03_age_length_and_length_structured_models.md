@@ -36,21 +36,24 @@ In a discrete length-bin model, somatic growth during time step $\Delta t$ must 
 2. The **probability distribution** $p(\Delta j \mid l)$ that a fish in length bin $l$ jumps up by $\Delta j \in \{0, 1, \dots, \Delta j_{\max}\}$ length bins during $\Delta t$.
 
 #### A. Mean Length & Weight Increments (`g3a_grow_*`)
-Gadget provides two classes of growth equations [@begley2004overview, pp. 8--10; @lentz_gadget3]:
+::: {.panel-tabset}
+## von Bertalanffy Growth (Consumption-Independent)
+Standard empirical growth functions (`g3a_grow_lengthvbsimple` / `g3a_grow_weightsimple`):
+$$\Delta L_l = \left(L_{\infty, s} - L_l\right)\left(1 - \exp(-\kappa_s \Delta t)\right)$$ {#eq-gadget-growth-length-vb}
+$$\Delta W_l = \alpha_s \left(L_l + \Delta L_l\right)^{\beta_s} - \alpha_s L_l^{\beta_s}$$ {#eq-gadget-growth-weight-allometric}
 
-1. **Consumption-Independent von Bertalanffy Growth (`g3a_grow_lengthvbsimple` / `g3a_grow_weightsimple`)**:
-   $$\Delta L_l = \left(L_{\infty, s} - L_l\right)\left(1 - \exp(-\kappa_s \Delta t)\right)$$ {#eq-gadget-growth-length-vb}
-   $$\Delta W_l = \alpha_s \left(L_l + \Delta L_l\right)^{\beta_s} - \alpha_s L_l^{\beta_s}$$ {#eq-gadget-growth-weight-allometric}
+## Bioenergetic Growth (Consumption-Dependent)
+Let $\psi_{s,l,r,t} \in [0, 1]$ be the predator's realized **feeding level** in length bin $l$ during time step $t$ (ratio of actual biomass consumed to maximum possible consumption $M_{s,l,t}$; see @sec-gadget-predation), and let $T_{r,t}$ be ambient temperature:
 
-2. **Consumption-Dependent (Two-Way Bioenergetic) Growth (`g3a_grow_length_multspec` and `g3a_grow_weight_weightjones`)**:
-   Let $\psi_{s,l,r,t} \in [0, 1]$ be the predator's realized **feeding level** in length bin $l$ during time step $t$ (ratio of actual biomass consumed to maximum possible consumption $M_{s,l,t}$; see @sec-gadget-predation), and let $T_{r,t}$ be ambient temperature.
-   - **MULTSPEC Length & Weight Increment (`g3a_grow_length_multspec` / `g3a_grow_weight_multspec`)**:
-     $$\Delta L_l = \Delta t \cdot p_{0,s} \, L_l^{p_{1,s}} \, \psi_{s,l,r,t} \left(p_{2,s} T_{r,t} + p_{3,s}\right)$$ {#eq-gadget-growth-length-jones}
-     $$\Delta W_l = \Delta t \cdot q_{0,s} \, W_{s,a,l}^{q_{1,s}} \left(\psi_{s,l,r,t} - q_{2,s}\right)\left(q_{3,s} T_{r,t} + q_{4,s}\right)$$ {#eq-gadget-growth-weight-jones}
-     where $q_{2,s}$ is the maintenance feeding level below which fish **lose weight** ($\Delta W_l < 0$, while $\Delta L_l \ge 0$ since fish skeletons do not shrink!).
-   - **Jones (1976) Bioenergetic Weight Increment (`g3a_grow_weight_weightjones`, [@jones1976])**:
-     $$\Delta W_l = \frac{\Delta t \left( \frac{C_{s,l,t}}{\Delta t} - r_{0,s} W_{s,a,l}^{r_{1,s}} \exp(r_{2,s} T_{r,t}) \right)}{r_{3,s}}$$ {#eq-gadget-growth-dynamic-energy}
-     coupled to length growth via a condition-factor feedback function $f(\delta W_l)$ that suppresses length growth $\Delta L_l$ whenever actual body weight $W_{s,a,l}$ falls below reference weight $W_{\text{ref}, l} = \alpha_s L_l^{\beta_s}$ [@begley2004overview, p. 9; @lentz_gadget3].
+- **MULTSPEC Length & Weight Increment (`g3a_grow_length_multspec` / `g3a_grow_weight_multspec`)**:
+  $$\Delta L_l = \Delta t \cdot p_{0,s} \, L_l^{p_{1,s}} \, \psi_{s,l,r,t} \left(p_{2,s} T_{r,t} + p_{3,s}\right)$$ {#eq-gadget-growth-length-jones}
+  $$\Delta W_l = \Delta t \cdot q_{0,s} \, W_{s,a,l}^{q_{1,s}} \left(\psi_{s,l,r,t} - q_{2,s}\right)\left(q_{3,s} T_{r,t} + q_{4,s}\right)$$ {#eq-gadget-growth-weight-jones}
+  where $q_{2,s}$ is the maintenance feeding level below which fish **lose weight** ($\Delta W_l < 0$, while $\Delta L_l \ge 0$ since fish skeletons do not shrink!).
+
+- **Jones (1976) Bioenergetic Weight Increment (`g3a_grow_weight_weightjones`, [@jones1976])**:
+  $$\Delta W_l = \frac{\Delta t \left( \frac{C_{s,l,t}}{\Delta t} - r_{0,s} W_{s,a,l}^{r_{1,s}} \exp(r_{2,s} T_{r,t}) \right)}{r_{3,s}}$$ {#eq-gadget-growth-dynamic-energy}
+  coupled to length growth via a condition-factor feedback function $f(\delta W_l)$ that suppresses length growth $\Delta L_l$ whenever actual body weight $W_{s,a,l}$ falls below reference weight $W_{\text{ref}, l} = \alpha_s L_l^{\beta_s}$ [@begley2004overview, p. 9; @lentz_gadget3].
+:::
 
 #### B. The Beta-Binomial Length-Bin Jump Distribution (`g3a_grow_impl_bbinom`)
 Once the mean length increment $\Delta L_l$ is computed (and normalized by the bin width $\delta L$ to give mean bin growth $\mu_l = \Delta L_l / \delta L$), Gadget distributes growing individuals across integer bin jumps $\Delta j \in \{0, 1, \dots, n_{\max}\}$ using a **Beta-Binomial distribution** [@stefansson1998; @taylor2004cod, Eq. 5; @lentz_gadget3]:
@@ -242,28 +245,32 @@ Originally created by Stephen Hall, Collie, Jennings, Bravington, and Pope [@hal
 #### Mathematical Equations of `LeMaRns` [@spence2020, pp. 3--7]
 Let $N_{i,j,t}$ be the number of individuals of species $i \in \{1, \dots, n_s\}$ in length class $j \in \{1, \dots, n_l\}$ with bounds $[L_j, L_{j+1})$ and midpoint $\bar{L}_j = (L_j + L_{j+1})/2$, body mass $W_{i,j} = \alpha_i \bar{L}_j^{\beta_i}$, and maturity ogive $m_{i,j} = \left(1 + \exp(-\kappa_{m,i}(\bar{L}_j - L_{\text{mat},i}))\right)^{-1}$.
 
-1. **Reproduction & Recruitment (Step 1)**:
-   Spawning stock biomass is $\text{SSB}_{i,t} = \sum_{j=1}^{n_l} m_{i,j} N_{i,j,t} W_{i,j}$. At the first time step of each year, recruits $R_{i,t}$ enter the smallest length bin $j = 1$ via a Hockey-Stick, Ricker, Beverton-Holt, or linear stock-recruitment relationship (with optional lognormal process error in [@spence2021advice]):
-   $$N^{(1)}_{i,1,t} = N_{i,1,t} + R_{i,t}, \qquad N^{(1)}_{i,j,t} = N_{i,j,t} \quad (j > 1)$$ {#eq-lemarns-recruitment-step}
+**Step 1: Reproduction & Recruitment**:
+Spawning stock biomass is $\text{SSB}_{i,t} = \sum_{j=1}^{n_l} m_{i,j} N_{i,j,t} W_{i,j}$. At the first time step of each year, recruits $R_{i,t}$ enter the smallest length bin $j = 1$ via a Hockey-Stick, Ricker, Beverton-Holt, or linear stock-recruitment relationship (with optional lognormal process error in [@spence2021advice]):
+$$N^{(1)}_{i,1,t} = N_{i,1,t} + R_{i,t}, \qquad N^{(1)}_{i,j,t} = N_{i,j,t} \quad (j > 1)$$ {#eq-lemarns-recruitment-step}
 
-2. **Mortality: $M1$, Fishing $F$, and Predation $M2$ (Step 2)**:
-   Total mortality in time step $\Delta t$ is $Z_{i,j,t} = \Delta t \left(M1_{i,j} + F_{i,j,t} + M2_{i,j,t}\right)$, so surviving numbers are:
-   $$N^{(2)}_{i,j,t} = N^{(1)}_{i,j,t} \exp(-Z_{i,j,t})$$ {#eq-lemarns-survival-step}
-   where **predation mortality $M2_{i,j,t}$** on prey $(i, j)$ by all predators $(m, k)$ is governed by a Holling Type II (or Type III) functional response:
-   $$M2_{i,j,t} = \sum_{m=1}^{n_s} \sum_{k=1}^{n_l} I_{m,k} \, N^{(1)}_{m,k,t} \, \frac{\theta_{m,k,i,j}}{\sum_{a=1}^{n_s} \sum_{b=1}^{n_l} \theta_{m,k,a,b} \, N^{(1)}_{a,b,t} W_{a,b} + W_{\text{other}}}$$ {#eq-lemarns-m2-predation}
-   Here:
-   - $I_{m,k} = W_{m,k} \left(L_{\infty, m} / \bar{L}_k\right)^{0.4} \cdot \text{ration\_scalar}_m$ is the maximum per-capita consumption rate of predator $(m, k)$,
-   - $\theta_{m,k,i,j} = \tau_{m,i} \cdot \psi_{m,k,i,j} \cdot o_{m,i}$ is the suitability product of taxonomic preference $\tau_{m,i} \in \{0, 1\}$, spatial overlap $o_{m,i}$, and Ursin lognormal weight-ratio preference:
-     $$\psi_{m,k,i,j} = \exp\!\left(-\frac{\left(\log_{10}\!\frac{W_{m,k}}{W_{i,j}} - \eta_m\right)^2}{2\sigma_m^2}\right)$$ {#eq-lemarns-diet-preference}
+**Step 2: Mortality ($M1$, Fishing $F$, and Predation $M2$)**:
+Total mortality in time step $\Delta t$ is $Z_{i,j,t} = \Delta t \left(M1_{i,j} + F_{i,j,t} + M2_{i,j,t}\right)$, so surviving numbers are:
+$$N^{(2)}_{i,j,t} = N^{(1)}_{i,j,t} \exp(-Z_{i,j,t})$$ {#eq-lemarns-survival-step}
+where **predation mortality $M2_{i,j,t}$** on prey $(i, j)$ by all predators $(m, k)$ is governed by a Holling Type II (or Type III) functional response:
+$$M2_{i,j,t} = \sum_{m=1}^{n_s} \sum_{k=1}^{n_l} I_{m,k} \, N^{(1)}_{m,k,t} \, \frac{\theta_{m,k,i,j}}{\sum_{a=1}^{n_s} \sum_{b=1}^{n_l} \theta_{m,k,a,b} \, N^{(1)}_{a,b,t} W_{a,b} + W_{\text{other}}}$$ {#eq-lemarns-m2-predation}
+Here:
+- $I_{m,k} = W_{m,k} \left(L_{\infty, m} / \bar{L}_k\right)^{0.4} \cdot \text{ration\_scalar}_m$ is the maximum per-capita consumption rate of predator $(m, k)$,
+- $\theta_{m,k,i,j} = \tau_{m,i} \cdot \psi_{m,k,i,j} \cdot o_{m,i}$ is the suitability product of taxonomic preference $\tau_{m,i} \in \{0, 1\}$, spatial overlap $o_{m,i}$, and Ursin lognormal weight-ratio preference:
+  $$\psi_{m,k,i,j} = \exp\!\left(-\frac{\left(\log_{10}\!\frac{W_{m,k}}{W_{i,j}} - \eta_m\right)^2}{2\sigma_m^2}\right)$$ {#eq-lemarns-diet-preference}
 
-3. **Deterministic Fractional Somatic Growth (Step 3)**:
-   Under deterministic von Bertalanffy growth, the time required for an individual of species $i$ to grow from the lower boundary $L_j$ to the upper boundary $L_{j+1}$ of length bin $j$ is:
-   $$\delta t_{i,j} = \frac{1}{k_i} \ln\!\left(\frac{L_{\infty, i} - L_j}{L_{\infty, i} - L_{j+1}}\right)$$ {#eq-lemarns-bin-growth-time}
-   Therefore, in a discrete time step $\Delta t$ (chosen small enough that $\Delta t \le \min_{i,j} \delta t_{i,j}$, e.g., $\Delta t = 0.1\text{ yr}$), a fixed fraction $\phi_{i,j}$ of individuals in length bin $j$ advance to length bin $j+1$:
-   $$\phi_{i,j} = \frac{\Delta t}{\delta t_{i,j}} = \frac{\Delta t \cdot k_i}{\ln\!\left(\frac{L_{\infty, i} - L_j}{L_{\infty, i} - L_{j+1}}\right)}$$ {#eq-lemarns-transition-proportion}
-   giving the state update:
-   $$N_{i,j,t+1} = (1 - \phi_{i,j}) N^{(2)}_{i,j,t} + \phi_{i,j-1} N^{(2)}_{i,j-1,t}$$ {#eq-lemarns-population-update}
-   *(Note: Mathematically, this update equation is identical to the **explicit first-order upwind finite-difference scheme** of the McKendrick–von Foerster PDE in `mizer`! Consequently, it exhibits the exact same numerical Courant-Friedrichs-Lewy [CFL] artificial cohort diffusion $\approx \frac{1}{2} g \delta L (1 - \phi)$ analyzed by [@datta2010]).*
+**Step 3: Deterministic Fractional Somatic Growth**:
+Under deterministic von Bertalanffy growth, the time required for an individual of species $i$ to grow from the lower boundary $L_j$ to the upper boundary $L_{j+1}$ of length bin $j$ is:
+$$\delta t_{i,j} = \frac{1}{k_i} \ln\!\left(\frac{L_{\infty, i} - L_j}{L_{\infty, i} - L_{j+1}}\right)$$ {#eq-lemarns-bin-growth-time}
+
+Therefore, in a discrete time step $\Delta t$ (chosen small enough that $\Delta t \le \min_{i,j} \delta t_{i,j}$, e.g., $\Delta t = 0.1\text{ yr}$), a fixed fraction $\phi_{i,j}$ of individuals in length bin $j$ advance to length bin $j+1$:
+$$\phi_{i,j} = \frac{\Delta t}{\delta t_{i,j}} = \frac{\Delta t \cdot k_i}{\ln\!\left(\frac{L_{\infty, i} - L_j}{L_{\infty, i} - L_{j+1}}\right)}$$ {#eq-lemarns-transition-proportion}
+giving the state update:
+$$N_{i,j,t+1} = (1 - \phi_{i,j}) N^{(2)}_{i,j,t} + \phi_{i,j-1} N^{(2)}_{i,j-1,t}$$ {#eq-lemarns-population-update}
+
+::: {.callout-warning title="Equivalence with mizer Finite-Difference Discretization"}
+Mathematically, the `LeMaRns` state update (@eq-lemarns-population-update) is identical to the **explicit first-order upwind finite-difference scheme** of the McKendrick–von Foerster PDE in `mizer`! Consequently, it exhibits the exact same numerical Courant-Friedrichs-Lewy [CFL] artificial cohort diffusion $\approx \frac{1}{2} g \delta L (1 - \phi)$ analyzed by [@datta2010].
+:::
 
 ---
 

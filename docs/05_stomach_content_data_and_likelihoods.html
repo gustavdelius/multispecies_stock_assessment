@@ -92,6 +92,7 @@ div.csl-indent {
     "search-label": "Search"
   }
 }</script>
+<style>html{ scroll-behavior: smooth; }</style>
 
   <script src="https://cdnjs.cloudflare.com/polyfill/v3/polyfill.min.js?features=es6"></script>
   <script defer="" src="https://cdn.jsdelivr.net/npm/mathjax@3/es5/tex-chtml-full.js" type="text/javascript"></script>
@@ -152,6 +153,7 @@ window.Quarto = {
       <a href="./">Multispecies Stock Assessment: Mathematical Methods, Data, and Software</a> 
         <div class="sidebar-tools-main">
     <a href="https://github.com/gustavdelius/multispecies_stock_assessment" title="Source Code" class="quarto-navigation-tool px-1" aria-label="Source Code"><i class="bi bi-github"></i></a>
+    <a href="./Multispecies-Stock-Assessment--Mathematical-Methods,-Data,-and-Software.pdf" title="Download PDF" class="quarto-navigation-tool px-1" aria-label="Download PDF"><i class="bi bi-file-pdf"></i></a>
 </div>
     </div>
       </div>
@@ -318,11 +320,23 @@ window.Quarto = {
 <p><span id="eq-naive-pooled-consumption"><span class="math display">\[\hat{C}_{\text{pooled}, i} = D \, \rho_i \, \bar{S}_i \, \bar{S}_{\text{tot}}^{\alpha - 1} \tag{5.6}\]</span></span></p>
 <p>For total consumption (<span class="math inline">\(S_i = S_{\text{tot}}\)</span>), <span class="math inline">\(\bar{C}_{\text{true}} = D \rho \, \mathbb{E}[S_{\text{tot}}^\alpha]\)</span> whereas <span class="math inline">\(\hat{C}_{\text{pooled}} = D \rho \, (\mathbb{E}[S_{\text{tot}}])^\alpha\)</span>. Because <span class="math inline">\(f(S) = S^\alpha\)</span> is a <strong>strictly concave function</strong> for <span class="math inline">\(0 &lt; \alpha &lt; 1\)</span> (<span class="math inline">\(\alpha \approx 0.5\)</span>), <strong>Jensen’s Inequality</strong> guarantees that:</p>
 <p><span id="eq-jensen-pooling-bias"><span class="math display">\[\mathbb{E}\!\left[S_{\text{tot}}^{\alpha}\right] &lt; \Big(\mathbb{E}[S_{\text{tot}}]\Big)^{\alpha} \implies \hat{C}_{\text{pooled}} &gt; \bar{C}_{\text{true}} \tag{5.7}\]</span></span></p>
+<div class="callout callout-style-default callout-warning callout-titled" title="Jensen's Inequality Pooling Biases (Rindorf &amp; Lewy 2004)">
+<div class="callout-header d-flex align-content-center">
+<div class="callout-icon-container">
+<i class="callout-icon"></i>
+</div>
+<div class="callout-title-container flex-fill">
+<span class="screen-reader-only">Warning</span>Jensen’s Inequality Pooling Biases (Rindorf &amp; Lewy 2004)
+</div>
+</div>
+<div class="callout-body-container callout-body">
 <p><span class="citation" data-cites="rindorf2004">(<a href="references.html#ref-rindorf2004" role="doc-biblioref">Rindorf and Lewy 2004</a>)</span> demonstrated analytically and via bootstrap simulations on individual cod stomachs that:</p>
 <ol type="1">
 <li><strong>Total Consumption Overestimation</strong>: Because individual fish stomachs are highly skewed (many empty or near-empty stomachs, and a few stomachs with recently ingested large fish), applying <span class="math inline">\(\bar{S}_{\text{tot}}^{0.5}\)</span> to pooled haul averages <strong>overestimates total food consumption by <span class="math inline">\(25\%\)</span> to <span class="math inline">\(&gt;100\%\)</span></strong>!</li>
 <li><strong>Prey-Composition Bias Toward Large-Meal Piscivory</strong>: When a predator occasionally eats a large fish prey item <span class="math inline">\(A\)</span> (high <span class="math inline">\(S_{\text{tot}, k}\)</span>, so <span class="math inline">\(S_{\text{tot}, k}^{\alpha - 1} = S_{\text{tot}, k}^{-0.5}\)</span> is small) and frequently eats small benthic invertebrate meals <span class="math inline">\(B\)</span> (low <span class="math inline">\(S_{\text{tot}, k}\)</span>, so <span class="math inline">\(S_{\text{tot}, k}^{-0.5}\)</span> is large), the naive pooled formula <span class="math inline">\(\hat{C}_{\text{pooled}, i} \propto \bar{S}_i \bar{S}_{\text{tot}}^{-0.5}\)</span> applies the <strong>same</strong> average total stomach weight <span class="math inline">\(\bar{S}_{\text{tot}}^{-0.5}\)</span> to both prey types. This <strong>overestimates the diet share of large fish prey</strong> and <strong>underestimates the diet share of small invertebrate prey</strong> <span class="citation" data-cites="rindorf2004">(<a href="references.html#ref-rindorf2004" role="doc-biblioref">Rindorf and Lewy 2004, 2491–94</a>)</span>!</li>
 </ol>
+</div>
+</div>
 </section>
 <section id="second-order-taylor-bias-correction-rindorf-lewy-2004" class="level3" data-number="5.3.2">
 <h3 data-number="5.3.2" class="anchored" data-anchor-id="second-order-taylor-bias-correction-rindorf-lewy-2004"><span class="header-section-number">5.3.2</span> Second-Order Taylor Bias Correction (Rindorf &amp; Lewy 2004)</h3>
@@ -401,6 +415,13 @@ window.Quarto = {
 <p>Once population-level diet proportions <span class="math inline">\(\mathbf{W}_{U} = (W_{1,U}, \dots, W_{K,U})^\top\)</span> (satisfying <span class="math inline">\(\sum_{k=1}^K W_{k,U} = 1\)</span>) or individual predator-prey mass ratios (PPMR) are prepared for predator stratum <span class="math inline">\(U = (A, L, y, q)\)</span>, how should they enter the stock assessment objective function?</p>
 <section id="summary-comparison-of-compositional-diet-likelihoods" class="level3" data-number="5.6.1">
 <h3 data-number="5.6.1" class="anchored" data-anchor-id="summary-comparison-of-compositional-diet-likelihoods"><span class="header-section-number">5.6.1</span> Summary Comparison of Compositional Diet Likelihoods</h3>
+<p>The four principal likelihood formulations for fitting multispecies stomach composition data are summarized in <a href="#tbl-stomach-likelihoods" class="quarto-xref">Table&nbsp;<span>5.1</span></a>:</p>
+<div id="tbl-stomach-likelihoods" class="quarto-float quarto-figure quarto-figure-center anchored">
+<figure class="quarto-float quarto-float-tbl figure">
+<figcaption class="quarto-float-caption-top quarto-float-caption quarto-float-tbl" id="tbl-stomach-likelihoods-caption-0ceaefa1-69ba-4598-a22c-09a6ac19f8ca">
+Table&nbsp;5.1: Statistical Comparison of Compositional Diet and Stomach Content Likelihood Formulations
+</figcaption>
+<div aria-describedby="tbl-stomach-likelihoods-caption-0ceaefa1-69ba-4598-a22c-09a6ac19f8ca">
 <table class="caption-top table">
 <colgroup>
 <col style="width: 16%">
@@ -455,6 +476,9 @@ window.Quarto = {
 </tr>
 </tbody>
 </table>
+</div>
+</figure>
+</div>
 </section>
 <section id="sec-dm-likelihood" class="level3" data-number="5.6.2">
 <h3 data-number="5.6.2" class="anchored" data-anchor-id="sec-dm-likelihood"><span class="header-section-number">5.6.2</span> Mathematical Derivation of the Compound Dirichlet-Multinomial Likelihood (Thorson et al.&nbsp;2017)</h3>
@@ -1262,4 +1286,5 @@ Zhang, Chongliang, Yong Chen, Katherine Thompson, and Yiping Ren. 2016. <span>�
 
 
 
-<footer class="footer"><div class="nav-footer"><div class="nav-footer-center"><div class="toc-actions d-sm-block d-md-none"><ul><li><a href="https://github.com/gustavdelius/multispecies_stock_assessment/edit/main/05_stomach_content_data_and_likelihoods.md" class="toc-action"><i class="bi bi-github"></i>Edit this page</a></li></ul></div></div></div></footer></body></html>
+<footer class="footer"><div class="nav-footer"><div class="nav-footer-center"><div class="toc-actions d-sm-block d-md-none"><ul><li><a href="https://github.com/gustavdelius/multispecies_stock_assessment/edit/main/05_stomach_content_data_and_likelihoods.md" class="toc-action"><i class="bi bi-github"></i>Edit this page</a></li></ul></div></div></div></footer><script src="site_libs/quarto-html/zenscroll-min.js"></script>
+</body></html>

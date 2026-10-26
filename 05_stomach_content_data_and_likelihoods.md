@@ -53,9 +53,12 @@ For total consumption ($S_i = S_{\text{tot}}$), $\bar{C}_{\text{true}} = D \rho 
 
 $$\mathbb{E}\!\left[S_{\text{tot}}^{\alpha}\right] < \Big(\mathbb{E}[S_{\text{tot}}]\Big)^{\alpha} \implies \hat{C}_{\text{pooled}} > \bar{C}_{\text{true}}$$ {#eq-jensen-pooling-bias}
 
+::: {.callout-warning title="Jensen's Inequality Pooling Biases (Rindorf & Lewy 2004)"}
 [@rindorf2004] demonstrated analytically and via bootstrap simulations on individual cod stomachs that:
+
 1. **Total Consumption Overestimation**: Because individual fish stomachs are highly skewed (many empty or near-empty stomachs, and a few stomachs with recently ingested large fish), applying $\bar{S}_{\text{tot}}^{0.5}$ to pooled haul averages **overestimates total food consumption by $25\%$ to $>100\%$**!
 2. **Prey-Composition Bias Toward Large-Meal Piscivory**: When a predator occasionally eats a large fish prey item $A$ (high $S_{\text{tot}, k}$, so $S_{\text{tot}, k}^{\alpha - 1} = S_{\text{tot}, k}^{-0.5}$ is small) and frequently eats small benthic invertebrate meals $B$ (low $S_{\text{tot}, k}$, so $S_{\text{tot}, k}^{-0.5}$ is large), the naive pooled formula $\hat{C}_{\text{pooled}, i} \propto \bar{S}_i \bar{S}_{\text{tot}}^{-0.5}$ applies the **same** average total stomach weight $\bar{S}_{\text{tot}}^{-0.5}$ to both prey types. This **overestimates the diet share of large fish prey** and **underestimates the diet share of small invertebrate prey** [@rindorf2004, pp. 2491--2494]!
+:::
 
 ### Second-Order Taylor Bias Correction (Rindorf & Lewy 2004)
 When individual stomachs cannot be analyzed separately, [@rindorf2004, Eqs. 11--14] derived a second-order Taylor series correction for total consumption among non-empty stomachs (where $p_+$ is the proportion of non-empty stomachs in the sample and $\text{CV}_+$ is the coefficient of variation of stomach content weight among feeding fish):
@@ -131,12 +134,16 @@ Once population-level diet proportions $\mathbf{W}_{U} = (W_{1,U}, \dots, W_{K,U
 
 ### Summary Comparison of Compositional Diet Likelihoods
 
+The four principal likelihood formulations for fitting multispecies stomach composition data are summarized in @tbl-stomach-likelihoods:
+
 | Likelihood Distribution | Data Support | Log-Likelihood $\ln L(\mathbf{W}_U \mid \hat{\mathbf{p}}_U, \theta)$ | Variance Structure $\text{Var}(W_k)$ | Handling of Zeros ($W_k = 0$) | Used In |
 | :--- | :--- | :--- | :--- | :--- | :--- |
 | **1. Multinomial** | Proportions $\mathbf{W}_U \in [0,1]^K$ scaled by sample size $N_U$ | $N_U \sum_{k=1}^K W_{k,U} \ln \hat{p}_{k,U} + \text{const}$ | $\frac{\hat{p}_k(1-\hat{p}_k)}{N_U}$ (Fixed by $N_U$; no free dispersion parameter) | **Natural**: $W_{k,U} = 0$ simply contributes $0 \cdot \ln \hat{p}_{k,U} = 0$! | `MSCAA`, `CEATTLE`, `Gadget`, `SMS` (Option A) |
 | **2. Dirichlet** | Strictly positive simplex $W_{k,U} \in (0, 1)$, $\sum_k W_{k,U} = 1$ | $\ln\Gamma(v_U) - \sum_{k=1}^K \ln\Gamma(v_U \hat{p}_{k,U}) + \sum_{k=1}^K (v_U \hat{p}_{k,U} - 1)\ln W_{k,U}$ | $\frac{\hat{p}_k(1-\hat{p}_k)}{v_U + 1}$ (Estimable precision $v_U = N_U/\theta - 1$) | **Undefined at $W_k = 0$** ($\ln 0 = -\infty$); requires pooling zero bins or tail compression | `SMS` (Default), `EcoState`, `MSCAA` |
 | **3. Dirichlet-Multinomial (DM)** | Count vector $N_U \mathbf{W}_U$ with overdispersion $\beta = \theta N_U$ | $\ln\Gamma(N_U+1) + \ln\Gamma(\beta) - \ln\Gamma(N_U+\beta) + \sum_{k=1}^K \left[\ln\frac{\Gamma(N_U W_k + \beta \hat{p}_k)}{\Gamma(N_U W_k + 1)\Gamma(\beta \hat{p}_k)}\right]$ | $\frac{\hat{p}_k(1-\hat{p}_k)}{N_U} \left(\frac{N_U + \beta}{1 + \beta}\right)$ (Linear or saturating parameterization; [@thorson2017]) | **Natural**: Exact handling of $W_{k,U} = 0$ AND estimable overdispersion $\theta$! | `SS3`, `LIME`, `WHAM`, modern `Rceattle` |
 | **4. Additive Logistic-Normal (Aitchison)** | Log-ratios $y_k = \ln(W_k / W_K) \in \mathbb{R}^{K-1}$ | $-\frac{1}{2}\ln|2\pi\boldsymbol{\Sigma}_U| - \frac{1}{2}(\mathbf{y}_U - \hat{\boldsymbol{\mu}}_U)^\top \boldsymbol{\Sigma}_U^{-1} (\mathbf{y}_U - \hat{\boldsymbol{\mu}}_U) - \sum_{k=1}^K \ln W_{k,U}$ | Arbitrary $(K-1)\times(K-1)$ covariance $\boldsymbol{\Sigma}_U$ (allows positive/negative correlations!) | Requires zero replacement or censored Tobit normal integration | `SAM` (compositions), `gadget3` (`mvlogistic`) |
+
+: Statistical Comparison of Compositional Diet and Stomach Content Likelihood Formulations {#tbl-stomach-likelihoods}
 
 ### Mathematical Derivation of the Compound Dirichlet-Multinomial Likelihood (Thorson et al. 2017) {#sec-dm-likelihood}
 Because compositional observations in both age/length sampling and stomach content analysis exhibit strong **overdispersion** relative to a pure multinomial draw of nominal sample size $n$, [@thorson2017] derived a model-based compound **Dirichlet-Multinomial (DM)** likelihood that estimates effective sample size $n_{\text{eff}}$ simultaneously with all stock assessment parameters.

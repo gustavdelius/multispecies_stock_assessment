@@ -2,6 +2,8 @@
 
 ## Master Comparative Synthesis Across Multispecies Stock Assessment Model Families
 
+A comprehensive architectural comparison across the eight multispecies stock assessment model families is presented in @tbl-master-synthesis:
+
 | Feature / Dimension | `MSVPA` / `MSFOR` | `SMS` / `smsR` | `MSCAA` / `Hydra` | `CEATTLE` / `Rceattle` | `Gadget2` / `gadget3` | `LeMans` / `LeMaRns` | `EwE` / `Rpath` / `EcoState` | `mizer` (Standard & Jump-Growth) |
 | :--- | :--- | :--- | :--- | :--- | :--- | :--- | :--- | :--- |
 | **State Space** | Discrete Age $(s, a, y, q)$ | Discrete Age $(s, a, y, q)$ (+ ALK for stomachs) | Discrete Age $(s, a, y)$ (+ size bins in `Hydra`) | Discrete Age $(s, a, y)$ (sex-structured) | Joint Age-Length $(s, a, l, r, t)$ + Cell Mean Weight $W_{s,a,l,r,t}$ | Discrete Length $(s, l, t)$ (no age tracking) | Biomass Pools $B_i(t)$ + Multi-Stanza Age Groups | Continuous Body Mass Density $N_i(w, t)$ |
@@ -14,6 +16,8 @@
 | **Software / AD Engine** | Fortran / R | **ADMB** (`SMS`) & **TMB** (`smsR`) | **ADMB** / **TMB** | **TMB** (`Rceattle`) | C++ (`Gadget2`) & **TMB/R** (`gadget3`) | R / Rcpp (`LeMaRns`) | C#/.NET (`EwE`), R (`Rpath`), **TMB** (`EcoState`) | R / Rcpp (`mizer`) |
 | **Key Reference** | [@helgason_gislason1979; @livingston1983] | [@lewy2004] | [@kinzey2009; @vankirk2010; @curti2013; @trijoulet2019] | [@holsman2016; @adams2022] | [@stefansson1998; @begley2004overview; @kulatska2019] | [@spence2020] | [@walters1997; @thorson2024] | [@scott2014; @pennino2025] |
 
+: Comprehensive Comparative Synthesis of Multispecies Stock Assessment Model Frameworks {#tbl-master-synthesis}
+
 ---
 
 ## Data Weighting and Likelihood Conflict in Integrated & Multispecies Assessments (Francis 2011; Maunder & Punt 2013; Thorson et al. 2017)
@@ -22,8 +26,12 @@ When fitting an integrated single-species or multispecies model simultaneously t
 
 ### Why Unadjusted Composition Likelihoods Destroy Abundance Fits ("Francis Principle 1")
 Suppose a survey measures $10,000$ fish lengths across $50$ length bins each year, while also providing $1$ annual biomass index point $I_y$ per year. If the nominal number of fish measured ($N_y = 10,000$) is plugged into a Multinomial likelihood $\sum_y N_y \sum_l P_{l,y} \ln \hat{P}_{l,y}$, the composition likelihood will have $1000\times$ larger gradient and curvature than the lognormal survey index likelihood $\frac{1}{2\sigma_I^2}(\ln I_y - \ln \hat{I}_y)^2$.
-Because fish school by size and because any process model has slight misspecifications in selectivity or growth, positive correlations among bins within a year mean the true **effective sample size** $N_{\text{eff}, y}$ is typically $20\text{--}200$ (closer to the number of **trawl hauls**, not the number of individual fish!). If $N_y$ is not downweighted, the optimizer will distort recruitment $R_y$, fishing mortality $F_y$, and biomass trends $\hat{B}_y$ just to chase noise in the length compositions, violating **Francis's First Principle** [@francis2011, p. 1125]:
+
+::: {.callout-important title="Francis's First Principle of Data Weighting"}
+Because fish school by size and models have minor selectivity misspecifications, positive correlations among bins within a year mean the true **effective sample size** $N_{\text{eff}, y}$ is typically $20\text{--}200$ (closer to the number of **trawl hauls**, not individual fish!). If nominal sample size $N_y \sim 10,000$ is not downweighted, the optimizer will distort recruitment $R_y$, fishing mortality $F_y$, and biomass trends $\hat{B}_y$ just to chase noise in length compositions, violating **Francis's First Principle** [@francis2011, p. 1125]:
+
 > *"Do not let other data stop the model from fitting abundance data well."*
+:::
 
 ### Three Standard Data-Weighting Algorithms for Compositional Data
 
@@ -67,20 +75,25 @@ Using up to third-order automatic differentiation (`CppAD`), TMB computes the ex
 ### Bayesian, Evolutionary, and Ensemble Approaches (Zhang et al. 2015, 2016; Spence et al. 2016, 2018, 2021)
 When models are implemented as black-box simulation packages without automatic differentiation (or when likelihood surfaces are rugged and multimodal), researchers have developed four complementary calibration and uncertainty frameworks for `mizer` and `LeMaRns`:
 
-1. **Two-Step Genetic Algorithm + Parallel Tempering MCMC (Zhang et al. 2015, 2016)**:
-   In calibrating a multispecies `mizer` model to data-poor and data-rich ecosystems [@zhang2015; @zhang2016], Zhang et al. found that standard gradient descent or single-chain Metropolis–Hastings gets trapped in local modes where one or more species go extinct during spin-up. They introduced a two-stage global optimizer:
-   - *Stage 1*: A parallel **Real-Coded Genetic Algorithm (GA)** searches the high-dimensional parameter space $(\ln R_{\max, i}, \kappa, q_{f,i}, F_i)$ using a survival penalty for extinct species to locate the global basin of attraction.
-   - *Stage 2*: **Parallel Tempering MCMC** (running multiple interacting Markov chains at temperatures $T_1 = 1 < T_2 < \dots < T_M$) samples the posterior distribution across multimodal ridges.
+#### Two-Step Genetic Algorithm + Parallel Tempering MCMC (Zhang et al. 2015, 2016)
 
-2. **History Matching + Sequential Monte Carlo (Spence et al. 2016, 2021)**:
-   To calibrate `mizer` [@spence2016] and `LeMaRns` [@spence2021uncertainty] to North Sea time series while explicitly accounting for **structural model discrepancy** $\boldsymbol{\eta}_{\text{disc}}$ (the difference between the true ocean and the best possible parameterization of the model), Spence et al. combined:
-   - **History Matching**: Defines an **implausibility measure** $I_k(\boldsymbol{\theta})$ for summary statistic $k$:
-     $$I_k(\boldsymbol{\theta}) = \frac{\left|y^{\text{obs}}_k - \mathbb{E}[f_k(\boldsymbol{\theta})]\right|}{\sqrt{\text{Var}(y^{\text{obs}}_k) + \text{Var}(f_k(\boldsymbol{\theta})) + \text{Var}(\eta_{\text{disc}, k})}}$$ {#eq-abc-distance-metric}
-     and rules out any parameter vector $\boldsymbol{\theta}$ where $\max_k I_k(\boldsymbol{\theta}) > 3$ (by Pukelsheim's $3\sigma$ rule), rapidly shrinking the feasible space before running full time-series likelihood evaluations.
-   - **Sequential Monte Carlo (SMC)**: Propagates a particle cloud $\left\{\boldsymbol{\theta}^{(p)}\right\}_{p=1}^P$ through sequential annealing or time-series filtering steps using Normalizing Flows / Metropolis-Hastings rejuvenation moves.
+::: {.callout-tip title="Global Optimization Strategy for mizer Spin-Up"}
+In calibrating a multispecies `mizer` model to data-poor and data-rich ecosystems [@zhang2015; @zhang2016], Zhang et al. found that standard gradient descent or single-chain Metropolis–Hastings gets trapped in local modes where one or more species go extinct during spin-up. They introduced a two-stage global optimizer:
 
-3. **Bayesian Multi-Model Ensembles (Spence et al. 2018)**:
-   Instead of selecting a single "winner" model via AIC, [@spence2018] constructed a hierarchical Bayesian ensemble linking five distinct multispecies simulators (`EcoPath with Ecosim`, `LeMans`, `mizer`, `SMS`, and single-species assessments) as biased noisy realizations around a latent **true ecosystem trajectory** $\boldsymbol{\mu}_t$, decomposing structural discrepancy into shared vs. simulator-specific discrepancy processes.
+- *Stage 1*: A parallel **Real-Coded Genetic Algorithm (GA)** searches the high-dimensional parameter space $(\ln R_{\max, i}, \kappa, q_{f,i}, F_i)$ using a survival penalty for extinct species to locate the global basin of attraction.
+- *Stage 2*: **Parallel Tempering MCMC** (running multiple interacting Markov chains at temperatures $T_1 = 1 < T_2 < \dots < T_M$) samples the posterior distribution across multimodal ridges.
+:::
+
+#### History Matching + Sequential Monte Carlo (Spence et al. 2016, 2021)
+To calibrate `mizer` [@spence2016] and `LeMaRns` [@spence2021uncertainty] to North Sea time series while explicitly accounting for **structural model discrepancy** $\boldsymbol{\eta}_{\text{disc}}$ (the difference between the true ocean and the best possible parameterization of the model), Spence et al. combined:
+
+- **History Matching**: Defines an **implausibility measure** $I_k(\boldsymbol{\theta})$ for summary statistic $k$:
+  $$I_k(\boldsymbol{\theta}) = \frac{\left|y^{\text{obs}}_k - \mathbb{E}[f_k(\boldsymbol{\theta})]\right|}{\sqrt{\text{Var}(y^{\text{obs}}_k) + \text{Var}(f_k(\boldsymbol{\theta})) + \text{Var}(\eta_{\text{disc}, k})}}$$ {#eq-abc-distance-metric}
+  and rules out any parameter vector $\boldsymbol{\theta}$ where $\max_k I_k(\boldsymbol{\theta}) > 3$ (by Pukelsheim's $3\sigma$ rule), rapidly shrinking the feasible space before running full time-series likelihood evaluations.
+- **Sequential Monte Carlo (SMC)**: Propagates a particle cloud $\left\{\boldsymbol{\theta}^{(p)}\right\}_{p=1}^P$ through sequential annealing or time-series filtering steps using Normalizing Flows / Metropolis-Hastings rejuvenation moves.
+
+#### Bayesian Multi-Model Ensembles (Spence et al. 2018)
+Instead of selecting a single "winner" model via AIC, [@spence2018] constructed a hierarchical Bayesian ensemble linking five distinct multispecies simulators (`EcoPath with Ecosim`, `LeMans`, `mizer`, `SMS`, and single-species assessments) as biased noisy realizations around a latent **true ecosystem trajectory** $\boldsymbol{\mu}_t$, decomposing structural discrepancy into shared vs. simulator-specific discrepancy processes.
 
 ---
 

@@ -204,7 +204,7 @@ In North America (particularly NOAA AFSC for the Aleutian Islands, Gulf of Alask
 2. **Unified Equilibrium-Normalized Parameterization of Seven Functional Responses (Table 1, p. 79)**:
    To compare prey-dependent and predator-dependent functional responses on an equal footing, [@kinzey2009, Eqs. 15--17 & Table 1] define the predator age-effect $\theta^{r,u} = 1 + \frac{\omega^r \tilde{\omega}^r}{u + \tilde{\omega}^r}$ and normalize available prey abundance $\Phi^{r,u}_y$ and competing predator abundance $\Psi^{k,a}_y$ **relative to their unfished equilibrium values in year $y_P = 1960$**:
    $$\Phi^{r,u}_y = \frac{\sum_{k,a} N_{k,a,y} \gamma^{r,u}_{k,a}}{\sum_{k,a} N_{k,a,y_P} \gamma^{r,u}_{k,a}}, \qquad \Psi^{k,a}_y = \frac{\sum_{r,u} N_{r,u,y} \gamma^{r,u}_{k,a}}{\sum_{r,u} N_{r,u,y_P} \gamma^{r,u}_{k,a}}$$ {#eq-jurado-available-food-index}
-   Because $\Phi^{r,u}_{y_P} = \Psi^{k,a}_{y_P} = 1$ at unfished equilibrium, all seven functional responses for $\phi^{r,u}_{k,a,y}$ share the exact same unfished baseline $\phi^{r,u}_{k,a,y_P} = v^r_k \theta^{r,u}$:
+   Because $\Phi^{r,u}_{y_P} = \Psi^{k,a}_{y_P} = 1$ at unfished equilibrium, all seven functional responses for $\phi^{r,u}_{k,a,y}$ share the exact same unfished baseline $\phi^{r,u}_{k,a,y_P} = v^r_k \theta^{r,u}$ (see @tbl-mscaa-functional-responses):
 
    | Type | Functional Response Name | Mathematical Formula for $\phi^{r,u}_{k,a,y}$ | Params | Aleutian $\text{AIC}$ ($\Delta\text{AIC}$) |
    | :--- | :--- | :--- | :---: | :---: |
@@ -215,6 +215,8 @@ In North America (particularly NOAA AFSC for the Aleutian Islands, Gulf of Alask
    | **V** | **Predator Pre-emption (Multiplicative Interference)** | $\dfrac{v^r_k \theta^{r,u} \left[1 + \tilde{v}^r_k\right]}{\left(1 + \tilde{v}^r_k \Phi^{r,u}_y\right)\left[1 + \tilde{\tilde{v}}^r_k \left(\Psi^{k,a}_y - 1\right)\right]}$ | $3$ | **$6696$ ($0$)** |
    | **VI** | **Hassell–Varley** | $\dfrac{v^r_k \theta^{r,u} \left[1 + \tilde{v}^r_k\right]}{\tilde{v}^r_k \Phi^{r,u}_y + \left(\Phi^{r,u}_y\right)^{\tilde{\tilde{v}}^r_k}}$ | $3$ | $7169$ ($+473$) |
    | **VII** | **Ecosim (Foraging Arena Vulnerability)** | $\dfrac{v^r_k \theta^{r,u}}{1 + \tilde{v}^r_k \left(\Psi^{k,a}_y - 1\right)}$ | $2$ | $7046$ ($+351$) |
+
+   : Comparison and Empirical AIC of Seven Functional Responses in Aleutian Islands Walleye Pollock and Atka Mackerel [@kinzey2009] {#tbl-mscaa-functional-responses}
 
 3. **Key Empirical Findings [@kinzey2009, pp. 89--101]**:
    - **Dominance of Predator-Dependent Functional Responses (Types V & VII)**: The two best-fitting functional responses by AIC were **Type V (Predator Pre-emption, $\Delta\text{AIC} = 0$)** and **Type VII (Ecosim Foraging Arena, $\Delta\text{AIC} = 351$)**, both of which outperformed standard prey-only Holling Type II ($\Delta\text{AIC} = 384$) and Type III ($\Delta\text{AIC} = 611$). In Type V, predator interference $\Psi^{k,a}_y$ multiplicatively dampens per-capita attack rates at low and intermediate prey densities, preventing unrealistic over-depletion when predator stocks are large.
@@ -254,7 +256,11 @@ In North America (particularly NOAA AFSC for the Aleutian Islands, Gulf of Alask
    $$\tilde{v}_{i,a,j,b,t} = \frac{v_{i,a,j,b,t}}{\sum_{k}\sum_{c} v_{k,c,j,b,t} + v_{\text{other}}}, \qquad \phi_{i,a,j,b,t} = \tilde{v}_{i,a,j,b,t} B_{i,a,t}, \qquad \phi_{j,b,t} = \tilde{v}_{\text{other}} B_{\text{other}, t} + \sum_{k,c} \phi_{k,c,j,b,t}$$ {#eq-curti-normalized-vulnerability}
    and predation mortality is driven by age-specific consumption-to-biomass ratios $(CB)_{j,b}$:
    $$M2_{i,a,t} \approx \frac{1}{N_{i,a,t} W_{i,a,t}} \sum_{j} \sum_{b} (CB)_{j,b} \, B_{j,b,t} \, \frac{\phi_{i,a,j,b,t}}{\phi_{j,b,t}}$$ {#eq-curti-predation-mortality-sparre}
-   *Crucial Scaling Invariance Result* [@curti2013, p. 478]: Halving assumed total ecosystem biomass $\text{EB}$ from $15\text{ Mt}$ to $7.34\text{ Mt}$ changed estimated recruitment, abundance, and $M2_{i,a,t}$ by **less than $3.5\%$** ($0.53\%$, $0.59\%$, and $3.49\%$ maximum differences, respectively!), because the estimated vulnerability parameters $\rho_{i,j}$ (defined relative to $\rho_{\text{other}} = 1$) automatically scaled down by $51\text{--}53\%$ to preserve the observed diet proportions $\phi_{i,a,j,b,t}/\phi_{j,b,t}$!
+
+::: {.callout-important title="Ecosystem Biomass Scaling Invariance"}
+[@curti2013, p. 478] demonstrated that halving assumed total ecosystem biomass $\text{EB}$ from $15\text{ Mt}$ to $7.34\text{ Mt}$ changed estimated recruitment, abundance, and $M2_{i,a,t}$ by **less than $3.5\%$** ($0.53\%$, $0.59\%$, and $3.49\%$ maximum differences, respectively!), because the estimated vulnerability parameters $\rho_{i,j}$ (defined relative to $\rho_{\text{other}} = 1$) automatically scaled down by $51\text{--}53\%$ to preserve the observed diet proportions $\phi_{i,a,j,b,t}/\phi_{j,b,t}$.
+:::
+
 
 2. **Empirical Pre-Estimation of Size Preference $(\eta_{i,j}, \sigma_{i,j})$ vs. Internal Estimation of $\ln(\rho_{i,j})$**:
    Because NEFSC Food Web Dynamics stomach records routinely measure predator length and prey species mass, but only a subset ($1,900$ records) measured individual prey lengths, Curti et al. found that attempting to estimate $(\eta_{i,j}, \sigma_{i,j})$ inside the integrated model caused severe parameter confounding. They therefore computed $\eta_{i,j}$ and $\sigma_{i,j}$ externally from the $1,900$ paired predator-prey weight records (Table 5, p. 477) and estimated only the log species-preference coefficients $\ln(\rho_{i,j})$ inside ADMB against 5-year-binned multinomial food-habits proportions weighted by McAllister–Ianelli effective sample sizes [@mcallister_ianelli1997].
@@ -281,23 +287,36 @@ Whereas SMS uses the fixed-ration Andersen–Ursin equation (which corresponds t
 
 Let $\tilde{B}_{i,a,j,b,t} = S_{i,a,j,b} \, \bar{N}_{i,a,t} \, w_{i,a,t}$ be the suitable prey biomass of $(i, a)$ for predator $(j, b)$, and let $\Phi_{j,b,t} = \sum_{k,c} \tilde{B}_{k,c,j,b,t} + S_{\text{OF},j,b} B_{\text{OF}}$ be total suitable food.
 
-1. **Holling Type I (Linear / Lotka-Volterra)**:
-   $$M2_{i,a,t} = \sum_{j,b} \alpha_{j,b} \, S_{i,a,j,b} \, \bar{N}_{j,b,t}$$ {#eq-mscaa-type1-predation}
-2. **Holling Type II (Hyperbolic Satiation / Standard Andersen-Ursin-SMS)**:
-   $$M2_{i,a,t} = \sum_{j,b} \frac{R_{j,b,t} \, \bar{N}_{j,b,t} \, S_{i,a,j,b}}{\Phi_{j,b,t} + H_{j,b}}$$ {#eq-mscaa-type2-predation}
-   *(Note: when $H_{j,b} = 0$ and $S_{\text{OF},j,b} B_{\text{OF}} > 0$, this reduces identically to the SMS equation).*
-3. **Holling Type III (Sigmoid / Prey-Switching with Exponent $\theta_{j} > 1$)**:
-   $$M2_{i,a,t} = \sum_{j,b} \frac{R_{j,b,t} \, \bar{N}_{j,b,t} \, S_{i,a,j,b} \, \left(\bar{N}_{i,a,t} w_{i,a,t}\right)^{\theta_j - 1}}{\sum_{k,c} S_{k,c,j,b} \left(\bar{N}_{k,c,t} w_{k,c,t}\right)^{\theta_j} + \left(S_{\text{OF},j,b} B_{\text{OF}}\right)^{\theta_j}}$$ {#eq-mscaa-type3-predation}
-   When $\theta_j = 2$, rare prey experience disproportionately low predation mortality ($M2_{i,a,t} \to 0$ as $B_{i,a,t} \to 0$), providing an automatic stabilizing refuge at low stock size.
-4. **Predator Interference & Pre-emption (Beddington–DeAngelis / Crowley–Martin)**:
-   Adds a predator-abundance interference term $\gamma_{j} \bar{N}_{j,b,t}$ (additively as in Type IV or multiplicatively as in Type V of [@kinzey2009]) to the denominator of the functional response:
-   $$M2_{i,a,t} = \sum_{j,b} \frac{R_{j,b,t} \, \bar{N}_{j,b,t} \, S_{i,a,j,b}}{\Phi_{j,b,t} + H_{j,b}\left(1 + \gamma_j \bar{N}_{j,b,t}\right)}$$ {#eq-mscaa-predator-interference-predation}
-   This dampens top-down control when predator abundance spikes, mimicking the behavioral foraging-arena limitation of Ecosim [@walters1997].
+::: {.panel-tabset}
+## Type I (Linear)
+Linear functional response with constant search / clearance rate $\alpha_{j,b}$:
+$$M2_{i,a,t} = \sum_{j,b} \alpha_{j,b} \, S_{i,a,j,b} \, \bar{N}_{j,b,t}$$ {#eq-mscaa-type1-predation}
 
-### Simulation-Estimation Findings (Trijoulet et al. 2019)
+## Type II (Hyperbolic / SMS)
+Hyperbolic satiation with half-saturation constant $H_{j,b}$:
+$$M2_{i,a,t} = \sum_{j,b} \frac{R_{j,b,t} \, \bar{N}_{j,b,t} \, S_{i,a,j,b}}{\Phi_{j,b,t} + H_{j,b}}$$ {#eq-mscaa-type2-predation}
+
+*(Note: when $H_{j,b} = 0$ and $S_{\text{OF},j,b} B_{\text{OF}} > 0$, this reduces identically to the SMS equation).*
+
+## Type III (Sigmoidal Switching)
+Sigmoidal prey-switching with exponent $\theta_{j} > 1$:
+$$M2_{i,a,t} = \sum_{j,b} \frac{R_{j,b,t} \, \bar{N}_{j,b,t} \, S_{i,a,j,b} \, \left(\bar{N}_{i,a,t} w_{i,a,t}\right)^{\theta_j - 1}}{\sum_{k,c} S_{k,c,j,b} \left(\bar{N}_{k,c,t} w_{k,c,t}\right)^{\theta_j} + \left(S_{\text{OF},j,b} B_{\text{OF}}\right)^{\theta_j}}$$ {#eq-mscaa-type3-predation}
+
+When $\theta_j = 2$, rare prey experience disproportionately low predation mortality ($M2_{i,a,t} \to 0$ as $B_{i,a,t} \to 0$), providing an automatic stabilizing refuge at low stock size.
+
+## Predator Interference
+Beddington–DeAngelis / Crowley–Martin pre-emption with predator interference parameter $\gamma_{j}$:
+$$M2_{i,a,t} = \sum_{j,b} \frac{R_{j,b,t} \, \bar{N}_{j,b,t} \, S_{i,a,j,b}}{\Phi_{j,b,t} + H_{j,b}\left(1 + \gamma_j \bar{N}_{j,b,t}\right)}$$ {#eq-mscaa-predator-interference-predation}
+
+This dampens top-down control when predator abundance spikes, mimicking the behavioral foraging-arena limitation of Ecosim [@walters1997].
+:::
+
+::: {.callout-tip title="Simulation-Estimation Takeaways: Trijoulet et al. (2019)"}
 Using a self-test and cross-test simulation framework in the TMB-based multispecies model `ms-keyrun` / `MSCAA`, [@trijoulet2019] demonstrated that:
+
 - Ignoring trophic interactions (fitting single-species SCAA with constant $M$ to data generated from a multispecies food web) produces severe, systematic biases in SSB ($>30\%$), recruitment ($>50\%$), and $F_{\text{MSY}}$ reference points for both forage fish and cannibalistic predators.
 - Even when diet composition data are noisy (effective sample size $N_{\text{stom}} = 20\text{--}50$), `MSCAA` models accurately recover the temporal trajectory of $M2_{i,a,t}$ and eliminate the retrospective bias seen in constant-$M$ single-species assessments.
+:::
 
 ---
 
