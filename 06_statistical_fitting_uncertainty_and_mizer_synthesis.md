@@ -36,13 +36,13 @@ Let $O_{l,y}$ and $E_{l,y}$ denote the observed and model-expected proportions i
 2. **Francis (2011) Method `TA1.8` (Mean-Length / Mean-Age Residual Variance)**:
    Collapses each year's length composition into its **observed mean length** $\bar{O}_y = \sum_l x_l O_{l,y}$ and **expected mean length** $\bar{E}_y = \sum_l x_l E_{l,y}$, with multinomial within-year variance $v_y = \sum_l x_l^2 E_{l,y} - \bar{E}_y^2$. Because collapsing to the annual mean $\bar{O}_y$ absorbs all within-year inter-bin correlations, the standardized mean-length residuals $\frac{\bar{O}_y - \bar{E}_y}{\sqrt{v_y / (w N_y)}}$ must have unit variance, yielding the **Francis `TA1.8` weight multiplier** [@francis2011, Appendix A, Table A1]:
 
-   $$w_{\text{Francis}} = \left[ \text{Var}_{y}\!\left( \frac{\bar{O}_y - \bar{E}_y}{\sqrt{v_y / N_y}} \right) \right]^{-1}$$
+   $$w_{\text{Francis}} = \left[ \text{Var}_{y}\!\left( \frac{\bar{O}_y - \bar{E}_y}{\sqrt{v_y / N_y}} \right) \right]^{-1}$$ {#eq-francis-weighting-ta18}
 
 3. **Self-Weighting Likelihoods (Dirichlet-Multinomial / Logistic-Normal / SMS Dirichlet)**:
    Rather than outer fixed-point reweighting loops (`Francis TA1.8` or `Gadget` two-stage reweighting), modern TMB and SS3 models (`SMS`, `EcoState`, `LIME` [@rudd2018], `SS3` [@thorson2017]) use a **Dirichlet** or **Dirichlet-Multinomial** likelihood with an estimable dispersion parameter $\theta$, where effective sample size is either linear in $N_y$:
-   $$N_{\text{eff}, y} = \frac{1 + \theta N_y}{1 + \theta}$$
+   $$N_{\text{eff}, y} = \frac{1 + \theta N_y}{1 + \theta}$$ {#eq-francis-dm-linear-neff}
    or saturating at $1 + \beta$:
-   $$N_{\text{eff}, y} = \frac{N_y + N_y \beta}{N_y + \beta}$$
+   $$N_{\text{eff}, y} = \frac{N_y + N_y \beta}{N_y + \beta}$$ {#eq-francis-dm-saturating-neff}
    In a 4,500-replicate simulation study and Pacific hake application, [@thorson2017] proved that simultaneous DM estimation eliminates the severe bias of unweighted multinomial likelihoods, matches the accuracy and precision of iterative McAllister–Ianelli tuning for $M$, $\ln R_0$, and spawning output, and propagates data-weighting uncertainty directly into the joint Hessian and MCMC posterior!
 
 ---
@@ -54,7 +54,7 @@ Modern statistical stock assessment models (`SAM` [@nielsen2014], `smsR`, `Rceat
 
 Let $\boldsymbol{\theta} \in \mathbb{R}^p$ denote the vector of **fixed effects** (life-history scaling parameters, selectivities, catchabilities, suitability parameters $\beta_i, \sigma_i$, and variance parameters $\sigma_{\text{proc}}, \sigma_{\text{obs}}$) and let $\mathbf{u} \in \mathbb{R}^m$ denote the vector of **latent random effects (process errors)** (e.g., annual recruitment deviations $\epsilon_{R,i,y}$, time-varying fishing mortality random walks $\ln F_{f,y}$, or biomass process errors $\epsilon_{B,i,y}$). Given joint negative log-likelihood $f(\boldsymbol{\theta}, \mathbf{u}) = -\ln p(\mathbf{y}, \mathbf{u} \mid \boldsymbol{\theta})$, TMB approximates the marginal likelihood $L(\boldsymbol{\theta}) = \int \exp(-f(\boldsymbol{\theta}, \mathbf{u})) \, d\mathbf{u}$ via the **Laplace Approximation** [@kristensen2016, Eq. 2]:
 
-$$-\ln L^{*}(\boldsymbol{\theta}) = f\!\left(\boldsymbol{\theta}, \hat{\mathbf{u}}(\boldsymbol{\theta})\right) + \frac{1}{2} \ln \det \mathbf{H}(\boldsymbol{\theta}) - \frac{m}{2} \ln(2\pi)$$
+$$-\ln L^{*}(\boldsymbol{\theta}) = f\!\left(\boldsymbol{\theta}, \hat{\mathbf{u}}(\boldsymbol{\theta})\right) + \frac{1}{2} \ln \det \mathbf{H}(\boldsymbol{\theta}) - \frac{m}{2} \ln(2\pi)$$ {#eq-penalized-loglik-priors}
 
 where:
 - $\hat{\mathbf{u}}(\boldsymbol{\theta}) = \arg\min_{\mathbf{u}} f(\boldsymbol{\theta}, \mathbf{u})$ is the inner-loop empirical Bayes mode of the random effects, and
@@ -75,7 +75,7 @@ When models are implemented as black-box simulation packages without automatic d
 2. **History Matching + Sequential Monte Carlo (Spence et al. 2016, 2021)**:
    To calibrate `mizer` [@spence2016] and `LeMaRns` [@spence2021uncertainty] to North Sea time series while explicitly accounting for **structural model discrepancy** $\boldsymbol{\eta}_{\text{disc}}$ (the difference between the true ocean and the best possible parameterization of the model), Spence et al. combined:
    - **History Matching**: Defines an **implausibility measure** $I_k(\boldsymbol{\theta})$ for summary statistic $k$:
-     $$I_k(\boldsymbol{\theta}) = \frac{\left|y^{\text{obs}}_k - \mathbb{E}[f_k(\boldsymbol{\theta})]\right|}{\sqrt{\text{Var}(y^{\text{obs}}_k) + \text{Var}(f_k(\boldsymbol{\theta})) + \text{Var}(\eta_{\text{disc}, k})}}$$
+     $$I_k(\boldsymbol{\theta}) = \frac{\left|y^{\text{obs}}_k - \mathbb{E}[f_k(\boldsymbol{\theta})]\right|}{\sqrt{\text{Var}(y^{\text{obs}}_k) + \text{Var}(f_k(\boldsymbol{\theta})) + \text{Var}(\eta_{\text{disc}, k})}}$$ {#eq-abc-distance-metric}
      and rules out any parameter vector $\boldsymbol{\theta}$ where $\max_k I_k(\boldsymbol{\theta}) > 3$ (by Pukelsheim's $3\sigma$ rule), rapidly shrinking the feasible space before running full time-series likelihood evaluations.
    - **Sequential Monte Carlo (SMC)**: Propagates a particle cloud $\left\{\boldsymbol{\theta}^{(p)}\right\}_{p=1}^P$ through sequential annealing or time-series filtering steps using Normalizing Flows / Metropolis-Hastings rejuvenation moves.
 
@@ -119,7 +119,7 @@ When `mizer` is projected dynamically with interannual recruitment fluctuations 
 - **Problem**: Under the standard first-order upwind scheme, cohort width is governed by numerical grid viscosity $D_{\text{num}} \approx \frac{1}{2} g_i \Delta w$, which fails to match the true biological variance of size-at-age in survey length-frequency distributions.
 - **Solution**: Replace the first-order upwind step with the **semi-implicit Crank–Nicolson / Chang–Cooper finite-volume discretization of the Jump-Growth Fokker–Planck PDE** [@datta2010, Eq. 7]:
 
-  $$\frac{\partial N_i}{\partial t} + \frac{\partial (g_i N_i)}{\partial w} - \frac{1}{2} \frac{\partial^2 \left(\psi_{\text{disp}, i} \, d_i(w,t) \, N_i\right)}{\partial w^2} = -\mu_i(w,t) N_i$$
+  $$\frac{\partial N_i}{\partial t} + \frac{\partial (g_i N_i)}{\partial w} - \frac{1}{2} \frac{\partial^2 \left(\psi_{\text{disp}, i} \, d_i(w,t) \, N_i\right)}{\partial w^2} = -\mu_i(w,t) N_i$$ {#eq-mizer-tmb-jump-growth-pde}
 
   where $d_i(w,t)$ is the mechanistic second moment of prey mass intake, optionally scaled by a species-specific dispersion multiplier $\psi_{\text{disp}, i} \ge 1$ (analogous to Gadget's Beta-Binomial dispersion parameter $\beta_s$ in `g3a_grow_impl_bbinom`; [@lentz_gadget3]) to account for genetic growth variation and patchy foraging.
 - **Computational Cost**: Discretizing the second derivative $\partial_w^2 (d_i N_i)$ changes the implicit linear system per species per time step from **lower-bidiagonal** to **tridiagonal**, which is still solved in exact **$O(n_w)$ operations** via the Thomas algorithm (`solve_tridiag`) and is $100\%$ differentiable in `TMB` / `RTMB`!
@@ -139,11 +139,11 @@ For dynamic `mizer`:
 ### Pillar 3: State-Space Process Random Effects ($\mathbf{u}$)
 Following `SAM` [@nielsen2014] and `EcoState` [@thorson2024], introduce three compact sets of latent Gaussian random effects integrated out by TMB's Laplace approximation:
 1. **Annual Recruitment Deviations**:
-   $$R_i(t) = R_{\text{dd}, i}(t) \exp\!\left(\epsilon_{R, i, y(t)} - \frac{1}{2}\sigma_{R, i}^2\right), \qquad \epsilon_{R, i, y} \sim \mathcal{N}\!\left(0, \sigma_{R, i}^2\right)$$
+   $$R_i(t) = R_{\text{dd}, i}(t) \exp\!\left(\epsilon_{R, i, y(t)} - \frac{1}{2}\sigma_{R, i}^2\right), \qquad \epsilon_{R, i, y} \sim \mathcal{N}\!\left(0, \sigma_{R, i}^2\right)$$ {#eq-mizer-recruitment-anomaly}
 2. **Resource Spectrum Productivity / Carrying Capacity Anomalies** (capturing bottom-up climate/plankton regimes):
-   $$\kappa_R(w, t) = \kappa_0 \exp\!\left(\epsilon_{\kappa, y(t)}\right) w^{-\lambda}, \qquad \epsilon_{\kappa, y} \sim \text{AR1}\!\left(\rho_\kappa, \sigma_\kappa^2\right)$$
+   $$\kappa_R(w, t) = \kappa_0 \exp\!\left(\epsilon_{\kappa, y(t)}\right) w^{-\lambda}, \qquad \epsilon_{\kappa, y} \sim \text{AR1}\!\left(\rho_\kappa, \sigma_\kappa^2\right)$$ {#eq-mizer-carrying-capacity-anomaly}
 3. **Random-Walk Fishing Effort / Mortality** (when commercial effort is noisy or unrecorded):
-   $$\ln E_{f, y+1} \sim \mathcal{N}\!\left(\ln E_{f, y},\; \sigma_{E, f}^2\right)$$
+   $$\ln E_{f, y+1} \sim \mathcal{N}\!\left(\ln E_{f, y},\; \sigma_{E, f}^2\right)$$ {#eq-mizer-fishing-effort-random-walk}
 
 ---
 
@@ -152,19 +152,19 @@ To avoid the parameter confounding identified by [@punt2016], dynamic `mizer` sh
 
 1. **Survey Biomass / Abundance Indices ($I_{f,i,y}$, Lognormal Likelihood)**:
    Given survey selectivity $S^{\text{surv}}_{f,i}(w)$ and catchability $Q^{\text{surv}}_{f,i}$:
-   $$\hat{I}_{f,i,y} = Q^{\text{surv}}_{f,i} \int_{w_0}^{w_{\max,i}} S^{\text{surv}}_{f,i}(w) \, w \, N_i(w, t_y) \, dw, \qquad \ln I^{\text{obs}}_{f,i,y} \sim \mathcal{N}\!\left(\ln \hat{I}_{f,i,y},\; \sigma^2_{I,f,i,y}\right)$$
+   $$\hat{I}_{f,i,y} = Q^{\text{surv}}_{f,i} \int_{w_0}^{w_{\max,i}} S^{\text{surv}}_{f,i}(w) \, w \, N_i(w, t_y) \, dw, \qquad \ln I^{\text{obs}}_{f,i,y} \sim \mathcal{N}\!\left(\ln \hat{I}_{f,i,y},\; \sigma^2_{I,f,i,y}\right)$$ {#eq-mizer-survey-biomass-operator}
 
 2. **Commercial Fishery Yields ($Y_{f,i,y}$, Lognormal Likelihood)**:
-   $$\hat{Y}_{f,i,y} = \int_{y}^{y+1} dt \int_{w_0}^{w_{\max,i}} F_{f,i}(w, t) \, w \, N_i(w, t) \, dw, \qquad \ln Y^{\text{obs}}_{f,i,y} \sim \mathcal{N}\!\left(\ln \hat{Y}_{f,i,y},\; \sigma^2_{Y,f,i}\right)$$
+   $$\hat{Y}_{f,i,y} = \int_{y}^{y+1} dt \int_{w_0}^{w_{\max,i}} F_{f,i}(w, t) \, w \, N_i(w, t) \, dw, \qquad \ln Y^{\text{obs}}_{f,i,y} \sim \mathcal{N}\!\left(\ln \hat{Y}_{f,i,y},\; \sigma^2_{Y,f,i}\right)$$ {#eq-mizer-yield-operator}
 
 3. **Survey & Commercial Length-Frequency Compositions ($\mathbf{P}^{\text{obs}}_{f,i,y}$, Dirichlet-Multinomial or Fournier Robustified Normal Likelihood)**:
    For observed length bin $l$ with boundaries $[L_l, L_{l+1})$ corresponding to body weights $[w_{i,l}, w_{i,l+1}) = [a_i L_l^{b_i}, a_i L_{l+1}^{b_i})$, the expected catch number in bin $l$ is:
-   $$\hat{C}_{f,i,l,y} = \int_{w_{i,l}}^{w_{i,l+1}} S_{f,i}(w) \, N_i(w, t_y) \, dw, \qquad \hat{p}_{f,i,l,y} = \frac{\hat{C}_{f,i,l,y}}{\sum_{m} \hat{C}_{f,i,m,y}}$$
+   $$\hat{C}_{f,i,l,y} = \int_{w_{i,l}}^{w_{i,l+1}} S_{f,i}(w) \, N_i(w, t_y) \, dw, \qquad \hat{p}_{f,i,l,y} = \frac{\hat{C}_{f,i,l,y}}{\sum_{m} \hat{C}_{f,i,m,y}}$$ {#eq-mizer-length-composition-operator}
    Evaluated via the **self-weighting Dirichlet-Multinomial likelihood** [@thorson2017] with haul sample size $N_{\text{haul}, f, y}$ and estimated overdispersion $\theta_{\text{comp}, f, i}$ (or Fournier's robustified normal likelihood from `MULTIFAN-CL` [@fournier1998] to prevent tail outliers from distorting growth parameters).
 
 4. **Stomach Content Diet Shares & Log-PPMR Distributions (Dirichlet-Multinomial + Gamma Likelihood)**:
    For predator $(i, w')$ in year-quarter $t$, the model-predicted mass share of prey species $j$ in prey weight bin $[w_{p,m}, w_{p,m+1})$ in the diet is:
-   $$\hat{W}_{i,w', j, m, t} = \frac{\gamma_i(w') \, \theta_{ij} \int_{w_{p,m}}^{w_{p,m+1}} \phi_i(w' / w_p) \, N_j(w_p, t) \, w_p \, dw_p}{E_i(w', t)}$$
+   $$\hat{W}_{i,w', j, m, t} = \frac{\gamma_i(w') \, \theta_{ij} \int_{w_{p,m}}^{w_{p,m+1}} \phi_i(w' / w_p) \, N_j(w_p, t) \, w_p \, dw_p}{E_i(w', t)}$$ {#eq-mizer-stomach-diet-operator}
    - **Taxonomic Diet Shares**: Fit evacuated, CPUE-weighted (or `sdmTMB`-standardized; [@jacobsen2023]) stomach weight proportions against $\hat{W}_{i,w',j,m,t}$ using the **SMS Dirichlet** [@lewy2004] or **Dirichlet-Multinomial** [@thorson2017] likelihood, which directly identifies the interaction matrix $\theta_{ij}$!
    - **Predator–Prey Size Kernel Parameters ($\beta_i, \sigma_i$ or Gamma $\alpha_i, \beta_i$)**: Fit the observed log-PPMR distribution $x = \ln(w'/w_p)$ using the **Exponential Family / Gamma likelihood** of [@morgan2022].
 

@@ -26,7 +26,7 @@ Crucially, in every $(s, a, l, r, t)$ cell, Gadget tracks **two coupled state va
 2. $W_{s,a,l,r,t}$: The **mean body weight** of individuals in cell $(s, a, l, r)$ at time $t$ (which can either follow a fixed length-weight curve $W_l = \alpha_s L_l^{\beta_s}$ or vary dynamically in response to food intake and growth).
 
 Within each time step $t$, biological and fishery processes are executed sequentially in a strict order:
-$$\text{1. Migration } (\mathbf{M}) \longrightarrow \text{2. Predation \& Fishing } (\mathbf{P}) \longrightarrow \text{3. Somatic Growth \& Maturation } (\mathbf{G}) \longrightarrow \text{4. Ageing } (\mathbf{A}) \longrightarrow \text{5. Spawning \& Recruitment } (\mathbf{R})$$
+$$\text{1. Migration } (\mathbf{M}) \longrightarrow \text{2. Predation \& Fishing } (\mathbf{P}) \longrightarrow \text{3. Somatic Growth \& Maturation } (\mathbf{G}) \longrightarrow \text{4. Ageing } (\mathbf{A}) \longrightarrow \text{5. Spawning \& Recruitment } (\mathbf{R})$$ {#eq-gadget-substep-sequence}
 
 ---
 
@@ -39,17 +39,17 @@ In a discrete length-bin model, somatic growth during time step $\Delta t$ must 
 Gadget provides two classes of growth equations [@begley2004overview, pp. 8--10; @lentz_gadget3]:
 
 1. **Consumption-Independent von Bertalanffy Growth (`g3a_grow_lengthvbsimple` / `g3a_grow_weightsimple`)**:
-   $$\Delta L_l = \left(L_{\infty, s} - L_l\right)\left(1 - \exp(-\kappa_s \Delta t)\right)$$
-   $$\Delta W_l = \alpha_s \left(L_l + \Delta L_l\right)^{\beta_s} - \alpha_s L_l^{\beta_s}$$
+   $$\Delta L_l = \left(L_{\infty, s} - L_l\right)\left(1 - \exp(-\kappa_s \Delta t)\right)$$ {#eq-gadget-growth-length-vb}
+   $$\Delta W_l = \alpha_s \left(L_l + \Delta L_l\right)^{\beta_s} - \alpha_s L_l^{\beta_s}$$ {#eq-gadget-growth-weight-allometric}
 
 2. **Consumption-Dependent (Two-Way Bioenergetic) Growth (`g3a_grow_length_multspec` and `g3a_grow_weight_weightjones`)**:
    Let $\psi_{s,l,r,t} \in [0, 1]$ be the predator's realized **feeding level** in length bin $l$ during time step $t$ (ratio of actual biomass consumed to maximum possible consumption $M_{s,l,t}$; see @sec-gadget-predation), and let $T_{r,t}$ be ambient temperature.
    - **MULTSPEC Length & Weight Increment (`g3a_grow_length_multspec` / `g3a_grow_weight_multspec`)**:
-     $$\Delta L_l = \Delta t \cdot p_{0,s} \, L_l^{p_{1,s}} \, \psi_{s,l,r,t} \left(p_{2,s} T_{r,t} + p_{3,s}\right)$$
-     $$\Delta W_l = \Delta t \cdot q_{0,s} \, W_{s,a,l}^{q_{1,s}} \left(\psi_{s,l,r,t} - q_{2,s}\right)\left(q_{3,s} T_{r,t} + q_{4,s}\right)$$
+     $$\Delta L_l = \Delta t \cdot p_{0,s} \, L_l^{p_{1,s}} \, \psi_{s,l,r,t} \left(p_{2,s} T_{r,t} + p_{3,s}\right)$$ {#eq-gadget-growth-length-jones}
+     $$\Delta W_l = \Delta t \cdot q_{0,s} \, W_{s,a,l}^{q_{1,s}} \left(\psi_{s,l,r,t} - q_{2,s}\right)\left(q_{3,s} T_{r,t} + q_{4,s}\right)$$ {#eq-gadget-growth-weight-jones}
      where $q_{2,s}$ is the maintenance feeding level below which fish **lose weight** ($\Delta W_l < 0$, while $\Delta L_l \ge 0$ since fish skeletons do not shrink!).
    - **Jones (1976) Bioenergetic Weight Increment (`g3a_grow_weight_weightjones`, [@jones1976])**:
-     $$\Delta W_l = \frac{\Delta t \left( \frac{C_{s,l,t}}{\Delta t} - r_{0,s} W_{s,a,l}^{r_{1,s}} \exp(r_{2,s} T_{r,t}) \right)}{r_{3,s}}$$
+     $$\Delta W_l = \frac{\Delta t \left( \frac{C_{s,l,t}}{\Delta t} - r_{0,s} W_{s,a,l}^{r_{1,s}} \exp(r_{2,s} T_{r,t}) \right)}{r_{3,s}}$$ {#eq-gadget-growth-dynamic-energy}
      coupled to length growth via a condition-factor feedback function $f(\delta W_l)$ that suppresses length growth $\Delta L_l$ whenever actual body weight $W_{s,a,l}$ falls below reference weight $W_{\text{ref}, l} = \alpha_s L_l^{\beta_s}$ [@begley2004overview, p. 9; @lentz_gadget3].
 
 #### B. The Beta-Binomial Length-Bin Jump Distribution (`g3a_grow_impl_bbinom`)
@@ -61,13 +61,13 @@ Given:
 - $\beta_s > 0$: Single free dispersion parameter controlling variance in individual growth rates,
 
 define $\alpha_l$ via the mean constraint $\mu_l = \frac{n_{\max} \alpha_l}{\alpha_l + \beta_s}$:
-$$\alpha_l = \frac{\beta_s \, \mu_l}{n_{\max} - \mu_l}$$
+$$\alpha_l = \frac{\beta_s \, \mu_l}{n_{\max} - \mu_l}$$ {#eq-gadget-beta-binomial-alpha}
 Then the probability $G_{l, l + \Delta j} = \Pr(\text{Jump} = \Delta j \mid l)$ of growing by $\Delta j \in \{0, 1, \dots, n_{\max}\}$ bins in $\Delta t$ is:
 
-$$G_{l, l + \Delta j} = \binom{n_{\max}}{\Delta j} \frac{\text{B}(\Delta j + \alpha_l,\; n_{\max} - \Delta j + \beta_s)}{\text{B}(\alpha_l, \beta_s)} = \frac{\Gamma(n_{\max} + 1)}{\Gamma(\Delta j + 1)\Gamma(n_{\max} - \Delta j + 1)} \frac{\Gamma(\alpha_l + \beta_s)}{\Gamma(n_{\max} + \alpha_l + \beta_s)} \frac{\Gamma(\Delta j + \alpha_l)\Gamma(n_{\max} - \Delta j + \beta_s)}{\Gamma(\alpha_l)\Gamma(\beta_s)}$$
+$$G_{l, l + \Delta j} = \binom{n_{\max}}{\Delta j} \frac{\text{B}(\Delta j + \alpha_l,\; n_{\max} - \Delta j + \beta_s)}{\text{B}(\alpha_l, \beta_s)} = \frac{\Gamma(n_{\max} + 1)}{\Gamma(\Delta j + 1)\Gamma(n_{\max} - \Delta j + 1)} \frac{\Gamma(\alpha_l + \beta_s)}{\Gamma(n_{\max} + \alpha_l + \beta_s)} \frac{\Gamma(\Delta j + \alpha_l)\Gamma(n_{\max} - \Delta j + \beta_s)}{\Gamma(\alpha_l)\Gamma(\beta_s)}$$ {#eq-gadget-beta-binomial-transition}
 
 In `gadget3` [@lentz_gadget3], this is evaluated efficiently via an exact forward recurrence relation in $\Delta j$ so that no `lgamma` calls are needed inside the inner loop, and both cohort numbers $N_{s,a,l'}$ and cell mean weights $W_{s,a,l'}$ are updated cleanly via matrix multiplication:
-$$N_{s,a,l',t+\Delta t} = \sum_{\Delta j = 0}^{n_{\max}} G_{l' - \Delta j, l'} \, N_{s,a,l'-\Delta j, t}, \qquad (NW)_{s,a,l',t+\Delta t} = \sum_{\Delta j = 0}^{n_{\max}} G_{l' - \Delta j, l'} \, N_{s,a,l'-\Delta j, t} \left(W_{s,a,l'-\Delta j, t} + \Delta W_{l'-\Delta j, \Delta j}\right)$$
+$$N_{s,a,l',t+\Delta t} = \sum_{\Delta j = 0}^{n_{\max}} G_{l' - \Delta j, l'} \, N_{s,a,l'-\Delta j, t}, \qquad (NW)_{s,a,l',t+\Delta t} = \sum_{\Delta j = 0}^{n_{\max}} G_{l' - \Delta j, l'} \, N_{s,a,l'-\Delta j, t} \left(W_{s,a,l'-\Delta j, t} + \Delta W_{l'-\Delta j, \Delta j}\right)$$ {#eq-gadget-length-bin-update}
 
 > [!TIP]
 > **Why the Beta-Binomial Growth Implementation is a Major Lesson for `mizer`**:
@@ -83,27 +83,27 @@ For a biological predator $p$ in length group $L$ preying on prey stock $i$ in l
 1. **Predator-Prey Length Suitability ($S_{p,i}(L, l)$)**:
    Gadget offers several parametric suitability functions of predator length $L$ and prey length $l$, most commonly:
    - **Andersen & Ursin Log-Ratio Suitability (`g3_suitability_andersen`)**:
-     $$S_{p,i}(L, l) = p_0 + p_2 \exp\!\left(-\frac{\left(\ln\frac{L}{l} - p_1\right)^2}{p_3 \text{ (or } p_4\text{)}}\right)$$
+     $$S_{p,i}(L, l) = p_0 + p_2 \exp\!\left(-\frac{\left(\ln\frac{L}{l} - p_1\right)^2}{p_3 \text{ (or } p_4\text{)}}\right)$$ {#eq-gadget-suitability-lognormal}
    - **Richards / Asymmetric Logistic Suitability (`g3_suitability_richards`)**:
-     $$S_{p,i}(L, l) = \left(\frac{p_3}{1 + \exp(-p_0 - p_1 l - p_2 L)}\right)^{1/p_4}$$
+     $$S_{p,i}(L, l) = \left(\frac{p_3}{1 + \exp(-p_0 - p_1 l - p_2 L)}\right)^{1/p_4}$$ {#eq-gadget-suitability-sigmoidal}
 
 2. **Maximum Possible Consumption ($M_{p,L,t}$, `g3a_predate_maxconsumption`)**:
    The maximum biomass a single predator of length $L$ can consume in time step $\Delta t$ at temperature $T_t$ is:
-   $$M_{p,L,t} = \Delta t \cdot m_{0,p} \, L^{m_{1,p}} \exp\!\left(m_{2,p} T_t - m_{3,p} T_t^3\right)$$
+   $$M_{p,L,t} = \Delta t \cdot m_{0,p} \, L^{m_{1,p}} \exp\!\left(m_{2,p} T_t - m_{3,p} T_t^3\right)$$ {#eq-gadget-max-consumption}
 
 3. **Desired Consumption and Holling Type II/III Functional Response (`g3a_predate_catchability_predator`)**:
    Let $B_{i,l,t} = N_{i,l,t} W_{i,l,t}$ be the available prey biomass of $(i, l)$, and let the suitability-weighted prey energy/biomass be:
-   $$E_{p,L,i,l,t} = \left(S_{p,i}(L, l) \, \mathcal{E}_i \, N_{i,l,t} \, W_{i,l,t}\right)^{d_{i}}$$
+   $$E_{p,L,i,l,t} = \left(S_{p,i}(L, l) \, \mathcal{E}_i \, N_{i,l,t} \, W_{i,l,t}\right)^{d_{i}}$$ {#eq-gadget-suitable-biomass}
    where $d_i = 1$ yields a **Holling Type II** functional response and $d_i > 1$ yields a **Holling Type III (prey-switching)** functional response.
    The predator's **feeding level** $\psi_{p,L,t} \in [0, 1]$ is given by the half-saturation parameter $H_p$:
-   $$\psi_{p,L,t} = \frac{\sum_{i,l} E_{p,L,i,l,t}}{\sum_{i,l} E_{p,L,i,l,t} + H_p \, \Delta t + E_{\text{other}, p}}$$
+   $$\psi_{p,L,t} = \frac{\sum_{i,l} E_{p,L,i,l,t}}{\sum_{i,l} E_{p,L,i,l,t} + H_p \, \Delta t + E_{\text{other}, p}}$$ {#eq-gadget-feeding-level}
    and the total desired consumption $C^{\text{des}}_{p,L,i,l,t}$ of prey $(i, l)$ by all $N_{p,L,t}$ predators in length group $L$ is:
-   $$C^{\text{des}}_{p,L,i,l,t} = N_{p,L,t} \, M_{p,L,t} \, \psi_{p,L,t} \, \frac{E_{p,L,i,l,t}}{\sum_{k,m} E_{p,L,k,m,t} + E_{\text{other}, p}}$$
+   $$C^{\text{des}}_{p,L,i,l,t} = N_{p,L,t} \, M_{p,L,t} \, \psi_{p,L,t} \, \frac{E_{p,L,i,l,t}}{\sum_{k,m} E_{p,L,k,m,t} + E_{\text{other}, p}}$$ {#eq-gadget-desired-consumption}
 
 4. **Differentiable Overconsumption Cap and Understocking Penalty**:
    During optimization, parameter trial values may cause total desired consumption across all predators and fleets $D_{i,l,t} = \sum_{p,L} C^{\text{des}}_{p,L,i,l,t} + \sum_{f} C^{\text{des}}_{f,i,l,t}$ to exceed the available prey biomass $B_{i,l,t} = N_{i,l,t} W_{i,l,t}$.
    In `gadget3` [@lentz_gadget3], total consumption is smoothly capped at $95\%$ of available biomass ($0.95 B_{i,l,t}$) using a differentiable logistic minimum function (`dif_pmin`), scaling each predator's actual consumption down proportionally:
-   $$C^{\text{act}}_{p,L,i,l,t} = C^{\text{des}}_{p,L,i,l,t} \cdot \text{dif\_pmin}\!\left(1,\; \frac{0.95 \, B_{i,l,t}}{D_{i,l,t}}\right)$$
+   $$C^{\text{act}}_{p,L,i,l,t} = C^{\text{des}}_{p,L,i,l,t} \cdot \text{dif\_pmin}\!\left(1,\; \frac{0.95 \, B_{i,l,t}}{D_{i,l,t}}\right)$$ {#eq-gadget-actual-consumption}
    Simultaneously, any "unmet demand" (understocking $U_{i,l,t} = \max(0, D_{i,l,t} - 0.95 B_{i,l,t})$) adds a smooth quadratic penalty $\ell_{\text{understock}} = w_U \sum_{i,l,t} U_{i,l,t}^p$ to the objective function, guiding the gradient optimizer away from biologically infeasible regions where prey stocks are driven negative.
 
 ---
@@ -111,20 +111,20 @@ For a biological predator $p$ in length group $L$ preying on prey stock $i$ in l
 ### Composite Likelihoods and Two-Stage Iterative Reweighting in `Gadget`
 Gadget fits simultaneously to arbitrary combinations of raw, unaggregated observations [@begley2004overview, pp. 18--23; @lentz_gadget3]:
 1. **Survey Abundance Indices (`g3l_distribution_surveyindices_log` / `linear`)**:
-   $$\ell_{\text{index}} = \sum_{t} \left(\ln I_{t} - \left(\alpha + \beta \ln \hat{I}_{t}\right)\right)^2$$
+   $$\ell_{\text{index}} = \sum_{t} \left(\ln I_{t} - \left(\alpha + \beta \ln \hat{I}_{t}\right)\right)^2$$ {#eq-gadget-survey-loglik}
    where $\alpha = \ln q$ is log catchability and $\beta$ is either fixed at $1$ (linear proportionality) or estimated (hyperstability/hyperdepletion).
 2. **Length-Frequency & Age-Length Compositions (`g3l_distribution_sumofsquares`, `multinomial`, `mvlogistic`)**:
    - *Sum of Squares of Proportions*: $\ell_{\text{SS}} = \sum_{t,a,l} \left(\pi_{t,a,l} - \hat{\pi}_{t,a,l}\right)^2$, where $\pi_{t,a,l} = N^{\text{obs}}_{t,a,l} / \sum_{a',l'} N^{\text{obs}}_{t,a',l'}$.
    - *Multinomial*: $\ell_{\text{mult}} = 2 \sum_{t} \left[\ln\Gamma(N_t + 1) - \sum_{a,l} \ln\Gamma(N^{\text{obs}}_{t,a,l} + 1) + \sum_{a,l} N^{\text{obs}}_{t,a,l} \ln \hat{\pi}_{t,a,l}\right]$.
 3. **Stomach Content Proportions (`StomachContent` / `g3l_distribution_sumofsquares`)**:
    Compares observed prey species/length weight ratios $W^{\text{obs}}_{p,L,i,l,t}$ in predator $(p, L)$ stomachs against model-predicted consumption fractions:
-   $$\hat{W}_{p,L,i,l,t} = \frac{C^{\text{act}}_{p,L,i,l,t}}{\sum_{k,m} C^{\text{act}}_{p,L,k,m,t}}$$
+   $$\hat{W}_{p,L,i,l,t} = \frac{C^{\text{act}}_{p,L,i,l,t}}{\sum_{k,m} C^{\text{act}}_{p,L,k,m,t}}$$ {#eq-gadget-expected-diet-proportion}
 
 #### Stefánsson's (1998) Two-Stage Iterative Likelihood Reweighting
 Because a typical Gadget model combines $10\text{--}30$ disparate likelihood components $\ell_c$ ($c = 1, \dots, C$) with different units and sample sizes, [@stefansson1998], [@stefansson2003], and [@taylor2004cod] developed an objective two-stage reweighting procedure (`gadget.iterative`):
 1. **Stage 1 (Independent Component Minima)**: For each likelihood group $g$, run an optimization assigning a very high weight to group $g$ to determine the minimum achievable residual sum of squares $\ell_g^*$ (representing the intrinsic observation variance $\hat{\sigma}_g^2 = \ell_g^* / \text{df}_g$ of dataset $g$ without model-conflict bias).
 2. **Stage 2 (Inverse-Variance Weighting)**: Set the weight $w_g$ of each likelihood component equal to its inverse estimated variance:
-   $$w_g = \frac{\text{df}_g}{\ell_g^*}$$
+   $$w_g = \frac{\text{df}_g}{\ell_g^*}$$ {#eq-gadget-iterative-reweighting}
    so that in the final joint optimization $\mathcal{L}_{\text{tot}} = \sum_{g} w_g \ell_g(\boldsymbol{\theta})$, every well-specified likelihood component has an expected weighted score of $\approx \text{df}_g$ (chi-square degrees of freedom).
 
 ---
@@ -137,17 +137,17 @@ Because a typical Gadget model combines $10\text{--}30$ disparate likelihood com
 
 2. **Empirical Identification of Ontogenetic Predator Size Classes via Bray–Curtis Clustering**:
    Rather than choosing arbitrary predator length bins for the stomach likelihood (`StomachContent`), [@kulatska2019, Section 2.3.1, p. 341] applied hierarchical cluster analysis with **Bray–Curtis dissimilarity** ($\text{BC} \ge 0.2$ threshold) to $1974\text{--}2013$ EU/ICES Baltic cod stomach records (Quarters 1 and 4, using only digestion stages 1–2 and excluding stage 0 intact prey to eliminate trawl-net feeding!), identifying **five ontogenetic cod diet regimes**:
-   $$L_{\text{cod}} \in \big\{[16, 25),\; [25, 35),\; [35, 60),\; [60, 80),\; [80, 112]\text{ cm}\big\}$$
+   $$L_{\text{cod}} \in \big\{[16, 25),\; [25, 35),\; [35, 60),\; [60, 80),\; [80, 112]\text{ cm}\big\}$$ {#eq-kulatska-cod-length-bins}
    reflecting the ontogenetic transition from mysids and *Saduria* ($<25\text{ cm}$) to sprat ($25\text{--}60\text{ cm}$) and large herring ($>60\text{ cm}$).
 
 3. **Prey-Specific Suitability Functions ($S(L, l)$) and Evacuation Ration ($M_L$)**:
    - **Size-Structured Prey (Herring, Sprat, and *Saduria entomon*)**: Modeled via the symmetric Andersen–Ursin logarithmic length-ratio suitability curve [@kulatska2019, Eq. 4, p. 340]:
-     $$S_{\text{prey}}(L, l) = p_0 + p_2 \exp\!\left(-\frac{\left(\ln\frac{L}{l} - p_1\right)^2}{p_3}\right)$$
+     $$S_{\text{prey}}(L, l) = p_0 + p_2 \exp\!\left(-\frac{\left(\ln\frac{L}{l} - p_1\right)^2}{p_3}\right)$$ {#eq-kulatska-fish-suitability}
      yielding optimal prey lengths $l^* = L e^{-p_1}$ equal to **$19\%$ of cod length for sprat** and **$28\%$ of cod length for herring**.
    - **Mysids (*Mysis mixta*)**: Because mysids span a narrow size range ($0.5\text{--}3\text{ cm}$) eaten primarily by juvenile cod, suitability is parameterized as a decreasing exponential function of predator length $L$ alone:
-     $$S_{\text{mysid}}(L) = \frac{\gamma}{1 + \exp(-\alpha - \beta L)}$$
+     $$S_{\text{mysid}}(L) = \frac{\gamma}{1 + \exp(-\alpha - \beta L)}$$ {#eq-kulatska-mysid-suitability}
    - **Maximum Consumption Rate ($M_L$)**: Estimated externally from observed stomach content weights $S_k$ (including empty stomachs) via the [@jones1978] evacuation rate model, yielding the quarterly allometric ration:
-     $$M_L = \Delta t_{\text{days}} \cdot m_0 \, L^{m_1}, \qquad m_0 = 3.167 \times 10^{-4}\text{ kg}\cdot\text{d}^{-1}\cdot\text{cm}^{-m_1},\quad m_1 = 2.66$$
+     $$M_L = \Delta t_{\text{days}} \cdot m_0 \, L^{m_1}, \qquad m_0 = 3.167 \times 10^{-4}\text{ kg}\cdot\text{d}^{-1}\cdot\text{cm}^{-m_1},\quad m_1 = 2.66$$ {#eq-kulatska-max-consumption}
 
 4. **Diagnosing Regime Shifts and Spatial Mismatch [@kulatska2019, pp. 343--347]**:
    Optimized across 21 likelihood components using Simulated Annealing $\to$ Hooke & Jeeves $\to$ BFGS with [@stefansson2003] / [@taylor2007] iterative inverse-variance reweighting, the model accurately captured both ontogenetic diet shifts and interdecadal clupeid switches during $1974\text{--}1988$ (Bray–Curtis dissimilarity $0.08\text{--}0.28$), but exhibited higher diet residuals in $2007\text{--}2013$ ($\text{BC} = 0.24\text{--}0.52$). Kulatska et al. showed that this residual pattern was diagnostic of two unmodeled physical processes in the recent Baltic regime: (a) expanding bottom hypoxia decimating benthic *Saduria entomon* biomass, and (b) **spatial predator–prey mismatch** (Eastern Baltic cod contracting southwestward into ICES SD 25 while sprat and herring shifted northeastward into SD 28–32).
@@ -163,31 +163,31 @@ Developed by David Fournier, John Hampton, and John Sibert [@fournier1998] for W
 
 1. **Length-at-Age Mixture Model**:
    At any time $t$, the lengths of fish in age class $a \in \{1, \dots, A\}$ are assumed normally distributed with mean $\mu_{a,t}$ (following a von Bertalanffy curve with seasonal oscillations and cohort-specific growth deviations) and standard deviation $\sigma_a$ (scaling linearly with mean length):
-   $$\sigma_a = \sigma_1 \exp\!\left(\lambda_{\sigma} \left(\frac{\mu_a - \mu_1}{\mu_A - \mu_1}\right)\right)$$
+   $$\sigma_a = \sigma_1 \exp\!\left(\lambda_{\sigma} \left(\frac{\mu_a - \mu_1}{\mu_A - \mu_1}\right)\right)$$ {#eq-mfcl-length-sd}
    Crucially, fishery selectivity $s_{f,a}$ is parameterized as a smooth cubic-spline function of **mean length** $\mu_a$ rather than age (`length-dependent selectivity`), reducing the number of selectivity parameters and linking cohorts across growth variations.
 
 2. **Fournier's Robustified Normal Likelihood for Length Compositions**:
    Standard multinomial likelihoods $\sum_l \tilde{P}_l \ln P_l$ are notoriously sensitive to **outliers in the tails** (a single large fish caught in a bin where $\hat{P}_l = 10^{-6}$ creates a massive log-likelihood penalty) and **overdispersion from schooling** (fish of similar sizes school together, so haul length samples have much smaller effective sample size $\tau_t$ than the number of fish measured).
    [@fournier1998, Eq. 3.6] derived the **robustified normal likelihood** for observed length proportions $\tilde{p}_{f,t,l}$ vs. predicted proportions $\hat{p}_{f,t,l}$ across $L$ length bins:
 
-   $$\ln L_{\text{MFCL}} = -\frac{1}{2} \sum_{f,t} \sum_{l=1}^{L} \ln\!\left(2\pi \left(\xi_{f,t,l} + \frac{0.1}{L}\right)\right) + \sum_{f,t} \sum_{l=1}^{L} \ln\!\left[ \exp\!\left(-\frac{\left(\tilde{p}_{f,t,l} - \hat{p}_{f,t,l}\right)^2}{2\left(\xi_{f,t,l} + \frac{0.1}{L}\right) / \tau_{f,t}}\right) + 0.01 \right]$$
+   $$\ln L_{\text{MFCL}} = -\frac{1}{2} \sum_{f,t} \sum_{l=1}^{L} \ln\!\left(2\pi \left(\xi_{f,t,l} + \frac{0.1}{L}\right)\right) + \sum_{f,t} \sum_{l=1}^{L} \ln\!\left[ \exp\!\left(-\frac{\left(\tilde{p}_{f,t,l} - \hat{p}_{f,t,l}\right)^2}{2\left(\xi_{f,t,l} + \frac{0.1}{L}\right) / \tau_{f,t}}\right) + 0.01 \right]$$ {#eq-mfcl-length-loglik}
 
    where $\xi_{f,t,l} = (1 - \tilde{p}_{f,t,l})\tilde{p}_{f,t,l}$, $\tau_{f,t} = \min(N_{\text{fish}, f, t}, 1000)$ is the effective sample size, $+ \frac{0.1}{L}$ prevents the variance from vanishing in bins where $\tilde{p}_{f,t,l} \approx 0$ so empty tail bins do not dominate the variance weight, and $+ 0.01$ inside the logarithm **caps the maximum penalty of any single outlier bin at $\ln(0.01) \approx -4.605$** (equivalent to a $3\sigma$ normal residual!).
 
 ### `Stock Synthesis` (`SS3`): Age-Length Kernels and Growth Morphs/Platoons
 In **Stock Synthesis** [@methot2013, pp. 86--90], population numbers $N_{t,g,a}$ are tracked by age $a$ and growth morph/platoon $g$, and mapped at every time step to discrete population length bins $l \in \{1, \dots, n_L\}$ via an **age-length transition matrix** $\varphi_{l, g, a}$:
 
-$$\varphi_{l, g, a} = \Phi\!\left(\frac{L_{\max, l} - \tilde{L}_{g,a}}{\sigma_{g,a}}\right) - \Phi\!\left(\frac{L_{\min, l} - \tilde{L}_{g,a}}{\sigma_{g,a}}\right)$$
+$$\varphi_{l, g, a} = \Phi\!\left(\frac{L_{\max, l} - \tilde{L}_{g,a}}{\sigma_{g,a}}\right) - \Phi\!\left(\frac{L_{\min, l} - \tilde{L}_{g,a}}{\sigma_{g,a}}\right)$$ {#eq-mfcl-length-bin-proportion}
 
 where $\Phi(\cdot)$ is the standard normal CDF, $\tilde{L}_{g,a}$ is the mean length at exact mid-season age for morph $g$, and $\sigma_{g,a}$ is its standard deviation.
 - **Combined Age- and Length-Specific Selectivity**: For fleet $f$ with age selectivity $S^{(A)}_{f,a}$ and length selectivity $S^{(L)}_{f,l}$, the effective survival and catch-at-age are integrated over the length distribution within each age class [@methot2013, Eq. A.1.24]:
-  $$F_{t,f,g,a} = E_{t,f} \, S^{(A)}_{f,a} \sum_{l=1}^{n_L} \varphi_{l,g,a} \, S^{(L)}_{f,l}$$
+  $$F_{t,f,g,a} = E_{t,f} \, S^{(A)}_{f,a} \sum_{l=1}^{n_L} \varphi_{l,g,a} \, S^{(L)}_{f,l}$$ {#eq-mfcl-fishing-mortality}
 - **Capturing Rosa Lee's Phenomenon via Platoons**: To prevent the assumption that the normal length distribution $\varphi_{l,g,a}$ resets every year regardless of size-selective fishing on the right tail of the cohort, SS3 splits each recruiting cohort into $3$ or $5$ **growth platoons** $g$ (slow, medium-slow, average, medium-fast, fast growers with initial Gaussian weights). Because fast-growing platoons enter the length-selective fishery earlier, they are depleted faster ($F_{t,f,\text{fast},a} > F_{t,f,\text{slow},a}$), naturally shifting the surviving cohort's mean length downward!
 
 ### Pure Size-Structured Assessments and Size-Transition Matrices ($\mathbf{X}_{l,l'}$)
 In their comprehensive review of size-structured stock assessments (used worldwide for lobsters, crabs, abalone, scallops, prawns, and tropical finfish), [@punt2016] formalized the general discrete-time, discrete-size population equation:
 
-$$\mathbf{N}_{t+1} = \mathbf{X}_t \, \mathbf{S}_t \, \mathbf{N}_t + \mathbf{R}_{t+1}$$
+$$\mathbf{N}_{t+1} = \mathbf{X}_t \, \mathbf{S}_t \, \mathbf{N}_t + \mathbf{R}_{t+1}$$ {#eq-punt-size-dynamics}
 
 where:
 - $\mathbf{N}_t = (N_{1,t}, N_{2,t}, \dots, N_{n_L,t})^\top$ is the vector of numbers across $n_L$ size bins,
@@ -197,7 +197,7 @@ where:
 #### Parameterizing the Size-Transition Matrix $\mathbf{X}_{l', l}$ [@punt2016, Eqs. 2--5]
 Instead of estimating $n_L(n_L-1)/2$ free transition probabilities, size-structured assessments model the continuous growth increment $\Delta L = L_{t+1} - L_l \ge 0$ of an individual at midpoint $L_l$ using a **Gamma distribution** (or truncated Normal / Log-normal distribution) with mean increment $\bar{\Delta}_l = (L_\infty - L_l)(1 - e^{-k \Delta t})$ and variance $\sigma^2_{\Delta, l} = \beta_{\Delta} \bar{\Delta}_l$ (so shape $\alpha_l = \bar{\Delta}_l / \beta_{\Delta}$ and scale $\beta_{\Delta}$):
 
-$$X_{l', l} = \int_{L_{\min, l'} - L_l}^{L_{\max, l'} - L_l} \frac{\Delta^{\alpha_l - 1} \exp(-\Delta / \beta_{\Delta})}{\Gamma(\alpha_l) \, \beta_{\Delta}^{\alpha_l}} \, d\Delta, \qquad l' \ge l$$
+$$X_{l', l} = \int_{L_{\min, l'} - L_l}^{L_{\max, l'} - L_l} \frac{\Delta^{\alpha_l - 1} \exp(-\Delta / \beta_{\Delta})}{\Gamma(\alpha_l) \, \beta_{\Delta}^{\alpha_l}} \, d\Delta, \qquad l' \ge l$$ {#eq-punt-gamma-transition}
 
 > [!IMPORTANT]
 > **Critical Insight from Punt et al. (2016) for Fitting `mizer` to Length Data**:
@@ -214,22 +214,22 @@ To relax these equilibrium assumptions while requiring as little as **1 year of 
 
 1. **Age-Length Transition Matrix ($\varphi_{a,l}$) and Length-Based Selectivity ($S_l$)**:
    Given von Bertalanffy mean length-at-age $L_a = L_\infty\left(1 - e^{-k(a - t_0)}\right)$ and length standard deviation $\sigma_{L,a} = L_a \cdot \text{CV}_L$ (typically $\text{CV}_L = 0.10$), the probability $\varphi_{a,l}$ of an individual of age $a$ falling into length bin $l$ with bounds $[l_{\text{low}}, l_{\text{high}})$ is [@rudd2018, Table 1, Eq. 5, p. 29]:
-   $$\varphi_{a,l} = \begin{cases} \Phi\!\left(\dfrac{l_{\text{high}} - L_a}{\sigma_{L,a}}\right) & l = 1 \\[10pt] \Phi\!\left(\dfrac{l_{\text{high}} - L_a}{\sigma_{L,a}}\right) - \Phi\!\left(\dfrac{l_{\text{low}} - L_a}{\sigma_{L,a}}\right) & 1 < l < n_l \\[10pt] 1 - \Phi\!\left(\dfrac{l_{\text{low}} - L_a}{\sigma_{L,a}}\right) & l = n_l \end{cases}$$
+   $$\varphi_{a,l} = \begin{cases} \Phi\!\left(\dfrac{l_{\text{high}} - L_a}{\sigma_{L,a}}\right) & l = 1 \\[10pt] \Phi\!\left(\dfrac{l_{\text{high}} - L_a}{\sigma_{L,a}}\right) - \Phi\!\left(\dfrac{l_{\text{low}} - L_a}{\sigma_{L,a}}\right) & 1 < l < n_l \\[10pt] 1 - \Phi\!\left(\dfrac{l_{\text{low}} - L_a}{\sigma_{L,a}}\right) & l = n_l \end{cases}$$ {#eq-punt-length-at-age-distribution}
    Gear selectivity is parameterized as a two-parameter logistic function of length $x_l$ (with parameters $L_s^{50}$ and $L_s^{95}$) and mapped to age $a$ by integrating across the age-length matrix:
-   $$S_l = \frac{1}{1 + \exp\!\left(-\dfrac{\ln(19)\left(x_l - L_s^{50}\right)}{L_s^{95} - L_s^{50}}\right)}, \qquad S_a = \sum_{l=1}^{n_l} \varphi_{a,l} \, S_l$$
+   $$S_l = \frac{1}{1 + \exp\!\left(-\dfrac{\ln(19)\left(x_l - L_s^{50}\right)}{L_s^{95} - L_s^{50}}\right)}, \qquad S_a = \sum_{l=1}^{n_l} \varphi_{a,l} \, S_l$$ {#eq-punt-logistic-selectivity}
 
 2. **Mixed-Effects State-Space Dynamics (Random-Walk $F_t$ and Laplace-Integrated Recruitment $R_t$)**:
    - **Autocorrelated Recruitment Random Effects**: Annual recruitment $R_t$ is modeled as a lognormal random effect (with optional $\text{AR}(1)$ autocorrelation $\rho_R$ and TMB epsilon bias-correction; [@rudd2018, Table 2, Eqs. 7, 17--19, p. 30]):
-     $$R_t \sim \text{Lognormal}\!\left(\ln R_0 - \frac{\sigma_R^2}{2},\; \sigma_R^2\right)$$
+     $$R_t \sim \text{Lognormal}\!\left(\ln R_0 - \frac{\sigma_R^2}{2},\; \sigma_R^2\right)$$ {#eq-punt-recruitment-prior}
      where recruitment standard deviation $\sigma_R$ is estimated with a hierarchical lognormal prior centered on the meta-analytic fish average ($\sigma_R \sim \text{Lognormal}(\ln(0.737),\, 0.353^2)$; [@thorson2014]).
    - **Random-Walk Penalty on Fishing Mortality $F_t$**: Annual fishing mortality $F_t$ is estimated as a fixed effect constrained by a first-difference random-walk penalty in log-space ($\sigma_F = 0.20$):
-     $$\ln F_t \sim \mathcal{N}\!\left(\ln F_{t-1},\; \sigma_F^2\right)$$
+     $$\ln F_t \sim \mathcal{N}\!\left(\ln F_{t-1},\; \sigma_F^2\right)$$ {#eq-punt-fishing-mortality-walk}
    - **Predicted Catch Length Proportions ($\hat{p}_{t,l}$)**: Predicted catch-at-age $\hat{C}_{t,a} = \frac{F_t S_a}{M + F_t S_a} N_{t,a}\left(1 - e^{-M - F_t S_a}\right)$ is projected into length bins via $\hat{C}_{t,l} = \sum_{a} \hat{C}_{t,a} \varphi_{a,l}$, giving predicted length proportions $\hat{p}_{t,l} = \hat{C}_{t,l} / \sum_{l'} \hat{C}_{t,l'}$.
 
 3. **Self-Weighting Dirichlet-Multinomial Length Likelihood and Derived Reference Points**:
    LIME fits observed catch length counts $\tilde{\pi}_{t,l}$ using the **Dirichlet-Multinomial (DM) likelihood** of [@thorson2017] (see @sec-dm-likelihood), estimating the DM linear overdispersion parameter $\theta$ (`log_theta`) simultaneously with $F_t, L_s^{50}, L_s^{95}, \sigma_R$, and integrating over the latent recruitment vector $\mathbf{r} = \{R_t\}$ via TMB's Laplace approximation [@rudd2018, Table 2, Eqs. 16, 22].
    From the estimated parameters, LIME computes annual Spawning Potential Ratio:
-   $$\text{SPR}_t = \frac{\text{SBPR}_t}{\text{SBPR}_0} = \frac{\sum_{a} \text{Mat}_a \, W_a \, N_{F_t, a}}{\sum_{a} \text{Mat}_a \, W_a \, N_{F=0, a}}$$
+   $$\text{SPR}_t = \frac{\text{SBPR}_t}{\text{SBPR}_0} = \frac{\sum_{a} \text{Mat}_a \, W_a \, N_{F_t, a}}{\sum_{a} \text{Mat}_a \, W_a \, N_{F=0, a}}$$ {#eq-punt-spr}
    Notice that because $\varphi_{a,l}$ allows cohorts of different ages to overlap in length, LIME can separate a recruitment pulse $\epsilon_{R,t}$ (which creates a mode in juvenile length bins that propagates across years at rate $g(L)$) from an increase in fishing mortality $F_t$ (which truncates the right tail of the length distribution across all adult cohorts simultaneously)—a key mechanism for dynamic length-based calibration in `mizer`!
 
 ---
@@ -244,25 +244,25 @@ Let $N_{i,j,t}$ be the number of individuals of species $i \in \{1, \dots, n_s\}
 
 1. **Reproduction & Recruitment (Step 1)**:
    Spawning stock biomass is $\text{SSB}_{i,t} = \sum_{j=1}^{n_l} m_{i,j} N_{i,j,t} W_{i,j}$. At the first time step of each year, recruits $R_{i,t}$ enter the smallest length bin $j = 1$ via a Hockey-Stick, Ricker, Beverton-Holt, or linear stock-recruitment relationship (with optional lognormal process error in [@spence2021advice]):
-   $$N^{(1)}_{i,1,t} = N_{i,1,t} + R_{i,t}, \qquad N^{(1)}_{i,j,t} = N_{i,j,t} \quad (j > 1)$$
+   $$N^{(1)}_{i,1,t} = N_{i,1,t} + R_{i,t}, \qquad N^{(1)}_{i,j,t} = N_{i,j,t} \quad (j > 1)$$ {#eq-lemarns-recruitment-step}
 
 2. **Mortality: $M1$, Fishing $F$, and Predation $M2$ (Step 2)**:
    Total mortality in time step $\Delta t$ is $Z_{i,j,t} = \Delta t \left(M1_{i,j} + F_{i,j,t} + M2_{i,j,t}\right)$, so surviving numbers are:
-   $$N^{(2)}_{i,j,t} = N^{(1)}_{i,j,t} \exp(-Z_{i,j,t})$$
+   $$N^{(2)}_{i,j,t} = N^{(1)}_{i,j,t} \exp(-Z_{i,j,t})$$ {#eq-lemarns-survival-step}
    where **predation mortality $M2_{i,j,t}$** on prey $(i, j)$ by all predators $(m, k)$ is governed by a Holling Type II (or Type III) functional response:
-   $$M2_{i,j,t} = \sum_{m=1}^{n_s} \sum_{k=1}^{n_l} I_{m,k} \, N^{(1)}_{m,k,t} \, \frac{\theta_{m,k,i,j}}{\sum_{a=1}^{n_s} \sum_{b=1}^{n_l} \theta_{m,k,a,b} \, N^{(1)}_{a,b,t} W_{a,b} + W_{\text{other}}}$$
+   $$M2_{i,j,t} = \sum_{m=1}^{n_s} \sum_{k=1}^{n_l} I_{m,k} \, N^{(1)}_{m,k,t} \, \frac{\theta_{m,k,i,j}}{\sum_{a=1}^{n_s} \sum_{b=1}^{n_l} \theta_{m,k,a,b} \, N^{(1)}_{a,b,t} W_{a,b} + W_{\text{other}}}$$ {#eq-lemarns-m2-predation}
    Here:
    - $I_{m,k} = W_{m,k} \left(L_{\infty, m} / \bar{L}_k\right)^{0.4} \cdot \text{ration\_scalar}_m$ is the maximum per-capita consumption rate of predator $(m, k)$,
    - $\theta_{m,k,i,j} = \tau_{m,i} \cdot \psi_{m,k,i,j} \cdot o_{m,i}$ is the suitability product of taxonomic preference $\tau_{m,i} \in \{0, 1\}$, spatial overlap $o_{m,i}$, and Ursin lognormal weight-ratio preference:
-     $$\psi_{m,k,i,j} = \exp\!\left(-\frac{\left(\log_{10}\!\frac{W_{m,k}}{W_{i,j}} - \eta_m\right)^2}{2\sigma_m^2}\right)$$
+     $$\psi_{m,k,i,j} = \exp\!\left(-\frac{\left(\log_{10}\!\frac{W_{m,k}}{W_{i,j}} - \eta_m\right)^2}{2\sigma_m^2}\right)$$ {#eq-lemarns-diet-preference}
 
 3. **Deterministic Fractional Somatic Growth (Step 3)**:
    Under deterministic von Bertalanffy growth, the time required for an individual of species $i$ to grow from the lower boundary $L_j$ to the upper boundary $L_{j+1}$ of length bin $j$ is:
-   $$\delta t_{i,j} = \frac{1}{k_i} \ln\!\left(\frac{L_{\infty, i} - L_j}{L_{\infty, i} - L_{j+1}}\right)$$
+   $$\delta t_{i,j} = \frac{1}{k_i} \ln\!\left(\frac{L_{\infty, i} - L_j}{L_{\infty, i} - L_{j+1}}\right)$$ {#eq-lemarns-bin-growth-time}
    Therefore, in a discrete time step $\Delta t$ (chosen small enough that $\Delta t \le \min_{i,j} \delta t_{i,j}$, e.g., $\Delta t = 0.1\text{ yr}$), a fixed fraction $\phi_{i,j}$ of individuals in length bin $j$ advance to length bin $j+1$:
-   $$\phi_{i,j} = \frac{\Delta t}{\delta t_{i,j}} = \frac{\Delta t \cdot k_i}{\ln\!\left(\frac{L_{\infty, i} - L_j}{L_{\infty, i} - L_{j+1}}\right)}$$
+   $$\phi_{i,j} = \frac{\Delta t}{\delta t_{i,j}} = \frac{\Delta t \cdot k_i}{\ln\!\left(\frac{L_{\infty, i} - L_j}{L_{\infty, i} - L_{j+1}}\right)}$$ {#eq-lemarns-transition-proportion}
    giving the state update:
-   $$N_{i,j,t+1} = (1 - \phi_{i,j}) N^{(2)}_{i,j,t} + \phi_{i,j-1} N^{(2)}_{i,j-1,t}$$
+   $$N_{i,j,t+1} = (1 - \phi_{i,j}) N^{(2)}_{i,j,t} + \phi_{i,j-1} N^{(2)}_{i,j-1,t}$$ {#eq-lemarns-population-update}
    *(Note: Mathematically, this update equation is identical to the **explicit first-order upwind finite-difference scheme** of the McKendrick–von Foerster PDE in `mizer`! Consequently, it exhibits the exact same numerical Courant-Friedrichs-Lewy [CFL] artificial cohort diffusion $\approx \frac{1}{2} g \delta L (1 - \phi)$ analyzed by [@datta2010]).*
 
 ---
