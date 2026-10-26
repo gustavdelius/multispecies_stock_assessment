@@ -22,22 +22,20 @@ book:
   repo-actions: edit
   downloads: [pdf]
   chapters:
-    - index.md
-    - 01_taxonomy_and_foundations.md
-    - 02_age_structured_multispecies_models.md
-    - 03_age_length_and_length_structured_models.md
-    - 04_size_spectrum_and_food_web_models.md
-    - 05_stomach_content_data_and_likelihoods.md
-    - 06_statistical_fitting_uncertainty_and_mizer_synthesis.md
-    - references.md
+    - index.qmd
+    - 01_taxonomy_and_foundations.qmd
+    - 02_age_structured_multispecies_models.qmd
+    - 03_age_length_and_length_structured_models.qmd
+    - 04_size_spectrum_and_food_web_models.qmd
+    - 05_stomach_content_data_and_likelihoods.qmd
+    - 06_statistical_fitting_uncertainty_and_mizer_synthesis.qmd
+    - references.qmd
 
 bibliography: references.bib
 nocite: |
   @*
 
 from: markdown+lists_without_preceding_blankline
-filters:
-  - mermaid.lua
 
 format:
   html:

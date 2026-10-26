@@ -4,7 +4,7 @@
 
 Fisheries ecosystem models span a wide continuum of structural complexity, taxonomic resolution, and statistical rigor [@plaganyi2014; @collie2016; @karp2023]:
 
-```mermaid
+```{mermaid}
 flowchart TD
     A["<b>Single-Species Assessments</b> (SAM, SS3, MULTIFAN-CL)<br/>High statistical rigor · Zero trophic coupling"] --> B["<b>Extended Single-Species (ESAM)</b><br/>Predator index covariates on M or Q"]
     B --> C["<b>Tactical Multispecies / MICE</b> (SMS, CEATTLE, Gadget, Hydra, EcoState, Dynamic mizer)<br/>Formal likelihood fitting · Focused food web (3–15 spp.)"]
@@ -139,7 +139,7 @@ By perturbing each parameter of the 14-entity Andersen–Ursin skeleton model (p
 
 ### The Fundamental Divergence: How `SMS`/`MSVPA` vs. `mizer` Simplified Andersen & Ursin (1977)
 
-```mermaid
+```{mermaid}
 flowchart TD
     AU["<b>Andersen & Ursin (1977)</b><br/>Full Bioenergetic Multispecies Model (83 coupled ODEs)<br/>Feeding level: f<sub>j</sub> = Ψ<sub>j</sub> / (Ψ<sub>j</sub> + Q<sub>j</sub>)<br/>Growth: dw/dt = (1 − α)β f<sub>j</sub> h w<sup>m</sup> − k w<sup>n</sup>"]
     AU -->|"<b>Simplification 1: Helgason & Gislason (1979) / Pope (1979)</b><br/>Assume f<sub>j</sub> = const (fixed ration R<sub>j</sub> = f<sub>j</sub> h<sub>j</sub> w<sub>j</sub><sup>m</sup>)<br/>Fix empirical weight-at-age w<sub>a,t</sub>"| MSVPA["<b>MSVPA & SMS (Lewy & Vinther 2004)</b><br/>M2<sub>i,a</sub> = ∑<sub>j</sub> (N<sub>j</sub> R<sub>j</sub> G<sub>ij</sub>) / Φ<sub>j</sub><br/>Exact match to stomach proportions<br/>One-way trophic feedback"]
