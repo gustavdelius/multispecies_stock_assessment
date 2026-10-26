@@ -104,7 +104,7 @@ In their 10-year review of `mizer`, [@pennino2025, Section *"Challenges and Futu
 
 Drawing together the mathematical lessons from **`SMS`** (@sec-age-structured), **`Gadget`/`gadget3`**, **`MULTIFAN-CL`/`SS3`**, and [@punt2016] (@sec-length-structured), **`EcoState`** (@sec-size-spectrum), and **stomach content likelihoods** (@sec-stomach-data), we can synthesize a concrete, five-pillar architectural roadmap for transforming `mizer` into a **differentiable, state-space statistical multispecies stock assessment model** (`mizer-TMB` / `mizer-RTMB`).
 
-```mermaid
+```{mermaid}
 flowchart TD
     subgraph P1["<b>1. Differentiable Dynamic Size-Spectrum Core (RTMB / TMB)</b>"]
         A["<b>Jump-Growth Advection-Diffusion PDE</b><br/>(Datta, Delius & Law 2010)<br/>or Beta-Binomial Transition (gadget3)<br/>∂N/∂t + ∂(gN)/∂w = ½ ∂²(dN)/∂w² − μN"]

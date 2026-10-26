@@ -15,12 +15,12 @@ Because several cited publications are not open access, downloaded PDFs and refe
 
 ## Citations & Bibliography
 
-- All bibliography entries and DOIs are maintained in `references.bib` and rendered in `references.md`.
+- All bibliography entries and DOIs are maintained in `references.bib` and rendered in `references.qmd`.
 - Always use bracketed Quarto citation syntax (`[@key]` or `[@key1; @key2]`) for all citations rather than unbracketed `@key` or linking to local PDF files.
 
 ## Building the Book
 
-After editing any `.md` chapter or `_quarto.yml`, render the HTML book into `docs/`:
+After editing any `.qmd` chapter or `_quarto.yml`, render the HTML book into `docs/`:
 
 ```bash
 quarto render
